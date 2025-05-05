@@ -3,5 +3,5 @@ I have 7 years of engineering experience across 3 companies. I have leadership e
 
 Technically, I specialize in highly maintainable code design and implementation utilizing clean architecture and automated testing. Another strength is my diverse experience beyond technical skills, including client negotiations, management, training, and speaking at seminars.
 
-### Main skills
+## Main skills
 <img alt="my skills" src="https://skillicons.dev/icons?theme=dark&perline=5&i=py,django,php,laravel,postgresql,mysql,react,nextjs,vue,astro,gcp,aws" />
