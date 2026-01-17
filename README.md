@@ -1,7 +1,20 @@
 ## About masayan1126
-I have 7 years of engineering experience across 3 companies. I have leadership experience in all domains including frontend, backend, and infrastructure. Most recently, as a senior engineer, I have excelled in a full-stack capacity across nearly all development processes and positions.
 
-Technically, I specialize in highly maintainable code design and implementation utilizing clean architecture and automated testing. Another strength is my diverse experience beyond technical skills, including client negotiations, management, training, and speaking at seminars.
+## スキルセット
+- MCPサーバー開発の経験
+- フルスタックなスキルセット（、、、インフラ）
+  - フロント：TypeScript、VueとReact、Next、Astro
+  - バック：PythonとFastAPI、Django、PHP、Laravel
+- 企画から保守まで一貫した経験
+  - プロダクトの機能開発における提案段階から
+- Claude Code等のツールの本格的な利用経験、Agentic Cordingのノウハウ、チームで仕組み化できます
+- クリーンアーキテクチャ、デザインパターンの理解と実務での利用経験
+- 自動テストの設計/構築経験
 
-## Main skills
-<img alt="my skills" src="https://skillicons.dev/icons?theme=dark&perline=5&i=py,django,php,laravel,postgresql,mysql,react,nextjs,vue,astro,gcp,aws" />
+## SNS、情報発信
+- YouTube登録者数950名
+- テックブログ400記事以上
+
+## その他の活動、趣味
+- AIを使ったLINEスタンプ制作/販売
+
