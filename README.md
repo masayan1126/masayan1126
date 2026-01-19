@@ -25,4 +25,5 @@
 ## その他の活動、趣味
 - [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
 - [エンジニア漫画サイト運営](https://engineer-aruaru-manga.netlify.app/)
+- Google Chrome拡張機能も開発しています
 
