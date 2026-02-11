@@ -20,13 +20,13 @@
 - 継続力と発信力、新しい情報へのキャッチアップには自信があります
 
 ## SNS、情報発信
-- YouTube登録者数1017名（2026/2/11時点）
+- [YouTube](https://www.youtube.com/@masayan_tech_ai_mcp)登録者数1017名（2026/2/11時点）
 - [テックブログ](https://maasaablog.com)400記事以上
-- 
   - Qiitaで週間ランキングに載ったこともあります
 
 ## その他の活動、趣味
 - [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
 - [雑記ブログ](https://masayan1126.github.io/senior-engineer-diary-blog/)
+  - スマートフォンのみで更新している気づきや成果を載せるブログです
 - Google Chrome拡張機能も開発しています
 
