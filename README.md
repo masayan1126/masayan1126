@@ -23,6 +23,7 @@
 - [YouTube](https://www.youtube.com/@masayan_tech_ai_mcp)登録者数1017名（2026/2/11時点）
 - [テックブログ](https://maasaablog.com)400記事以上
   - Qiitaで週間ランキングに載ったこともあります
+- [AI関連の情報をWebとXから収集してインプット](https://daily-news-and-posts.pages.dev/)
 
 ## その他の活動、趣味
 - [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
