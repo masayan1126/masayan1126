@@ -31,3 +31,11 @@
   - スマートフォンのみで更新している気づきや成果を載せるブログです
 - Google Chrome拡張機能も開発しています
 
+| 拡張名 | 概要 | ユースケース |
+|--------|------|------------|
+| [Article Date Detector](https://chromewebstore.google.com/detail/article-date-detector/kcibimkobhbikanlidohhnahodekmaej) | Webページの公開日・更新日を視覚的に分かりやすくポップアップ表示 | AIが収集した大量の記事をブラウザで確認する際に、情報の鮮度を即座に視覚的に判断できる |
+| [Markdown Preview](https://chromewebstore.google.com/detail/markdown-preview/ojgdkdohicphaegmilnmlgaledfcopca) | Markdownファイルのプレビュー。ファイルの変更を即座に反映。目次も表示。マークダウンファイルのコピーできたり、テーマ、フォントファミリーやフォントサイズ、文字間行間等を柔軟に変更できる | ブログやドキュメント執筆時のリアルタイムプレビューなど、Markdownに関することなら何でも活用できる |
+| [Copy Tab Anything](https://chromewebstore.google.com/detail/copy-tab-anything/gafkainbomdnemmdemopmechbmabgfeh) | タブのタイトルとURLをMarkdown・HTML・カスタムテンプレート等で一括コピー。タブグループ対応 | AIエージェントに記事を指定する際の複数URL・タイトルの効率的なコピーや、NotebookLM等に複数記事をソースとして与える際に活用 |
+| [Web Annotator](https://chromewebstore.google.com/detail/web-annotator/gckpllfnimaepbbelfmhcelibclnkena) | Webページにマーカーと付箋を追加し、Markdownで出力できる注釈ツール | 動画作成時のWebメモ、説明用のハイライト・強調、重要箇所へのマーク付け |
+| [Canvas Whiteboard](https://chromewebstore.google.com/detail/canvas-whiteboard/fpekokphickomacboclmogcmjeffhmle) | ブラウザ上で使えるホワイトボード | アイデア整理・図解作成 |
+| [Chat Stamp Preview](https://chromewebstore.google.com/detail/chat-stamp-preview/gfkpcbjiklilphponfnadllmcoaboddi) | LINEスタンプ制作過程でのスタンプのプレビュー | - |
