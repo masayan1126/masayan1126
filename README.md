@@ -20,7 +20,7 @@
 - 継続力と発信力、新しい情報へのキャッチアップには自信があります
 
 ## SNS、情報発信
-- [YouTube](https://www.youtube.com/@masayan_tech_ai_mcp)登録者数1060名（2026/2/23時点）
+- [YouTube](https://www.youtube.com/@masayan_tech_ai_mcp)登録者数1060名（2026/2/26時点）
 - [テックブログ](https://maasaablog.com)400記事以上
   - Qiitaで週間ランキングに載ったこともあります
 - [AI関連の情報をWebとXから収集してインプット](https://daily-news-and-posts.pages.dev/)
