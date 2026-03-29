@@ -11,6 +11,10 @@
 - 企画から保守まで一貫した経験
   - プロダクトの機能開発における提案段階から
 - Claude Code等のツールの本格的な利用経験、Agentic Cordingのノウハウ、チームで仕組み化できます
+- 仕様駆動開発（Issue駆動開発）の知見・経験
+- 自動化アーキテクチャの設計・構築
+  - AI情報収集の完全自動化（Claude Cowork + 6体エージェントチーム + GitHub Actions + Cloudflare Pages）
+  - YouTube動画制作の半自動化（アイデア蓄積 → トレンド/SEO分析 → スケジューリング → メタデータ生成 → サムネイル → アップロード）
 - クリーンアーキテクチャ、デザインパターンの理解と実務での利用経験
 - 自動テストの設計/構築経験
 
@@ -20,10 +24,17 @@
 - 継続力と発信力、新しい情報へのキャッチアップには自信があります
 
 ## SNS、情報発信
-- [YouTube](https://www.youtube.com/@masayan_tech_ai_mcp)登録者数1187名（2026/3/29時点）
-- [テックブログ](https://maasaablog.com)400記事以上
-  - Qiitaで週間ランキングに載ったこともあります
-- [AI関連の情報をWebとXから収集してインプット](https://daily-news-and-posts.pages.dev/)
+
+### YouTube
+- [masayan_tech_ai_mcp](https://www.youtube.com/@masayan_tech_ai_mcp) — 登録者数1,187名（2026/3/29時点）
+- AI活用・開発自動化の実践チュートリアルを配信
+
+### テックブログ
+- [maasaablog.com](https://maasaablog.com) — 400記事以上
+- Qiitaで週間ランキングに載ったこともあります
+
+### AI情報収集（自動化）
+- [daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) — AI関連の最新情報をWebとXから毎朝自動収集・配信
 
 ## その他の活動、趣味
 - [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
