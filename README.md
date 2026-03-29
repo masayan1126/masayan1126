@@ -36,6 +36,20 @@
 ### AI情報収集（自動化）
 - [daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) — AI関連の最新情報をWebとXから毎朝自動収集・配信
 
+## 自動化アーキテクチャ
+
+現在取り組んでいる自動化プロジェクト:
+
+### [Auto News Collector](projects/auto-news-collector/)
+n8n等の外部サービスを使わず、Claude Cowork + Claude Code スキル（6体エージェントチーム）+ GitHub Actions + Cloudflare Pages で毎朝のAI情報収集を完全自動化。収集したニュースは [daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開。
+
+![全自動AI情報収集フロー](projects/auto-news-collector/docs/auto-news-flow.jpg)
+
+### [YouTube 動画制作パイプライン](projects/youtube/)
+アイデア蓄積 → トレンド/SEO分析 → スケジューリング → プロジェクト初期化 → 撮影 → メタデータ生成 → サムネイル生成 → アップロードまでの制作サイクルを、Claude Code スキル連携（content-planner, calendar-sync, deep-tech-init, video-timeline, upload-youtube）で半自動化。
+
+![YouTube動画投稿サイクル フロー図](projects/youtube/docs/youtube-workflow-flow.jpg)
+
 ## その他の活動、趣味
 - [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
 - [雑記ブログ](https://masayan1126.github.io/senior-engineer-diary-blog/)
