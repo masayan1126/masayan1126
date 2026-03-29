@@ -1,0 +1,472 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="1. System Overview" id="p1">
+    <mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="t1" value="Side Project Architecture" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#1B2A4A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="335" y="5" width="500" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="t2" value="Last updated: 2026-03-28" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;fontColor=#90A4AE;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="485" y="32" width="200" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="leg1" value="" style="rounded=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="930" y="11" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg1t" value="Active" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="946" y="7" width="45" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;fillColor=#FFFDE7;strokeColor=#FFA000;strokeWidth=2;dashed=1;dashPattern=6 3;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="998" y="11" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg2t" value="Planned" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="1014" y="7" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g1" value="GitHub Repositories" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=#3B5998;gradientColor=#2C4373;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#F0F4FF;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="55" width="1130" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="r1" value="&lt;b&gt;daily/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;自動化ハブ&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="15" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r2" value="&lt;b&gt;idea-box/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;アイデア管理&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="168" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r3" value="&lt;b&gt;content/youtube/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;動画制作&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="321" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r4" value="&lt;b&gt;content/tech-blog/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;テックブログ&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="474" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r5" value="&lt;b&gt;life/goal/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;目標管理&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="627" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r6" value="&lt;b&gt;dev/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;開発プロジェクト&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="780" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="r7" value="&lt;b&gt;masayan1126/&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90A4AE&quot; style=&quot;font-size:8px&quot;&gt;ワークフロー管理&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#5C7CBA;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g1">
+          <mxGeometry x="933" y="38" width="138" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g2" value="GitHub Actions &#x2014; daily" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#2E7D32;gradientColor=#1B5E20;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E8F5E9;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="200" width="460" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad1" value="&lt;b&gt;morning-routine&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#558B2F&quot; style=&quot;font-size:8px&quot;&gt;毎日 07:00&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g2">
+          <mxGeometry x="15" y="38" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad2" value="&lt;b&gt;discord-notify&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#558B2F&quot; style=&quot;font-size:8px&quot;&gt;毎日 09:30&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g2">
+          <mxGeometry x="163" y="38" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad3" value="&lt;b&gt;weekly-check&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#558B2F&quot; style=&quot;font-size:8px&quot;&gt;日曜 10:00&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g2">
+          <mxGeometry x="311" y="38" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad4" value="&lt;b&gt;billing-notify&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#558B2F&quot; style=&quot;font-size:8px&quot;&gt;月初 09:00&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g2">
+          <mxGeometry x="15" y="95" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad5" value="&lt;b&gt;project-digest&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;金曜 19:00 計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="g2">
+          <mxGeometry x="163" y="95" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ad6" value="&lt;b&gt;youtube-analytics&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;土曜 08:00 計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="g2">
+          <mxGeometry x="311" y="95" width="133" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="g2n" value="&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;All actions &#x2192; Discord notification&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="g2">
+          <mxGeometry x="15" y="150" width="430" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g3" value="GitHub Actions &#x2014; idea-box" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#1565C0;gradientColor=#0D47A1;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E3F2FD;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="500" y="200" width="280" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="ai1" value="&lt;b&gt;auto-label&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#1565C0&quot; style=&quot;font-size:8px&quot;&gt;Issue作成時&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g3">
+          <mxGeometry x="15" y="38" width="118" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="ai2" value="&lt;b&gt;build-site&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#1565C0&quot; style=&quot;font-size:8px&quot;&gt;Issue変更時&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g3">
+          <mxGeometry x="148" y="38" width="118" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g4" value="Claude Code Skills" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#E65100;gradientColor=#BF360C;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#FFF3E0;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="800" y="200" width="350" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="s1" value="&lt;b&gt;youtube-content-planner&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#EF6C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g4">
+          <mxGeometry x="15" y="38" width="155" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="s2" value="&lt;b&gt;deep-tech-init&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#EF6C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g4">
+          <mxGeometry x="183" y="38" width="155" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="s3" value="&lt;b&gt;upload-youtube&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#EF6C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g4">
+          <mxGeometry x="15" y="88" width="155" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="s4" value="&lt;b&gt;calendar-sync&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#EF6C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="g4">
+          <mxGeometry x="183" y="88" width="155" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="s5" value="&lt;b&gt;planning-session&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="g4">
+          <mxGeometry x="99" y="143" width="155" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g5" value="External Services" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#6A1B9A;gradientColor=#4A148C;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#F3E5F5;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="425" width="780" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="x1" value="&lt;b&gt;Discord&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="10" y="38" width="98" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x6" value="&lt;b&gt;Open-Meteo&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="120" y="38" width="98" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x7" value="&lt;b&gt;Cloudflare Workers&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=9;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="230" y="38" width="98" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x2" value="&lt;b&gt;Google Calendar&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=9;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="340" y="38" width="105" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x3" value="&lt;b&gt;YouTube API&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="457" y="38" width="98" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x4" value="&lt;b&gt;Google Analytics&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=9;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="567" y="38" width="98" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="x5" value="&lt;b&gt;AdSense&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g5">
+          <mxGeometry x="677" y="38" width="90" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="g6" value="Local Tools" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#37474F;gradientColor=#263238;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#ECEFF1;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="820" y="425" width="330" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="l1" value="&lt;b&gt;claude-in-chrome&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#546E7A;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g6">
+          <mxGeometry x="15" y="38" width="140" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="l2" value="&lt;b&gt;Claude Code CLI&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#546E7A;fontColor=#1B2A4A;arcSize=8;strokeWidth=1.5;" vertex="1" parent="g6">
+          <mxGeometry x="170" y="38" width="140" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="天気取得" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="ad1" target="x6" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="通知" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="ad2" target="x1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="Analytics API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=8;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="ad6" target="x3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="GA4 API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=8;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="ad6" target="x4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="OAuth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s3" target="x3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="Calendar API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=8;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s4" target="x2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" value="ブラウザ操作" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=8;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="l1" target="x4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e13" value="ブラウザ操作" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=8;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="l1" target="x5" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="l2" target="s1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.8;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="l2" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.2;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="l2" target="s5" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e17" value="アイデア昇格" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=8;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r2" target="s1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e18" value="roadmap出力" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=8;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s1" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e19" value="Workers" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r1" target="x7" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r2" target="ai1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r2" target="ai2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r3" target="s1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r3" target="s2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r3" target="s3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.7;entryY=0;entryDx=0;entryDy=0;" edge="1" source="r7" target="s4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tbl" value="&lt;table style=&quot;font-size:8px;font-family:Helvetica;border-collapse:collapse;color:#37474F&quot;&gt;&lt;tr style=&quot;background:#F3E5F5&quot;&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #CE93D8&quot;&gt;API&lt;/th&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #CE93D8&quot;&gt;Scope&lt;/th&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #CE93D8&quot;&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;YouTube Data v3&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;youtube.upload&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7;color:#2E7D32&quot;&gt;Active&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;Calendar API&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;calendar.events&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7;color:#2E7D32&quot;&gt;Active&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;YT Analytics&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;yt-analytics.readonly&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7;color:#F57F17&quot;&gt;Planned&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;GA4 / AdSense&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7&quot;&gt;analytics / adsense&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #E1BEE7;color:#F57F17&quot;&gt;Planned&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;overflow=auto;" vertex="1" parent="1">
+          <mxGeometry x="20" y="545" width="390" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tbl2" value="&lt;table style=&quot;font-size:8px;font-family:Helvetica;border-collapse:collapse;color:#37474F&quot;&gt;&lt;tr style=&quot;background:#E8F5E9&quot;&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #A5D6A7&quot;&gt;Webhook Secret&lt;/th&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #A5D6A7&quot;&gt;Channel&lt;/th&gt;&lt;th style=&quot;padding:3px 6px;border:1px solid #A5D6A7&quot;&gt;Content&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;MORNING_ROUTINE_WEBHOOK&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Morning&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Weather, tasks&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;DISCORD_WEBHOOK&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;AI News / Billing&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Daily news, billing&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;DISCORD_WEEKLY_WEBHOOK&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Weekly Check&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Analytics reminder&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;DISCORD_ANALYTICS_WEBHOOK&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;Analytics&lt;/td&gt;&lt;td style=&quot;padding:3px 6px;border:1px solid #C8E6C9&quot;&gt;YT/Blog reports&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;overflow=auto;" vertex="1" parent="1">
+          <mxGeometry x="430" y="545" width="400" height="110" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="2. Automation Timeline" id="p2">
+    <mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="tt" value="Automation Timeline" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#1B2A4A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="385" y="20" width="400" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="ts" value="GitHub Actions &#x26; Scheduled Tasks" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=11;fontColor=#90A4AE;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="410" y="50" width="350" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gd" value="毎日" style="swimlane;startSize=30;rounded=1;arcSize=6;shadow=1;fontSize=13;fontStyle=1;fontFamily=Helvetica;fillColor=#2E7D32;gradientColor=#1B5E20;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E8F5E9;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="185" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1" value="&lt;b&gt;07:00&lt;/b&gt;&lt;br&gt;Morning Routine&lt;br&gt;&lt;font color=&quot;#78909C&quot; style=&quot;font-size:8px&quot;&gt;天気 / タスク通知&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="gd">
+          <mxGeometry x="15" y="42" width="155" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="&lt;b&gt;09:30&lt;/b&gt;&lt;br&gt;AI News&lt;br&gt;&lt;font color=&quot;#78909C&quot; style=&quot;font-size:8px&quot;&gt;ニュース配信&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#43A047;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="gd">
+          <mxGeometry x="15" y="112" width="155" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="de1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#43A047;strokeWidth=2;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="d1" target="d2" parent="gd">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gf" value="金曜" style="swimlane;startSize=30;rounded=1;arcSize=6;shadow=1;fontSize=13;fontStyle=1;fontFamily=Helvetica;fillColor=#E65100;gradientColor=#BF360C;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#FFF3E0;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="265" y="155" width="185" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="f1" value="&lt;b&gt;19:00&lt;/b&gt;&lt;br&gt;Project Digest&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="gf">
+          <mxGeometry x="15" y="42" width="155" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gs" value="土曜" style="swimlane;startSize=30;rounded=1;arcSize=6;shadow=1;fontSize=13;fontStyle=1;fontFamily=Helvetica;fillColor=#6A1B9A;gradientColor=#4A148C;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#F3E5F5;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="120" width="185" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="s1" value="&lt;b&gt;08:00&lt;/b&gt;&lt;br&gt;YouTube Analytics&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="gs">
+          <mxGeometry x="15" y="42" width="155" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="s2" value="&lt;b&gt;08:00&lt;/b&gt;&lt;br&gt;Blog Analytics&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="gs">
+          <mxGeometry x="15" y="112" width="155" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="se1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FFA000;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=6 3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="s1" target="s2" parent="gs">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gu" value="日曜" style="swimlane;startSize=30;rounded=1;arcSize=6;shadow=1;fontSize=13;fontStyle=1;fontFamily=Helvetica;fillColor=#1565C0;gradientColor=#0D47A1;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E3F2FD;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="715" y="155" width="185" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="su1" value="&lt;b&gt;10:00&lt;/b&gt;&lt;br&gt;Weekly Check&lt;br&gt;&lt;font color=&quot;#78909C&quot; style=&quot;font-size:8px&quot;&gt;分析リマインダー&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="gu">
+          <mxGeometry x="15" y="42" width="155" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gm" value="月次" style="swimlane;startSize=30;rounded=1;arcSize=6;shadow=1;fontSize=13;fontStyle=1;fontFamily=Helvetica;fillColor=#00695C;gradientColor=#004D40;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E0F2F1;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="940" y="120" width="200" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1" value="&lt;b&gt;月初 09:00&lt;/b&gt;&lt;br&gt;Billing Reminder&lt;br&gt;&lt;font color=&quot;#78909C&quot; style=&quot;font-size:8px&quot;&gt;課金リマインド&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#00897B;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="gm">
+          <mxGeometry x="18" y="42" width="165" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2" value="&lt;b&gt;月末 09:00&lt;/b&gt;&lt;br&gt;Monthly Review&lt;br&gt;&lt;font color=&quot;#F57F17&quot; style=&quot;font-size:8px&quot;&gt;計画中&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFDE7;strokeColor=#FFA000;fontColor=#5D4037;arcSize=8;strokeWidth=2;dashed=1;dashPattern=6 3;" vertex="1" parent="gm">
+          <mxGeometry x="18" y="112" width="165" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="me1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#00897B;strokeWidth=2;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="m1" target="m2" parent="gm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ce1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=6 3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="f1" target="s1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ce2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=6 3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s2" target="su1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="wk" value="&lt;font style=&quot;font-size:10px;color:#78909C;font-family:Helvetica&quot;&gt;Mon &#x2014; Thu&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="185" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="wk2" value="&lt;font style=&quot;font-size:10px;color:#78909C;font-family:Helvetica&quot;&gt;Fri&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="265" y="300" width="185" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="wk3" value="&lt;font style=&quot;font-size:10px;color:#78909C;font-family:Helvetica&quot;&gt;Sat&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="490" y="340" width="185" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="wk4" value="&lt;font style=&quot;font-size:10px;color:#78909C;font-family:Helvetica&quot;&gt;Sun&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="715" y="300" width="185" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="wk5" value="&lt;font style=&quot;font-size:10px;color:#78909C;font-family:Helvetica&quot;&gt;Monthly&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=top;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="940" y="340" width="200" height="25" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="leg_a" value="" style="rounded=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="415" y="420" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_at" value="Active" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;fontColor=#546E7A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="432" y="416" width="50" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_p" value="" style="rounded=1;fillColor=#FFFDE7;strokeColor=#FFA000;strokeWidth=2;dashed=1;dashPattern=6 3;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="500" y="420" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_pt" value="Planned" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;fontColor=#546E7A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="517" y="416" width="55" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="arrow_desc" value="&lt;font color=&quot;#90A4AE&quot; style=&quot;font-family:Helvetica;font-size:10px&quot;&gt;&#x25B6; Dashed arrows indicate planned data flow&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="360" y="445" width="300" height="20" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="3. YouTube Pipeline" id="p3">
+    <mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="pt" value="YouTube Pipeline" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#1B2A4A;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="385" y="8" width="400" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="ps" value="Idea &#x2192; Review &#x2192; Schedule &#x2192; Production &#x2192; Analysis" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;fontColor=#90A4AE;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="350" y="38" width="470" height="18" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="y1" value="1. アイデア蓄積" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#1976D2;gradientColor=#1565C0;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E3F2FD;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="200" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_mob" value="&lt;b&gt;&#x1F4F1; スマホ&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;Claude App / GitHub App&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y1">
+          <mxGeometry x="15" y="38" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_idea" value="&lt;b&gt;idea-box&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;GitHub Issues&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#E3F2FD;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y1">
+          <mxGeometry x="15" y="97" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_label" value="&lt;b&gt;ラベル付与&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;auto-label Action&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#1976D2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y1">
+          <mxGeometry x="15" y="156" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye1" value="Issue作成" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1976D2;strokeWidth=1.5;fontSize=8;fontColor=#1976D2;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_mob" target="y_idea" parent="y1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye2" value="auto-label" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1976D2;strokeWidth=1.5;fontSize=8;fontColor=#1976D2;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_idea" target="y_label" parent="y1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="y2" value="2. 精査・仕分け" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#F57C00;gradientColor=#E65100;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#FFF3E0;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="245" y="70" width="200" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_dig" value="&lt;b&gt;Discord通知&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;金曜ダイジェスト&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#F57C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y2">
+          <mxGeometry x="15" y="38" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_rev" value="&lt;b&gt;バックログ精査&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;優先度判定&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#F57C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y2">
+          <mxGeometry x="15" y="97" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_bl" value="&lt;b&gt;backlog.md&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;昇格済みタスク&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFF3E0;strokeColor=#F57C00;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y2">
+          <mxGeometry x="15" y="156" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#F57C00;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_dig" target="y_rev" parent="y2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye4" value="昇格" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#F57C00;strokeWidth=1.5;fontSize=8;fontColor=#F57C00;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_rev" target="y_bl" parent="y2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="y3" value="3. スケジューリング" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#388E3C;gradientColor=#2E7D32;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#E8F5E9;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="470" y="100" width="200" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_md" value="&lt;b&gt;MDテーブル生成&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;roadmapコマンド&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#388E3C;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y3">
+          <mxGeometry x="15" y="38" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_gcal" value="&lt;b&gt;Google Calendar&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;時間枠予約&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y3">
+          <mxGeometry x="15" y="97" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye5" value="calendar-sync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#388E3C;strokeWidth=1.5;fontSize=8;fontColor=#388E3C;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_md" target="y_gcal" parent="y3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="y4" value="4. 制作" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#C62828;gradientColor=#B71C1C;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#FFEBEE;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="695" y="62" width="200" height="415" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_init" value="&lt;b&gt;deep-tech-init&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;プロジェクト初期化&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="38" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_gem" value="&lt;b&gt;Gemini &#xd7;4&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;サムネイル生成用タブ&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="97" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_rec" value="&lt;b&gt;Screen Studio&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;撮影・編集&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="156" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_tr" value="&lt;b&gt;文字起こし&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;メタデータ生成&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="215" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_up" value="&lt;b&gt;upload-youtube&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;YouTube公開&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FCE4EC;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="274" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_pub" value="&lt;b&gt;backlog.md&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;status: published&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#C62828;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y4">
+          <mxGeometry x="15" y="333" width="170" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_init" target="y_gem" parent="y4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_gem" target="y_rec" parent="y4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_rec" target="y_tr" parent="y4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_tr" target="y_up" parent="y4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye10" value="status更新" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#C62828;strokeWidth=1.5;fontSize=8;fontColor=#C62828;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_up" target="y_pub" parent="y4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="y5" value="5. 分析・改善" style="swimlane;startSize=28;rounded=1;arcSize=6;shadow=1;fontSize=11;fontStyle=1;fontFamily=Helvetica;fillColor=#7B1FA2;gradientColor=#6A1B9A;gradientDirection=south;fontColor=#FFFFFF;swimlaneFillColor=#F3E5F5;strokeColor=none;collapsible=0;expand=0;container=1;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="920" y="70" width="220" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_ana" value="&lt;b&gt;YouTube Analytics&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;自動通知&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#F3E5F5;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y5">
+          <mxGeometry x="15" y="38" width="190" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_imp" value="&lt;b&gt;KPI分析&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;サムネ改善 / reviewコマンド&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y5">
+          <mxGeometry x="15" y="97" width="190" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="y_azd" value="&lt;b&gt;backlog.md&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot; color=&quot;#78909C&quot;&gt;status: analyzed&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;fontSize=10;fontFamily=Helvetica;fillColor=#FFFFFF;strokeColor=#7B1FA2;fontColor=#1B2A4A;arcSize=8;strokeWidth=2;" vertex="1" parent="y5">
+          <mxGeometry x="15" y="156" width="190" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye11" value="reviewコマンド" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#7B1FA2;strokeWidth=1.5;fontSize=8;fontColor=#7B1FA2;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_ana" target="y_imp" parent="y5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ye12" value="status更新" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#7B1FA2;strokeWidth=1.5;fontSize=8;fontColor=#7B1FA2;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="y_imp" target="y_azd" parent="y5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cx1" value="金曜ダイジェスト" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=2;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="y_label" target="y_dig" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cx2" value="roadmapコマンド" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=2;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="y_bl" target="y_md" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cx3" value="当日実行" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=2;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="y_gcal" target="y_init" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cx4" value="自動通知" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#546E7A;strokeWidth=2;fontSize=9;fontColor=#546E7A;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="y_pub" target="y_ana" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cx5" value="次サイクル" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#90A4AE;strokeWidth=2;dashed=1;dashPattern=6 3;fontSize=9;fontColor=#90A4AE;fontFamily=Helvetica;endArrow=blockThin;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="y_azd" target="y_rev" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1030" y="520"/>
+              <mxPoint x="1140" y="520"/>
+              <mxPoint x="1140" y="750"/>
+              <mxPoint x="170" y="750"/>
+              <mxPoint x="170" y="530"/>
+              <mxPoint x="170" y="189"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

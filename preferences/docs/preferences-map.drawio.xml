@@ -1,0 +1,183 @@
+<mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- Page settings: A4 Landscape -->
+    <mxCell id="2" value="" style="shape=rectangle;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+      <mxGeometry width="1169" height="827" as="geometry"/>
+    </mxCell>
+
+    <!-- Center Node -->
+    <mxCell id="center" value="🧠 Preferences&#xa;関心 / 除外マップ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;strokeWidth=3;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="484" y="360" width="200" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- ===== Category 1: AIモデル・サービス (Blue) ===== -->
+    <mxCell id="c1" value="🔵 AIモデル・サービス" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=1;fontSize=12;fontColor=#0D47A1;" vertex="1" parent="1">
+      <mxGeometry x="60" y="40" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c1e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#1976D2;exitX=0;exitY=0.5;entryX=0.5;entryY=1;" edge="1" source="center" target="c1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s1a" value="OpenAI&#xa;chatgpt, gpt-5, codex" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#90CAF9;fontSize=9;fontColor=#1565C0;" vertex="1" parent="1">
+      <mxGeometry x="10" y="100" width="130" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1ae" style="strokeColor=#90CAF9;" edge="1" source="c1" target="s1a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s1b" value="Anthropic&#xa;claude, claude code, cowork" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#90CAF9;fontSize=9;fontColor=#1565C0;" vertex="1" parent="1">
+      <mxGeometry x="150" y="100" width="150" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1be" style="strokeColor=#90CAF9;" edge="1" source="c1" target="s1b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s1c" value="Google&#xa;gemini, deepmind, gemma" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#90CAF9;fontSize=9;fontColor=#1565C0;" vertex="1" parent="1">
+      <mxGeometry x="10" y="152" width="130" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1ce" style="strokeColor=#90CAF9;" edge="1" source="c1" target="s1c" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s1d" value="xAI / Meta / その他&#xa;grok, llama, mistral" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#90CAF9;fontSize=9;fontColor=#1565C0;" vertex="1" parent="1">
+      <mxGeometry x="150" y="152" width="140" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1de" style="strokeColor=#90CAF9;" edge="1" source="c1" target="s1d" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s1e2" value="中国系AI / AI検索&#xa;kimi, manus, perplexity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#90CAF9;fontSize=9;fontColor=#1565C0;" vertex="1" parent="1">
+      <mxGeometry x="80" y="204" width="150" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1e2e" style="strokeColor=#90CAF9;" edge="1" source="c1" target="s1e2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Category 2: AI開発ツール (Green) ===== -->
+    <mxCell id="c2" value="🟢 AI開発ツール・エージェント" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=12;fontColor=#1B5E20;" vertex="1" parent="1">
+      <mxGeometry x="390" y="40" width="220" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c2e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#388E3C;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" source="center" target="c2" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s2a" value="Agentic Coding&#xa;copilot, cursor, windsurf, devin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#A5D6A7;fontSize=9;fontColor=#2E7D32;" vertex="1" parent="1">
+      <mxGeometry x="330" y="100" width="170" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s2ae" style="strokeColor=#A5D6A7;" edge="1" source="c2" target="s2a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s2b" value="MCP / Agent Skills&#xa;mcp server, tool use, function calling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#A5D6A7;fontSize=9;fontColor=#2E7D32;" vertex="1" parent="1">
+      <mxGeometry x="510" y="100" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s2be" style="strokeColor=#A5D6A7;" edge="1" source="c2" target="s2b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s2c" value="AIブラウザ / AI開発の実践&#xa;comet, prompt engineering, rag" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#A5D6A7;fontSize=9;fontColor=#2E7D32;" vertex="1" parent="1">
+      <mxGeometry x="400" y="152" width="200" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s2ce" style="strokeColor=#A5D6A7;" edge="1" source="c2" target="s2c" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Category 3: AI生成コンテンツ (Purple) ===== -->
+    <mxCell id="c3" value="🟣 AI生成コンテンツ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontStyle=1;fontSize=12;fontColor=#4A148C;" vertex="1" parent="1">
+      <mxGeometry x="750" y="40" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c3e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#7B1FA2;exitX=1;exitY=0;entryX=0.5;entryY=1;" edge="1" source="center" target="c3" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s3a" value="画像生成&#xa;stable diffusion, midjourney, dall-e, flux" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#CE93D8;fontSize=9;fontColor=#6A1B9A;" vertex="1" parent="1">
+      <mxGeometry x="720" y="100" width="200" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s3ae" style="strokeColor=#CE93D8;" edge="1" source="c3" target="s3a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s3b" value="音声・音楽生成&#xa;suno, udio, text-to-audio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#CE93D8;fontSize=9;fontColor=#6A1B9A;" vertex="1" parent="1">
+      <mxGeometry x="930" y="100" width="150" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s3be" style="strokeColor=#CE93D8;" edge="1" source="c3" target="s3b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s3c" value="動画生成&#xa;sora, veo, runway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#CE93D8;fontSize=9;fontColor=#6A1B9A;" vertex="1" parent="1">
+      <mxGeometry x="800" y="152" width="140" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s3ce" style="strokeColor=#CE93D8;" edge="1" source="c3" target="s3c" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Category 4: AIトレンド (Orange) - Left side ===== -->
+    <mxCell id="c4" value="🟠 AIトレンド・概念" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#F57C00;fontStyle=1;fontSize=12;fontColor=#E65100;" vertex="1" parent="1">
+      <mxGeometry x="30" y="380" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c4e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#F57C00;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" source="center" target="c4" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s4a" value="AI時代の開発手法&#xa;ai-driven development, autonomation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FFCC80;fontSize=9;fontColor=#E65100;" vertex="1" parent="1">
+      <mxGeometry x="10" y="310" width="210" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s4ae" style="strokeColor=#FFCC80;" edge="1" source="c4" target="s4a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s4b" value="AI倫理・安全性&#xa;ai safety, ai governance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FFCC80;fontSize=9;fontColor=#E65100;" vertex="1" parent="1">
+      <mxGeometry x="10" y="440" width="160" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s4be" style="strokeColor=#FFCC80;" edge="1" source="c4" target="s4b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s4c" value="AIとキャリア&#xa;ai engineer, ai architect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FFCC80;fontSize=9;fontColor=#E65100;" vertex="1" parent="1">
+      <mxGeometry x="10" y="490" width="160" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s4ce" style="strokeColor=#FFCC80;" edge="1" source="c4" target="s4c" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Category 5: デザイン (Pink) - Right side ===== -->
+    <mxCell id="c5" value="💗 デザイン・UIツール" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8BBD0;strokeColor=#C2185B;fontStyle=1;fontSize=12;fontColor=#880E4F;" vertex="1" parent="1">
+      <mxGeometry x="920" y="340" width="190" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c5e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#C2185B;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="center" target="c5" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s5a" value="AIデザインツール&#xa;pencil, figma, canva ai, adobe firefly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#F48FB1;fontSize=9;fontColor=#AD1457;" vertex="1" parent="1">
+      <mxGeometry x="920" y="290" width="200" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s5ae" style="strokeColor=#F48FB1;" edge="1" source="c5" target="s5a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s5b" value="プロトタイピング・UI&#xa;design system, storybook" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#F48FB1;fontSize=9;fontColor=#AD1457;" vertex="1" parent="1">
+      <mxGeometry x="920" y="390" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s5be" style="strokeColor=#F48FB1;" edge="1" source="c5" target="s5b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Category 6: 音声入力 (Teal) - Right bottom ===== -->
+    <mxCell id="c6" value="🔷 音声入力・文字起こし" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B2EBF2;strokeColor=#00838F;fontStyle=1;fontSize=12;fontColor=#006064;" vertex="1" parent="1">
+      <mxGeometry x="890" y="510" width="200" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="c6e" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#00838F;exitX=1;exitY=1;entryX=0;entryY=0.5;" edge="1" source="center" target="c6" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s6a" value="音声入力サービス&#xa;typeless, whisper, wisprflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F7FA;strokeColor=#80DEEA;fontSize=9;fontColor=#00695C;" vertex="1" parent="1">
+      <mxGeometry x="890" y="560" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s6ae" style="strokeColor=#80DEEA;" edge="1" source="c6" target="s6a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="s6b" value="AI議事録・書き起こし&#xa;fireflies.ai, granola" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F7FA;strokeColor=#80DEEA;fontSize=9;fontColor=#00695C;" vertex="1" parent="1">
+      <mxGeometry x="890" y="610" width="180" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="s6be" style="strokeColor=#80DEEA;" edge="1" source="c6" target="s6b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ===== Excluded Themes (Red) - Bottom ===== -->
+    <mxCell id="ex" value="❌ 除外テーマ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCDD2;strokeColor=#D32F2F;fontStyle=1;fontSize=13;fontColor=#B71C1C;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="490" y="560" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="exe" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#D32F2F;strokeWidth=2;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="center" target="ex" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e1" value="🚫 ロボティクスAI&#xa;ロボット制御・自律ロボット" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#EF9A9A;fontSize=9;fontColor=#C62828;" vertex="1" parent="1">
+      <mxGeometry x="320" y="640" width="170" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="e1e" style="strokeColor=#EF9A9A;" edge="1" source="ex" target="e1" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="e2" value="🚫 中国系AIロボティクス&#xa;中国企業のロボット開発" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#EF9A9A;fontSize=9;fontColor=#C62828;" vertex="1" parent="1">
+      <mxGeometry x="500" y="640" width="170" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2e" style="strokeColor=#EF9A9A;" edge="1" source="ex" target="e2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="e3" value="🚫 動画生成AI&#xa;text-to-video 全般" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#EF9A9A;fontSize=9;fontColor=#C62828;" vertex="1" parent="1">
+      <mxGeometry x="680" y="640" width="150" height="36" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3e" style="strokeColor=#EF9A9A;" edge="1" source="ex" target="e3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- Title -->
+    <mxCell id="title" value="Preferences Map — 関心キーワード &amp; 除外テーマ" style="text;html=1;fontSize=10;fontColor=#9E9E9E;align=right;" vertex="1" parent="1">
+      <mxGeometry x="830" y="700" width="300" height="20" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

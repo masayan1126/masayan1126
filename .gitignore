@@ -1,0 +1,6 @@
+.DS_Store
+
+# OAuth tokens & credentials
+**/credentials.json
+**/token_calendar.json
+**/token_analytics.json
