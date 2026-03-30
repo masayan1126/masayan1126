@@ -26,7 +26,7 @@
 ## SNS、情報発信
 
 ### YouTube
-- [masayan_tech_ai_mcp](https://www.youtube.com/@masayan_tech_ai_mcp) — 登録者数1,187名（2026/3/29時点）
+- [masayan_tech_ai_mcp](https://www.youtube.com/@masayan_tech_ai_mcp) — 登録者数1,209名（2026/3/30時点）
 - AI活用・開発自動化の実践チュートリアルを配信
 
 ### テックブログ
@@ -41,9 +41,11 @@
 現在取り組んでいる自動化プロジェクト:
 
 ### [Auto News Collector](projects/auto-news-collector/)
-n8n等の外部サービスを使わず、Claude Cowork + Claude Code スキル（6体エージェントチーム）+ GitHub Actions + Cloudflare Pages で毎朝のAI情報収集を完全自動化。収集したニュースは [daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開。
+AI情報収集を2つのフローで自動化。**日次フロー**（広く浅く）は Claude Cowork + Claude Code スキル（6体エージェントチーム）+ GitHub Actions + Cloudflare Pages で毎朝完全自動収集し、[daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開。**週次フロー**（狭く深く）は厳選した技術記事を Gmail 経由でブックマークし、毎週金曜に NotebookLM Cinematic Overview で動画解説を自動生成（半自動）。
 
 ![全自動AI情報収集フロー](projects/auto-news-collector/docs/auto-news-flow.jpg)
+
+![週次ディープリードフロー](projects/auto-news-collector/docs/週次ディープリードフロー.jpg)
 
 ### [YouTube 動画制作パイプライン](projects/youtube/)
 アイデア蓄積 → トレンド/SEO分析 → スケジューリング → プロジェクト初期化 → 撮影 → メタデータ生成 → サムネイル生成 → アップロードまでの制作サイクルを、Claude Code スキル連携（content-planner, calendar-sync, deep-tech-init, video-timeline, upload-youtube）で半自動化。

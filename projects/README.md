@@ -12,7 +12,7 @@
 | tech-blog | [テックブログ運営](tech-blog/overview.md) | 高 | 技術記事の執筆・公開、AdSense 収益化目標 |
 | chrome-ext | [Chrome 拡張機能開発](chrome-ext/overview.md) | 中 | AI・生産性向上系の拡張機能の開発・公開 |
 | line-stamp | [LINE スタンプ制作](line-stamp/overview.md) | 中 | AI を活用した LINE スタンプの制作・販売 |
-| auto-news-collector | [完全自動情報収集](auto-news-collector/overview.md) | 高 | AI・生産性向上ニュースの完全自動収集・要約・配信 |
+| auto-news-collector | [AI情報収集](auto-news-collector/overview.md) | 高 | AI情報の自動収集（日次：広く浅く、完全自動）＋ 深掘り動画生成（週次：狭く深く、半自動） |
 
 ## 構成ルール
 

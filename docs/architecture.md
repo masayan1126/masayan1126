@@ -1,6 +1,6 @@
 # サイドプロジェクト自動化アーキテクチャ
 
-> 最終更新: 2026-03-28
+> 最終更新: 2026-03-30
 
 ## 1. システム全体図
 
@@ -35,6 +35,7 @@ graph TB
         deeptechinit["deep-tech-init"]
         uploadyt["upload-youtube"]
         calsync["calendar-sync"]
+        weeklydeep["weekly-deep-read"]
         planning["planning-session 計画中"]
     end
 
@@ -46,6 +47,8 @@ graph TB
         adsense["AdSense"]
         opmeteo["Open-Meteo API"]
         cfworkers["Cloudflare Workers"]
+        gmail["Gmail API"]
+        notebooklm["NotebookLM"]
     end
 
     subgraph local["Local Tools"]
@@ -86,8 +89,13 @@ graph TB
     claudecode --> planner
     claudecode --> calsync
     claudecode --> planning
+    claudecode --> weeklydeep
 
     daily -->|Cloudflare Workers| cfworkers
+
+    m1126 --> weeklydeep
+    weeklydeep -->|Gmail API| gmail
+    claudechrome -->|ブラウザ操作| notebooklm
 
     ideabox -.->|アイデア昇格| planner
     planner -.->|roadmap出力| calsync
@@ -95,7 +103,7 @@ graph TB
     classDef planned fill:#fff3cd,stroke:#ffc107,color:#000
     classDef active fill:#d4edda,stroke:#28a745,color:#000
     class digest,ytanalytics,planning planned
-    class morning,discordnotify,weekly,billing,autolabel,buildsite,planner,deeptechinit,uploadyt,calsync active
+    class morning,discordnotify,weekly,billing,autolabel,buildsite,planner,deeptechinit,uploadyt,calsync,weeklydeep active
 ```
 
 ## 2. 自動化タイムライン
@@ -109,6 +117,7 @@ graph LR
 
     subgraph friday["金曜"]
         f1["19:00 Project Digest 計画中"]:::planned
+        f2["09:00 Weekly Deep-Read"]:::running
     end
 
     subgraph saturday["土曜"]
@@ -126,14 +135,15 @@ graph LR
     end
 
     d1 --> d2
-    f1 --> s1
+    f1 --> f2
+    f2 --> s1
     s1 --> s2
     s2 --> su1
     m1 --> m2
 
     classDef planned fill:#fff3cd,stroke:#ffc107,color:#000
     classDef running fill:#d4edda,stroke:#28a745,color:#000
-    class d1,d2,su1,m1 running
+    class d1,d2,su1,m1,f2 running
 ```
 
 ## 3. YouTubeプロダクションパイプライン
@@ -215,4 +225,5 @@ flowchart LR
 | Google Calendar API | `calendar.events` | `masayan1126/token_calendar.json` | タスク登録 |
 | Google Analytics Data API | `analytics.readonly` (計画中) | `masayan1126/token_analytics.json` | ブログPV |
 | AdSense Management API | `adsense.readonly` (計画中) | `masayan1126/token_analytics.json` | 収益レポート |
+| Gmail API | `gmail.readonly`, `gmail.labels` (計画中) | `masayan1126/.claude/skills/.../token_gmail.json` (予定) | 週次ディープリード記事URL抽出 |
 | Open-Meteo API | (認証不要) | - | 天気予報 |
