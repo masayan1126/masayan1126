@@ -2,7 +2,3 @@
 	path = .claude
 	url = https://github.com/masayan1126/masayan1126-submodule.git
 	branch = claude
-[submodule "execution-plans"]
-	path = execution-plans
-	url = https://github.com/masayan1126/masayan1126-submodule.git
-	branch = execution-plans
