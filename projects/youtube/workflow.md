@@ -23,13 +23,13 @@
 
 - **ダイジェスト通知**: project-digest Action → Discord（金曜19:00）（⚙ 全自動・計画中）
 - **バックログ精査**: Discord / GitHub 画面で確認（👤 手動）
-- **優先度判定・企画提案**: Claude Code content-planner でトレンド・SEO・自チャンネル分析から優先順位を決定（🤖 半自動）
-- **昇格**: tasks.md に優先度順で登録（👤 手動）
+- **優先度判定・企画提案**: Claude Code youtube-content-planner（`content/youtube/deep-tech/.claude/skills/`）でトレンド・SEO・自チャンネル分析から優先順位を決定（🤖 半自動）
+- **昇格**: `content/youtube/deep-tech/tasks.md` に優先度順で登録（propose コマンドの Step 6 で半自動）
 
 ### 3. スケジューリング
 
-- **ツール**: Claude Code calendar-sync スキル
-- **操作**: tasks.md を元に Google Calendar に時間枠を登録（🤖 半自動）
+- **ツール**: Claude Code calendar-sync スキル（`content/youtube/deep-tech/.claude/skills/`）
+- **操作**: `content/youtube/deep-tech/execution-plans/monthly-plan.md` を元に Google Calendar に時間枠を登録（🤖 半自動）
 - **外部API**: Google Calendar API
 
 ### 4. 制作・公開
@@ -52,7 +52,7 @@
 
 ## ステータス管理
 
-tasks.md でステータスを一元管理:
+`content/youtube/deep-tech/tasks.md` でステータスを一元管理:
 
 `planned` → `in_progress` → `published` → `analyzed`
 
@@ -62,10 +62,10 @@ tasks.md でステータスを一元管理:
 |--------|------|------|
 | auto-label | GitHub Actions (idea-box) | 稼働中 |
 | deep-tech-init | Claude Code Skill | 稼働中 |
-| content-planner | Claude Code Skill | 稼働中 |
+| youtube-content-planner | Claude Code Skill (content/youtube/deep-tech) | 稼働中 |
 | video-timeline | Claude Code Skill | 稼働中 |
 | upload-youtube | Claude Code Skill | 稼働中 |
-| calendar-sync | Claude Code Skill | 稼働中 |
+| calendar-sync | Claude Code Skill (content/youtube/deep-tech) | 稼働中 |
 | project-digest | GitHub Actions (daily) | 計画中 |
 | youtube-analytics | GitHub Actions (daily) | 計画中 |
 

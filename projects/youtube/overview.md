@@ -26,12 +26,14 @@ AI・MCP・Claude Code 実践系の技術チュートリアル動画を制作・
 - [idea-box/](https://github.com/masayan1126/idea-box) — アイデア管理（GitHub Issues）
 - [daily/](https://github.com/masayan1126/daily) — 自動化ハブ（GitHub Actions + Discord 通知）
 
-## 関連スキル
+## 関連スキル（すべて content/youtube/deep-tech/.claude/skills/ に集約）
 
 - `deep-tech-init` — 動画制作プロジェクトの初期化
 - `upload-youtube` — YouTube へのアップロード自動化
-- `youtube-content-planner` — コンテンツ企画・ロードマップ作成
+- `youtube-content-planner` — コンテンツ企画・ロードマップ作成・tasks.md 管理
 - `calendar-sync` — Google カレンダーへのスケジュール登録
+- `youtube-script-writer` — 読み上げ台本の生成
+- `video-timeline` — 動画のタイムライン・チャプター生成
 
 ## 更新履歴
 
