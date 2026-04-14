@@ -26,8 +26,7 @@
 ## SNS、情報発信
 
 ### YouTube
-- [まさやん【AIハックch】- AIであらゆるクリエイティブと開発を効率化・自動化するノウハウをお届け](https://www.youtube.com/@masayan-ai-hack) — 登録者数1,209名（2026/3/30時点）
-- AI活用・開発自動化の実践チュートリアルを配信
+- [まさやん【AIハックch】- AIであらゆるクリエイティブと開発を効率化・自動化するノウハウをお届け](https://www.youtube.com/@masayan-ai-hack) — 登録者数1420名（2026/4/14時点）
 
 ### テックブログ
 - [maasaablog.com](https://maasaablog.com) — 400記事以上
