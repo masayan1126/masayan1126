@@ -38,6 +38,7 @@ masayan1126/
 │   │   └── docs/        # Draw.io 元データ
 │   └── _template/       # 新規プロジェクト用テンプレート
 ├── execution-plans/     # 実行計画（月次タスク計画表等）
+├── agentic-engineering/ # Agentic Engineering 知見の索引型ナレッジベース（引用前提）
 ├── docs/                # アーキテクチャ・設計ドキュメント
 ├── .claude/skills/      # Claude Code スキル（スクリプト・認証情報を含む）
 ```
