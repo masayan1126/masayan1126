@@ -2,60 +2,41 @@
 - テックリードとしてMCPサーバー・API開発しています
 - 関心のある領域：Claude Code、AI駆動開発、MCP、自動テスト、デザインパターン、クリーンアーキテクチャ、パフォーマンスチューニング、仕組み化・自動化
 
-## 強み
-- 技術を目的とせず手段と捉え、プロダクト目線、ユーザー目線で提案ベースでプロジェクトを推進できます
-- AI、Claude Codeなどを活用した仕組み化の設計や生産性向上の経験と知見があります
-- 継続力と発信力、新しい情報へのキャッチアップには自信があります
+## 提供できるバリュー
 
-## スキルセット
-- MCPサーバー開発の経験
-- フルスタックなスキルセット
-  - フロント：TypeScript、VueとReact、Next、Astro
-  - バック：PythonとFastAPI、Django、PHP、Laravel
-  - インフラ：AWS、Google Cloud（可用性、スケールを意識したプラクティスに沿ったサーバレスアーキテクチャが組めます）
-- 企画から保守まで一貫した経験
-  - プロダクトの機能開発における提案段階から
-- Claude Code等のツールの本格的な利用経験、Agentic Cordingのノウハウ、チームで仕組み化できます
-- 仕様駆動開発（Issue駆動開発）の知見・経験
-- 自動化アーキテクチャの設計・構築
-  - AI情報収集の完全自動化（Claude Cowork + 6体エージェントチーム + GitHub Actions + Cloudflare Pages）
-  - YouTube動画制作の半自動化（アイデア蓄積 → トレンド/SEO分析 → スケジューリング → メタデータ生成 → サムネイル → アップロード）
-- クリーンアーキテクチャ、デザインパターンの理解と実務での利用経験
-- 自動テストの設計/構築経験
+### プロダクト開発を前に進める
+- 技術を目的化せず、プロダクト目線・ユーザー目線で課題解決につながる提案、設計、実装、保守まで推進できます
+- 要件が曖昧な段階でも、Issueや仕様に落とし込み、実装可能な単位へ分解できます
 
-## SNS、情報発信
+### AIを活用した開発生産性向上・仕組み化
+- Claude Code、MCP、Agentic Codingを実務フローに組み込み、個人・チームの開発速度と品質を上げる仕組みを設計できます
+- 仕様駆動開発 / Issue駆動開発をベースに、AIエージェントが迷わず動けるコンテキスト設計ができます
+
+### 継続的な情報収集と発信
+- AI、Claude Code、MCPなどの新しい技術動向を継続的にキャッチアップし、実務で使える形に整理・検証できます
+- YouTube、テックブログ、自動化プロジェクトを通じて、得た知見を継続的に発信・蓄積できます
+
+### フルスタックな実装と品質改善
+- TypeScript / Vue / React / Next / Astro、Python / FastAPI / Django、PHP / Laravel、AWS / Google Cloudを用いた開発経験があります
+- クリーンアーキテクチャ、デザインパターン、自動テスト、パフォーマンスチューニングを実務に適用できます
+
+## クリエイターとしての活動
 
 ### YouTube
-- [まさやん【AIハックch】- AIであらゆるクリエイティブと開発を効率化・自動化するノウハウをお届け](https://www.youtube.com/@masayan-ai-hack) — 登録者数1420名（2026/4/14時点）
-
-### テックブログ
-- [maasaablog.com](https://maasaablog.com) — 400記事以上
-- Qiitaで週間ランキングに載ったこともあります
-
-### AI情報収集（自動化）
-- [daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) — AI関連の最新情報をWebとXから毎朝自動収集・配信
+- [まさやん【AIハックch】- AIであらゆるクリエイティブと開発を効率化・自動化するノウハウをお届け](https://www.youtube.com/@masayan-ai-hack) — 登録者数1527名（2026/5/4時点）で収益化済み
 
 ## 自動化アーキテクチャ
 
-現在取り組んでいる自動化プロジェクト:
-
 ### [Auto News Collector](projects/auto-news-collector/)
-AI情報収集を2つのフローで自動化。**日次フロー**（広く浅く）は Claude Cowork + Claude Code スキル（6体エージェントチーム）+ GitHub Actions + Cloudflare Pages で毎朝完全自動収集し、[daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開。**週次フロー**（狭く深く）は厳選した技術記事を Gmail 経由でブックマークし、毎週金曜に NotebookLM Cinematic Overview で動画解説を自動生成（半自動）。
-
-![全自動AI情報収集フロー](projects/auto-news-collector/docs/auto-news-flow.jpg)
-
-![週次ディープリードフロー](projects/auto-news-collector/docs/週次ディープリードフロー.jpg)
+AI情報収集を2つのフローで自動化。**日次フロー**（広く浅く）は Claude Cowork + Claude Code スキル（6体エージェントチーム）+ GitHub Actions + Cloudflare Pages で毎朝完全自動収集し、[daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開。
 
 ### [YouTube 動画制作パイプライン](projects/youtube/)
 アイデア蓄積 → トレンド/SEO分析 → スケジューリング → プロジェクト初期化 → 撮影 → メタデータ生成 → サムネイル生成 → アップロードまでの制作サイクルを、Claude Code スキル連携（content-planner, calendar-sync, deep-tech-init, video-timeline, upload-youtube）で半自動化。
 
-![YouTube動画投稿サイクル フロー図](projects/youtube/docs/youtube-workflow-flow.jpg)
 
 ## その他の活動、趣味
-- [AIを使ったLINEスタンプ制作/販売](https://store.line.me/stickershop/author/5886111/ja)
-- [雑記ブログ](https://masayan1126.github.io/senior-engineer-diary-blog/)
-  - スマートフォンのみで更新している気づきや成果を載せるブログです
-- Google Chrome拡張機能も開発しています
+- [Zenn books](https://zenn.dev/dashboard/books)での書籍販売
+- Google Chrome拡張機能開発（多くはないですがユーザーも実際に存在します）
 
 | 拡張名 | 概要 | ユースケース |
 |--------|------|------------|
