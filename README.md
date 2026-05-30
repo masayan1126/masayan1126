@@ -55,6 +55,8 @@ MCPサーバー・APIの開発をテックリードとして推進。Claude Code
 
 アイデア蓄積 → トレンド/SEO分析 → スケジューリング → プロジェクト初期化 → 撮影 → メタデータ生成 → サムネイル生成 → アップロード までの制作サイクルを、Claude Code で半自動化し、収益化条件を達成
 
+<img width="1186" height="564" alt="スクリーンショット 2026-05-30 13 35 02" src="https://github.com/user-attachments/assets/fb53e2aa-9be6-44ea-8a1a-a34adda83dca" />
+
 ### YouTubeショート自動化フロー（[youtube](projects/youtube/)）
  
 長尺動画とは別に、ショート動画の完全自動化制作フロー構築・運用
