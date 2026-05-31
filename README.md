@@ -73,7 +73,7 @@ AI情報収集を2つのフローで自動化。**日次フロー（広く浅く
 ## クリエイター・発信活動
 
 - **YouTube**：[まさやん【AIハックch】](https://www.youtube.com/@masayan-ai-hack)（AIであらゆるクリエイティブと開発を効率化・自動化するノウハウを発信）— 登録者数 **1,814名**（2026/5/30時点）、収益化済み
-- **サブスタック**：[サブスタック]([https://maasaablog.com](https://substack.com/@masayan1126))（技術記事書いたり・発信したりしています）
+- **サブスタック**：[サブスタック](https://substack.com/@masayan1126)（技術記事書いたり・発信したりしています）
 - **書籍販売**：[Zenn books](https://zenn.dev/dashboard/books)
 - **コミュニティ登壇**：AI駆動開発系の勉強会でLT登壇
 
