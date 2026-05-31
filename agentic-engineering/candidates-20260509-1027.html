@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Engineering 観点該当・一次情報候補 10 本（2026-05-09 10:27 生成）</title>
+<style>
+  :root {
+    --bg: #fafafa; --fg: #1a1a1a; --muted: #6b7280;
+    --card: #ffffff; --border: #e5e7eb;
+    --ok: #16a34a; --warn: #d97706; --ng: #dc2626;
+    --accent: #2563eb;
+    --hl: #fef9c3;
+    --jp: #fee2e2; --en: #dbeafe;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 16px; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.7; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin: 0 0 8px; }
+  h2 { font-size: 1.3rem; margin-top: 40px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 1.05rem; margin-top: 24px; color: var(--accent); }
+  h4 { font-size: 1rem; margin-top: 18px; }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .conclusion { background: var(--hl); border: 1px solid #fde68a; border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0 28px; }
+  .conclusion h2 { margin-top: 0; border: none; padding: 0; }
+  .conclusion ul { margin: 8px 0; padding-left: 22px; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; }
+  .badge.ok { background: #dcfce7; color: var(--ok); }
+  .badge.warn { background: #fef3c7; color: var(--warn); }
+  .badge.ng { background: #fee2e2; color: var(--ng); }
+  .badge.jp { background: var(--jp); color: #991b1b; }
+  .badge.en { background: var(--en); color: #1e40af; }
+  .badge.id { background: #e0e7ff; color: #3730a3; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .pill { display: inline-block; font-size: 0.78rem; color: var(--muted);
+    background: #f3f4f6; padding: 1px 8px; border-radius: 4px; margin-right: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88rem; background: var(--card); }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #f3f4f6; font-weight: 600; font-size: 0.85rem; }
+  td.id-cell { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 600; color: var(--accent); }
+  td.url-cell a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  td.url-cell a:hover { text-decoration: underline; }
+  .hit-circle { color: var(--ok); font-weight: 600; }
+  .hit-tri { color: var(--warn); }
+  .hit-x { color: var(--muted); }
+  blockquote { margin: 8px 0; padding: 10px 14px; border-left: 3px solid var(--accent);
+    background: #f3f4f6; color: #374151; font-size: 0.95rem; border-radius: 0 4px 4px 0; }
+  .candidate-card { background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .candidate-card h3 { margin-top: 0; }
+  .candidate-meta { color: var(--muted); font-size: 0.88rem; margin-bottom: 10px; }
+  .candidate-meta a { color: var(--accent); text-decoration: none; }
+  .candidate-meta a:hover { text-decoration: underline; }
+  .summary-box { background: #f9fafb; border-left: 3px solid var(--accent);
+    padding: 10px 14px; margin: 8px 0; border-radius: 0 4px 4px 0; font-size: 0.95rem; }
+  .reco-list { padding-left: 22px; }
+  .reco-list li { margin: 12px 0; }
+  .reco-list strong { color: var(--accent); }
+  .check-list { background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 22px; margin: 16px 0; }
+  .check-list li { margin: 6px 0; }
+  details { margin: 8px 0; padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--card); }
+  summary { cursor: pointer; font-weight: 600; }
+  code { background: #f3f4f6; padding: 1px 6px; border-radius: 3px; font-size: 0.88em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  /* === Progressive Disclosure: section-level collapsibles === */
+  details.section {
+    margin: 28px 0;
+    border: none;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+  details.section > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    color: var(--fg);
+    transition: color 0.15s;
+  }
+  details.section > summary::-webkit-details-marker { display: none; }
+  details.section > summary::marker { content: ""; }
+  details.section > summary::before {
+    content: "▸";
+    color: var(--muted);
+    font-size: 0.85rem;
+    transition: transform 0.18s ease;
+    flex-shrink: 0;
+    display: inline-block;
+    width: 0.85rem;
+  }
+  details.section[open] > summary::before { transform: rotate(90deg); }
+  details.section > summary:hover { color: var(--accent); }
+  details.section > summary:hover::before { color: var(--accent); }
+  details.section > .section-body { padding-top: 14px; padding-left: 4px; }
+
+  /* Closed-state preview hint (subtle muted text after summary) */
+  details.section:not([open]) > summary::after {
+    content: "（クリックで展開）";
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 400;
+    margin-left: auto;
+    letter-spacing: 0.02em;
+  }
+
+  /* Conclusion section: keep its colored card look */
+  details.section.conclusion-section {
+    background: var(--hl);
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 4px 20px 16px;
+    margin: 16px 0 32px;
+  }
+  details.section.conclusion-section > summary {
+    border-bottom: none;
+    padding: 14px 0 6px;
+  }
+  details.section.conclusion-section > summary:hover { color: var(--fg); }
+  details.section.conclusion-section > summary:hover::before { color: var(--fg); }
+  details.section.conclusion-section:not([open]) > summary::after { content: ""; }
+  details.section.conclusion-section ul { margin: 8px 0; padding-left: 22px; }
+
+  /* Disclosure controls (expand-all / collapse-all toolbar) */
+  .disclosure-controls {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0 4px;
+    justify-content: flex-end;
+  }
+  .disclosure-controls button {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .disclosure-controls button:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* Print: force-expand all collapsibles, hide chevrons & control toolbar */
+  @media print {
+    .disclosure-controls { display: none; }
+    details.section > summary::before { display: none; }
+    details.section > summary { border-bottom: 1px solid var(--border); cursor: default; }
+    details.section:not([open]) > summary::after { content: ""; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Agentic Engineering 観点該当・一次情報候補 10 本</h1>
+<p class="meta">生成: 2026-05-09 10:27 ／ 範囲: 2025-11-09 〜 2026-05-09 ／ 観点: 6 ファイル OR 条件 ／ ソース: 公式 Engineering Blog 限定</p>
+
+<div class="disclosure-controls" role="toolbar" aria-label="セクション開閉">
+  <button id="expand-all" type="button">＋ 全展開</button>
+  <button id="collapse-all" type="button">− 全折りたたみ</button>
+</div>
+
+<details class="section conclusion-section" open>
+  <summary>🎬 結論：このコンテンツの使い道</summary>
+  <ul>
+    <li><strong>用途</strong>: 過去半年に公開された Agentic Engineering 系一次情報の <strong>候補プール</strong>。後段の <code>viewpoint-pickup</code> 本処理で 4 ファイル成果物を作る対象を選定するためのシード。</li>
+    <li><strong>体制</strong>: 情報収集 Agent A（国内 5）+ Agent B（海外 5）並列 → ファクトチェック Agent + 観点準拠 Agent 並列 → 修正反映済み。</li>
+    <li><strong>結果</strong>: 全 10 本 URL 200 / 公開日範囲内 / 観点 OR 達成、<strong>NG ゼロ</strong>。修正は引用末尾・公開日・著者表記の微調整のみ。</li>
+    <li><strong>次フェーズ Top3</strong>: <span class="badge id">C07 Cloudflare</span> / <span class="badge id">C04 SmartHR</span> / <span class="badge id">C01 DeNA</span></li>
+  </ul>
+</details>
+
+<details class="section" open>
+  <summary>1. 候補一覧</summary>
+  <div class="section-body">
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>区分</th><th>タイトル</th><th>組織</th><th>著者</th><th>公開日</th><th>URL</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="id-cell">C01</td>
+      <td><span class="badge jp">国内</span></td>
+      <td>育てるほど楽になる AI 開発体制を作っている話</td>
+      <td>DeNA Engineering</td>
+      <td>Koya Nagata（永田）</td>
+      <td>2026-01-06</td>
+      <td class="url-cell"><a href="https://engineering.dena.com/blog/2026/01/ai-driven-develop/">engineering.dena.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C02</td>
+      <td><span class="badge jp">国内</span></td>
+      <td>mercari-pm-agent の設計——Claude Code Skills と MCP で PM ワークフローを自動化する</td>
+      <td>メルカリエンジニアリング</td>
+      <td>菊池翔吾</td>
+      <td>2026-04-28</td>
+      <td class="url-cell"><a href="https://engineering.mercari.com/blog/entry/20260427-mercari-pm-agent-design-automating-the-pm-workflow-with-claude-code-skills-and-mcp/">engineering.mercari.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C03</td>
+      <td><span class="badge jp">国内</span></td>
+      <td>Claude Code Plugins × Atlassian MCP で実現する開発ガイドライン準拠チェックの仕組み化と全社展開</td>
+      <td>ZOZO TECH BLOG</td>
+      <td>杉田</td>
+      <td>2026-02-02</td>
+      <td class="url-cell"><a href="https://techblog.zozo.com/entry/check-guideline-with-claude-code-plugins">techblog.zozo.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C04</td>
+      <td><span class="badge jp">国内</span></td>
+      <td>AI エージェントをチームで導入していくまでの道のり</td>
+      <td>SmartHR Tech Blog</td>
+      <td>charo</td>
+      <td>2026-04-28</td>
+      <td class="url-cell"><a href="https://tech.smarthr.jp/entry/2026/04/28/165243">tech.smarthr.jp</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C05</td>
+      <td><span class="badge jp">国内</span></td>
+      <td>数字で振り返る freee の AI 駆動開発 - 後編</td>
+      <td>freee Developers Hub</td>
+      <td>JaeSoon（ジェスン）</td>
+      <td>2025-12-25</td>
+      <td class="url-cell"><a href="https://developers.freee.co.jp/entry/ai-driven-development-2025-report">developers.freee.co.jp</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C06</td>
+      <td><span class="badge en">海外</span></td>
+      <td>Harness design for long-running application development</td>
+      <td>Anthropic Engineering</td>
+      <td>Prithvi Rajasekaran</td>
+      <td>2026-03-24</td>
+      <td class="url-cell"><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">anthropic.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C07</td>
+      <td><span class="badge en">海外</span></td>
+      <td>Orchestrating AI Code Review at scale</td>
+      <td>Cloudflare Blog</td>
+      <td>Ryan Skidmore</td>
+      <td>2026-04-20</td>
+      <td class="url-cell"><a href="https://blog.cloudflare.com/ai-code-review/">blog.cloudflare.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C08</td>
+      <td><span class="badge en">海外</span></td>
+      <td>Building a Code Review System That Uses Prod Data to Predict Bugs</td>
+      <td>Sentry Blog</td>
+      <td>Giovanni Guidini ほか 3 名</td>
+      <td>2025-12-18</td>
+      <td class="url-cell"><a href="https://blog.sentry.io/building-a-code-review-system-that-uses-prod-data-to-predict-bugs/">blog.sentry.io</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C09</td>
+      <td><span class="badge en">海外</span></td>
+      <td>How we made v0 an effective coding agent</td>
+      <td>Vercel Blog</td>
+      <td>Max Leiter</td>
+      <td>2026-01-07</td>
+      <td class="url-cell"><a href="https://vercel.com/blog/how-we-made-v0-an-effective-coding-agent">vercel.com</a></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C10</td>
+      <td><span class="badge en">海外</span></td>
+      <td>Autoresearch isn't just for training models</td>
+      <td>Shopify Engineering</td>
+      <td>David Cortés</td>
+      <td>2026-04-15</td>
+      <td class="url-cell"><a href="https://shopify.engineering/autoresearch">shopify.engineering</a></td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>2. 観点ヒットマップ（レビュー反映済）</summary>
+  <div class="section-body">
+
+<p style="font-size: 0.88rem; color: var(--muted);">
+  凡例: <span class="hit-circle">○</span> = 明示的言及あり ／ <span class="hit-tri">△</span> = 関連言及のみ ／ <span class="hit-x">×</span> = 該当なし
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>agentic-practices</th>
+      <th>engineer-role</th>
+      <th>practicality</th>
+      <th>agentic-antipatterns</th>
+      <th>agentic-maturity</th>
+      <th>review-bottleneck</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="id-cell">C01</td>
+      <td><span class="hit-circle">○</span> CTX, RUL, SUB, SKL, MCP, FBL, DOC, RVB</td>
+      <td><span class="hit-circle">○</span> QA, AUT</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-tri">△</span> FAT, NSE</td>
+      <td><span class="hit-circle">○</span> M_HRN, M_AUT, M_VRF, M_KPI</td>
+      <td><span class="hit-circle">○</span> AUT, AIR, TRA, CAP</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C02</td>
+      <td><span class="hit-circle">○</span> SKL, MCP, RUL, VRF, DOC, M_FBL</td>
+      <td><span class="hit-circle">○</span> ORC, GRD, QA</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-circle">○</span> HAL, OPR, NSE</td>
+      <td><span class="hit-tri">△</span> M_VRF, M_FBL</td>
+      <td><span class="hit-tri">△</span> ARC, AIR</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C03</td>
+      <td><span class="hit-circle">○</span> MCP, SKL, HK, RUL, M_HRN, M_TM, M_GVR</td>
+      <td><span class="hit-circle">○</span> AUT ／ <span class="hit-tri">△</span> QA</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-tri">△</span> FRG, ORG</td>
+      <td><span class="hit-circle">○</span> M_HRN, M_TM, M_GVR</td>
+      <td><span class="hit-circle">○</span> AUT, ARC, TRA</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C04</td>
+      <td><span class="hit-circle">○</span> SKL, HK, M_HRN, M_TM, SHR, M_FRQ</td>
+      <td><span class="hit-circle">○</span> AUT, ORC</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-circle">○</span> ORG, FRG, BLI</td>
+      <td><span class="hit-circle">○</span> M_TM, M_HRN, M_SKL</td>
+      <td><span class="hit-tri">△</span> CAP</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C05</td>
+      <td><span class="hit-circle">○</span> OBS, M_FRQ, M_OBS, M_KPI, M_TM, SHR</td>
+      <td><span class="hit-circle">○</span> AUT, EVL</td>
+      <td><span class="hit-tri">△</span></td>
+      <td><span class="hit-x">×</span></td>
+      <td><span class="hit-circle">○</span> M_FRQ, M_OBS, M_KPI, M_TM</td>
+      <td><span class="hit-tri">△</span> AIR, AUT</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C06</td>
+      <td><span class="hit-circle">○</span> SUB, FBL, ITR, M_HRN, M_FBL, M_ORC</td>
+      <td><span class="hit-circle">○</span> SUP, ORC</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-circle">○</span> OFV</td>
+      <td><span class="hit-circle">○</span> M_HRN, M_ORC, M_FBL</td>
+      <td><span class="hit-x">×</span></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C07</td>
+      <td><span class="hit-circle">○</span> SUB, MCP, FBL, RVB, RPR, M_ORC, M_OBS</td>
+      <td><span class="hit-circle">○</span> SUP, QA, ORC</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-circle">○</span> FAT, FRG</td>
+      <td><span class="hit-circle">○</span> M_ORC, M_OBS, M_KPI</td>
+      <td><span class="hit-circle">○</span> AUT, AIR, ARC, PRC, PRI, TRA</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C08</td>
+      <td><span class="hit-circle">○</span> SUB, MCP, FBL, OBS, RVB, M_VRF</td>
+      <td><span class="hit-tri">△</span> QA</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-circle">○</span> HAL, MIS</td>
+      <td><span class="hit-circle">○</span> M_VRF, M_OBS</td>
+      <td><span class="hit-circle">○</span> AUT, AIR, TST, MIS</td>
+    </tr>
+    <tr>
+      <td class="id-cell">C09</td>
+      <td><span class="hit-circle">○</span> VRF, RUL, OBS ／ <span class="hit-tri">△</span> FBL</td>
+      <td><span class="hit-tri">△</span> QA</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-tri">△</span> HAL</td>
+      <td><span class="hit-tri">△</span> M_FBL, M_VRF</td>
+      <td><span class="hit-x">×</span></td>
+    </tr>
+    <tr>
+      <td class="id-cell">C10</td>
+      <td><span class="hit-circle">○</span> FBL, ITR, OBS</td>
+      <td><span class="hit-tri">△</span> AUT</td>
+      <td><span class="hit-circle">○</span></td>
+      <td><span class="hit-x">×</span></td>
+      <td><span class="hit-tri">△</span> M_FBL, M_OBS</td>
+      <td><span class="hit-x">×</span></td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>3. 各候補の 200 字要旨と引用候補</summary>
+  <div class="section-body">
+
+<div class="candidate-card">
+  <h3><span class="badge id">C01</span> <span class="badge jp">国内</span> DeNA「育てるほど楽になる AI 開発体制を作っている話」</h3>
+  <p class="candidate-meta">DeNA Engineering（スポーツプラットフォーム部） ／ Koya Nagata（永田） ／ 2026-01-06 ／ <a href="https://engineering.dena.com/blog/2026/01/ai-driven-develop/">記事を開く</a></p>
+  <div class="summary-box">DeNAスポーツプラットフォーム部が、Claude Code/Cursorを「個人補助ツール」に留めずチーム展開するため、CLAUDE.md・AGENTS.md・サブエージェント定義・Skills・docsをリポジトリに集約。レビュー量削減と品質標準化の2軸で設計し、Claude Code ActionsでPR自動レビュー、Serena MCPでコード理解を強化、レビュー指摘を自動でドキュメントに反映する循環を構築。人間レビュー回数 7.2→2.7 回/PR、コメント数 6.0→1.9 件/PR の実数値を提示。</div>
+  <blockquote>AI を個人の補助ツールにとどめず、チーム全体で活かすには、プロジェクト固有のコンテキストをどう整備・共有するかがポイントになります。</blockquote>
+  <blockquote>「レビュー → ドキュメント更新 → AI の出力品質向上」というサイクルが回るようになりました。</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C02</span> <span class="badge jp">国内</span> メルカリ「mercari-pm-agent の設計」</h3>
+  <p class="candidate-meta">メルカリエンジニアリング ／ 菊池翔吾（Shogo Kikuchi） ／ 2026-04-28 ／ <a href="https://engineering.mercari.com/blog/entry/20260427-mercari-pm-agent-design-automating-the-pm-workflow-with-claude-code-skills-and-mcp/">記事を開く</a></p>
+  <div class="summary-box">メルカリのインターンが、PMが行う「問題発見→データ収集→PRD作成→UIモック」をClaude Code Skillsで1セッション内に統合するエージェントを実装。Notion/Slack/Looker/FigmaをMCPで並列接続。Lost in the Middle対策として「振る舞い定義」と「参照データ」を分離。評価基準を実装より先に設計し、未確認データは"Not provided"とラベル付けてハルシネーション抑制、各ステップは人間の明示確認なしに自動進行させない設計を採用。</div>
+  <blockquote>Markdownを書くだけでは精度は出ません。振る舞いの制約設計と評価サイクルが重要です。</blockquote>
+  <blockquote>未確認のデータは "Not provided" または "To be validated" とラベルすること</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C03</span> <span class="badge jp">国内</span> ZOZO「Claude Code Plugins × Atlassian MCP」</h3>
+  <p class="candidate-meta">ZOZO TECH BLOG（ZOZOMO部 FBZブロック） ／ 杉田 ／ 2026-02-02 ／ <a href="https://techblog.zozo.com/entry/check-guideline-with-claude-code-plugins">記事を開く</a></p>
+  <div class="summary-box">ZOZO ZOZOMO部の杉田氏（社内AI推進兼務）が、Confluence上の開発ガイドラインに対する準拠チェックをClaude Code Plugins化し、Atlassian MCP経由で常に最新ガイドラインを参照する仕組みを構築。プラグインにはSkills/Agents/Hooksを含め、マーケットプレイス機能で全社配布、<code>.claude/settings.json</code>の<code>extraKnownMarketplaces</code>で配信。READ_ONLY_MODEで安全運用し、二重管理を回避。手作業確認コスト削減と日常的レビュー実施を両立する組織展開事例。</div>
+  <blockquote>Claude Codeの機能をチームや組織内部で再利用しやすい形にまとめる拡張機構です</blockquote>
+  <blockquote>MCPを経由してConfluenceを直接参照することで、実行時点で常に最新の開発ガイドラインを参照できます</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C04</span> <span class="badge jp">国内</span> SmartHR「AI エージェント導入の道のり」</h3>
+  <p class="candidate-meta">SmartHR Tech Blog ／ charo ／ 2026-04-28 ／ <a href="https://tech.smarthr.jp/entry/2026/04/28/165243">記事を開く</a></p>
+  <div class="summary-box">SmartHRのプロダクトエンジニアcharo氏が、2025年前半「AI縛り週間」→後半「ペインポイント・ナレッジ共有会」→2026年「Skillsワークショップ・モブワーク」へと段階的にチーム導入してきた1年間の道のりを総括。「Harness Engineering」を中核概念に据え、<code>/skill-creator</code>を使ったハンズオンとモブセッションで全員がAI駆動で業務を進められる状態へ到達したと記述。</div>
+  <blockquote>Harness Engineering（AI エージェントが安全かつ再現性高く動ける"足場"をコードベースやワークフローに組み込む考え方）</blockquote>
+  <blockquote>Skills は一度自分で作るのが手っ取り早い…</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C05</span> <span class="badge jp">国内</span> freee「数字で振り返る AI 駆動開発 - 後編」</h3>
+  <p class="candidate-meta">freee Developers Hub ／ JaeSoon（ジェスン） ／ 2025-12-25 ／ <a href="https://developers.freee.co.jp/entry/ai-driven-development-2025-report">記事を開く</a></p>
+  <div class="summary-box">freeeのJaeSoon氏が2025年4月〜12月のAI駆動開発を定量的に振り返る。トークン消費は約7-8倍、1日あたりリクエスト最高16万件超、月間アクティブ600-700エンジニアで安定化。エージェント分布はClaude Code約80%が支配的でCline/Roo Codeを抜く。用途分布はコーディング42%・デバッグ21%・テスト13%・レビュー11%・アーキテクチャ4%。「AI開発マニア制度」で週次PR数・トークン使用量を達成したエンジニアを認定する評価運用を導入。</div>
+  <blockquote>Claude Codeが圧倒的シェアを占めるようになりました</blockquote>
+  <blockquote>一週間で一定のPR数とトークン使用量を達成したエンジニアを認定し、Claude Max利用権限を付与する制度です。</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C06</span> <span class="badge en">海外</span> Anthropic「Harness design for long-running application development」</h3>
+  <p class="candidate-meta">Anthropic Engineering ／ Prithvi Rajasekaran ／ 2026-03-24 ／ <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">記事を開く</a></p>
+  <div class="summary-box">Anthropic Labs の Prithvi が、Claude を長時間自律稼働させるためのハーネス設計を解説。単独実行では「コンテキスト窓圧迫」「自己評価の甘さ」で破綻するため、planner / generator / evaluator の 3 役を分割。フロントエンドのような主観品質も評価軸を切り出して採点可能にし、ソロ実行（20分・$9）に対しフルハーネス（6時間・$200）で別次元の成果物を生む。「ハーネスは『モデルが単独でできない』前提を符号化する。その前提を絶えず stress test せよ」と結論。</div>
+  <blockquote>Every component in a harness encodes an assumption about what the model can't do on its own, and those assumptions are worth stress testing.</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C07</span> <span class="badge en">海外</span> Cloudflare「Orchestrating AI Code Review at scale」</h3>
+  <p class="candidate-meta">Cloudflare Blog ／ Ryan Skidmore ／ 2026-04-20 ／ <a href="https://blog.cloudflare.com/ai-code-review/">記事を開く</a></p>
+  <div class="summary-box">Cloudflare の社内 AI コードレビュー基盤の実装記。7 体の専門 sub-reviewer（security / performance / quality / docs / release / compliance）を OpenCode 経由で並列起動し、coordinator が judge pass で統合。30 日で 131,246 レビュー、48,095 MR、5,169 リポジトリを処理。中央値 3 分 39 秒、平均 $1.19/レビュー、キャッシュヒット率 85.7%。「コードレビューはバグ捕捉とナレッジ共有の好機構だが、エンジニアリングチームを最も確実に詰まらせるボトルネックでもある」と問題提起。</div>
+  <blockquote>Code review is a fantastic mechanism for catching bugs and sharing knowledge, but it is also one of the most reliable ways to bottleneck an engineering team.</blockquote>
+  <blockquote>Rather than relying on one model with a massive, generic prompt, we launch up to seven specialised reviewers covering security, performance, code quality, documentation, release management, and compliance with our internal Engineering Codex.</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C08</span> <span class="badge en">海外</span> Sentry「Building a Code Review System That Uses Prod Data to Predict Bugs」</h3>
+  <p class="candidate-meta">Sentry Blog ／ Giovanni Guidini, Kush Dubey, Suejung Shin, Jerry Feng ／ 2025-12-18 ／ <a href="https://blog.sentry.io/building-a-code-review-system-that-uses-prod-data-to-predict-bugs/">記事を開く</a></p>
+  <div class="summary-box">Sentry の AI Code Review の内部アーキテクチャ。Filter → Predict → Package の 3 段パイプラインで、各仮説に対し dedicated agent が Sentry の本番イシュー履歴を「click-into」フローで参照し検証。低信頼/低重大度の予測は除外、過去ダウンボートと埋め込み類似で重複排除。既知の bug PR / safe PR で precision・recall・accuracy を定期評価する eval ループを内蔵。LLM 単発予測ではなく、production telemetry を context として閉じる「データ駆動コードレビュー」の事例。</div>
+  <blockquote>Because context is king, all agents have access to different tools that provide them with rich context to understand the code being analyzed.</blockquote>
+  <blockquote>By focusing the verifying agents into a single hypothesis they can deep dive and more correctly assert if that is a valid bug or not.</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C09</span> <span class="badge en">海外</span> Vercel「How we made v0 an effective coding agent」</h3>
+  <p class="candidate-meta">Vercel Blog ／ Max Leiter ／ 2026-01-07 ／ <a href="https://vercel.com/blog/how-we-made-v0-an-effective-coding-agent">記事を開く</a></p>
+  <div class="summary-box">Vercel が v0 を「効くコーディングエージェント」に仕立てる工夫を公開。最適化指標は「成功生成率」（LLM 生のままだと最大 10% で誤生成）。dynamic system prompt で AI SDK の最新知識を注入、<code>LLM Suspense</code> でストリーム中の find-and-replace（lucide-react アイコン未存在 → 埋め込み類似で最近傍に書き換え 等）、autofixers で AST 解析必要な多ファイル横断問題を後段で 250ms 以内に修正。「system prompt は moat にはならないが、強い steering 機構として残る」と総括。</div>
+  <blockquote>The primary metric we optimize for is the percentage of successful generations.</blockquote>
+  <blockquote>Your product's moat cannot be your system prompt.</blockquote>
+</div>
+
+<div class="candidate-card">
+  <h3><span class="badge id">C10</span> <span class="badge en">海外</span> Shopify「Autoresearch isn't just for training models」</h3>
+  <p class="candidate-meta">Shopify Engineering ／ David Cortés ／ 2026-04-15 ／ <a href="https://shopify.engineering/autoresearch">記事を開く</a></p>
+  <div class="summary-box">Shopify エンジニア David Cortés が、Karpathy 由来の「Autoresearch」（GPT-2 を数時間で訓練するための AI 連続改善ループ）を ML 以外の問題（CI ビルド時間短縮）に転用した実話。Slack で社内告知後、CEO Tobi Lütke 自ら 32 commit を当て multi-metric 対応で共著、1 日でコンセプト → 完成。シークレット除去後 OSS 化し X で Tobi が「parse+render を 53% 高速化」と発信、3,600 GitHub Star 超えへ急伸。「ループを回し、数値が下がるのを眺める」というエンジニア像を体現した記事。</div>
+  <blockquote>53% faster combined parse+render time</blockquote>
+  <blockquote>It is 7PM and I'm still at my desk... and watch the numbers go down.</blockquote>
+</div>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>4. ファクトチェック結果（Review 1）</summary>
+  <div class="section-body">
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>URL 200</th><th>公開日 OK</th><th>著者明示</th><th>引用整合</th><th>判定</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="id-cell">C01</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C02</td><td>✅</td><td>✅ <small>2026-04-28（修正済）</small></td><td>✅ <small>菊池（修正済）</small></td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C03</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C04</td><td>✅</td><td>✅</td><td>✅</td><td>✅ <small>"足場"・末尾省略 … で修正済</small></td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C05</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C06</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 1/1</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C07</td><td>✅</td><td>✅</td><td>✅</td><td>✅ <small>末尾追記済</small></td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C08</td><td>✅</td><td>✅</td><td>✅</td><td>✅ <small>末尾追記済</small></td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C09</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C10</td><td>✅</td><td>✅</td><td>✅</td><td>✅ 2/2</td><td><span class="badge ok">PASS</span></td></tr>
+  </tbody>
+</table>
+
+<details>
+  <summary>修正反映済みの差分</summary>
+  <ul>
+    <li><strong>C02 公開日</strong>: <code>2026-04-27</code> → <code>2026-04-28</code></li>
+    <li><strong>C02 著者</strong>: <code>菊地翔吾</code> → <code>菊池翔吾</code></li>
+    <li><strong>C04 引用1</strong>: <code>足場</code> → <code>"足場"</code>（原文の二重引用符を補完）</li>
+    <li><strong>C04 引用2</strong>: 文末を <code>…</code> で省略明示</li>
+    <li><strong>C07 引用2</strong>: 末尾に <code>with our internal Engineering Codex.</code> を追加</li>
+    <li><strong>C08 引用1</strong>: 末尾に <code>to understand the code being analyzed.</code> を追加</li>
+  </ul>
+</details>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>5. 観点準拠レビュー結果（Review 2）</summary>
+  <div class="section-body">
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>過大評価</th><th>過小評価</th><th>修正反映</th><th>判定</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="id-cell">C01</td><td>—</td><td>—</td><td>—</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C02</td><td>—</td><td>—</td><td>—</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C03</td><td>—</td><td>engineer-role/AUT を ○ へ昇格</td><td>○ (AUT) / △ (QA)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C04</td><td>—</td><td>—</td><td>—</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C05</td><td>—</td><td>review-bottleneck × → △ (CodeRabbit 全社導入)</td><td>× → △ (AIR, AUT)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C06</td><td>—</td><td>agentic-antipatterns/OFV を ○ へ昇格</td><td>△ → ○ (OFV)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C07</td><td>—</td><td>agentic-antipatterns/FAT・FRG を ○ へ昇格</td><td>△ → ○ (FAT, FRG)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C08</td><td>—</td><td>agentic-antipatterns/HAL・MIS を ○ へ昇格</td><td>△ → ○ (HAL, MIS)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C09</td><td>agentic-practices/FBL を △ へ降格（自走ループ薄い）</td><td>—</td><td>○ (VRF, RUL, OBS) / △ (FBL)</td><td><span class="badge ok">PASS</span></td></tr>
+    <tr><td class="id-cell">C10</td><td>—</td><td>—</td><td>—</td><td><span class="badge ok">PASS</span></td></tr>
+  </tbody>
+</table>
+
+<p><strong>全 10 候補が観点 OR 条件（≥1 軸 ○）達成、NG ゼロ。</strong></p>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>6. 次フェーズ推奨（viewpoint-pickup 本処理）</summary>
+  <div class="section-body">
+
+<ol class="reco-list">
+  <li>
+    <strong>C07 Cloudflare「Orchestrating AI Code Review at scale」</strong>
+    <br>6 観点全 ○、特に <strong>review-bottleneck の主観点を満たす唯一の候補</strong>。131,246 レビュー / 48,095 MR / $1.19/レビュー の <strong>量的データ</strong> が豊富で、動画フックに使いやすい。レビューボトルネック対策の組織導入事例として最も具体性が高い。英語のためユーザー側で日本語訳を貼り直してから本処理する想定。
+  </li>
+  <li>
+    <strong>C04 SmartHR「AI エージェント導入の道のり」</strong>
+    <br>「Harness Engineering」概念を <strong>正面から命名・定義</strong> しており、自分のナレッジベース命名規則（<code>agentic-engineering/</code>）と直接共鳴する。1 年間の段階展開ストーリー（縛り週間 → 共有会 → モブワーク）はチーム導入の <strong>ロードマップ素材</strong> として強い。日本語ですぐ本処理できる。
+  </li>
+  <li>
+    <strong>C01 DeNA「育てるほど楽になる AI 開発体制」</strong>
+    <br>agentic-practices の 8 ID（CTX, RUL, SUB, SKL, MCP, FBL, DOC, RVB）を網羅し、<strong>人間レビュー 7.2→2.7 回/PR の数値</strong> で実用効果を示す。CLAUDE.md / AGENTS.md / Serena MCP / Claude Code Actions の <strong>実装スタックがすべて公開</strong> されているのも引用しやすい。
+  </li>
+</ol>
+
+<h4>補欠候補</h4>
+<ul>
+  <li><strong>C02 メルカリ</strong>（PMワークフロー × Skills × MCP の領域組合せが新鮮、ハルシネーション対策が具体的）</li>
+  <li><strong>C06 Anthropic</strong>（ハーネス設計の理論記事として、3 観点との対比軸を作る用途に適）</li>
+</ul>
+
+<h4>用途別の使い分けメモ</h4>
+<ul>
+  <li><strong>動画 1 本に絞るなら</strong> C07（量的データ + 物語性 + ボトルネック問題提起の 3 拍子）</li>
+  <li><strong>ブログシリーズなら</strong> C07・C04・C01 の 3 本立て（海外大規模 / 国内チーム導入 / 国内実装スタック の三角形）</li>
+  <li><strong>「Harness Engineering」を主題にしたシリーズなら</strong> C04 を起点に、C06（理論）・C03（プラグイン化）・C01（実装スタック）を補強記事として配置</li>
+</ul>
+
+  </div>
+</details>
+
+<details class="section">
+  <summary>7. 検証チェックリスト</summary>
+  <div class="section-body">
+
+<ul class="check-list">
+  <li>✅ 全 10 候補の URL が HTTP 200 を返す</li>
+  <li>✅ 全 10 候補の公開日が 2025-11-09 〜 2026-05-09 の範囲内</li>
+  <li>✅ 全 10 候補で観点 OR 条件（少なくとも 1 軸 ○）を達成</li>
+  <li>✅ 全 10 候補の引用が原文と逐語一致（修正反映済み）</li>
+  <li>✅ 既存 slug 6 件（cyberagent-2028 / sansan-vpoe / github-2025 / openai-harness / karpathy-sequoia / 8-levels）の対象記事を含まない</li>
+  <li>✅ ファクトチェック / 観点準拠の両レビューで NG 判定はゼロ件</li>
+  <li>✅ 一次情報（公式 Engineering Blog / Tech Blog）のみで構成</li>
+</ul>
+
+  </div>
+</details>
+
+</div><!-- /.container -->
+
+<script>
+(function() {
+  const sections = () => document.querySelectorAll('details.section');
+
+  const expand = document.getElementById('expand-all');
+  const collapse = document.getElementById('collapse-all');
+  if (expand) expand.addEventListener('click', () => sections().forEach(d => d.open = true));
+  if (collapse) collapse.addEventListener('click', () => sections().forEach(d => d.open = false));
+
+  // Print: temporarily expand all, restore afterwards.
+  let restoreState = null;
+  window.addEventListener('beforeprint', () => {
+    restoreState = Array.from(sections()).map(d => ({ d, open: d.open }));
+    restoreState.forEach(({ d }) => { d.open = true; });
+  });
+  window.addEventListener('afterprint', () => {
+    if (restoreState) restoreState.forEach(({ d, open }) => { d.open = open; });
+    restoreState = null;
+  });
+
+  // Hash-target: open the enclosing section if the URL points inside a closed details.
+  function openTargetSection() {
+    if (!location.hash) return;
+    const el = document.getElementById(location.hash.slice(1));
+    if (!el) return;
+    let p = el.closest('details');
+    while (p) { p.open = true; p = p.parentElement && p.parentElement.closest('details'); }
+    el.scrollIntoView({ block: 'start' });
+  }
+  window.addEventListener('hashchange', openTargetSection);
+  window.addEventListener('DOMContentLoaded', openTargetSection);
+})();
+</script>
+</body>
+</html>

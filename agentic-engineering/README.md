@@ -20,6 +20,7 @@ agentic-engineering/
 | ディレクトリ | 扱う対象 |
 |---|---|
 | [the-8-levels-of-agentic-engineering/](./the-8-levels-of-agentic-engineering/) | Bassim Eledath「The 8 Levels of Agentic Engineering」フレームワークと自分の現在地 |
+| [openai-harness-engineering/](./openai-harness-engineering/) | OpenAI「ハーネスエンジニアリング：エージェントファーストの世界における Codex の活用」の5観点チェックレポート |
 
 ## 新規ドキュメント作成手順
 

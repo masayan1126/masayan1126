@@ -1,0 +1,21 @@
+- インターン期間中に mercari-pm-agent というClaude CodeのSkillを開発しました。PMが行う「問題の発見→データ収集→PRD作成→UIモック」の一連のワークフローを、1つのセッション内で処理するエージェントです。
+- mercari-pm-agent はClaude CodeのSkillとして実装しているため、MCP設定が済んでいれば /mercari-pm-agent のコマンド1つで起動できます。
+- 実装を始める前に、まず「エージェントの出力をどう評価するか」の基準を定義しました。
+- 設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。
+- これは「嘘をつくな」とプロンプトで命令するだけでは解決しません。モデルがデータ不足を認識したとき、どう振る舞うかを制約として設計する必要があります。
+- You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression. （完了を推測して次へ進むことを禁じる。PMの明示的な確認があった場合のみ次へ進める）
+- 初期は全ての定義を SKILL.md 1ファイルに集約していましたが、後述する評価スキルによるスコアリングを通じて、ファイルが長くなるほど出力精度が低下するという問題を確認しました。
+- 対応として、振る舞いの定義（SKILL.md本体）と参照データ・テンプレート（references/）を分離しました。
+- Claude Code Skillsは、Claude Codeの振る舞いをMarkdownファイルで定義する仕組みです。SKILL.md にエージェントの動作手順・制約・ツールへのアクセス方法を記述することで、特定の業務フロー専用のエージェントを構築できます（公式ガイド）。
+- MCPはAnthropicが策定したオープンプロトコルで、LLMアプリケーションが外部ツールやデータソースに接続するための標準仕様です。MCPサーバーを通じて、Claude CodeからNotion・Slack・Lookerなどの外部サービスをツールとして呼び出せるようになります。
+- Unconfirmed data must be labeled "Not provided" or "To be validated"
+- Never fabricate numbers or sources
+- Pull in parallel during Data Enrichment — do not wait for one source
+- before querying another.
+- - If a source is unavailable, skip silently and mark it in the output.
+- SKILL.mdはエージェントが「何をどの順序でするか」のみを保持し、具体的なデータやテンプレートは必要なタイミングでreferencesから参照する設計です。この構造変更だけでスコアが明確に改善しました。
+- 実際のWeb改善課題を収集して評価データセットを作り、反復的に精度を上げていきました。
+- Slack MCPのセットアップには社内VPN接続とUser Tokenによる認証が必要です。トークンはClaude Codeの設定ファイルに環境変数として渡す形にしており、チャット上でトークン文字列が露出しない設計にしています。
+- ├── [prd-template.md]  # PRDテンプレート
+- ├── [prd-checklist.md] # PRD品質チェックリスト（9項目）
+- なお、SKILL.mdは英語で記述しています。Claudeへの指示として英語の方が精度が高いためです。

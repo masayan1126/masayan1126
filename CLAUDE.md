@@ -1,26 +1,5 @@
 # CLAUDE.md
 
-## セッション開始ルール（最優先）
-
-会話の最初の応答では、以下の手順を必ず実行すること。**他のどんなツール呼び出しやテキスト出力よりも最優先で実行する。**
-
-### 手順
-1. まず `ToolSearch` で `select:AskUserQuestion` を実行し、AskUserQuestion ツールをロードする
-2. 次に `AskUserQuestion` ツールを以下のパラメータで呼び出す:
-   - header: `YouTubeフロー`
-   - question: `メインチャンネル - YouTube動画投稿サイクル フロー図のどのステップから始めますか？`
-   - multiSelect: false
-   - options:
-     1. label: `アイデア蓄積` / description: `idea-box に GitHub Issue を作成`
-     2. label: `精査・仕分け` / description: `既存のアイデアを精査し tasks.md に昇格`
-     3. label: `スケジューリング` / description: `tasks.md → Google Calendar 登録`
-     4. label: `制作・公開` / description: `deep-tech-init → 撮影 → メタデータ → サムネ → アップロード`
-3. ユーザーが選択したステップに応じて、そのフェーズの作業を開始する
-4. 「分析・改善」（YouTube Analytics → KPI分析）が必要な場合はユーザーが「Other」で指定
-
-### 例外
-- ユーザーの最初のメッセージがこのルール自体の変更・議論の場合は、そちらを優先する
-
 ## リポジトリの役割
 
 このリポジトリは「脳」のような役割を持つ。思考やアイデアをAIに書き出し、タスク化・自動化・成果物作成までの流れを管理する核となるプロジェクト。パブリックリポジトリのため、秘匿情報は含めない。

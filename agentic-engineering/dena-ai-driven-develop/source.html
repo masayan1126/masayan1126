@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K9DMCP7');</script>
+
+      
+      
+      
+      
+  
+  <title>育てるほど楽になる AI 開発体制を作っている話 | BLOG - DeNA Engineering</title>
+  <meta name="description" content="こんにちは。ソリューション本部 エンタープライズ事業部 スポーツプラットフォーム部の永田です。普段の業務ではスポーツ領域の新規サービス開発に従事しています。
+本記事では、複雑なドメインを持つ新規サービス開発のプロジェクトにおいて、「AI を活用して開発生産性を向上させる」 ために構築した仕組みと、その具体的な例を紹介します。 …" />
+  <meta name="format-detection" content="telephone=no" />
+  
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="16x16 24x24 32x32 48x48 64x64" />
+  <meta property="og:site_name" content="DeNA Engineering" />
+  <meta property="og:url" content="https://engineering.dena.com/blog/2026/01/ai-driven-develop/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="育てるほど楽になる AI 開発体制を作っている話 | BLOG - DeNA Engineering" />
+  <meta property="og:description" content="こんにちは。ソリューション本部 エンタープライズ事業部 スポーツプラットフォーム部の永田です。普段の業務ではスポーツ領域の新規サービス開発に従事しています。
+本記事では、複雑なドメインを持つ新規サービス開発のプロジェクトにおいて、「AI を活用して開発生産性を向上させる」 ために構築した仕組みと、その具体的な例を紹介します。 …" />
+  <meta property="og:image" content="https://engineering.dena.com/blog/2026/01/ai-driven-develop/cover.png" />
+  <meta property="og:locale" content="ja_JP" />
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@DeNAxTech" />
+  <meta name="twitter:description" content="こんにちは。ソリューション本部 エンタープライズ事業部 スポーツプラットフォーム部の永田です。普段の業務ではスポーツ領域の新規サービス開発に従事しています。
+本記事では、複雑なドメインを持つ新規サービス開発のプロジェクトにおいて、「AI を活用して開発生産性を向上させる」 ために構築した仕組みと、その具体的な例を紹介します。 …" />
+  <meta name="twitter:image" content="https://engineering.dena.com/blog/2026/01/ai-driven-develop/cover.png" />
+  <meta name="twitter:image:src" content="https://engineering.dena.com/blog/2026/01/ai-driven-develop/cover.png" /><link rel="stylesheet" type="text/css" href="/css/main.min.c94a0f32e38aeccfd08eba617b7033bafaa0fb21bfb7b7f3f3cede254b29c5f4.css" integrity="sha256-yUoPMuOK7M/Qjrphe3Azuvqg&#43;yG/t7fz887eJUspxfQ=" as="style">
+</head>
+<body class="min-h-screen flex flex-col bg-light-gray-blue text-base text-black" ontouchstart="">
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9DMCP7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<header class="sticky top-0 z-50 bg-white">
+  <input type="checkbox" id="menu-btn-check" class="absolute -left-full subsequent appearance-none">
+  <nav class="flex justify-items-stretch justify-between items-center gap-12 h-32 eq-xs:h-24 px-6 md:grid  md:grid-cols-3 lg:px-12">
+    <ul class="hidden md:flex justify-start space-x-4 lg:space-x-8 uppercase text-sm font-semibold"><li>
+        <a href="/culture/" class="hover:text-blue ">Culture</a>
+      </li><li>
+        <a href="/team/" class="hover:text-blue ">Team</a>
+      </li><li>
+        <a href="/event/" class="hover:text-blue ">Event</a>
+      </li><li>
+        <a href="/output/" class="hover:text-blue ">Output</a>
+      </li><li>
+        <a href="/blog/" class="hover:text-blue text-blue">Blog</a>
+      </li></ul>
+
+    <h1 class="md:mx-auto">
+      <a class="block py-4 hover:opacity-50" href='/'>
+        <img src="/images/logos/dena_engineering.svg" class="h-12 eq-xs:h-8" alt="DeNA Engineering - DeNAエンジニアのポータルサイト">
+      </a>
+    </h1>
+
+    <div class="flex items-center justify-end space-x-16">
+      <a id="recruitment-on-pc-header" href="https://dena.com/jp/recruit/" target="_blank" rel="noopener noreferrer" class="rounded-full border-5 border-blue text-blue hover:text-white hover:bg-blue px-6 py-4 text-sm font-bold uppercase hidden md:block">
+          Recruitment
+      </a>
+      <a id="x-on-pc-header" class="hidden md:block hover:opacity-50" href="https://x.com/denaxtech" target="_blank" rel="noopener noreferrer">
+        <img src="/images/logos/x.svg" class="h-20 w-20"/>
+      </a>
+
+      <label for="menu-btn-check" class="block md:hidden w-12 h-12 relative flex justify-center items-center">
+        <div class="w-12 border-1 absolute bg-black transform bottom-2 subsequent-checked:bottom-auto subsequent-checked:rotate-45">
+        </div>
+        <div class="w-12 border-1 absolute bg-black transform subsequent-checked:opacity-0">
+        </div>
+        <div class="w-12 border-1 absolute bg-black transform top-2 subsequent-checked:top-auto subsequent-checked:-rotate-45">
+        </div>
+      </label>
+    </div>
+  </nav>
+
+  <div class="hidden subsequent-checked:block bg-black absolute w-full h-screen">
+    <div class="grid grid-cols-2 pt-32 pb-52 mx-auto bg-type1">
+      <div class="border-white border-r-2 text-center pb-3">
+        <div class="inline-block">
+          <ul class="flex flex-col space-y-20 eq-xs:space-y-12">
+            <li>
+              <a href="/culture/">
+	  <img class="h-8 sm:h-12" src="/images/headings/culture.svg" alt="Culture"></a>
+            </li><li>
+              <a href="/team/">
+	  <img class="h-8 sm:h-12" src="/images/headings/team.svg" alt="Team"></a>
+            </li><li>
+              <a href="/event/">
+	  <img class="h-8 sm:h-12" src="/images/headings/event.svg" alt="Event"></a>
+            </li><li>
+              <a href="/output/">
+	  <img class="h-8 sm:h-12" src="/images/headings/output.svg" alt="Output"></a>
+            </li><li>
+              <a href="/blog/">
+	  <img class="h-8 sm:h-12" src="/images/headings/blog.svg" alt="Blog"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col justify-end items-end space-y-10 mx-auto">
+        <a id="x-on-sp-header" href="https://x.com/denaxtech" target="_blank" rel="noopener noreferrer">
+          <img src="/images/logos/x_black.svg" class="h-20 w-20 mx-auto"/>
+        </a>
+        <a id="recruitment-on-sp-header" href="https://dena.com/jp/recruit/" target="_blank" rel="noopener noreferrer" class="rounded-full border-solid border-3 border-white text-white hover:text-black hover:bg-white px-6 py-4 text-xs uppercase font-bold">
+            Recruitment
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="content" class="flex-grow">
+<div class="bg-black">
+  <div class="max-w-21xl mx-auto eq-xs:px-8 eq-sm:px-24 px-44">
+  <div class="relative max-w-12xl mx-auto flex flex-col md:flex-row justify-between md:items-center pt-44 pb-48 gap-y-6 gap-x-32 bg-sec-sym-process">
+    <h1 class="relative flex-none">
+      <a href="/blog/">
+        <img class="h-28 eq-xs:h-20" src="/images/headings/blog.svg" alt="blog">
+      </a>
+    </h1>
+    
+    <p class='relative text-white text-base md:max-w-5xl'>
+      DeNAのエンジニアが考えていることや、担当しているサービスについて情報発信しています
+    </p>
+    
+  </div>
+</div>
+
+</div>
+<div class="max-w-21xl mx-auto relative flex justify-center flex-col gap-22 eq-sm:gap-12 eq-xs:gap-8 -top-20 px-22 eq-sm:px-16 eq-xs:px-8">
+<div class="bg-white py-40 eq-sm:py-32 eq-xs:py-16 px-22 eq-sm:px-16 eq-xs:px-8">
+  <div class="max-w-12xl mx-auto">
+    <div class="block lg:grid lg:grid-rows-2-auto">
+      <section>
+        <p class="flex items-center mb-4">
+          <span class="text-sm">
+            2026.01.06
+          </span>
+          
+<span class="text-blue text-xs px-6">
+  <a class="inline rounded-full border-solid border-2 border-blue px-5 py-2 hover:bg-blue hover:text-white"
+  href="/blog/categories/technology">技術記事</a>
+</span>
+
+        </p>
+        <h1 class="text-blue text-3xl font-bold mb-4">
+          育てるほど楽になる AI 開発体制を作っている話
+        </h1>
+        
+        <p class="mb-4">
+          by 
+          
+          <a href='/blog/authors/koya-nagata/' class="hover:text-blue">
+            Koya Nagata
+          </a>
+          
+        </p>
+        
+        
+        <p class="text-sm leading-loose lg:mb-12">
+          
+          <a href='/blog/tags/ai/' class="hover:text-blue">#ai</a>
+          
+          <a href='/blog/tags/cursor/' class="hover:text-blue">#cursor</a>
+          
+          <a href='/blog/tags/claude-code/' class="hover:text-blue">#claude-code</a>
+          
+          <a href='/blog/tags/llm/' class="hover:text-blue">#llm</a>
+          
+          <a href='/blog/tags/cicd/' class="hover:text-blue">#cicd</a>
+          
+          <a href='/blog/tags/github-actions/' class="hover:text-blue">#github-actions</a>
+          
+        </p>
+        
+      </section>
+
+      <aside class="row-span-full col-end-3 pl-0 pt-20 eq-xs:pt-16 lg:pl-20 lg:pt-0">
+        <div class="lg:sticky lg:top-36 mb-16">
+          <div class="divide-y-2 divide-black border-t-2 border-b-2 lg:w-md overflow-hideen text-ellipsis">
+            <div class="py-6">
+              <h2 class="capitalize text-lg font-bold">
+                contents
+              </h2>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景と課題">背景と課題</a>
+      <ul>
+        <li><a href="#プロジェクトの特性">プロジェクトの特性</a></li>
+        <li><a href="#ai-活用の現状">AI 活用の現状</a></li>
+        <li><a href="#課題">課題</a></li>
+      </ul>
+    </li>
+    <li><a href="#ワークフロー設計の指針">ワークフロー設計の指針</a>
+      <ul>
+        <li><a href="#1-レビュー作業の量を減らす">1. レビュー作業の「量」を減らす</a></li>
+        <li><a href="#2-開発成果物の品質を標準化する">2. 開発成果物の「品質」を標準化する</a></li>
+      </ul>
+    </li>
+    <li><a href="#全体アーキテクチャ">全体アーキテクチャ</a>
+      <ul>
+        <li><a href="#ディレクトリ構成">ディレクトリ構成</a></li>
+        <li><a href="#開発ワークフロー">開発ワークフロー</a></li>
+      </ul>
+    </li>
+    <li><a href="#具体的な実装と工夫">具体的な実装と工夫</a>
+      <ul>
+        <li><a href="#1-特定のタスクに特化したサブエージェントの構築">1. 特定のタスクに特化したサブエージェントの構築</a></li>
+        <li><a href="#2-claude-code-actions-による自動レビュー">2. Claude Code Actions による自動レビュー</a></li>
+        <li><a href="#3-serena-mcp-の導入">3. Serena MCP の導入</a></li>
+        <li><a href="#4-ドキュメント自動更新フロー">4. ドキュメント自動更新フロー</a></li>
+      </ul>
+    </li>
+    <li><a href="#結果と効果">結果と効果</a></li>
+    <li><a href="#まとめ">まとめ</a></li>
+    <li><a href="#今後の展望">今後の展望</a></li>
+  </ul>
+</nav>
+            </div>
+          </div>
+        </div>
+      </aside>
+      
+      <article class="mt-12 overflow-hidden">
+        <section class="markdown content-box">
+          <p>こんにちは。ソリューション本部 エンタープライズ事業部 スポーツプラットフォーム部の永田です。普段の業務ではスポーツ領域の新規サービス開発に従事しています。</p>
+<p>本記事では、複雑なドメインを持つ新規サービス開発のプロジェクトにおいて、<strong>「AI を活用して開発生産性を向上させる」</strong> ために構築した仕組みと、その具体的な例を紹介します。</p>
+<h2 id="背景と課題">
+  <span>
+    背景と課題
+  </span>
+</h2><h3 id="プロジェクトの特性">
+  <span>
+    プロジェクトの特性
+  </span>
+</h3><p>本プロジェクトには、以下のような特性があります。</p>
+<ul>
+<li><strong>新規サービス開発</strong>: ゼロからの立ち上げであり、設計判断が多い</li>
+<li><strong>タイトなスケジュール</strong>: ビジネス要件上、できるだけ早く開発を進める必要がある</li>
+<li><strong>複雑なドメイン・コード</strong>: 特有の概念や複雑な構造が多く、全体像の把握が難しい。新規メンバーが多いチーム構成も相まって、ドメイン知識の蓄積が十分でない</li>
+</ul>
+<p>こうした背景から、AI をうまく活用してスピードと品質を両立して開発を効率化したいと考えていました。</p>
+<h3 id="ai-活用の現状">
+  <span>
+    AI 活用の現状
+  </span>
+</h3><p>私が今年の 10 月にチームにジョインした際、チームでの AI 活用状況は以下の状態でした。</p>
+<ul>
+<li>開発環境としては、すでに Claude Code や Cursor といった生成 AI ツールが利用できる状態</li>
+<li>しかし、あくまで「個人の開発補助ツール」としての利用に留まっていた</li>
+</ul>
+<h3 id="課題">
+  <span>
+    課題
+  </span>
+</h3><p>具体的には以下の課題がありました。</p>
+<ul>
+<li><strong>コンテキストが共有されていない</strong>
+<ul>
+<li>README 以外のドキュメントやコンテキストファイル、設定が存在せず、AI の出力品質が安定しない</li>
+</ul>
+</li>
+<li><strong>ガイドライン違反のコードが生成される</strong>
+<ul>
+<li>プロジェクト固有の文脈や暗黙のルールを AI が把握していない</li>
+</ul>
+</li>
+<li><strong>レビュー精度が良くない</strong>
+<ul>
+<li>DeNA で運用されている PR-Agent<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> は導入されていたが、プロジェクト固有のコンテキストを与えていなかったため汎用的なレビューに留まっていた</li>
+</ul>
+</li>
+</ul>
+<h2 id="ワークフロー設計の指針">
+  <span>
+    ワークフロー設計の指針
+  </span>
+</h2><p>これらの課題に対し、やみくもにツールを導入するのではなく、<strong>「レビュー作業の量を減らす」</strong> ことと <strong>「開発成果物の品質を標準化する」</strong> という 2 つの軸をベースにワークフローを設計しました。</p>
+<h3 id="1-レビュー作業の量を減らす">
+  <span>
+    1. レビュー作業の「量」を減らす
+  </span>
+</h3><p>人間が見るべきは「ビジネスロジックの正しさ」や「アーキテクチャの妥当性」といった本質的な部分です。コーディング規約違反、単純なバグ、タイポといった機械的なチェックは AI による一次レビューで完結させ、<strong>人間がレビューする時点でノイズが除去されている状態</strong>を目指しました。</p>
+<h3 id="2-開発成果物の品質を標準化する">
+  <span>
+    2. 開発成果物の「品質」を標準化する
+  </span>
+</h3><p>チームメンバー全員が品質の高い成果物を高速に出力できる状態を目指しました。コーディング規約、設計パターン、ドメイン知識などを AI が参照できる形で整備することで、<strong>経験やスキルに依存せず、誰でも一定水準以上のコードを素早く生成できる</strong>環境を目指しました。</p>
+<p>この指針に基づき、以下のアーキテクチャを構築しました。</p>
+<h2 id="全体アーキテクチャ">
+  <span>
+    全体アーキテクチャ
+  </span>
+</h2><p>AI を単なる「汎用的なアシスタント」ではなく、「プロジェクトの文脈を知り尽くしたメンバー」にするため、ドキュメントやガイドラインを整備し<strong>コンテキストを一元管理する構成</strong>にしました。</p>
+<h3 id="ディレクトリ構成">
+  <span>
+    ディレクトリ構成
+  </span>
+</h3><p>リポジトリには、AI が参照するコンテキスト情報を集約しています。<code>docs/</code> や設定ファイルを更新すれば、AI の出力精度も向上する仕組みです。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>ticket-backend/
+</span></span><span style="display:flex;"><span>├── CLAUDE.md                        # Claude Code のメモリ（プロジェクト概要・手順）
+</span></span><span style="display:flex;"><span>├── AGENTS.md                        # 共通コンテキスト（技術スタック等）
+</span></span><span style="display:flex;"><span>├── .claude/
+</span></span><span style="display:flex;"><span>│   ├── agents/                      # ★サブエージェント定義
+</span></span><span style="display:flex;"><span>│   │   ├── api-spec-reviewer.md
+</span></span><span style="display:flex;"><span>│   │   ├── code-reviewer.md
+</span></span><span style="display:flex;"><span>│   │   ├── e2e-test-implementer.md
+</span></span><span style="display:flex;"><span>│   │   └── issue-solver.md
+</span></span><span style="display:flex;"><span>│   ├── commands/                    # カスタムコマンド
+</span></span><span style="display:flex;"><span>│   │   ├── api-review.md
+</span></span><span style="display:flex;"><span>│   │   ├── code-review.md
+</span></span><span style="display:flex;"><span>│   │   ├── implement-e2e.md
+</span></span><span style="display:flex;"><span>│   │   ├── issue-solve.md
+</span></span><span style="display:flex;"><span>│   │   ├── pr-create.md
+</span></span><span style="display:flex;"><span>│   │   └── pr-review-fix.md
+</span></span><span style="display:flex;"><span>│   └── skills/                      # スキル定義
+</span></span><span style="display:flex;"><span>│       ├── github-issue-analysis/
+</span></span><span style="display:flex;"><span>│       ├── github-pr-analysis/
+</span></span><span style="display:flex;"><span>│       ├── go-code-generation/
+</span></span><span style="display:flex;"><span>│       ├── go-quality-check/
+</span></span><span style="display:flex;"><span>│       ├── go-testing/
+</span></span><span style="display:flex;"><span>│       ├── pr-review-knowledge/
+</span></span><span style="display:flex;"><span>│       └── notion-spec-fetcher/
+</span></span><span style="display:flex;"><span>└── docs/                            # ドキュメント（規約）
+</span></span><span style="display:flex;"><span>    ├── api_development_guideline.md
+</span></span><span style="display:flex;"><span>    ├── coding_guidelines.md
+</span></span><span style="display:flex;"><span>    ├── firestore_development_guideline.md
+</span></span><span style="display:flex;"><span>    └── project_knowledge.md
+</span></span></code></pre></div><h3 id="開発ワークフロー">
+  <span>
+    開発ワークフロー
+  </span>
+</h3><p>チームでは、以下の 3 つのフェーズで AI を活用したワークフローを構築しています。</p>
+<h4 id="1-実装フェーズ">
+  <span>
+    1. 実装フェーズ
+  </span>
+</h4><p>開発者がローカル環境で AI を活用して実装。</p>
+<p>
+
+<img src="image_1.png" alt="image alt text"/>
+</p>
+<h4 id="2-レビューフェーズ">
+  <span>
+    2. レビューフェーズ
+  </span>
+</h4><p>PR が作成されると、Claude Code Actions が自動レビューを実行します。</p>
+<p>
+
+<img src="image_2.png" alt="image alt text"/>
+</p>
+<h4 id="3-ナレッジ蓄積フェーズ">
+  <span>
+    3. ナレッジ蓄積フェーズ
+  </span>
+</h4><p>レビューでの指摘をドキュメントに反映し、AI の出力品質を継続的に向上させます。</p>
+<p>
+
+<img src="image_3.png" alt="image alt text"/>
+</p>
+<h2 id="具体的な実装と工夫">
+  <span>
+    具体的な実装と工夫
+  </span>
+</h2><p>ここからは、実際に効果の高かった 4 つの取り組みについて紹介します。</p>
+<h3 id="1-特定のタスクに特化したサブエージェントの構築">
+  <span>
+    1. 特定のタスクに特化したサブエージェントの構築
+  </span>
+</h3><p>すべてのコンテキストをメインエージェントに渡すと、コンテキストが肥大化し汚染されてしまいます。
+
+<a href="https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-10-small-focused-agents.md" class="hover:opacity-50" target="_blank" rel="noopener">
+  小さく単一責任のエージェントとして構築すべき
+</a>
+ 
+ という原則に従い、特定のタスクに特化した<strong>サブエージェント</strong>を定義しました。</p>
+<p><strong>作成したサブエージェントの例</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">サブエージェント</th>
+          <th style="text-align: left">役割</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>api-spec-reviewer</strong></td>
+          <td style="text-align: left">OpenAPI 仕様の構造・命名規則を厳格にレビュー</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>code-reviewer</strong></td>
+          <td style="text-align: left">Go 言語のベストプラクティスやプロジェクト固有の設計パターンをチェック</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>e2e-test-implementer</strong></td>
+          <td style="text-align: left">複雑な E2E テストの実装を専門に行う</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>実装例 API レビュー専門エージェント</strong></p>
+<p>以下は、実際に利用している API レビュー専門エージェント のサブエージェント定義です。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>name: api-spec-reviewer
+</span></span><span style="display:flex;"><span>// ..
+</span></span><span style="display:flex;"><span>// 省略
+</span></span><span style="display:flex;"><span>// ..
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>あなたは OpenAPI 仕様書と RPC API 設計を専門とする、エキスパート API アーキテクトおよびレビュアーです。主な責務は、OpenAPI 仕様書と API 設計をレビューし、docs/api_development_guideline.md に記載されているガイドラインに厳密に準拠していることを確認することです。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold">## 主要な責務
+</span></span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">1.</span> <span style="font-weight:bold">**ガイドライン準拠レビュー**</span>: docs/api_development_guideline.md を注意深く読んで理解し、OpenAPI 仕様書がそのドキュメントで定義されているすべてのガイドライン、標準、ベストプラクティスに従っているか体系的に検証します
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">2.</span> <span style="font-weight:bold">**OpenAPI 仕様書分析**</span>: 以下を含む OpenAPI 定義の技術的正確性をレビューします
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> スキーマ定義とデータ型
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> エンドポイントパスと HTTP メソッド
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> リクエスト/レスポンス構造
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 認証とセキュリティスキーム
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> エラーレスポンス形式
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">3.</span> <span style="font-weight:bold">**包括的なフィードバック**</span>: 発見された各問題について、以下を提供します
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 仕様書内の具体的な場所(パス、オペレーション、コンポーネント)
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> ガイドライン違反または問題の明確な説明
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> docs/api_development_guideline.md の関連セクションへの参照
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 修正方法に関する具体的な提案
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 重要度レベル(重大、重要、軽微)
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">4.</span> <span style="font-weight:bold">**ベストプラクティスの適用**</span>: API 設計が以下に従っていることを確認します
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> RPC の原則と規約
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 一貫した命名規則
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 適切な HTTP ステータスコードの使用
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 明確で包括的なドキュメント
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 適切なエラー処理パターン
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold">## レビュープロセス
+</span></span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">1.</span> まず、docs/api_development_guideline.md を読んで、API ガイドラインを理解します
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">2.</span> 提供された OpenAPI 仕様書ファイルを検証します
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">3.</span> 現在のブランチが origin/develop の変更を含んでいるか確認します
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">4.</span> HEAD から、origin/develop ブランチに対しての差分を検出します
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">5.</span> 以下をカバーする構造化されたレビューを作成します
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 修正が必要な箇所の提示
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 修正が必須の重大な問題
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 対処すべき重要な改善点
+</span></span><span style="display:flex;"><span>   <span style="color:#007020;font-weight:bold">-</span> 軽微な提案
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">6.</span> API の使いやすさ、セキュリティ、保守性への影響によって問題を優先順位付けします
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">7.</span> 可能な場合はコード例を含む推奨事項を提供します
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold">## 出力形式
+</span></span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold"></span>
+</span></span><span style="display:flex;"><span>以下の形式で日本語でレビューを提供してください
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">-</span> 重要度別に整理された調査結果をリストアップ
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">-</span> 各調査結果には、コードの場所、問題の説明、ガイドライン参照、推奨される修正を含める
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">-</span> 具体的な次のステップで締めくくる
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>API 設計のいずれかの側面があいまいな場合、または追加のコンテキストがあればレビューの質が向上する場合は、明確化のための質問をしてください。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>一貫性があり、安全で、保守しやすい高品質な API の構築をチームが実現できるよう、徹底的かつ建設的であることを心がけてください。
+</span></span></code></pre></div><h3 id="2-claude-code-actions-による自動レビュー">
+  <span>
+    2. Claude Code Actions による自動レビュー
+  </span>
+</h3><p>整備したサブエージェントを利用してレビューを行う ワークフロー（GitHub Actions）を作成しました。
+PR が作成されると、変更ファイルの種類（<code>openapi/</code>、<code>*.go</code>など）に応じて適切なエージェントが起動し、自動レビューを行います。</p>
+<p>以下は、実際に Claude Code Actions が PR に対してレビューを行った様子です。</p>
+<p>
+
+<img src="ai-driven-develop2.png" alt="レビュー専門エージェントによる指摘"/>
+</p>
+<p>このように、重要度ラベル付きで具体的な指摘が入るため、人間はガイドライン違反などのチェックから解放され、<strong>本質的な設計やロジックのレビュー</strong>に集中できるようになりました。</p>
+<h3 id="3-serena-mcp-の導入">
+  <span>
+    3. Serena MCP の導入
+  </span>
+</h3><p>また ローカル開発において AI の精度を高めるため、LSP（Language Server Protocol）を活用した MCP サーバー <strong>
+<a href="https://github.com/oraios/serena" class="hover:opacity-50" target="_blank" rel="noopener">
+  Serena
+</a>
+ 
+</strong> を導入しました。</p>
+<p>モノレポのような巨大なコードベースでは、単純なファイル検索だけでは AI が必要なコンテキストを見つけるのに時間がかかったり、必要な情報を見つけることができず精度の低い回答や実装をすることがありました。Serena を導入したことで、AI が<strong>コードのシンボルや依存関係など</strong>を正確に把握できるようになり、アウトプットの速度・品質が向上しました。</p>
+<p>これらの工夫により、レビューや実装時の精度が大きく向上しました。</p>
+<h3 id="4-ドキュメント自動更新フロー">
+  <span>
+    4. ドキュメント自動更新フロー
+  </span>
+</h3><p>また、人によるレビューでの指摘事項を確実にナレッジ化する仕組みを作成しました。</p>
+<ol>
+<li>PR のレビューコメントの返信でメンション</li>
+<li>Claude Code Actions が起動し、レビューコメントや議論を分析</li>
+<li><code>docs/coding_guidelines.md</code> などの適切なドキュメントを更新する別 PR を作成</li>
+</ol>
+<p>このフローにより、レビュー指摘事項をドキュメントへ簡単に反映させることが可能になり、<strong>「レビュー → ドキュメント更新 → AI の出力品質向上」</strong> というサイクルが回るようになりました。</p>
+<p>
+
+<img src="ai-driven-develop1.png" alt="ガイドラインへの追記が別 PR として作成されている"/>
+</p>
+<h2 id="結果と効果">
+  <span>
+    結果と効果
+  </span>
+</h2><p>この仕組みを整備したことで、以下のような効果が得られました。</p>
+<ul>
+<li><strong>レビュー負荷の軽減</strong>
+<ul>
+<li>コードの書き方や API ガイドライン違反など機械的な指摘が AI レビューで完結し、人間は本質的な設計議論に集中できるようになった
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指標</th>
+          <th style="text-align: left">導入前の平均</th>
+          <th style="text-align: left">導入後の平均</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">人間のレビュー回数</td>
+          <td style="text-align: left">7.2 回/PR</td>
+          <td style="text-align: left">2.7 回/PR</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">人間のコメント数</td>
+          <td style="text-align: left">6.0 件/PR</td>
+          <td style="text-align: left">1.9 件/PR</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li><strong>コード品質の標準化</strong>
+<ul>
+<li>AI がガイドラインを参照して生成・レビューするため、経験やスキルに依存せず一定水準のコードが出力されるようになった</li>
+</ul>
+</li>
+<li><strong>ナレッジの蓄積</strong>
+<ul>
+<li>レビュー指摘がドキュメントに反映される仕組みにより、AI を含むチーム全体の知識が継続的に向上するようになった</li>
+</ul>
+</li>
+</ul>
+<h2 id="まとめ">
+  <span>
+    まとめ
+  </span>
+</h2><p>本記事では、AI を活用した開発の仕組みづくりについて紹介しました。</p>
+<p>ポイントは以下の 3 つです。</p>
+<ul>
+<li><strong>コンテキストの一元管理</strong>
+<ul>
+<li>ドキュメント やエージェント定義をリポジトリで管理し、品質を向上させる</li>
+</ul>
+</li>
+<li><strong>サブエージェント・Skills による分業</strong>
+<ul>
+<li>API、コード、E2E など役割ごとにサブエージェントを定義する</li>
+</ul>
+</li>
+<li><strong>ナレッジ循環の仕組み化</strong>
+<ul>
+<li>レビューでの指摘をドキュメント化し、AI の精度を継続的に向上させる仕組みを構築する</li>
+</ul>
+</li>
+</ul>
+<p>AI を個人の補助ツールにとどめず、チーム全体で活かすには、プロジェクト固有のコンテキストをどう整備・共有するかがポイントになります。</p>
+<h2 id="今後の展望">
+  <span>
+    今後の展望
+  </span>
+</h2><p>本記事では設計・実装・レビューフェーズでの AI 活用を紹介しましたが、最近ではチーム内のビジネス職メンバーや PdM（プロダクトマネージャー）なども Cursor を使い始めており、仕様策定や書類内容の確認といった業務にも活用が広がっています。</p>
+<p>こうした上流工程は人手がかかる一方で、ビジネスインパクトが大きい領域です。仕様の抜け漏れ検出や要件整理などを AI で効率化できれば、チーム全体の生産性向上につながります。エンジニアに限らず、職種を超えてビジネス価値に直結する AI との協働体制を築いていきたいと考えています。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>PR-Agent は、Pull Request を自動でレビューしてくれるツールです。DeNA では全社向けにセルフホストで運用しています。詳しくは「
+<a href="https://engineering.dena.com/blog/2025/08/pr-agent/" class="hover:opacity-50" target="_blank" rel="noopener">
+  OSS の AI レビューツール「PR-Agent」を全社導入し、コスト効率の高い開発支援を実現した話
+</a>
+ 
+」を参照してください。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+        </section>
+        <section id="social-buttons" class="bg-light-blue p-14 eq-xs:p-8 mt-22">
+          <p class="pb-10">
+            最後まで読んでいただき、ありがとうございます！<br>この記事をシェアしていただける方はこちらからお願いします。
+          </p><ul class="flex" style="flex-wrap: wrap;">
+            <li class="flex-1">
+              <div class="flex items-center justify-center" style="margin: 8px; min-width: 32px;">
+                <a class="flex items-center justify-center hover:opacity-50" target="_blank" rel="noopener noreferrer"
+                  href="https://x.com/share?url=https%3a%2f%2fengineering.dena.com%2fblog%2f2026%2f01%2fai-driven-develop%2f&text=%e8%82%b2%e3%81%a6%e3%82%8b%e3%81%bb%e3%81%a9%e6%a5%bd%e3%81%ab%e3%81%aa%e3%82%8b%20AI%20%e9%96%8b%e7%99%ba%e4%bd%93%e5%88%b6%e3%82%92%e4%bd%9c%e3%81%a3%e3%81%a6%e3%81%84%e3%82%8b%e8%a9%b1%20-%20DeNA%20Engineering">
+                  <img style="height: 6rem;" src='/images/logos/x_white.svg' alt="x">
+                </a>
+              </div>
+            </li>
+            <li class="flex-1">
+              <div class="flex items-center justify-center" style="margin: 8px; min-width: 32px;">
+                <a class="flex items-center justify-center hover:opacity-50" target="_blank" rel="noopener noreferrer"
+                  href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fengineering.dena.com%2fblog%2f2026%2f01%2fai-driven-develop%2f">
+                  <img style="height: 6rem;" src='/images/logos/facebook_white.svg' alt="facebook">
+                </a>
+              </div>
+            </li>
+            <li class="flex-1">
+              <div class="flex items-center justify-center" style="margin: 8px; min-width: 32px;">
+                <a class="flex items-center justify-center hover:opacity-50" target="_blank" rel="noopener noreferrer"
+                  href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fengineering.dena.com%2fblog%2f2026%2f01%2fai-driven-develop%2f&title=%e8%82%b2%e3%81%a6%e3%82%8b%e3%81%bb%e3%81%a9%e6%a5%bd%e3%81%ab%e3%81%aa%e3%82%8b%20AI%20%e9%96%8b%e7%99%ba%e4%bd%93%e5%88%b6%e3%82%92%e4%bd%9c%e3%81%a3%e3%81%a6%e3%81%84%e3%82%8b%e8%a9%b1%20-%20DeNA%20Engineering">
+                  <img style="height: 6rem;" src='/images/logos/linkedin_white.svg' alt="linkedin">
+                </a>
+              </div>
+            </li>
+            <li class="flex-1">
+              <div class="flex items-center justify-center" style="margin: 8px; min-width: 32px;">
+                <a class="flex items-center justify-center hover:opacity-50" target="_blank" rel="noopener noreferrer"
+                  href="https://b.hatena.ne.jp/entry/https://engineering.dena.com/blog/2026/01/ai-driven-develop/">
+                  <img style="height: 6rem;" src='/images/logos/hatena_white.svg' alt="hatena">
+                </a>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="bg-white py-40 eq-sm:py-32 eq-xs:py-16 px-22 eq-sm:px-16 eq-xs:px-8">
+  <div class="lg:flex justify-between max-w-12xl mx-auto">
+    <section>
+      <h2 class="text-3xl capitalize text-blue font-bold mb-16">related articles</h2>
+      <ul class="md:space-y-12 space-y-24">
+  
+
+  
+  <li class="flex flex-col md:flex-row">
+    <div class="w-screen max-w-full md:max-w-lg mx-auto flex-none">
+     <a href="/blog/2025/07/claude-code-actions-iteration-research/"
+        class="relative block w-full bg-light-gray hover:opacity-50 pseudo-outline"
+     >
+       <img class="object-cover aspect-[40/21]" src="/blog/2025/07/claude-code-actions-iteration-research/cover.png">
+      </a>
+    </div>
+    <section class="flex flex-col justify-items-start bg-white mt-8 md:mt-0 md:pl-8 flex-grow">
+      <p class="flex items-center">
+        <span class="text-sm">
+          2025.07.30
+        </span>
+         
+<span class="text-blue text-xs px-6">
+  <a class="inline rounded-full border-solid border-2 border-blue px-5 py-2 hover:bg-blue hover:text-white"
+  href="/blog/categories/technology">技術記事</a>
+</span>
+
+       </p>
+       <a href="/blog/2025/07/claude-code-actions-iteration-research/"class="text-xl mt-4 leading-tight hover:text-blue">
+         Claude Code Actions を活用した継続的なリサーチシステム構築の試み
+       </a>
+      <p class="text-sm mt-4 space-x-2">
+         
+         
+         <a href='/blog/tags/claude-code/' class="hover:text-blue">#claude-code</a>
+         
+         <a href='/blog/tags/gemini-cli/' class="hover:text-blue">#gemini-cli</a>
+         
+         <a href='/blog/tags/github-actions/' class="hover:text-blue">#github-actions</a>
+         
+         <a href='/blog/tags/llm/' class="hover:text-blue">#llm</a>
+         
+         <a href='/blog/tags/ai/' class="hover:text-blue">#ai</a>
+         
+         
+      </p>
+    </section>
+  </li>
+  
+
+  
+  <li class="flex flex-col md:flex-row">
+    <div class="w-screen max-w-full md:max-w-lg mx-auto flex-none">
+     <a href="/blog/2025/12/legacy-code-migration-using-devin/"
+        class="relative block w-full bg-light-gray hover:opacity-50 pseudo-outline"
+     >
+       <img class="object-cover aspect-[40/21]" src="/blog/2025/12/legacy-code-migration-using-devin/cover.png">
+      </a>
+    </div>
+    <section class="flex flex-col justify-items-start bg-white mt-8 md:mt-0 md:pl-8 flex-grow">
+      <p class="flex items-center">
+        <span class="text-sm">
+          2025.12.18
+        </span>
+         
+<span class="text-blue text-xs px-6">
+  <a class="inline rounded-full border-solid border-2 border-blue px-5 py-2 hover:bg-blue hover:text-white"
+  href="/blog/categories/technology">技術記事</a>
+</span>
+
+       </p>
+       <a href="/blog/2025/12/legacy-code-migration-using-devin/"class="text-xl mt-4 leading-tight hover:text-blue">
+         Devin AI で挑む AI エンジニアによるレガシー API 移行 [DeNA インフラ SRE]
+       </a>
+      <p class="text-sm mt-4 space-x-2">
+         
+         
+         <a href='/blog/tags/ai/' class="hover:text-blue">#ai</a>
+         
+         <a href='/blog/tags/legacy-code-migration/' class="hover:text-blue">#legacy-code-migration</a>
+         
+         <a href='/blog/tags/devin/' class="hover:text-blue">#devin</a>
+         
+         <a href='/blog/tags/claude-code/' class="hover:text-blue">#claude-code</a>
+         
+         <a href='/blog/tags/perl/' class="hover:text-blue">#perl</a>
+         
+         <a href='/blog/tags/golang/' class="hover:text-blue">#golang</a>
+         
+         <a href='/blog/tags/cicd/' class="hover:text-blue">#cicd</a>
+         
+         
+      </p>
+    </section>
+  </li>
+  
+
+  
+  <li class="flex flex-col md:flex-row">
+    <div class="w-screen max-w-full md:max-w-lg mx-auto flex-none">
+     <a href="/blog/2025/11/its-ai-journey-rag-tech/"
+        class="relative block w-full bg-light-gray hover:opacity-50 pseudo-outline"
+     >
+       <img class="object-cover aspect-[40/21]" src="/blog/2025/11/its-ai-journey-rag-tech/cover.png">
+      </a>
+    </div>
+    <section class="flex flex-col justify-items-start bg-white mt-8 md:mt-0 md:pl-8 flex-grow">
+      <p class="flex items-center">
+        <span class="text-sm">
+          2025.11.27
+        </span>
+         
+<span class="text-blue text-xs px-6">
+  <a class="inline rounded-full border-solid border-2 border-blue px-5 py-2 hover:bg-blue hover:text-white"
+  href="/blog/categories/technology">技術記事</a>
+</span>
+
+       </p>
+       <a href="/blog/2025/11/its-ai-journey-rag-tech/"class="text-xl mt-4 leading-tight hover:text-blue">
+         社内AIヘルプデスク RAG精度改善の軌跡 〜自動評価システムの構築とマネージドRAGへの移行〜
+       </a>
+      <p class="text-sm mt-4 space-x-2">
+         
+         
+         <a href='/blog/tags/ai/' class="hover:text-blue">#ai</a>
+         
+         <a href='/blog/tags/corporate-it/' class="hover:text-blue">#corporate-it</a>
+         
+         <a href='/blog/tags/rag/' class="hover:text-blue">#rag</a>
+         
+         <a href='/blog/tags/helpdesk/' class="hover:text-blue">#helpdesk</a>
+         
+         <a href='/blog/tags/amazon-bedrock/' class="hover:text-blue">#amazon-bedrock</a>
+         
+         <a href='/blog/tags/llm/' class="hover:text-blue">#llm</a>
+         
+         
+      </p>
+    </section>
+  </li>
+  
+</ul>
+
+    </section>
+    <div class="lg:hidden eq-md:mt-48 eq-sm:mt-40 eq-xs:mt-22 -mx-22 eq-sm:-mx-16 eq-xs:-mx-8 bg-light-gray-blue h-22 eq-sm:h-12 eq-xs:h-8 lg:h-0"></div>
+<aside class="pl-0 pt-20 lg:pl-20 lg:pt-0">
+  <div class="lg:sticky lg:top-36 lg:mb-16">
+    <ul class="divide-y-2 divide-black border-t-2 border-b-2 lg:min-w-md">
+      <li class="py-6">
+        <input  type="checkbox" id="category" class="absolute -left-full subsequent appearance-none">
+        <label for="category" class="flex justify-between items-center cursor-pointer">
+          <h2 class="capitalize text-lg font-bold">category</h2>
+          <div class="w-12 h-12 relative flex justify-center items-center">
+            <div class="w-12 border-t-2 absolute bg-black">
+            </div>
+            <div class="w-12 border-t-2 absolute bg-black transform subsequent-checked:opacity-0 rotate-90">
+            </div>
+          </div>
+        </label>
+        <ul class="hidden subsequent-checked:block py-2">
+        
+          <li class="py-1">
+            <a href='/blog/categories/technology' class="block p-2 hover:text-blue hover:bg-light-blue">
+              技術記事&nbsp;<span>(292)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/event-report' class="block p-2 hover:text-blue hover:bg-light-blue">
+              イベントレポート&nbsp;<span>(184)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/culture-and-environment' class="block p-2 hover:text-blue hover:bg-light-blue">
+              カルチャー・環境&nbsp;<span>(64)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/internship-report' class="block p-2 hover:text-blue hover:bg-light-blue">
+              インターンレポート&nbsp;<span>(59)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/news' class="block p-2 hover:text-blue hover:bg-light-blue">
+              お知らせ&nbsp;<span>(57)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/training-report' class="block p-2 hover:text-blue hover:bg-light-blue">
+              研修レポート&nbsp;<span>(34)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/misc' class="block p-2 hover:text-blue hover:bg-light-blue">
+              その他&nbsp;<span>(27)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/categories/interview' class="block p-2 hover:text-blue hover:bg-light-blue">
+              インタビュー&nbsp;<span>(13)</span>
+            </a>
+          </li>
+        
+        </ul>
+      </li>
+      <li class="py-6">
+        <input  type="checkbox" id="series" class="absolute -left-full subsequent appearance-none">
+        <label for="series" class="flex justify-between items-center cursor-pointer">
+          <h2 class="capitalize text-lg font-bold">series</h2>
+          <div class="w-12 h-12 relative flex justify-center items-center">
+            <div class="w-12 border-t-2 absolute bg-black">
+            </div>
+            <div class="w-12 border-t-2 absolute bg-black transform subsequent-checked:opacity-0 rotate-90">
+            </div>
+          </div>
+        </label>
+        <ul class="hidden subsequent-checked:block py-2">
+        
+          <li class="py-1">
+            <a href='/blog/series/infra-2019' class="block p-2 hover:text-blue hover:bg-light-blue">
+              DeNAインフラノウハウ発信プロジェクト&nbsp;<span>(38)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/series/new-employee-training' class="block p-2 hover:text-blue hover:bg-light-blue">
+              新卒研修振り返りレポート&nbsp;<span>(34)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/series/ai-journey-footprints' class="block p-2 hover:text-blue hover:bg-light-blue">
+              AIジャーニーの足跡&nbsp;<span>(8)</span>
+            </a>
+          </li>
+        
+          <li class="py-1">
+            <a href='/blog/series/interview-by-cto' class="block p-2 hover:text-blue hover:bg-light-blue">
+              CTOが訊く&nbsp;<span>(7)</span>
+            </a>
+          </li>
+        
+        </ul>
+      </li>
+    </ul>
+    
+  </div>
+</aside>
+
+  </div>
+</div>
+
+</div>
+<article class="bg-black px-22 eq-sm:px-16 eq-xs:px-8 overflow-hidden">
+  <div class="relative max-w-12xl mx-auto py-48 eq-sm:py-32 eq-xs:py-16 bg-sec-sym-validation">
+    <h1 class="relative">
+      <img class="h-24 eq-xs:h-14" src="/images/headings/recruit.svg" alt="recruit">
+    </h1>
+    <p class="relative text-white mt-28 eq-xs:mt-16">
+      DeNAでは、失敗を恐れず常に挑戦し続けるエンジニアを募集しています。
+
+    </p>
+    <div class="relative">
+      <div class='uppercase mt-28 eq-xs:mt-16 -mb-20 eq-xs:-mb-6 text-white font-bold border-t-5 border-white text-17'>
+  <a href='https://dena.com/jp/recruit/' class='flex items-center justify-center my-10 eq-xs:my-0 py-5 group'
+     target="_blank" rel="noopener noreferrer" >
+    See more<span class="transition duration-150 transform text-33 pl-6 group-hover:translate-x-4">→</span>
+  </a>
+</div>
+
+    </div>
+  </div>
+</article>
+
+  </main><footer class="bg-white px-22 eq-sm:px-16 eq-xs:px-8">
+  <div class="flex justify-between gap-8 py-16 eq-xs:py-8 border-light-gray border-b-2">
+    <a id="dena-on-footer" class="block hover:opacity-50" href="https://dena.com/" target="_blank" rel="noopener noreferrer">
+      <img src="/images/logos/dena_black.svg" alt="dena" class="h-20 eq-xs:h-12">
+    </a>
+    <ul
+      class="flex flex-col md:flex-row justify-end space-x-4 md:space-x-8 items-end  md:items-center text-sm show-external text-right space-y-4 md:space-y-0">
+      
+      <li>
+        <a href="https://policies.google.com/technologies/partner-sites" class="hover:text-blue"  target="_blank" rel="noopener noreferrer" >
+          Google Analyticsの利用について
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="flex items-center justify-between py-16 eq-xs:py-8 text-sm space-x-8">
+    <p class="whitespace-nowrap">
+      &copy 2021 DeNA Co., Ltd.
+    </p>
+    <ul class="flex items-center space-x-8 eq-xs:space-x-4">
+      <li class="eq-xs:hidden">
+        Follow Us On
+      </li>
+      <li>
+        <a id="x-on-footer" class="hover:opacity-50" href="https://x.com/DeNAxTech" target="_blank" rel="noopener noreferrer">
+          <img src="/images/logos/x.svg" alt="x" class="h-24 w-24 hover:opacity-50" />
+        </a>
+      </li>
+      <li>
+        <a id="facebook-on-footer" class="hover:opacity-50" href="https://www.facebook.com/DeNATechCon/" target="_blank"
+          rel="noopener noreferrer">
+          <img src="/images/logos/facebook.svg" alt="facebook" class="h-24 w-24 hover:opacity-50" />
+        </a>
+      </li>
+      <li>
+        <a id="youtube-on-footer" class="hover:opacity-50" href="https://www.youtube.com/c/denatech/" target="_blank" rel="noopener noreferrer">
+          <img src="/images/logos/youtube.svg" alt="youtube" class="h-24 w-24 hover:opacity-50" />
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+
+
+
+<script src="/js/scroll.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

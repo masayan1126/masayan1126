@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja"
+	prefix="og: https://ogp.me/ns#" >
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="egCW2ZAp9Vx7eY-mSv3uC1LmtrM7ASkOZHABQCe-ps8" />
+<title>2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革 | CyberAgent Developers Blog</title>
+
+		<!-- All in One SEO 4.1.5.3 -->
+		<meta name="description" content="1. はじめに：2028年、「開発プロセス完全自動化」への挑戦 サイバー ..." />
+		<meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+		<meta name="google-site-verification" content="egCW2ZAp9Vx7eY-mSv3uC1LmtrM7ASkOZHABQCe-ps8" />
+		<link rel="canonical" href="https://developers.cyberagent.co.jp/blog/archives/59886/" />
+		<meta property="og:locale" content="ja_JP" />
+		<meta property="og:site_name" content="CyberAgent Developers Blog" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革 | CyberAgent Developers Blog" />
+		<meta property="og:description" content="1. はじめに：2028年、「開発プロセス完全自動化」への挑戦 サイバー ..." />
+		<meta property="og:url" content="https://developers.cyberagent.co.jp/blog/archives/59886/" />
+		<meta property="og:image" content="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23.png" />
+		<meta property="og:image:secure_url" content="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23.png" />
+		<meta property="og:image:width" content="1920" />
+		<meta property="og:image:height" content="1080" />
+		<meta property="article:published_time" content="2025-11-30T23:00:21+00:00" />
+		<meta property="article:modified_time" content="2025-11-26T07:43:47+00:00" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:domain" content="developers.cyberagent.co.jp" />
+		<meta name="twitter:title" content="2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革 | CyberAgent Developers Blog" />
+		<meta name="twitter:description" content="1. はじめに：2028年、「開発プロセス完全自動化」への挑戦 サイバー ..." />
+		<meta name="twitter:image" content="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23.png" />
+		<!-- All in One SEO -->
+
+<link rel="alternate" type="application/rss+xml" title="CyberAgent Developers Blog | サイバーエージェント デベロッパーズブログ &raquo; フィード" href="https://developers.cyberagent.co.jp/blog/feed/" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='sab-plugin-css' href='https://developers.cyberagent.co.jp/blog/wp-content/plugins/simple-author-box/css/simple-author-box.min.css?ver=v1.5' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-fonts-css' href='https://fonts.googleapis.com/css?family=Raleway%3A400%2C500%2C600%2C700%2C300%2C100%2C800%2C900%7COpen+Sans%3A400%2C300%2C300italic%2C400italic%2C600%2C600italic%2C700%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-animate-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress/assets/css/animate.min.css?ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-fa-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress/assets/css/font-awesome.min.css?ver=4.4.0' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-bootstrap-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/css/bootstrap.min.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-style-css' href='https://developers.cyberagent.co.jp/blog/wp-content/plugins/onepress-plus/style.css?ver=6.9.4' type='text/css' media='all' />
+<style id='onepress-style-inline-css' type='text/css'>
+ .section-clients{ background-color: ; } 
+  .section-features{ background-color: ; } 
+  .section-about{ background-color: ; } 
+  .section-services{ background-color: ; } 
+  .section-videolightbox{ background-color: ; } 
+  .section-projects{ background-color: ; } 
+  .section-counter{ background-color: ; } 
+  .section-testimonials{ background-color: ; } 
+  .section-pricing{ background-color: ; } 
+  .section-cta{ background-color: ; } 
+  .section-team{ background-color: ; } 
+  .section-news{ background-color: ; } 
+  .section-contact{ background-color: ; } 
+  .section-map{ background-color: ; } 
+ 
+/*# sourceURL=onepress-style-inline-css */
+</style>
+<link rel='stylesheet' id='highlight-style-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/css/tomorrow-night-bright.min.css?ver=11.6.0' type='text/css' media='all' />
+<link rel='stylesheet' id='onepress-gallery-lightgallery-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress/assets/css/lightgallery.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='child-style-css' href='https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/child.css?ver=1635136766' type='text/css' media='all' />
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/jquery-3.4.1.min.js?ver=6.9.4" id="jquery-js"></script>
+<script type="text/javascript" id="empty-js-extra">
+/* <![CDATA[ */
+var onepress_js_settings = {"onepress_disable_animation":"","onepress_disable_sticky_header":"","onepress_vertical_align_menu":"","hero_animation":"flipInX","hero_speed":"5000"};
+//# sourceURL=empty-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/empty.js?ver=6.9.4" id="empty-js"></script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/jquery-migrate-3.1.0.min.js?ver=6.9.4" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/popper.min.js?ver=6.9.4" id="onepress-js-popper-js"></script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/header-nav.js?ver=6.9.4" id="onepress-js-header-nav-js"></script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/highlight-11.6.0.min.js?ver=6.9.4" id="highlight-script-js"></script>
+<script type="text/javascript" id="highlight-script-js-after">
+/* <![CDATA[ */
+hljs.highlightAll();
+//# sourceURL=highlight-script-js-after
+/* ]]> */
+</script>
+<style type="text/css">.saboxplugin-wrap {margin-top:0px;}.saboxplugin-wrap {margin-bottom:0px;}.saboxplugin-wrap .saboxplugin-authorname {font-size:18px; line-height:25px;}.saboxplugin-wrap .saboxplugin-desc {font-size:14px; line-height:21px;}.saboxplugin-wrap .saboxplugin-web {font-size:14px;}.saboxplugin-wrap .saboxplugin-socials .saboxplugin-icon-color {font-size:21px;}.saboxplugin-wrap .saboxplugin-socials .saboxplugin-icon-color:before {width:36px; height:36px; line-height:37px; }.saboxplugin-wrap .saboxplugin-socials .saboxplugin-icon-grey {font-size:18px;}</style><link rel="icon" href="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2016/09/cropped-ca-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2016/09/cropped-ca-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2016/09/cropped-ca-180x180.png" />
+<meta name="msapplication-TileImage" content="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2016/09/cropped-ca-270x270.png" />
+
+<style class="wp-typography-print-styles" type="text/css">
+
+</style>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-59886 single-format-standard wp-theme-onepress wp-child-theme-onepress-child-20220324 group-blog">
+
+<div id="page" class="hfeed site">
+             <header id="masthead" class="site-header" role="banner">
+             <div class="container site-header-container">
+                <div class="site-branding">
+                  <div class="site-brand-inner has-logo-img"><div class="site-logo-div"><a class="site-image-logo" href="https://developers.cyberagent.co.jp/blog/" rel="home"><img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/nav.png" alt="CyberAgent Developers Blog | サイバーエージェント デベロッパーズブログ"></a></div></div>                </div>
+                <!-- .site-branding -->
+
+                <div class="header-right-wrapper">
+
+                  <a href="#0" id="nav-toggle">メニュー<span></span></a>
+  
+
+                  <nav id="site-navigation" class="main-navigation" role="navigation">
+                    <ul class="onepress-menu">
+                      <li class="menu-item menu-item-type-pc">
+                        <div class="dropdown">
+                          <button class="header_nav_dropdownButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            タグ
+                          </button>
+                          <div class="dropdown-menu header_nav_dropdownMenu header_nav_dropdown_tag" aria-labelledby="dropdownMenuButton">
+                            <ul>
+                              <li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a8%e3%83%b3%e3%82%b8%e3%83%8b%e3%82%a2/'>エンジニア / 135件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/abema/'>ABEMA / 120件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%87%e3%82%b6%e3%82%a4%e3%83%8a%e3%83%bc/'>デザイナー / 115件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc/'>クリエイター / 114件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e5%8b%89%e5%bc%b7%e4%bc%9a/'>勉強会 / 111件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ai%e4%ba%8b%e6%a5%ad%e6%9c%ac%e9%83%a8/'>AI事業本部 / 102件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%b3%e3%82%b7%e3%83%83%e3%83%97/'>インターンシップ / 99件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/aws/'>AWS / 68件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ai/'>AI / 65件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ios/'>iOS / 61件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ameba/'>Ameba / 59件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/uiux/'>UI/UX / 58件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%90%e3%83%83%e3%82%af%e3%82%a8%e3%83%b3%e3%83%89/'>バックエンド / 56件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/android/'>Android / 55件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/unity/'>Unity / 52件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e7%94%9f%e6%88%90ai/'>生成AI / 52件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%ac%e3%83%9d%e3%83%bc%e3%83%88/'>レポート / 51件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%95%e3%83%ad%e3%83%b3%e3%83%88%e3%82%a8%e3%83%b3%e3%83%89/'>フロントエンド / 45件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/kubernetes/'>kubernetes / 44件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e5%85%b1%e8%91%97/'>共著 / 42件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a4%e3%83%b3%e3%83%95%e3%83%a9/'>インフラ / 41件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/golang/'>Golang / 37件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%b3%e3%82%a8%e3%83%ad%e3%82%b0/'>コエログ / 37件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%8d%e3%82%a4%e3%83%86%e3%82%a3%e3%83%96/'>ネイティブ / 35件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/dynalyst/'>Dynalyst / 34件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/winticket/'>WINTICKET / 34件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/mdts/'>MDTS / 33件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/mdh/'>MDH / 29件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/flutter/'>Flutter / 29件</a></li><li><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e7%a0%94%e7%a9%b6/'>研究 / 28件</a></li>                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="menu-item menu-item-type-pc">
+                        <div class="dropdown">
+                          <button class="header_nav_dropdownButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            月別
+                          </button>
+                          <div class="dropdown-menu header_nav_dropdownMenu" aria-labelledby="dropdownMenuButton">
+                            <ul>
+                              	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2026/04/'>2026年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2026/03/'>2026年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2026/02/'>2026年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2026/01/'>2026年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/12/'>2025年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/11/'>2025年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/10/'>2025年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/09/'>2025年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/08/'>2025年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/07/'>2025年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/06/'>2025年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/05/'>2025年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/04/'>2025年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/03/'>2025年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/02/'>2025年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2025/01/'>2025年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/12/'>2024年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/11/'>2024年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/10/'>2024年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/09/'>2024年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/08/'>2024年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/07/'>2024年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/06/'>2024年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/05/'>2024年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/04/'>2024年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/03/'>2024年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/02/'>2024年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2024/01/'>2024年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/12/'>2023年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/11/'>2023年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/10/'>2023年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/09/'>2023年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/08/'>2023年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/07/'>2023年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/06/'>2023年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/05/'>2023年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/04/'>2023年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/03/'>2023年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/02/'>2023年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2023/01/'>2023年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/12/'>2022年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/11/'>2022年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/10/'>2022年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/09/'>2022年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/08/'>2022年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/07/'>2022年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/06/'>2022年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/05/'>2022年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/04/'>2022年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/03/'>2022年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/02/'>2022年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2022/01/'>2022年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/12/'>2021年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/11/'>2021年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/10/'>2021年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/09/'>2021年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/08/'>2021年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/07/'>2021年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/06/'>2021年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/05/'>2021年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/04/'>2021年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/03/'>2021年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/02/'>2021年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2021/01/'>2021年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/12/'>2020年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/11/'>2020年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/10/'>2020年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/09/'>2020年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/08/'>2020年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/07/'>2020年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/06/'>2020年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/05/'>2020年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/04/'>2020年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/03/'>2020年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/02/'>2020年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2020/01/'>2020年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/12/'>2019年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/11/'>2019年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/10/'>2019年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/09/'>2019年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/08/'>2019年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/07/'>2019年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/06/'>2019年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/05/'>2019年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/04/'>2019年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/03/'>2019年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/02/'>2019年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2019/01/'>2019年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/12/'>2018年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/11/'>2018年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/10/'>2018年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/09/'>2018年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/08/'>2018年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/07/'>2018年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/06/'>2018年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/05/'>2018年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/04/'>2018年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/03/'>2018年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/02/'>2018年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2018/01/'>2018年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/12/'>2017年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/11/'>2017年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/10/'>2017年10月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/09/'>2017年9月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/08/'>2017年8月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/07/'>2017年7月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/06/'>2017年6月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/05/'>2017年5月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/04/'>2017年4月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/03/'>2017年3月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/02/'>2017年2月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2017/01/'>2017年1月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2016/12/'>2016年12月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2016/11/'>2016年11月</a></li>
+	<li><a href='https://developers.cyberagent.co.jp/blog/archives/date/2016/10/'>2016年10月</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                    <li class="menu-item menu-item-type-pc">
+                      <div class="dropdown">
+                        <button class="header_nav_dropdownButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          カテゴリ
+                        </button>
+                        <div class="dropdown-menu header_nav_dropdownMenu" aria-labelledby="dropdownMenuButton">
+                          <ul>
+                            	<li class="cat-item cat-item-2"><a href="https://developers.cyberagent.co.jp/blog/archives/category/engineer/">エンジニア</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://developers.cyberagent.co.jp/blog/archives/category/creator/">クリエイター</a>
+</li>
+	<li class="cat-item cat-item-660"><a href="https://developers.cyberagent.co.jp/blog/archives/category/pm/">PM</a>
+</li>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="menu-item">
+                      <form method="get" class="searchForm" action="https://developers.cyberagent.co.jp/blog/">
+  <input type="text" placeholder="キーワード検索" name="s" class="searchField" value="" />
+  <input type="submit" value="" alt="検索" title="検索" class="searchSubmit">
+</form>                    </li>
+                    <li class="menu-item menu-item-type-mobile">
+                        <dl class="menu-item-type-mobile-container">
+                          <dt class="menu-item-type-mobile-title">
+                            カテゴリ
+                          </dt>
+                          <dd class="menu-item-category-list">
+                            <a href="https://developers.cyberagent.co.jp/blog/archives/category/engineer">エンジニア</a><a href="https://developers.cyberagent.co.jp/blog/archives/category/creator">クリエイター</a><a href="https://developers.cyberagent.co.jp/blog/archives/category/pm">PM</a>                          </dd>
+                        </dl>
+                      </li>
+                      <li class="menu-item menu-item-type-mobile">
+                        <dl class="menu-item-type-mobile-container">
+                          <dt class="menu-item-type-mobile-title">
+                            タグ
+                          </dt>
+                          <dd class="menu-item-tag-list">
+                            <span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a8%e3%83%b3%e3%82%b8%e3%83%8b%e3%82%a2/'>エンジニア (135)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/abema/'>ABEMA (120)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%87%e3%82%b6%e3%82%a4%e3%83%8a%e3%83%bc/'>デザイナー (115)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc/'>クリエイター (114)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e5%8b%89%e5%bc%b7%e4%bc%9a/'>勉強会 (111)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ai%e4%ba%8b%e6%a5%ad%e6%9c%ac%e9%83%a8/'>AI事業本部 (102)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%b3%e3%82%b7%e3%83%83%e3%83%97/'>インターンシップ (99)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/aws/'>AWS (68)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ai/'>AI (65)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ios/'>iOS (61)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/ameba/'>Ameba (59)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/uiux/'>UI/UX (58)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%90%e3%83%83%e3%82%af%e3%82%a8%e3%83%b3%e3%83%89/'>バックエンド (56)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/android/'>Android (55)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/unity/'>Unity (52)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e7%94%9f%e6%88%90ai/'>生成AI (52)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%ac%e3%83%9d%e3%83%bc%e3%83%88/'>レポート (51)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%95%e3%83%ad%e3%83%b3%e3%83%88%e3%82%a8%e3%83%b3%e3%83%89/'>フロントエンド (45)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/kubernetes/'>kubernetes (44)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e5%85%b1%e8%91%97/'>共著 (42)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%a4%e3%83%b3%e3%83%95%e3%83%a9/'>インフラ (41)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/golang/'>Golang (37)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%82%b3%e3%82%a8%e3%83%ad%e3%82%b0/'>コエログ (37)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e3%83%8d%e3%82%a4%e3%83%86%e3%82%a3%e3%83%96/'>ネイティブ (35)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/dynalyst/'>Dynalyst (34)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/winticket/'>WINTICKET (34)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/mdts/'>MDTS (33)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/mdh/'>MDH (29)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/flutter/'>Flutter (29)</a></span><span><a href='https://developers.cyberagent.co.jp/blog/archives/tag/%e7%a0%94%e7%a9%b6/'>研究 (28)</a></span>                          </dd>
+                        </dl>
+                      </li>
+                    </ul>
+                  </nav>
+
+                </div>
+             </div>
+            </div>
+         </header><!-- #masthead -->
+         
+	<div id="content" class="site-content site-content-single">
+
+		
+		
+		<div class="singleContent__topBackground" style="background-image: url(https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/pc/header/bg_header.png)"></div>
+
+		<div id="content-inside" class="container">
+			<div id="primary" class="singleContent">
+				<main id="main" class="site-main" role="main">
+
+				
+					
+<article id="post-59886" class="cadev-entry post-59886 post type-post status-publish format-standard has-post-thumbnail hentry category-engineer tag-340">
+  <header class="entry-header">
+    <!-- 日付用カラム -->
+
+    <!-- タイトル,メタ用カラム -->
+    <div class="entry-meta">
+      <h1 class="entry-title">2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革</h1>      <div class="entry_date_writer">
+        <a href="https://developers.cyberagent.co.jp/blog/archives/59886/" rel="bookmark"><time class="entry-date published updated" datetime="2025-12-01T08:00:21+09:00"><span class="entry-date__month">Dec</span><span class="entry-date__date">1</span><span class="entry-date__year">2025</span></time><time class="updated hide" datetime="2025-11-26T16:43:47+09:00">2025年11月26日</time></a>        <span class="byline"> WRITER: <span class="author vcard"><a class="url fn n" href="https://developers.cyberagent.co.jp/blog/archives/author/lionbaby/">Norishige Nagase</a></span></span>        <div class="entry-cats"><ul><li class="entry-cats__item"><a href="https://developers.cyberagent.co.jp/blog/archives/category/engineer/" rel="category tag">エンジニア</a></li></ul></div>     </div><!-- /.entry-date-container -->
+      <section class="sns">
+  <div class="sns-area">
+    <div class="sns-share">
+      <a href="http://b.hatena.ne.jp/entry/https://developers.cyberagent.co.jp/blog/archives/59886/" class="hatena-bookmark-button" data-hatena-bookmark-title="2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    </div>
+
+    <div class="sns-share">
+      <a href="https://twitter.com/share" class="twitter-share-button"></a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+   
+    <div class="sns-share">
+      <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.8";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+      <div class="fb-like" data-href="https://developers.cyberagent.co.jp/blog/archives/59886/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+    </div>
+
+  </div><!-- .sns-area -->
+</section>
+    </div><!-- .entry-meta -->
+  </header><!-- .entry-header -->
+
+  <div class="entry-content">
+    <h2><img fetchpriority="high" decoding="async" class="alignnone wp-image-59890" src="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23-300x169.png" alt="2028年「開発プロセス完全自動化」を見据えた、エンジニア組織の構造改革" width="724" height="408" srcset="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23-300x169.png 300w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23-1024x576.png 1024w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23-768x432.png 768w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23-1536x864.png 1536w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/90c8114957f07dd0e66376a677eafa23.png 1920w" sizes="(max-width: 724px) 100vw, 724px" /></h2>
+<p>&nbsp;</p>
+<h2>1. はじめに：2028年、「開発プロセス完全自動化」への挑戦</h2>
+<p>&nbsp;</p>
+<p>サイバーエージェント 専務執行役員 技術担当の長瀬<a href="https://x.com/lionbaby">（@lionbaby</a>）です。<br />
+<a href="https://adventar.org/calendars/11590">CyberAgent Developers Advent Calendar 2025</a>、トップバッターを務めさせていただきます。</p>
+<p>今年は私たちにとって、中期戦略を根底から見直す「変革」の年でした。</p>
+<p>10月に開催した社内イベント<a href="https://www.cyberagent.co.jp/way/list/detail/id=32624">「CA BASE VISION 2025」</a>において、<strong>「2028年までに開発プロセスの完全自動化（AI成熟度Level 4）を目指す」</strong>というビジョンを掲げました。</p>
+<p>これは、単に「楽をする」ための自動化ではありません。AIエージェントとエンジニアが協働し、開発のあり方そのものを再発明する挑戦です。</p>
+<p>&nbsp;</p>
+<p>プレゼンテーション終了後、エンジニアの皆さんから本当にたくさんの質問をいただきました。</p>
+<div>
+<p>「AIに仕事を奪われるのか？」「評価はどう変わるのか？」「ジュニアエンジニアの技術力が空洞化するのではないか？」 そこにあったのは、変化への期待と、それ以上にリアルな「エンジニアとしての生存本能に根ざした不安」でした。</p>
+<p>世界を見渡せば、テック業界ではレイオフが続いています。AIがコーディングの一部を代替し、「言われたものを作るだけ」の仕事の価値は暴落し、エンジニアの「二極化」が進んでいます。この動きは更に加速すると予想しています。</p>
+<p>サイバーエージェントではAIの変化に対して先手先手で手を打ってきましたが、ここからさらにギアを上げて取り組んでいきたいと考えています。これからの時代、AIを使えないまま生き残ることは不可能です。同時に、AIを使いこなし、自らの能力を拡張できるエンジニアにとっては、かつてないほどエキサイティングな時代が到来します。</p>
+<p>このブログでは、サイバーエージェントが推し進める「AI時代のエンジニア組織の構造変革」についてまとめたいと思います。</p>
+</div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<h2>2. エンジニアが抱えるリアルな不安</h2>
+<p><a href="https://www.cyberagent.co.jp/way/list/detail/id=32624">中期ビジョン</a>を発表した後、私の元には本当に多くの質問が寄せられました。<br />
+それらを分類すると、現場のエンジニアが抱えている「リアルな不安」が浮かび上がってきました。</p>
+<p><img decoding="async" class="alignnone wp-image-59898" src="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0-300x169.png" alt="キャリア喪失への不安： 自分の専門性や役割は、AIに完全に置き換えられてしまうのではないか？ スキル劣化への不安： AIに頼ることで、技術の理解が浅いまま成果が出てしまう。若手の技術力が空洞化するのではないか？ 公平な評価への不安： AI活用による成果をどう測るのか？ 定量的なコード行数だけでは見えない貢献が無視されるのでは？ エンジニアの価値が変わることへの不安： “どう作るか”より“何を作るか”が問われるようになると、自分はアイデアを出せるだろうか？ AI活用の組織的な格差への不安： 生成AIの活用は、プロダクトの状況や環境によって得られる恩恵に差が生じる。これはある種の構造的不平等ではないか？ " width="724" height="408" srcset="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0-300x169.png 300w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0-1024x576.png 1024w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0-768x432.png 768w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0-1536x864.png 1536w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/d88dc4953ad8a1005f3e66f19e3d95b0.png 1920w" sizes="(max-width: 724px) 100vw, 724px" /></p>
+<p>こうした現場の声は、技術と真摯に向き合っているからこそ生まれるものであり、非常に貴重です。 だからこそ、その解決をエンジニア個人の努力だけに委ねるのではなく、組織的かつ戦略的に取り組み、その不安を払拭していきます。</p>
+<p>&nbsp;</p>
+<h2>3. AI時代はエンジニアの職務が変わる大きなチャンス</h2>
+<p>まず、4番目にあげた「エンジニアの価値が変わることへの不安」についてお話しします。</p>
+<p>AIによってコーディングなどの「How」のコストが劇的に下がること、これはエンジニアにとって「最大のチャンス」だと捉えています。これまで私たちは、頭の中に「作りたいもの（What）」があっても、それを実現する「実装（How）」のために膨大な時間を費やしてきました。 言語の仕様を調べ、難解なバグと格闘し、テストを書く。その過程で、本来やりたかった「ユーザーへの価値提供」や「面白いアイデアの実現」が、実装の工数を理由に後回しにされることもありました。</p>
+<p>&nbsp;</p>
+<p>AI時代において、 「こんな機能があったら面白い」「この課題を解決したい」。その「What」さえ持っていれば、AIが「How」を実現する時代がやってきます。ここで強調したいのは、AI活用の目的を「楽をするため」「工数を削減するため」だけと考えないことです。AIを単調な作業を肩代わりさせる「下請け」として見ているうちは、本質的なブレイクスルーは生まれません。</p>
+<p>これから持つべきは、AIを「最強のパートナー」として捉え、エンジニアとAIが共創する世界を前提にするという視点の転換です。</p>
+<p>&nbsp;</p>
+<h2>4. AI時代で活躍するエンジニアとは？新評価制度の全貌</h2>
+<p>AIを最大限に活かすために、私たちは組織のOS（基盤）である評価制度もアップデートします。 来春より、エンジニアの評価制度「JBキャリアプログラム」を、2019年の策定以来6年ぶりにフルリニューアルします。この変更の根底にあるのは、AI時代におけるエンジニアに求める「2つの要素」です。</p>
+<p><span style="color: #ff0000;"><strong>変わらないこと：高品質のアウトプットを担保できる確固たる技術力</strong></span><br />
+<span style="color: #ff0000;"><strong>変わること：AIを武器に価値を創造し、アウトカムを創出する力</strong></span></p>
+<p>AIがどれだけ進化しても、最終的なアウトプットの品質と信頼性に責任を持つのはエンジニアです。足腰の強いエンジニアでなければ、AIの成果物を正しく評価することも、統合することもできません。</p>
+<p>現在、社会のニーズと本人のWill（意志）を反映した、新しい4つのキャリアラダーを策定中です。</p>
+<p>以下が概要です。</p>
+<p><img decoding="async" class="alignnone wp-image-59899" src="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4-300x169.jpg" alt="① （刷新）テックリードエンジニア 従来の職種（サーバーサイド、ネイティブ等）を評価制度上フラットな形に変更し、エンジニアに新たな挑戦機会を提供します。 「専門性」という殻に閉じこもるのではなく、AIを武器に領域を越境し、技術的なリーダーシップを発揮してプロダクト開発を牽引する役割です。 ② （新設）ビジネスリードエンジニア エンジニアがビジネス領域に越境する、新しい役割です。 ビジネス（プロダクト）の現場に深く入り込み、課題発見・要件定義から設計・実装・運用までを一気通貫で担います。「どう作るか」だけでなく「何を作るか」からコミットし、AIを武器に直接的にビジネスインパクトを創出する。そんな「技術もビジネスも両方やるエンジニア」を正当に評価する枠組みを作ります。 ③ （強化）スペシャリスト AI時代だからこそ、AIには代替できない「確固たる技術力」を持つ専門家の価値は高まります。 サイバーエージェントが注力する技術領域として25領域（AI活用3領域、プロダクト品質12領域、事業専門性10領域）を新たに定め、そのスペシャリスト育成に取り組みます。 この認定制度である「Developer Experts制度」の募集には、今年も30名を超える応募がありました。深い専門性を持つ人材への投資は、これからも引き続き強化していきます。 ④ エンジニアリングマネージャー AI時代において、組織の成果を最大化させるための要となる役割です。 個人のパフォーマンスを引き出すだけでなく、AIを活用した新しい開発プロセスの構築や、変化に対応できる強いチーム作り、そして次世代のエンジニア育成にコミットします。 " width="725" height="408" srcset="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4-300x169.jpg 300w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4-1024x576.jpg 1024w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4-768x432.jpg 768w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4-1536x864.jpg 1536w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/416e2c9756d58f0fce02ccc586c2aec4.jpg 1920w" sizes="(max-width: 725px) 100vw, 725px" /></p>
+<p>&nbsp;</p>
+<p><strong>① （刷新）テックリードエンジニア</strong><br />
+従来の職種（サーバーサイド、ネイティブ等）を評価制度上フラットな形に変更し、エンジニアに新たな挑戦機会を提供します。 「専門性」という殻に閉じこもるのではなく、AIを武器に領域を越境し、技術的なリーダーシップを発揮してプロダクト開発を牽引する役割です。</p>
+<p>&nbsp;</p>
+<p><strong>② （新設）ビジネスリードエンジニア</strong><br />
+エンジニアがビジネス領域に越境する、新しい役割です。 ビジネス（プロダクト）の現場に深く入り込み、課題発見・要件定義から設計・実装・運用までを一気通貫で担います。「どう作るか」だけでなく「何を作るか」からコミットし、AIを武器に直接的にビジネスインパクトを創出する。そんな「技術もビジネスも両方やるエンジニア」を正当に評価する枠組みを作ります。</p>
+<p>&nbsp;</p>
+<p><strong>③ （強化）スペシャリスト</strong><br />
+AI時代だからこそ、AIには代替できない「確固たる技術力」を持つ専門家の価値は高まります。 サイバーエージェントが注力する技術領域として25領域（AI活用3領域、プロダクト品質12領域、事業専門性10領域）を新たに定め、そのスペシャリスト育成に取り組みます。 この認定制度である「Developer Experts制度」の募集には、今年も30名を超える応募がありました。深い専門性を持つ人材への投資は、これからも引き続き強化していきます。</p>
+<p>&nbsp;</p>
+<p><strong>④ エンジニアリングマネージャー</strong><br />
+AI時代において、組織の成果を最大化させるための要となる役割です。 個人のパフォーマンスを引き出すだけでなく、AIを活用した新しい開発プロセスの構築や、変化に対応できる強いチーム作り、そして次世代のエンジニア育成にコミットします。</p>
+<p>この新しいキャリアラダーによって、一人ひとりのエンジニアがAI時代に即した形で進化していくことを、強力にバックアップしていきます。</p>
+<p>&nbsp;</p>
+<h2>5. エンジニアの不安への対策</h2>
+<p>2章で挙げた「リアルな不安」に対し、会社としての具体的なアクションプランをお伝えします。</p>
+<div><img loading="lazy" decoding="async" class="alignnone wp-image-59900" src="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9-300x169.png" alt="① 「キャリア喪失への不安」：評価制度の刷新によるキャリアの進化 ② 「スキル劣化への不安」：足腰の強いエンジニアの育成プログラムの強化 ③ 「公平な評価への不安」：「エンジニア版AI番付」による公正な評価 ④ 「価値の変化への不安」：「ビジネスリードエンジニア」の新設 ⑤ 「組織・プロダクト格差への不安」：「AIドリブン推進室」による是正" width="724" height="408" srcset="https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9-300x169.png 300w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9-1024x576.png 1024w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9-768x432.png 768w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9-1536x864.png 1536w, https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/c49dc03cc8ed9275976bbf10aafa1ab9.png 1920w" sizes="auto, (max-width: 724px) 100vw, 724px" /></div>
+<div></div>
+<p>&nbsp;</p>
+<p><strong>① 「キャリア喪失への不安」：評価制度の刷新によるキャリアの進化</strong></p>
+<p>「自分の役割がなくなるのではないか」という懸念に対し、明確な回答を示します。 来春、エンジニアの評価制度「JBキャリアプログラム」を刷新します 。AI活用を前提とした新たなキャリアラダーを明示することで、新時代のエンジニアとしてのキャリア形成を制度面から強力に支援します。</p>
+<p>&nbsp;</p>
+<p><strong>② 「スキル劣化への不安」：足腰の強いエンジニアの育成プログラムの強化</strong></p>
+<p>「AIに頼ると若手が育たない」という不安については、ジュニアエンジニアの教育強化で対応します 。 AIのアウトプットを鵜呑みにせず、正しく評価・修正するための「基礎的な技術力」こそが重要になります 。この足腰の強さを習得するための育成支援に、これまで以上に力を入れて取り組みます。</p>
+<p>&nbsp;</p>
+<p><strong>③ 「公平な評価への不安」：「エンジニア版AI番付」による公正な評価</strong></p>
+<p>「AI活用をどう評価するのか」という課題に対し、新たに「エンジニア版AI番付」を開始します 。 従来の全社版とは異なり、「エンジニアリング品質」や「技術成熟度」を主軸に評価を行います 。ブラックボックス化しやすいAI活用の貢献を、技術的な深さや自動化レベルの観点から可視化し、公平かつ透明性の高い評価を実現します。</p>
+<p>&nbsp;</p>
+<p><strong>④ 「価値の変化への不安」：「ビジネスリードエンジニア」の新設</strong></p>
+<p>「何を作るかが問われる」という変化に対しては、活躍領域の拡大で応えます。 新たに「ビジネスリードエンジニア」という役割を新設します。技術のみならずビジネスに深く関与し、AIを武器に直接的な事業価値を創出する人材を定義し、その活躍を正当に評価する枠組みを提供します。</p>
+<p>&nbsp;</p>
+<p><strong>⑤ 「組織・プロダクト格差への不安」：「AIドリブン推進室」による是正</strong></p>
+<p>もっとも切実な「環境による格差」についても、組織的に解決を図ります。 この課題に対し、今年8月に専門組織「AIドリブン推進室」を新設しました。現場の自助努力だけに頼るのではなく、エンジニアとAIエージェントが協働する「自律型開発体制」の構築を全社横断で支援します。 具体的には、リスキリングプログラムの提供 や、生産性の可視化・評価基盤の整備、AIエージェント開発スキルを競う、部署対抗コンテスト「AI Agent Arena」など、イベントを通じたベストプラクティスの共有を推進します。環境やフェーズが異なるプロダクトであっても、すべてのエンジニアがAIの恩恵を享受し、イノベーションを起こせる土壌を整えること。それが本組織のミッションです。</p>
+<p>&nbsp;</p>
+<h2>6. おわりに</h2>
+<p>中期的に捉えるとエンジニアの仕事のあり方は確実に変わります。サイバーエージェントは創業以来、インターネット産業の激しい変化の波を、常に「変化対応力」で乗りこなしてきました。課題を先送りせず、常に技術革新に取り組んできました。今回のAIの波も同じです。</p>
+<div>
+<p>サイバーエージェントはAI時代に活躍できるエンジニアへと全員で進化するために、技術面、組織面で戦略的な取り組みを推進し、「AI時代のリーディングカンパニー」を目指したいと考えています。</p>
+<p>来年さらなる進化を遂げて、新たな取り組みを発表したいと思います。</p>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+    
+    <footer class="entry-footer">
+      <ul class="tags"><li class="tag-item"><a href="https://developers.cyberagent.co.jp/blog/archives/tag/%e7%b5%84%e7%b9%94%e4%bd%9c%e3%82%8a/" rel="tag">組織作り</a></li></ul><div class="saboxplugin-wrap"><div class="saboxplugin-gravatar"><img alt='アバター画像' src='https://developers.cyberagent.co.jp/blog/wp-content/uploads/2021/11/Nagase.jpeg' srcset='https://developers.cyberagent.co.jp/blog/wp-content/uploads/2021/11/Nagase.jpeg 2x' class='avatar avatar-96 photo' height='96' width='96' loading='lazy' decoding='async'/></div><div class="saboxplugin-authorname"><a href="https://developers.cyberagent.co.jp/blog/archives/author/lionbaby/">Norishige Nagase</a></div><div class="saboxplugin-desc"><div class="vcard author"><span class="fn">通信業界での研究開発を経て、2005年、サイバーエージェントに入社。「アメーバブログ」やコミュニティサービス「アメーバピグ」、ソーシャルゲーム、コミュニティサービスなどのサービス開発を担当し、2014年に執行役員、2020年に常務執行役員に就任。「ABEMA」をはじめ当社のメディア事業に携わるエンジニアの採用や、技術力をさらに向上するための評価制度などの環境づくりにも注力している。現在はサイバーエージェント専務執行役員（技術担当）を務める。</span></div></div><div class="saboxplugin-web sab-web-position"><a href="https://ameblo.jp/lionbaby/" target="_blank" >https://ameblo.jp/lionbaby/</a></div><div class="clearfix"></div><div class="saboxplugin-socials "><a target="_self" href="https://twitter.com/lionbaby"><span class="saboxplugin-icon-grey saboxplugin-icon-twitter"></span></a></div></div>    </footer><!-- .entry-footer -->
+
+  <div class="entryNav">
+
+    <div class="entryNav__box"><a class="entryNav_link entryNav_previous" style="background-image:url(https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/11/17db55667deaaf8db8a6f6cac09f8a72-2-1024x538.png)" href="https://developers.cyberagent.co.jp/blog/archives/59930/"><div class="entryNav_link_bg"></div><div class="entryNav_link_text">社内AI活用を“見える化”するランキング機能をリリースしました</div><div class="entryNav_link_subText">次の記事</div></a></div><div class="entryNav__box"><a class="entryNav_link entryNav_next" style="background-image:url(https://developers.cyberagent.co.jp/blog/wp-content/uploads/2025/12/edb1f5fb71528db50e0b716711ab2879-1024x683.jpg)" href="https://developers.cyberagent.co.jp/blog/archives/60127/"><div class="entryNav_link_bg"></div><div class="entryNav_link_text">Post-hoc Rationalization: LLMの推論は「言い訳」か？</div><div class="entryNav_link_subText">前の記事</div></a></div>
+  </div>
+
+  </div><!-- .entry-content -->
+</article><!-- #post-## -->
+
+					
+				
+				</main><!-- #main -->
+
+        
+			</div><!-- #primary -->
+
+		</div><!--#content-inside -->
+	</div><!-- #content -->
+
+    <footer id="colophon" class="cadevFooter" role="contentinfo">
+        <a class="cadevFooter__topButton" href="#page" title="ページトップへ戻る">TOP</a>
+        <div class="cadevFooter__links">
+            <dl class="cadevFooter__links_blogs">
+                <dt>
+                    <span class="cadevFooter__links_title">
+                        Blogs
+                    </span>
+                    <a class="cadevFooter__links_titleToggle" data-toggle="collapse" href="#collapseBlogs" role="button" aria-expanded="false" aria-controls="collapseBlogs">
+                        Blogs
+                    </a>
+                </dt>
+                <dd class="collapse" id="collapseBlogs">
+                    <ul>
+                        <li>
+                            <a href="https://cyberagent.ai/" target="_blank" rel="noopener noreferrer">
+                                AI tech studio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.ai-shift.co.jp/techblog" target="_blank" rel="noopener noreferrer">
+                                AI SHIFT
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cam-inc.co.jp/p/techblog" target="_blank" rel="noopener noreferrer">
+                                CAM
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://creator.game.cyberagent.co.jp/" target="_blank" rel="noopener noreferrer">
+                                CyberAgent Game & Entertainment
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://media.colorfulpalette.co.jp/m/m753f507dae79" target="_blank" rel="noopener noreferrer">
+                                Colorful Palette
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://tech.sumzap.co.jp/" target="_blank" rel="noopener noreferrer">
+                                サムザップ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.applibot.co.jp/" target="_blank" rel="noopener noreferrer">
+                                アプリボット
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://technote.qualiarts.jp/" target="_blank" rel="noopener noreferrer">
+                                QualiArts
+                            </a>
+                        </li>
+                        <li>
+			    <a href="https://blog.sge-coretech.com/" target="_blank" rel="noopener noreferrer">
+                                SGEコア技術本部(コアテク)
+                            </a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span class="cadevFooter__links_title">
+                        News
+                    </span>
+                    <a class="cadevFooter__links_titleToggle" data-toggle="collapse" href="#collapseNews" role="button" aria-expanded="false" aria-controls="collapseNews">
+                        News
+                    </a>
+                </dt>
+                <dd class="collapse" id="collapseNews">
+                    <ul>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/way/" target="_blank" rel="noopener noreferrer">
+                            CyberAgent Way
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/techinfo/" target="_blank" rel="noopener noreferrer">
+                            技術・クリエイティブニュース
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://capture.cyberagent.co.jp/" target="_blank" rel="noopener noreferrer">
+                            CApture
+                            </a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span class="cadevFooter__links_title">
+                        Careers
+                    </span>
+                    <a class="cadevFooter__links_titleToggle" data-toggle="collapse" href="#collapseCareers" role="button" aria-expanded="false" aria-controls="collapseCareers">
+                        Careers
+                    </a>
+                </dt>
+                <dd class="collapse" id="collapseCareers">
+                    <ul>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/careers/students/biz/" target="_blank" rel="noopener noreferrer">
+                                新卒採用ビジネスコース
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/careers/students/tech/" target="_blank" rel="noopener noreferrer">
+                                新卒採用エンジニアコース
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/careers/students/designer/" target="_blank" rel="noopener noreferrer">
+                                新卒採用クリエイターコース
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/careers/professional/" target="_blank" rel="noopener noreferrer">
+                                キャリア採用
+                            </a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span class="cadevFooter__links_title">
+                        Resources
+                    </span>
+                    <a class="cadevFooter__links_titleToggle" data-toggle="collapse" href="#collapseResources" role="button" aria-expanded="false" aria-controls="collapseResources">
+                        Resources
+                    </a>
+                </dt>
+                <dd class="collapse" id="collapseResources">
+                    <ul>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/akihabaralabo/paper/" target="_blank" rel="noopener noreferrer">
+                                Media Data Tech Studio技術報告書
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cyberagent.co.jp/techinfo/info/detail/id=26111" target="_blank" rel="noopener noreferrer">
+                                AI/ Data Technology Map 
+                            </a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span class="cadevFooter__links_title">
+                       Events
+                    </span>
+                    <a class="cadevFooter__links_titleToggle" data-toggle="collapse" href="#collapseEvent" role="button" aria-expanded="false" aria-controls="collapseEvent">
+                        Events
+                    </a>
+                </dt>
+                <dd class="collapse" id="collapseEvent">
+                    <ul>
+                        <li>
+                            <a href="https://cyberagent.events/" target="_blank" rel="noopener noreferrer">
+                                CA Tech Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cyberagent.connpass.com/" target="_blank" rel="noopener noreferrer">
+                                Connpass -Cyberagent
+                            </a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div class="cadevFooter__bottoms" >
+            <a href="https://www.cyberagent.co.jp/" target="_blank" rel="noopener">
+                <img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/logo_cyberagent.svg" width="173" height="32" alt="CyberAgent" />
+            </a>
+            <ul class="cadevFooter__sns_list">
+                <li class="cadevFooter__sns_item">
+                    <a href="https://twitter.com/ca_developers" target="_blank" rel="noopener">
+                        <img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/icon_twitter.svg" width="24" height="19.5" alt="twitter" />
+                    </a>
+                </li>
+                <li class="cadevFooter__sns_item">
+                    <a href="https://www.facebook.com/CyberAgent.Inc/" target="_blank" rel="noopener">
+                        <img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/icon_facebook.svg" width="24" height="24" alt="facebook" />
+                    </a>
+                </li>
+                <li class="cadevFooter__sns_item">
+                    <a href="https://www.youtube.com/channel/UCYvmsuoQ32tVY6MpOYhr5jA" target="_blank" rel="noopener">
+                        <img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/icon_youtube.svg" width="24" height="16.6" alt="youtube" />
+                    </a>
+                </li>
+                <li class="cadevFooter__sns_item">
+                    <a href="https://developers.cyberagent.co.jp/blog/feed/" target="_blank" rel="noopener">
+                        <img src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/images/icon_rss.svg" width="23" height="23" alt="rss" />
+                    </a>
+                </li>
+                <li class="cadevFooter__textLink">
+                    <a href="/blog/term/">
+                        ご利用にあたって
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/blog/*"},{"not":{"href_matches":["/blog/wp-*.php","/blog/wp-admin/*","/blog/wp-content/uploads/*","/blog/wp-content/*","/blog/wp-content/plugins/*","/blog/wp-content/themes/onepress-child-20220324/*","/blog/wp-content/themes/onepress/*","/blog/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&amp;ver=6.9.4" id="gmap-js"></script>
+<script type="text/javascript" src="https://developers.cyberagent.co.jp/blog/wp-content/plugins/onepress-plus/assets/js/gmap.js?ver=6.9.4" id="jquery-gmap-js"></script>
+<script src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress/assets/js/plugins.js?ver=1.0.0" defer></script>
+<script src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress-child-20220324/assets/js/bootstrap.min.js?ver=6.9.4" defer></script>
+<script type="text/javascript" id="onepress-theme-js-extra">
+/* <![CDATA[ */
+var onepress_js_settings = {"onepress_disable_animation":"","onepress_disable_sticky_header":"","onepress_vertical_align_menu":"","hero_animation":"flipInX","hero_speed":"5000","hero_fade":"750","hero_duration":"5000","hero_disable_preload":"","is_home":"","gallery_enable":"1","is_rtl":""};
+//# sourceURL=onepress-theme-js-extra
+/* ]]> */
+</script>
+<script src="https://developers.cyberagent.co.jp/blog/wp-content/themes/onepress/assets/js/theme.js?ver=20120206" defer></script>
+<script src="https://developers.cyberagent.co.jp/blog/wp-content/plugins/onepress-plus/assets/js/onepress-plus.js?ver=1.3.1" defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=default&amp;ver=1.3.12" id="mathjax-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://developers.cyberagent.co.jp/blog/wp-includes/js/wp-emoji-release.min.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://developers.cyberagent.co.jp/blog/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XN628HSWK5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XN628HSWK5');
+  gtag('config', 'UA-84802124-1')
+</script>
+
+</body>
+</html>

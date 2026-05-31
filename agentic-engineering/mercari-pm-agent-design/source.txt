@@ -1,0 +1,118 @@
+ mercari-pm-agentの設計——Claude Code SkillsとMCPでPMワークフローを自動化する | メルカリエンジニアリング
+
+         メルカリのエンジニア情報ポータルサイト日本語EnglishOrganizationCultureRolesTechnologyTechnology-stackOpen-sourceOutputLearning-materialsOtherEventBlogAIBackendClient sideDevelopmentInfrastructureOrganizationQAResearch & Advanced TechSecurityCareersOrganizationCultureRolesTechnologyTechnology-stackOpen-sourceOutputLearning-materialsOtherEventBlogCareers日本語English   2026/04/28mercari-pm-agentの設計——Claude Code SkillsとMCPでPMワークフローを自動化するAIDevelopmentResearch & Advanced TechAuthor:Shogo Kikuchi , 2026/04/28Read this article in English   はじめに
+こんにちは。MercariでPMインターンをしている菊池翔吾です。
+インターン期間中に mercari-pm-agent というClaude CodeのSkillを開発しました。PMが行う「問題の発見→データ収集→PRD作成→UIモック」の一連のワークフローを、1つのセッション内で処理するエージェントです。
+この記事では、PMのワークフローをClaude Code上でどのように実装したか——Skillの設計と、MCP（Model Context Protocol）を使ったNotion・Slack・Looker・Figmaとの接続方法——を中心に紹介します。
+背景：メルカリPMの情報収集ワークフローと課題
+メルカリのPMが意思決定を行うには、複数のツールを横断して状況を把握する必要があります。
+
+Notionで中期戦略・KPI目標の方向性を確認する
+Slackで社内の改善要望やフィードバックを検索する
+Lookerでユーザー行動の定量指標を確認する
+Figmaで対象画面の現状デザインを確認する
+これらを統合してPRD（製品要求仕様書）に落とし込む
+
+各ツールへのアクセス自体は難しくありませんが、ツールを横断しながら「どのデータが今の判断に関係するか」を整理する作業には一定の時間がかかります。PMが本来時間を使うべきは、集めた情報をもとに深く考え、意思決定し、関係者と対話することのはずです。情報収集にかかる時間を、思考と意思決定に充てられるようにしたい——それがこのツールを作った動機です。
+mercari-pm-agentの概要
+mercari-pm-agent は、Claude CodeのSkillとして実装したPM支援エージェントです。
+PMがプロダクト上のビジネス課題を自然言語で入力すると、以下のステップが自動的に進みます。
+処理の流れ
+
+実装：Claude Code SkillsでPMワークフローを定義する
+Claude Code Skillsとは
+Claude Code Skillsは、Claude Codeの振る舞いをMarkdownファイルで定義する仕組みです。SKILL.md にエージェントの動作手順・制約・ツールへのアクセス方法を記述することで、特定の業務フロー専用のエージェントを構築できます（公式ガイド）。
+コードを書かずにエージェントの振る舞いを定義できる点が特徴です。PM向けSkillの実装例としては phuryn/pm-skills も参考にしました。ただし、後述するように「Markdownを書くだけ」では精度は出ません。振る舞いの制約設計と評価サイクルが重要です。
+ファイル構成：関心の分離をプロンプト設計に適用する
+mercari-pm-agent/
+├── [SKILL.md](http://skill.md/)  # エージェントの振る舞い定義（英語）
+└── references/
+    ├── [prd-template.md]  # PRDテンプレート
+    ├── [prd-checklist.md] # PRD品質チェックリスト（9項目）
+    ├── [ui-and-figma.md] # UI Spec・Figma Makeプロンプトテンプレート
+    ├── [laplace-guide.md]  # データ解釈ガイド
+    ├── [data-sources.md] # データソース一覧・使い方
+    └── [quick-reference.md] # 出力チェックリスト
+初期は全ての定義を SKILL.md 1ファイルに集約していましたが、後述する評価スキルによるスコアリングを通じて、ファイルが長くなるほど出力精度が低下するという問題を確認しました。
+これはLLMの特性と関係しています。コンテキストが長くなると、モデルが文脈の中で関連情報に適切に注目できなくなる現象（いわゆる「Lost in the Middle」問題）が知られており、Anthropicのプロンプトエンジニアリングガイドでもプロンプトを簡潔に保つことが推奨されています。
+対応として、振る舞いの定義（SKILL.md本体）と参照データ・テンプレート（references/）を分離しました。ソフトウェア開発における「関心の分離（Separation of Concerns）」をプロンプト設計に適用したアプローチです。SKILL.mdはエージェントが「何をどの順序でするか」のみを保持し、具体的なデータやテンプレートは必要なタイミングでreferencesから参照する設計です。この構造変更だけでスコアが明確に改善しました。
+なお、SKILL.mdは英語で記述しています。Claudeへの指示として英語の方が精度が高いためです。
+MCP接続：複数ツールをエージェントに繋ぐ
+mercari-pm-agent の中核的な価値は、Step 2のデータ収集を自動化する点にあります。ここではMCP（Model Context Protocol）を使ったツール接続の設計について説明します。
+MCPとは
+MCPはAnthropicが策定したオープンプロトコルで、LLMアプリケーションが外部ツールやデータソースに接続するための標準仕様です。MCPサーバーを通じて、Claude CodeからNotion・Slack・Lookerなどの外部サービスをツールとして呼び出せるようになります。
+接続しているMCPサーバー
+
+MCPサーバー
+種別
+取得できる情報
+用途
+
+Notion MCP
+公式（Notion提供）
+戦略ドキュメント・KPIダッシュボード
+中期戦略との整合性確認
+
+Slack MCP
+社内独自実装
+社内フィードバックチャンネルの投稿
+改善要望・現場の声の収集
+
+Socrates
+社内独自実装（BigQuery・Lookerベース）
+CVR等の指標データ
+定量的な課題の裏付け
+
+Figma MCP
+社内独自実装
+デザインファイルのコンポーネント情報
+既存デザインの取得・UI Specへの反映
+
+並列クエリと堅牢性の設計
+Step 2（データ収集）では、これら複数のMCPを並列でクエリします。data-sources.md に以下のルールを記述しています。
+- Pull in parallel during Data Enrichment — do not wait for one source
+  before querying another.
+  （データ収集フェーズでは並列で参照する。1つのソースの完了を待たないこと）
+
+- If a source is unavailable, skip silently and mark it in the output.
+  （ソースが利用不可の場合は、出力にその旨を明記してスキップする）
+直列での順次参照に比べてユーザーの待ち時間を削減するためです。また、いずれかのMCPが利用不可の状態でも処理が止まらないようフォールバック設計を入れています。
+セキュリティ上の考慮
+Slack MCPのセットアップには社内VPN接続とUser Tokenによる認証が必要です。トークンはClaude Codeの設定ファイルに環境変数として渡す形にしており、チャット上でトークン文字列が露出しない設計にしています。また、SlackのUser Tokenは7日で失効するため、更新用のスクリプトを別途用意しています。
+開発で大事にしたこと
+評価基準を先に決める——プロンプトのTDD
+実装を始める前に、まず「エージェントの出力をどう評価するか」の基準を定義しました。
+
+課題の理解精度（問題の本質を正しく捉えているか）
+仕様の具体性（実装可能なレベルで記述されているか）
+実現可能性（技術的・リソース的に妥当か）
+UXの妥当性（お客さまにとって使いやすいか）
+
+これはソフトウェア開発におけるテスト駆動開発（TDD）に近い発想です。LLMベースのエージェントは「動くかどうか」より「正しく動くかどうか」の判定が難しい。評価軸を先に定義することで、プロトタイプの改善サイクルを感覚ではなく基準で回せるようになりました。実際のWeb改善課題を収集して評価データセットを作り、反復的に精度を上げていきました。
+LLMの「それらしい嘘」を制約として防ぐ
+LLMを業務フローに組み込む上で最も危険なのは、「根拠のないそれらしい情報」の生成です。データが存在しない状況でも、モデルは自然に「それっぽい数値」を出力します。PMがその数値を信じてPRDに記載してしまうと、意思決定の根拠がフィクションになります。
+これは「嘘をつくな」とプロンプトで命令するだけでは解決しません。モデルがデータ不足を認識したとき、どう振る舞うかを制約として設計する必要があります。
+Data integrity rules:
+
+Unconfirmed data must be labeled "Not provided" or "To be validated"
+（未確認のデータは "Not provided" または "To be validated" とラベルすること）
+Never fabricate numbers or sources
+（数値や出典を捏造しないこと）
+
+さらに、PMの確認なしに次のステップへ自動的に進むことを禁じました。
+You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression. （完了を推測して次へ進むことを禁じる。PMの明示的な確認があった場合のみ次へ進める）
+これにより、エージェントが「それらしい流れ」で自動進行するのではなく、常にPMが意思決定のドライバーである状態を維持します。
+スキルをスキルで評価する——自動評価パイプライン
+設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。このスコアを使った反復改善の中から、前述の「SKILL.mdは短いほど精度が上がる」という知見が得られ、ファイル分割の設計変更につながりました。
+まとめ
+mercari-pm-agent の開発を通じて得た、Claude Code Skillsを使ったエージェント設計の主な知見をまとめます。
+
+Skillの設計は「振る舞いの仕様書」を書くことに近い。 命令ではなく制約の設計が重要で、LLMが「どう振る舞うべきでないか」を明示することが精度に直結する。
+MCPによる外部ツール接続は並列設計で。 直列参照はユーザー体験を悪化させる。フォールバック設計とあわせて、接続の堅牢性を考慮する必要がある。
+プロンプト設計にも関心の分離が有効。 コンテキストが長くなるほど精度が下がる。振る舞い定義と参照データの分離は、ソフトウェア設計の原則をLLM設計に適用した結果として機能した。
+評価基準は実装より先に作る。 LLMエージェントの品質評価は主観に陥りやすい。評価軸を先に定義し、評価専用のエージェントを作ることで客観的な改善サイクルが回せる。
+
+mercari-pm-agent はClaude CodeのSkillとして実装しているため、MCP設定が済んでいれば /mercari-pm-agent のコマンド1つで起動できます。
+PMの業務効率化やClaude Code Skillsを使ったエージェント設計に興味のある方の参考になれば幸いです。
+    AI Agentinternshipproject-management   Related article2026/04/03メルカリのAI活用を支えるセキュアなDevin管理AISecurityAuthor: Hiroki Akamatsu2025/12/25AI-Nativeという選択 ー 正解のない時代に、メルカリが選んだ指針AIOrganizationAuthor: kimurashunya2025/12/23Cursorでプログラミング言語を学び直す方法——AI駆動学習の4ステップAIAuthor: kubomi        Company     Mercari, Inc     Merpay, Inc     Mercari US     Mercoin     Mercari India     Owned media     mercan     Design blog     AI Web     Analytics blog     mercari R4D     Engineering blog (USA)     Careers     Engineering     Mercari (JP)     Mercari (USA)     Mercari (India)     Resources     GitHub - mercari     Speakerdeck - mercari     Events     connpass - Mercari     Meetup.com            ©2020 Mercari, Inc.
+        

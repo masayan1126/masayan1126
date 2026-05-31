@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>開発者の新たなアイデンティティ：AI時代に何が変わり、何が変わらないのか</title>
+<style>
+  :root {
+    --bg: #fafafa; --fg: #1a1a1a; --muted: #6b7280;
+    --card: #ffffff; --border: #e5e7eb;
+    --ok: #16a34a; --warn: #d97706; --ng: #dc2626;
+    --accent: #2563eb;
+    --hl: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 16px; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.7; }
+  .container { max-width: 980px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin: 0 0 8px; }
+  h2 { font-size: 1.3rem; margin-top: 40px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 1.05rem; margin-top: 24px; color: var(--accent); }
+  h4 { font-size: 0.98rem; margin-top: 18px; }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .conclusion { background: var(--hl); border: 1px solid #fde68a; border-radius: 8px;
+    padding: 18px 22px; margin: 16px 0 28px; }
+  .conclusion h2 { margin-top: 0; border: none; padding: 0; font-size: 1.25rem; }
+  .conclusion ul { margin: 8px 0; padding-left: 20px; }
+  .conclusion li { margin: 8px 0; }
+  .viewpoint-desc { background: #eff6ff; border-left: 4px solid var(--accent);
+    padding: 10px 14px; margin: 12px 0 18px; border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;
+    font-weight: 600; white-space: nowrap; }
+  .badge.ok { background: #dcfce7; color: var(--ok); }
+  .badge.warn { background: #fef3c7; color: var(--warn); }
+  .badge.ng { background: #fee2e2; color: var(--ng); }
+  .pos { display: inline-block; font-size: 0.78rem; color: var(--muted);
+    background: #f3f4f6; padding: 1px 8px; border-radius: 4px; }
+  .score-bar { display: inline-block; width: 60px; height: 8px; background: var(--border);
+    border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .score-bar > span { display: block; height: 100%; background: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; background: var(--card); }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #f3f4f6; font-weight: 600; }
+  tr:hover td { background: #fafbfc; }
+  blockquote { margin: 8px 0; padding: 10px 14px; border-left: 3px solid var(--accent);
+    background: #f3f4f6; color: #374151; font-size: 0.95rem; border-radius: 0 4px 4px 0; }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px; margin: 16px 0; }
+  .summary-grid .card { background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; text-align: center; }
+  .num { font-size: 1.8rem; font-weight: 700; display: block; }
+  .num.ok { color: var(--ok); } .num.warn { color: var(--warn); } .num.ng { color: var(--ng); }
+  .label { color: var(--muted); font-size: 0.85rem; }
+  details { margin: 8px 0; padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--card); }
+  details[open] { background: #fafbfc; }
+  summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+  summary:hover { color: var(--accent); }
+  ul li { margin: 6px 0; }
+  .quote-list { padding-left: 0; }
+  .quote-list li { padding: 10px 14px; background: var(--card); border-left: 3px solid var(--accent);
+    margin: 8px 0; list-style: none; border-radius: 0 4px 4px 0; }
+  .quote-list .pos { margin-left: 8px; }
+  .nav { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 16px; margin: 16px 0; }
+  .nav a { color: var(--accent); text-decoration: none; margin-right: 16px; font-size: 0.9rem; }
+  .nav a:hover { text-decoration: underline; }
+  .ng-list { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 6px;
+    padding: 10px 14px; margin: 8px 0; font-size: 0.9rem; }
+  .title-list { padding-left: 24px; }
+  .title-list li { background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 16px; margin: 10px 0; }
+  .title-list li strong { font-size: 1.02rem; display: block; margin-bottom: 4px; }
+  .title-meta { color: var(--muted); font-size: 0.83rem; }
+  .title-section h3 { margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>開発者の新たなアイデンティティ：AI時代に何が変わり、何が変わらないのか</h1>
+  <p class="meta">ソース: <code>/Users/masayan/git/masayan1126/agentic-engineering/memo.md</code></p>
+
+  <!-- 冒頭結論 -->
+  <div class="conclusion">
+    <h2>🎬 結論：このコンテンツの使い道</h2>
+    <ul>
+      <li><strong>動画として使うなら</strong>:
+        <ul>
+          <li>◎ 推奨: 「エンジニアの未来」「AI時代の役割転換」テーマの<strong>解説／対談動画の主ソース</strong>。視聴者の "自分ごと化" を促す導入として極めて優秀（"もし私がコードを書いていないとしたら…" の問いかけが強力）</li>
+          <li>✗ 避ける: 「CLAUDE.md でハーネスを組む」「フックでコミット前検査を自動化」「MCP で外部 API を叩く」など<strong>実装 HowTo 動画の主ソースには不向き</strong>（具体例ゼロ）</li>
+        </ul>
+      </li>
+      <li><strong>記事化（Zenn / note / Tech Blog）するなら</strong>:
+        <ul>
+          <li>◎ 推奨: ビジョン記事／キャリア論／「3年後のエンジニア像」系の<strong>オピニオン寄せ記事</strong>の根拠引用に最適。GitHub の Octoverse データ（80%・100万PR・TypeScript 1位）が論拠として強い</li>
+          <li>✗ 避ける: 実装 Tips・ツールチュートリアル・YAML 設定例が必要な記事の主ソース</li>
+        </ul>
+      </li>
+      <li><strong>フック候補</strong>: 「<em>コード作成者から、コードのクリエイティブディレクターへ</em>」／「<em>生成作業よりも検証作業に多くの時間を費やしている</em>」／「<em>TypeScript が GitHub 月間貢献者数 1 位</em>」</li>
+      <li><strong>補強が必要なテーマ</strong>:
+        <ul>
+          <li><strong>ハーネス整備（CLAUDE.md・ルールファイル・フック）</strong> → ハーネスエンジニアリング系の別記事で補完</li>
+          <li><strong>レビュー疲労・小さな PR・トリアージ運用</strong> → DORA レポート、GitClear 等で補完</li>
+          <li><strong>観測・計測（コスト／トークン／成功率）</strong> → 別ソース必須</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="nav">
+    <a href="#quotes">引用候補</a>
+    <a href="#titles">タイトル案</a>
+    <a href="#summary">サマリ</a>
+    <a href="#vp1">engineer-role</a>
+    <a href="#vp2">agentic-maturity</a>
+    <a href="#vp3">agentic-practices</a>
+    <a href="#vp4">review-bottleneck</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="quotes">引用候補（動画・記事化向け）</h2>
+  <ul class="quote-list">
+    <li><strong>「中核となるスキルは実装ではなく、オーケストレーションと検証にあると述べている。」</strong> ── <em>「エンジニアの新しい中核スキル」を一言で示すパンチライン。サムネ・冒頭フックに最適</em><span class="pos">📍 冒頭・要約 / L14</span></li>
+    <li><strong>「コード作成者からコードのクリエイティブディレクターへと変貌を遂げます。」</strong> ── <em>役割転換テーマ動画のキービジュアル候補</em><span class="pos">📍 中盤・"2025年"章末 / L53</span></li>
+    <li><strong>「もし私がコードを書いていないとしたら、一体何をしているのでしょうか？」</strong>（2023年インタビュー対象者の言葉） ── <em>視聴者の「自分ごと化」を促す導入に有効</em><span class="pos">📍 序盤・"2023年"章 / L31</span></li>
+    <li><strong>「多くの開発者は、生成作業よりも検証作業に多くの時間を費やしていると報告しており、これが適切な労力配分だと感じています。」</strong> ── <em>「検証ファースト」論の根拠引用</em><span class="pos">📍 終盤・"検証と品質管理"小節 / L101</span></li>
+    <li><strong>「2025年8月、TypeScriptがGitHubの月間貢献者数でプログラミング言語ランキング1位になったのです。… 構造を強制しエラーを早期に検出する言語が戦略的な選択肢となります。」</strong> ── <em>言語選択 × AI 安全性の論点に直結する引用</em><span class="pos">📍 中盤・"生態系シグナル"章 / L60</span></li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2 id="titles">📰 CTRが高そうなタイトル案</h2>
+
+  <div class="title-section">
+    <h3>🎥 動画タイトル案（YouTube）</h3>
+    <ol class="title-list">
+      <li><strong>【保存版】GitHubが断言。エンジニアは"コードを書く人"ではなくなる｜磨くべきは"理解・指揮・検証"の3スキル</strong><br><span class="title-meta">断言型 × ベネフィット型 / 「GitHub が断言」で権威性 + 危機感を刺し、副題で「じゃあ何を磨くのか」の答え（記事後半の3スキルレイヤー）まで提示。視聴者の "自分が今日から取れる行動" をタイトル内で完結</span></li>
+      <li><strong>もうコードは書かない時代へ｜GitHub調査"AI上級ユーザー22人"が変えた働き方</strong><br><span class="title-meta">数字型 × 断言型 / "22人" の取材数で具体性を担保しつつ、結論を冒頭に置く</span></li>
+      <li><strong>【新スキル地図】AIに勝ち残るエンジニアの"3レイヤー"｜理解・指揮・検証の磨き方</strong><br><span class="title-meta">数字型 × ベネフィット型 / 記事後半「3つのスキルレイヤー（作業の理解／指揮／検証）」を訴求軸に。"3レイヤー" を冒頭に置きキャリア層に刺す</span></li>
+      <li><strong>なぜTypeScriptが急に1位になったのか？AI時代の言語選択を変える"3つの戦略的理由"</strong><br><span class="title-meta">ベネフィット型 × 数字型 / 「なぜ〜」で疑問フックを作り、"3つの理由"で続きを見たくさせる</span></li>
+      <li><strong>検証＞生成の時代。GitHubが認めた"クリエイティブディレクター型"エンジニアの中身</strong><br><span class="title-meta">対比型 × 断言型 / 「検証＞生成」の不等号でシンプルに対比、肩書きの新語で訴求</span></li>
+    </ol>
+  </div>
+
+  <div class="title-section">
+    <h3>📝 記事タイトル案（Zenn / note / Tech Blog）</h3>
+    <ol class="title-list">
+      <li><strong>GitHub調査で判明：AI時代のエンジニアは「コードのクリエイティブディレクター」になる</strong><br><span class="title-meta">断言型 × パンチライン引用 / 記事中の最強フレーズをそのままタイトル化、SEO は「AI時代 エンジニア」狙い</span></li>
+      <li><strong>検証作業＞生成作業の時代へ──GitHub上級ユーザー22人が変えたAIコーディングの作法</strong><br><span class="title-meta">対比型 / "AIコーディング" を含めて検索流入を狙う</span></li>
+      <li><strong>AIに使われるエンジニアと使いこなすエンジニアの差｜成熟度4段階で見るキャリアの分岐点</strong><br><span class="title-meta">対比型 × ベネフィット型 / "成熟度" "キャリア" でキャリア系読者を取り込む</span></li>
+      <li><strong>なぜTypeScriptが2025年8月に1位になったのか？AI時代の言語選択と型システムの戦略</strong><br><span class="title-meta">数字型 / "TypeScript" を含む、技術寄り記事として SEO が最も強い</span></li>
+      <li><strong>AIが90%を書く時代に、エンジニアが残すべき"3つのスキルレイヤー"｜理解・指揮・検証の中身（GitHub Octoverse 2025解説）</strong><br><span class="title-meta">数字型 × ベネフィット型 / "Octoverse" でトレンド検索を拾いつつ、副題で「理解・指揮・検証」というフレームワーク名を明示。後半で具体性を担保</span></li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="summary">サマリ（横断）</h2>
+  <div class="summary-grid">
+    <div class="card"><span class="num ok">13</span><span class="label">✅ 該当あり</span></div>
+    <div class="card"><span class="num warn">18</span><span class="label">⚠️ 関連言及</span></div>
+    <div class="card"><span class="num ng">14</span><span class="label">❌ なし</span></div>
+    <div class="card"><span class="num">1.38</span><span class="label">具体性 平均 / 3.0</span></div>
+  </div>
+  <p>役割転換論とビジョンとして強い／実装プラクティスは皆無。動画では "なぜ変わるのか" 派の主ソースに、"どう変えるか" には不向き。</p>
+
+  <!-- ============================================================ -->
+  <h2 id="vp1">観点 1: Engineer Role（AI時代のエンジニアの役割）</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: AI／エージェント時代におけるソフトウェアエンジニアの役割の変化について、記事がどの観点を扱っているかをチェックする。</div>
+
+  <div class="summary-grid">
+    <div class="card"><span class="num ok">6</span><span class="label">✅</span></div>
+    <div class="card"><span class="num warn">2</span><span class="label">⚠️</span></div>
+    <div class="card"><span class="num ng">0</span><span class="label">❌</span></div>
+    <div class="card"><span class="num">1.17</span><span class="label">具体性 平均</span></div>
+  </div>
+  <p>役割転換の<strong>概念とビジョン</strong>は網羅的に拾えるが、求人スキル要件・カリキュラム等の実務落としは弱い。</p>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>判定</th><th>具体性</th><th>位置</th><th>抜粋</th></tr></thead>
+    <tbody>
+      <tr><td>AIエージェントの監督者になる</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">中盤・"2025年"章末 / L53</span></td><td>「コード作成者からコードのクリエイティブディレクターへ」</td></tr>
+      <tr><td>上流工程への全員シフト</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"製品理解"小節 / L83</span></td><td>「成果やシステムレベルで考える」</td></tr>
+      <tr><td>自動化・仕組み化の設計</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章 / L47</span></td><td>「マルチエージェントワークフロー」</td></tr>
+      <tr><td>アウトプット検証・品質保証</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">終盤・"検証と品質管理"小節 / L101</span></td><td>「生成作業よりも検証作業に多くの時間」</td></tr>
+      <tr><td>ドメイン理解の比重増</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">終盤・"製品理解"小節 / L83</span></td><td>「ユーザーニーズの理解、要件の明確な定義」</td></tr>
+      <tr><td>エージェントオーケストレーション</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">終盤・"委任"小節 / L89</span></td><td>「効果的な委任には、問題の明確な定義」</td></tr>
+      <tr><td>ガードレール／契約設計</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:67%"></span></span>2</td><td><span class="pos">中盤・"生態系シグナル"章 / L60</span></td><td>「TypeScript … 構造を強制しエラーを早期に検出」</td></tr>
+      <tr><td>学習・スキルの再定義</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">冒頭・要約 / L14</span></td><td>「中核となるスキルは実装ではなくオーケストレーションと検証」</td></tr>
+    </tbody>
+  </table>
+
+  <h3>詳細</h3>
+
+  <details open>
+    <summary>AIエージェントの監督者になる ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 中盤・"2025年" 章末 / L53 付近</span></p>
+    <blockquote>インタビューで初めて耳にした表現を借りれば、彼らはコードの作成者からコードのクリエイティブディレクターへと変貌を遂げます。そして重要なのは、このレベルに達した開発者たちは、それを技術の喪失ではなく、技術の再創造と捉えている点です。</blockquote>
+    <p><strong>コメント</strong>: 「監督者・指揮者」のメタファとして極めて強い。スコア1止まりの理由は、具体スキル一覧／カリキュラムが提示されないため。</p>
+  </details>
+
+  <details>
+    <summary>上流工程への全員シフト ── ⚠️ 関連言及</summary>
+    <p><span class="pos">📍 終盤・"製品理解" 小節 / L83 付近</span></p>
+    <blockquote>開発者は、断片的なコードではなく、成果やシステムレベルで考えることがますます重要になってくるでしょう。これには、ユーザーニーズの理解、要件の明確な定義、変更が製品全体にどのような影響を与えるかの考察などが含まれます。</blockquote>
+    <p><strong>コメント</strong>: 「全エンジニアが上流に」とは明示しないが、<strong>製品理解とアーキテクチャ重視</strong>の方向で実質的に上流シフトを示唆。</p>
+  </details>
+
+  <details>
+    <summary>ガードレール／契約設計 ── ✅ 該当あり（具体性 2）</summary>
+    <p><span class="pos">📍 中盤・"生態系シグナル" 章 / L60 付近</span></p>
+    <blockquote>TypeScriptはコードベースに明瞭さと構造をもたらし、意図をより明確に表現し、開発者とAIの両方が正しさを推論するのに役立つ型システムを提供します。… AIがコードの大部分を記述するようになると、構造を強制しエラーを早期に検出する言語が戦略的な選択肢となります。</blockquote>
+    <p><strong>コメント</strong>: 「TypeScript の急上昇」という観測可能な事実 + 「言語選択は委譲をより安全にする手段」というロジックがセット。実装例ではないがマクロな根拠ありで具体性 2。</p>
+  </details>
+
+  <details>
+    <summary>アウトプット検証・品質保証 ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 終盤・"検証と品質管理" 小節 / L101 付近</span></p>
+    <blockquote>多くの開発者は、生成作業よりも検証作業に多くの時間を費やしていると報告しており、これが適切な労力配分だと感じています。強力な検証手法こそが、大規模な委任を可能にし、開発者がエージェントに意味のある作業単位を徐々に任せられるようにするのです。</blockquote>
+    <p><strong>コメント</strong>: 役割の中核を「検証」と明言。具体的なテスト戦略・ツール例まで踏み込まないので 1。</p>
+  </details>
+
+  <details>
+    <summary>ドメイン理解の比重増 ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 終盤・"製品理解" 小節 / L83 付近</span></p>
+    <blockquote>開発者は、断片的なコードではなく、成果やシステムレベルで考えることがますます重要になってくるでしょう。これには、ユーザーニーズの理解、要件の明確な定義、変更が製品全体にどのような影響を与えるかの考察などが含まれます。</blockquote>
+    <p><strong>コメント</strong>: 「製品理解」セクションで明示的に扱われている。</p>
+  </details>
+
+  <details>
+    <summary>エージェントオーケストレーション ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 終盤・"委任とエージェントのオーケストレーション" 小節 / L89 付近</span></p>
+    <blockquote>効果的な委任には、問題の明確な定義、作業を意味のある単位に分割すること、適切なコンテキストの提供、制約の明確化、そして成功基準の設定が必要です。熟練した開発者は、エージェントと対話的に連携するタイミングと、タスクをバックグラウンドで独立して実行するタイミングも判断します。</blockquote>
+    <p><strong>コメント</strong>: 同期 vs 非同期の使い分けに触れる点で評価できるが、複数エージェントの役割設計までは降りない。</p>
+  </details>
+
+  <details>
+    <summary>学習・スキルの再定義 ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 冒頭・要約 / L14 付近</span></p>
+    <blockquote>AI開発において最も進歩を遂げた開発者たちは、従来とは異なる働き方をしている。彼らは自らの役割を「コードプロデューサー」というより「コードのクリエイティブディレクター」と表現し、中核となるスキルは実装ではなく、オーケストレーションと検証にあると述べている。</blockquote>
+    <p><strong>コメント</strong>: 学ぶべきスキルの「重心」が定義されている。</p>
+  </details>
+
+  <details>
+    <summary>自動化・仕組み化の設計 ── ⚠️ 関連言及</summary>
+    <p><span class="pos">📍 中盤・"2025年" 章 / L47 付近</span></p>
+    <blockquote>興味深いことに、開発者がAIに慣れていく各段階において、採用する準備が整ったと感じるツールやワークフローもそれに合わせて進化していました。…そして最後にマルチエージェントワークフローへと移行していきました。</blockquote>
+    <p><strong>コメント</strong>: ワークフロー進化の段階には触れるが、ハーネス／自動化パイプラインの設計指南はない。</p>
+  </details>
+
+  <!-- ============================================================ -->
+  <h2 id="vp2">観点 2: Agentic Maturity（成熟度レベルの指標）</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: エージェンティックコーディング／バイブコーディング／ハーネスエンジニアリング／エージェンティックエンジニアリングの<strong>成熟度を測る指標</strong>。記事がどの軸で「進歩」を語っているかを点検する。</div>
+
+  <div class="summary-grid">
+    <div class="card"><span class="num ok">3</span><span class="label">✅</span></div>
+    <div class="card"><span class="num warn">5</span><span class="label">⚠️</span></div>
+    <div class="card"><span class="num ng">5</span><span class="label">❌</span></div>
+    <div class="card"><span class="num">1.67</span><span class="label">具体性 平均</span></div>
+  </div>
+  <p><strong>4段階の成熟度モデル</strong>（懐疑論者→探求者→コラボレーター→ストラテジスト）を提示する強さがある一方、<strong>測定可能な KPI／チェックリスト</strong>には欠ける。</p>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>判定</th><th>具体性</th><th>位置</th><th>抜粋</th></tr></thead>
+    <tbody>
+      <tr><td>AI使用頻度・浸透度</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:67%"></span></span>2</td><td><span class="pos">中盤・"生態系シグナル"章 / L62-64</span></td><td>「新規登録80%が初週Copilot利用」「100万PRマージ」</td></tr>
+      <tr><td>ハーネス整備度</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>自動化フローの数・範囲</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章 / L47</span></td><td>「コード補完→AI対応IDE→マルチエージェント」</td></tr>
+      <tr><td>フィードバックループの深さ</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"AIの連携"小節 / L92</span></td><td>「停止ポイント、修正フィードバック、自己評価」</td></tr>
+      <tr><td>エージェント連携度</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">中盤・"2025年"章 / L42</span></td><td>「複数のエージェントを並行して作業させるタイミング」</td></tr>
+      <tr><td>検証ゲート整備度</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"検証と品質管理"小節 / L103</span></td><td>「検証は継続的なプロセス」</td></tr>
+      <tr><td>観測・計測の成熟度</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>チーム展開度</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"生態系シグナル"章 / L57</span></td><td>「実践が外部に広がり始めている」</td></tr>
+      <tr><td>ガバナンス・統制</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>スキル習熟度</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:67%"></span></span>2</td><td><span class="pos">中盤・"2025年"章 / L42</span></td><td>「懐疑論者→探求者→協力者→戦略家」4段階モデル</td></tr>
+      <tr><td>効果測定 KPI</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>ロードマップ</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章 / L38</span></td><td>「毎日AIツールを使うように自分自身を駆り立てる」</td></tr>
+      <tr><td>アンチパターン回避</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>記事から読み取れる成熟度モデル</h3>
+  <table>
+    <thead><tr><th>Lv</th><th>名称</th><th>特徴</th><th>入れ替えの基準</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>AI懐疑論者（skeptic）</td><td><strong>疑念深く抵抗的</strong>。AI を試したが「面倒」と感じ働き方を変えない。反復・エラー許容度が低い</td><td>AI 失敗時にすぐ手作業に戻る癖を抜ける／反復許容を獲得</td></tr>
+      <tr><td>2</td><td>AI探求者（explorer）</td><td><strong>好奇心旺盛で開放的</strong>。デバッグ／ボイラープレート／スニペット等の quick wins に使い信頼構築。許容度は中程度</td><td>「どのツールがどのタスクに合うか」を判別できる</td></tr>
+      <tr><td>3</td><td>AIコラボレーター（collaborator）</td><td><strong>実用的で自信あり</strong>。AI と共同制作し、<strong>AI 機能を構築プロセスに深く統合</strong>。複数ラウンド前提</td><td>エージェントへの委任と同期コラボの使い分け</td></tr>
+      <tr><td>4</td><td>AIストラテジスト（strategist）</td><td><strong>自信があり楽観的</strong>。計画・機能開発・<strong>大規模リファクタリング</strong>に AI を使い、<strong>オーケストレーションと検証をリード</strong>。反復許容度が高い</td><td>自己構成のAIスタック／並列構成の運用、検証中心の重心移動</td></tr>
+    </tbody>
+  </table>
+
+  <h3>詳細</h3>
+
+  <details open>
+    <summary>AI使用頻度・浸透度 ── ✅ 該当あり（具体性 2）</summary>
+    <p><span class="pos">📍 中盤・"生態系シグナル" 章 / L62-64 付近</span></p>
+    <blockquote>2025年にGitHubで新規登録した開発者の80%が、最初の1週間以内にCopilotを利用したのです。… GitHubの自律型エージェントであるCopilotコーディングエージェント … リリースから最初の5ヶ月間で、開発者は100万件以上のプルリクエストをマージするためにこれを使用したのです。</blockquote>
+    <p><strong>コメント</strong>: マクロ数値が具体。各社や個人の「自分はどこか」を測る個別 KPI までは下りていないので 3 にはならず 2。</p>
+  </details>
+
+  <details>
+    <summary>スキル習熟度 ── ✅ 該当あり（具体性 2）</summary>
+    <p><span class="pos">📍 中盤・"2025年" 章 / L42 付近</span></p>
+    <blockquote>彼らがAIの知識と使用において、懐疑論者から探求者、協力者、そして戦略家へと成長していったことが分かりました。</blockquote>
+    <p><strong>コメント</strong>: 4段階モデルが明確かつ各段階の特徴説明あり。レベル移行のチェックリスト・自己診断質問は無いため 3 ではなく 2。</p>
+  </details>
+
+  <details>
+    <summary>エージェント連携度 ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 中盤・"2025年" 章 / L42 付近</span></p>
+    <blockquote>複数のエージェントを並行して作業させるタイミング、AIツールに「インタビュー」させてより多くの情報を得るタイミング（そして、AIツールが何を理解しているかを確認する方法）</blockquote>
+    <p><strong>コメント</strong>: マルチエージェント運用の段階には触れるが、計測軸（並列数・成功率等）はない。</p>
+  </details>
+
+  <div class="ng-list"><strong>❌ 該当なし</strong>: ハーネス整備度 / 観測・計測の成熟度 / ガバナンス・統制 / 効果測定 KPI / アンチパターン回避 ── 記事はマクロ・概念寄りのため、CLAUDE.md／監査ログ／コスト計測／KPI といった整備系の指標には触れない。<strong>この記事の盲点</strong>。</div>
+
+  <!-- ============================================================ -->
+  <h2 id="vp3">観点 3: Agentic Practices（実践プラクティス）</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: エージェンティックコーディング／バイブコーディング／ハーネスエンジニアリング／エージェンティックエンジニアリングを<strong>健全に進めるための実践観点</strong>。記事が良いやり方をどれだけカバーしているかを点検する。</div>
+
+  <div class="summary-grid">
+    <div class="card"><span class="num ok">2</span><span class="label">✅</span></div>
+    <div class="card"><span class="num warn">6</span><span class="label">⚠️</span></div>
+    <div class="card"><span class="num ng">4</span><span class="label">❌</span></div>
+    <div class="card"><span class="num">1.0</span><span class="label">具体性 平均</span></div>
+  </div>
+  <p>反復・検証・コンテキスト等の<strong>概念は揃う</strong>が、CLAUDE.md / フック / MCP / YAML 等の<strong>実装プラクティスは皆無</strong>。プラクティス論として読むには物足りない。</p>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>判定</th><th>具体性</th><th>位置</th><th>抜粋</th></tr></thead>
+    <tbody>
+      <tr><td>コンテキスト最適化</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"生態系シグナル"章 / L60</span></td><td>「ガードレールとコンテキストを与える」</td></tr>
+      <tr><td>明示的なルール定義</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"委任"小節 / L89</span></td><td>「制約の明確化、成功基準の設定」</td></tr>
+      <tr><td>スキル・プラグイン化</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>フックによる自動化</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>サブエージェント分割</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章 / L42</span></td><td>「複数のエージェントを並行して作業させる」</td></tr>
+      <tr><td>MCP／外部ツール連携</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>自動フィードバックループ</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"AIの連携"小節 / L92</span></td><td>「エージェントへの自己評価の依頼」</td></tr>
+      <tr><td>小さく繰り返す</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">終盤・"AIの連携"小節 / L92</span></td><td>「絶え間ない試行錯誤」「頻繁にイテレーション」</td></tr>
+      <tr><td>バイブコーディングの使い分け</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>アウトプット検証</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:33%"></span></span>1</td><td><span class="pos">終盤・"検証と品質管理"小節 / L101</span></td><td>「レビュー、テスト、セキュリティチェック」</td></tr>
+      <tr><td>仕様・意図のドキュメント化</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章末 / L51</span></td><td>「意図の定義、要件の明確な定義」</td></tr>
+      <tr><td>観測・計測</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>詳細</h3>
+
+  <details open>
+    <summary>小さく繰り返す ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 終盤・"開発者とAIの連携" 小節 / L92 付近</span></p>
+    <blockquote>エージェントとの同期的なコラボレーションは、停止ポイントの設定、修正フィードバックの提供、エージェントへの自己評価の依頼、あるいは明確化のための質問を促すなど、緊密で反復的なループに依存します。</blockquote>
+    <p><strong>コメント</strong>: 反復のスタンスは明示。具体的なサイクル設計（例：1機能5プロンプト以内など）はないため 1。</p>
+  </details>
+
+  <details>
+    <summary>アウトプット検証 ── ✅ 該当あり（具体性 1）</summary>
+    <p><span class="pos">📍 終盤・"検証と品質管理" 小節 / L101 付近</span></p>
+    <blockquote>AIが生成する出力には、厳密な検証が必要です。開発者は、レビュー、テスト、セキュリティチェック、前提条件の検証などを通じて、その動作を検証します。</blockquote>
+    <p><strong>コメント</strong>: 検証手法を列挙するが、具体パイプライン（CI YAML、テストの粒度設計）まで踏み込まない。</p>
+  </details>
+
+  <details>
+    <summary>コンテキスト最適化 ── ⚠️ 関連言及</summary>
+    <p><span class="pos">📍 中盤・"生態系シグナル" 章 / L60 付近</span></p>
+    <blockquote>インタビューの中で、開発者たちは曖昧さを減らし検証を容易にするために、AIにより多くのガードレールとコンテキストを与える必要があると述べています。</blockquote>
+    <p><strong>コメント</strong>: 重要性は語るが、CLAUDE.md／.cursorrules／システムプロンプト設計の<strong>具体例は無し</strong>。</p>
+  </details>
+
+  <div class="ng-list"><strong>❌ 該当なし</strong>: スキル・プラグイン化 / フックによる自動化 / MCP／外部ツール連携 / バイブコーディングの使い分け / 観測・計測 ── <strong>この記事をプラクティス記事として使うのは難しい</strong>。実装系記事（simonw、harper.blog、Anthropic Engineering ブログ等）で補完を推奨。</div>
+
+  <!-- ============================================================ -->
+  <h2 id="vp4">観点 4: Review Bottleneck（レビューボトルネックと対策）</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: AI エージェントによってコードのスループットが激増した結果、<strong>人間の QA／レビュー能力がボトルネック</strong>になる現象に対し、記事が問題認識と対策をどれだけ扱っているかを点検する。</div>
+
+  <div class="summary-grid">
+    <div class="card"><span class="num ok">2</span><span class="label">✅</span></div>
+    <div class="card"><span class="num warn">5</span><span class="label">⚠️</span></div>
+    <div class="card"><span class="num ng">5</span><span class="label">❌</span></div>
+    <div class="card"><span class="num">2.0</span><span class="label">具体性 平均</span></div>
+  </div>
+  <p>「AI が量産する → 検証が中心仕事」という認識は明確だが、<strong>レビュー疲労・トリアージ・小さな PR 戦術</strong>といった具体的なボトルネック解消策はカバー薄。</p>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>判定</th><th>具体性</th><th>位置</th><th>抜粋</th></tr></thead>
+    <tbody>
+      <tr><td>スループット増加の指摘</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:67%"></span></span>2</td><td><span class="pos">中盤・"生態系シグナル"章 / L33・L64</span></td><td>「100万件以上のPR」「AIが90%を記述する将来見通し」</td></tr>
+      <tr><td>QA ボトルネックの認識</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"検証と品質管理"小節 / L101</span></td><td>「生成より検証に時間を費やす」</td></tr>
+      <tr><td>レビュー疲労・形骸化</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>見逃しリスク</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">中盤・"2025年"章 / L42</span></td><td>「AIが何を理解しているか確認する方法」</td></tr>
+      <tr><td>自動レビュー強化</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"検証と品質管理"小節 / L101</span></td><td>「テスト、セキュリティチェック」</td></tr>
+      <tr><td>AIによる事前レビュー</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"AIの連携"小節 / L92</span></td><td>「エージェントに自己評価を依頼」</td></tr>
+      <tr><td>テストで保護する</td><td><span class="badge warn">⚠️ 関連</span></td><td>—</td><td><span class="pos">終盤・"検証と品質管理"小節 / L101</span></td><td>「テスト・セキュリティチェック・前提条件の検証」</td></tr>
+      <tr><td>型・スキーマ・契約設計</td><td><span class="badge ok">✅ あり</span></td><td><span class="score-bar"><span style="width:67%"></span></span>2</td><td><span class="pos">中盤・"生態系シグナル"章 / L60</span></td><td>「TypeScript … 構造を強制しエラーを早期に検出」</td></tr>
+      <tr><td>小さな PR ／頻繁マージ</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>レビューのトリアージ</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>トレーサビリティ</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>QA キャパシティ拡張</td><td><span class="badge ng">❌ なし</span></td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>詳細</h3>
+
+  <details open>
+    <summary>スループット増加の指摘 ── ✅ 該当あり（具体性 2）</summary>
+    <p><span class="pos">📍 中盤・"生態系シグナル" 章 / L33・L64 付近</span></p>
+    <blockquote>リリースから最初の5ヶ月間で、開発者は100万件以上のプルリクエストをマージするためにこれを使用したのです。… AIがコードの90%を記述するという将来的な見通しを耳にするようになった</blockquote>
+    <p><strong>コメント</strong>: 量的増加はマクロデータで明確。ただしこの量を「人間レビューがどう捌くか」までは言及せず、ボトルネック論への接続は読者の補完が必要。</p>
+  </details>
+
+  <details>
+    <summary>型・スキーマ・契約設計 ── ✅ 該当あり（具体性 2）</summary>
+    <p><span class="pos">📍 中盤・"生態系シグナル" 章 / L60 付近</span></p>
+    <blockquote>TypeScriptはコードベースに明瞭さと構造をもたらし、意図をより明確に表現し、開発者とAIの両方が正しさを推論するのに役立つ型システムを提供します。… 構造を強制しエラーを早期に検出する言語が戦略的な選択肢となります。</blockquote>
+    <p><strong>コメント</strong>: 「型による検証負荷低減」を明示している点で本観点では強い。zod/JSON Schema/契約テストといった具体ツールには触れない。</p>
+  </details>
+
+  <div class="ng-list"><strong>❌ 該当なし</strong>: レビュー疲労・形骸化 / 小さな PR ／頻繁マージ / レビューのトリアージ / トレーサビリティ / QA キャパシティ拡張 ── <strong>この記事の盲点</strong>。GitClear のコード品質レポート、DORA レポート等で補完を推奨。</div>
+
+
+</div>
+</body>
+</html>

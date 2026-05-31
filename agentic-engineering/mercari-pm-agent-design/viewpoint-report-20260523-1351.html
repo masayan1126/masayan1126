@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mercari-pm-agentの設計——Claude Code SkillsとMCPでPMワークフローを自動化する</title>
+<style>
+  :root {
+    --bg: #fafafa; --fg: #1a1a1a; --muted: #6b7280;
+    --card: #ffffff; --border: #e5e7eb;
+    --ok: #16a34a; --warn: #d97706; --ng: #dc2626;
+    --accent: #2563eb;
+    --hl: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 16px; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.7; }
+  .container { max-width: 980px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin: 0 0 8px; }
+  h2 { font-size: 1.3rem; margin-top: 40px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  h3 { font-size: 1.05rem; margin-top: 24px; color: var(--accent); }
+  h4 { font-size: 0.98rem; margin-top: 18px; color: #374151; }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .conclusion { background: var(--hl); border: 1px solid #fde68a; border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0 28px; }
+  .conclusion h2 { margin-top: 0; border: none; padding: 0; }
+  .viewpoint-desc { background: #eff6ff; border-left: 4px solid var(--accent);
+    padding: 10px 14px; margin: 12px 0; border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+  .viewpoint-detail { background: #f9fafb; border-left: 3px solid #c7d2fe;
+    padding: 8px 12px; margin: 6px 0 10px; border-radius: 0 4px 4px 0;
+    font-size: 0.88rem; color: #374151; line-height: 1.6; }
+  .viewpoint-detail strong { color: var(--accent); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+  .badge.ok { background: #dcfce7; color: var(--ok); }
+  .badge.warn { background: #fef3c7; color: var(--warn); }
+  .badge.ng { background: #fee2e2; color: var(--ng); }
+  .pos { display: inline-block; font-size: 0.78rem; color: var(--muted);
+    background: #f3f4f6; padding: 1px 8px; border-radius: 4px; }
+  .score-bar { display: inline-block; width: 60px; height: 8px; background: var(--border);
+    border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .score-bar > span { display: block; height: 100%; background: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; background: var(--card); }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #f3f4f6; font-weight: 600; }
+  blockquote { margin: 8px 0; padding: 10px 14px; border-left: 3px solid var(--accent);
+    background: #f3f4f6; color: #374151; font-size: 0.95rem; border-radius: 0 4px 4px 0;
+    white-space: pre-wrap; }
+  details { margin: 8px 0; padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--card); }
+  summary { cursor: pointer; font-weight: 600; }
+  .quote-list li { margin: 8px 0; line-height: 1.65; }
+  .title-list { padding-left: 24px; }
+  .title-list li { background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 14px; margin: 8px 0; }
+  .title-meta { color: var(--muted); font-size: 0.85rem; }
+  .reinforce { background: #fff7ed; border-left: 3px solid #f97316;
+    padding: 10px 14px; margin: 8px 0; border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+  .reinforce h4 { color: #c2410c; margin-top: 8px; }
+  .reinforce ul { margin: 4px 0 8px 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>mercari-pm-agentの設計——Claude Code SkillsとMCPでPMワークフローを自動化する</h1>
+  <p class="meta">ソース: <a href="https://engineering.mercari.com/blog/entry/20260427-mercari-pm-agent-design-automating-the-pm-workflow-with-claude-code-skills-and-mcp/">engineering.mercari.com/blog/entry/20260427-mercari-pm-agent-design-...</a></p>
+
+  <div class="conclusion">
+    <h2>🎬 結論：このコンテンツの使い道</h2>
+    <ul>
+      <li><strong>動画として使うなら</strong>:
+        <ul>
+          <li>◎ 推奨: 「Agentic Engineering 実装プラクティスの事例紹介」枠。<code>CLAUDE.md</code> / Skills 分割 / MCP 並列接続 / Data integrity rules / プロンプト TDD と、<strong>1 記事に実装パターンが密集</strong>している</li>
+          <li>✗ 避ける: 「AI時代のエンジニアの役割論」「組織変革」を主題にする動画。記事は完全に実装レイヤーに振っており、役割転換・評価制度・キャリアラダー系の言及は無い</li>
+          <li>フック候補: <em>Skillの設計は「振る舞いの仕様書」を書くことに近い</em> ── 制約設計こそが精度を決める</li>
+        </ul>
+      </li>
+      <li><strong>記事化（Zenn / note / Tech Blog）するなら</strong>:
+        <ul>
+          <li>◎ 推奨: 「Claude Code Skills 実装パターン解説」「業務 LLM の捏造リスクを制約で潰す設計」「MCP 複数接続の並列／フォールバック設計」</li>
+          <li>✗ 避ける: 「成熟度モデル」「組織展開」「KPI設計」など組織観点が中心の記事</li>
+        </ul>
+      </li>
+      <li><strong>補強が必要なテーマ</strong>: 観測・コスト計測（OBS）、AI 利用 KPI、組織展開、評価制度、サブエージェント分割 ── すべて言及無し</li>
+    </ul>
+  </div>
+
+  <h2>引用候補（動画・記事化向け）</h2>
+  <ul class="quote-list">
+    <li><strong>Skillの設計は「振る舞いの仕様書」を書くことに近い。 命令ではなく制約の設計が重要で、LLMが「どう振る舞うべきでないか」を明示することが精度に直結する。</strong> ── <em>記事全体のテーゼ、サムネ／導入で叩ける</em> <span class="pos">📍 末尾・"まとめ" 章</span></li>
+    <li><strong>これは「嘘をつくな」とプロンプトで命令するだけでは解決しません。モデルがデータ不足を認識したとき、どう振る舞うかを制約として設計する必要があります。</strong> ── <em>業務 LLM の最大リスクを 1 文で言語化、フック候補トップ</em> <span class="pos">📍 中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></li>
+    <li><strong>LLMベースのエージェントは「動くかどうか」より「正しく動くかどうか」の判定が難しい。評価軸を先に定義することで、プロトタイプの改善サイクルを感覚ではなく基準で回せるようになりました。</strong> ── <em>プロンプト TDD の核心、評価の重要性を一文で伝える</em> <span class="pos">📍 中盤・"評価基準を先に決める——プロンプトのTDD" 章</span></li>
+    <li><strong>コンテキストが長くなると、モデルが文脈の中で関連情報に適切に注目できなくなる現象（いわゆる「Lost in the Middle」問題）が知られており、Anthropicのプロンプトエンジニアリングガイドでもプロンプトを簡潔に保つことが推奨されています。</strong> ── <em>関心の分離をプロンプト設計に持ち込む根拠</em> <span class="pos">📍 中盤・"ファイル構成：関心の分離をプロンプト設計に適用する" 章</span></li>
+    <li><strong>MCPによる外部ツール接続は並列設計で。 直列参照はユーザー体験を悪化させる。フォールバック設計とあわせて、接続の堅牢性を考慮する必要がある。</strong> ── <em>MCP実装パターンの教訓、設計指針として効く</em> <span class="pos">📍 末尾・"まとめ" 章</span></li>
+  </ul>
+
+  <h2>📰 CTRが高そうなタイトル案（動画 5本 / 記事 5本）</h2>
+
+  <h3>🎥 動画タイトル案（YouTube）</h3>
+  <ol class="title-list">
+    <li><strong>「嘘をつくな」では止まらない、メルカリPM Agentが課した制約設計</strong><br>
+      <span class="title-meta">不安／煽り型 / 業務LLMの最大リスクを刺し、設計の必要性で煽る</span><br>
+      <span class="title-meta"><strong>概要文（YouTube 説明欄）</strong>: メルカリのインターン生が作ったmercari-pm-agentは、LLMの「それらしい嘘」をプロンプト命令ではなく制約として設計し直しました。本動画ではData integrity rulesと「完了を推測しない」制約、PMの明示的確認だけで進行する設計を、実コード片を見ながら解説します。</span></li>
+    <li><strong>【メルカリ】Claude Code SkillsでPM業務を自動化した実装解説</strong><br>
+      <span class="title-meta">断言型 / 著者所属と固有名詞で技術視聴者の興味を引く</span><br>
+      <span class="title-meta"><strong>概要文（YouTube 説明欄）</strong>: Notion/Slack/Looker/FigmaをMCPで並列接続し、PMの「問題発見→データ収集→PRD作成→UIモック」を1コマンドで回すmercari-pm-agentの設計を、SKILL.md分割・関心の分離・評価専用スキル運用まで実装レベルで紐解きます。</span></li>
+    <li><strong>SKILL.mdは短いほど精度が上がる:Lost in the Middle問題の対策</strong><br>
+      <span class="title-meta">逆張り型 / 「長い方が情報多くて良い」常識を覆す</span><br>
+      <span class="title-meta"><strong>概要文（YouTube 説明欄）</strong>: 「ファイルが長くなるほど出力精度が低下する」── メルカリのPMエージェント開発で発見された逆説。Lost in the Middle問題に対し、SKILL.mdとreferences/に関心の分離を持ち込んだ実例を解説。Anthropic公式ガイドの裏付けも紹介します。</span></li>
+    <li><strong>MCPで4ツール並列接続:Notion/Slack/Looker/Figmaを繋ぐ実装パターン</strong><br>
+      <span class="title-meta">数字型 / 具体ツール名で実装系視聴者にリーチ</span><br>
+      <span class="title-meta"><strong>概要文（YouTube 説明欄）</strong>: mercari-pm-agentが採用したMCP並列クエリとフォールバック設計を、data-sources.mdのプロンプト指示まで掘り下げて解説。1つのソースが落ちても処理が止まらない堅牢設計、社内VPN+User Tokenのセキュリティ設計まで含む実装解説動画です。</span></li>
+    <li><strong>プロンプトのTDDとは?LLMエージェント開発の正しい順番</strong><br>
+      <span class="title-meta">ベネフィット型 / TDDという馴染みの語でエンジニアに訴求</span><br>
+      <span class="title-meta"><strong>概要文（YouTube 説明欄）</strong>: 評価基準を実装より先に決める「プロンプトのTDD」。メルカリのインターン生が開発したmercari-pm-agentでは評価専用スキル（skill-creator-max）を別途作成し、評価データセットで反復改善しました。この設計プロセスをTDDの観点から解説します。</span></li>
+  </ol>
+
+  <h3>📝 記事タイトル案（Zenn / note / Tech Blog）</h3>
+  <ol class="title-list">
+    <li><strong>メルカリPMエージェント設計の4つの知見 ── Claude Code Skills × MCP 実装解説</strong><br>
+      <span class="title-meta">数字型 / 「メルカリ」「Claude Code Skills」「MCP」のSEO語を冒頭に</span><br>
+      <span class="title-meta"><strong>Meta description（〜160字）</strong>: メルカリのPMインターンが開発したmercari-pm-agentの設計知見を、Claude Code SkillsとMCP（Notion/Slack/Looker/Figma）の実装視点から解説。SKILL.md分割・Data integrity rules・プロンプトTDDまで網羅。</span></li>
+    <li><strong>SKILL.mdは短いほうが精度が上がる：Lost in the Middle問題と関心の分離</strong><br>
+      <span class="title-meta">逆張り型 / Anthropic公式ガイド準拠の根拠</span><br>
+      <span class="title-meta"><strong>Meta description（〜160字）</strong>: Claude Code Skillsの設計で発見された逆説。SKILL.mdが長いほど出力精度が低下する現象（Lost in the Middle問題）の対策として、references/ディレクトリへの関心の分離を実装したmercari-pm-agentの事例を解説します。</span></li>
+    <li><strong>LLMの「それらしい嘘」を制約として防ぐ ── Data integrity rules の設計</strong><br>
+      <span class="title-meta">断言型 / 業務LLMの最大リスクを直球で</span><br>
+      <span class="title-meta"><strong>Meta description（〜160字）</strong>: 業務LLMの最大の危険「根拠のないそれらしい情報」生成。プロンプトで命令するだけでは防げないこのリスクに対し、mercari-pm-agentが採用したData integrity rulesと「完了を推測しない」制約設計を実装レベルで解説します。</span></li>
+    <li><strong>Claude Code SkillsとMCPでPMワークフローを自動化する設計パターン</strong><br>
+      <span class="title-meta">ベネフィット型 / 検索クエリ多数含む</span><br>
+      <span class="title-meta"><strong>Meta description（〜160字）</strong>: Claude Code SkillsでPM業務（問題発見→データ収集→PRD作成→UIモック）を1コマンド化したmercari-pm-agent。MCP経由のNotion/Slack/Looker/Figma並列接続、フォールバック設計まで、実装パターンを設計意図付きで解説します。</span></li>
+    <li><strong>エージェントに「完了を推測させない」 ── PMの明示的確認だけで進行する設計</strong><br>
+      <span class="title-meta">逆張り型 / 自動進行を禁じる潔さ</span><br>
+      <span class="title-meta"><strong>Meta description（〜160字）</strong>: LLMエージェントは自動進行しがち。これに対しmercari-pm-agentは「You are NOT allowed to infer completeness」と明示し、PMの確認なしに次ステップに進むことを禁じました。意思決定のドライバーを人間に残す制約設計を解説します。</span></li>
+  </ol>
+
+  <h2>観点 1: AI時代のエンジニアの役割の変化について、どの程度言及があるか</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: AI／エージェント時代におけるソフトウェアエンジニアの役割の変化について、記事がどの観点を扱っているかをチェックする。</div>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>具体性</th><th>位置</th><th>引用元テキスト</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>AIを活用した自動化・仕組み化の設計／チーム・個人への展開</td>
+        <td><span class="score-bar"><span style="width:67%"></span></span> 2</td>
+        <td><span class="pos">序盤・"はじめに" 〜 中盤・"実装" 章</span></td>
+        <td>インターン期間中に mercari-pm-agent というClaude CodeのSkillを開発しました。PMが行う「問題の発見→データ収集→PRD作成→UIモック」の一連のワークフローを、1つのセッション内で処理するエージェントです。<br>mercari-pm-agent はClaude CodeのSkillとして実装しているため、MCP設定が済んでいれば /mercari-pm-agent のコマンド1つで起動できます。</td>
+      </tr>
+      <tr>
+        <td>レビュー・品質保証・品質に対する責任を負う</td>
+        <td><span class="score-bar"><span style="width:67%"></span></span> 2</td>
+        <td><span class="pos">中盤・"評価基準を先に決める——プロンプトのTDD" 章</span></td>
+        <td>実装を始める前に、まず「エージェントの出力をどう評価するか」の基準を定義しました。<br>設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。</td>
+      </tr>
+      <tr>
+        <td>ガードレール／契約設計</td>
+        <td><span class="score-bar"><span style="width:100%"></span></span> 3</td>
+        <td><span class="pos">中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></td>
+        <td>これは「嘘をつくな」とプロンプトで命令するだけでは解決しません。モデルがデータ不足を認識したとき、どう振る舞うかを制約として設計する必要があります。<br>You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details open>
+    <summary>AIを活用した自動化・仕組み化の設計／チーム・個人への展開 ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: <strong>何を見るか</strong>: 個別実装より「ワークフロー設計／ハーネス構築／自動化パイプライン」をエンジニア個人が組み、それを <strong>チーム・他のエンジニアへ展開・標準化していく</strong> ことに触れているか。</div>
+    <p><span class="pos">📍 序盤・"はじめに" 章 〜 中盤・"実装：Claude Code SkillsでPMワークフローを定義する" 章</span></p>
+    <blockquote>インターン期間中に mercari-pm-agent というClaude CodeのSkillを開発しました。PMが行う「問題の発見→データ収集→PRD作成→UIモック」の一連のワークフローを、1つのセッション内で処理するエージェントです。</blockquote>
+    <blockquote>mercari-pm-agent はClaude CodeのSkillとして実装しているため、MCP設定が済んでいれば /mercari-pm-agent のコマンド1つで起動できます。</blockquote>
+    <p><strong>コメント</strong>: PMワークフロー全体（問題発見〜UIモック）をSkillとして外部化し、<code>/mercari-pm-agent</code> 1コマンドで起動できる「成果物として残す」設計に踏み込んでいる点が該当根拠。チーム標準化・横展開・専門組織・評価制度への接続は無く、個人〜単一チームレベルの自動化に留まる（具体性 2）。</p>
+  </details>
+
+  <details open>
+    <summary>レビュー・品質保証・品質に対する責任を負う ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: <strong>何を見るか</strong>: AI が生成した成果物の <strong>レビュー・テスト・品質ゲート設計</strong> をエンジニアが担うこと、そして <strong>品質に対する最終責任を人間（エンジニア）が負う</strong> ことに触れているか。</div>
+    <p><span class="pos">📍 中盤・"評価基準を先に決める——プロンプトのTDD" 章 〜 "スキルをスキルで評価する——自動評価パイプライン" 章</span></p>
+    <blockquote>実装を始める前に、まず「エージェントの出力をどう評価するか」の基準を定義しました。</blockquote>
+    <blockquote>設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。</blockquote>
+    <p><strong>コメント</strong>: 評価基準（課題理解精度／仕様の具体性／実現可能性／UX妥当性）を <strong>実装前に</strong> 定義し、評価専用のスキルでスコアリングして反復改善するパイプラインを実装。「動くかどうかより正しく動くかどうかの判定が難しい」と人間が品質責任を担う前提を明文化している。AI 起因の障害発生時の責任設計・倫理判断は扱っていないため具体性 2。</p>
+  </details>
+
+  <details open>
+    <summary>ガードレール／契約設計 ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: <strong>何を見るか</strong>: エージェントが安全・期待通りに動くための制約（型・スキーマ・テスト・ガードレール）の設計に触れているか。</div>
+    <p><span class="pos">📍 中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></p>
+    <blockquote>これは「嘘をつくな」とプロンプトで命令するだけでは解決しません。モデルがデータ不足を認識したとき、どう振る舞うかを制約として設計する必要があります。</blockquote>
+    <blockquote>You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression. （完了を推測して次へ進むことを禁じる。PMの明示的な確認があった場合のみ次へ進める）</blockquote>
+    <p><strong>コメント</strong>: 「嘘をつくな」命令ではなく <strong>どう振る舞うかを制約として設計</strong> する思想を、Data integrity rules と「完了を推測しない」制約の <strong>実コード片</strong> で示している。コピペで他プロジェクトに転用可能な粒度なので具体性 3。</p>
+  </details>
+
+  <h2>観点 2: Agentic Engineering の実践プラクティスについて、どの程度言及があるか</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: Agentic Engineering・Agentic Coding・Vibe Coding・Harness Engineering を <strong>健全に進めるための実践プラクティス</strong> と、それを <strong>どの段階まで実装できているか（成熟度）</strong> の両面から記事を点検する観点。</div>
+
+  <h3>該当一覧</h3>
+  <table>
+    <thead><tr><th>項目</th><th>具体性</th><th>位置</th><th>引用元テキスト</th></tr></thead>
+    <tbody>
+      <tr><td>コンテキスト最適化（SKILL.md分割と関心の分離）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"ファイル構成" 章</span></td><td>初期は全ての定義を SKILL.md 1ファイルに集約していましたが、後述する評価スキルによるスコアリングを通じて、ファイルが長くなるほど出力精度が低下するという問題を確認しました。<br>対応として、振る舞いの定義（SKILL.md本体）と参照データ・テンプレート（references/）を分離しました。</td></tr>
+      <tr><td>スキル・プラグイン化（Claude Code Skill 実装）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"Claude Code Skillsとは" 章 〜 "ファイル構成" 章</span></td><td>Claude Code Skillsは、Claude Codeの振る舞いをMarkdownファイルで定義する仕組みです。SKILL.md にエージェントの動作手順・制約・ツールへのアクセス方法を記述することで、特定の業務フロー専用のエージェントを構築できます（公式ガイド）。</td></tr>
+      <tr><td>MCP／外部ツール連携（Notion/Slack/Looker/Figma）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"MCP接続" 章</span></td><td>MCPはAnthropicが策定したオープンプロトコルで、LLMアプリケーションが外部ツールやデータソースに接続するための標準仕様です。MCPサーバーを通じて、Claude CodeからNotion・Slack・Lookerなどの外部サービスをツールとして呼び出せるようになります。</td></tr>
+      <tr><td>明示的なルール定義（Data integrity rules）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></td><td>Unconfirmed data must be labeled "Not provided" or "To be validated"<br>Never fabricate numbers or sources</td></tr>
+      <tr><td>MCP並列クエリとフォールバック設計</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"並列クエリと堅牢性の設計" 章</span></td><td>Pull in parallel during Data Enrichment — do not wait for one source<br>  before querying another.<br>- If a source is unavailable, skip silently and mark it in the output.</td></tr>
+      <tr><td>仕様・意図のドキュメント化（references/ 構造）</td><td><span class="score-bar"><span style="width:67%"></span></span> 2</td><td><span class="pos">中盤・"ファイル構成" 章</span></td><td>SKILL.mdはエージェントが「何をどの順序でするか」のみを保持し、具体的なデータやテンプレートは必要なタイミングでreferencesから参照する設計です。この構造変更だけでスコアが明確に改善しました。</td></tr>
+      <tr><td>アウトプット検証（評価専用スキル）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"スキルをスキルで評価する——自動評価パイプライン" 章</span></td><td>設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。</td></tr>
+      <tr><td>小さく繰り返す（評価データセットで反復改善）</td><td><span class="score-bar"><span style="width:67%"></span></span> 2</td><td><span class="pos">中盤・"評価基準を先に決める——プロンプトのTDD" 章</span></td><td>実際のWeb改善課題を収集して評価データセットを作り、反復的に精度を上げていきました。</td></tr>
+      <tr><td>エージェント自動進行禁止（オーナーシップ）</td><td><span class="score-bar"><span style="width:100%"></span></span> 3</td><td><span class="pos">中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></td><td>You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression.</td></tr>
+      <tr><td>MCPセキュリティ設計（VPN/User Token/環境変数）</td><td><span class="score-bar"><span style="width:67%"></span></span> 2</td><td><span class="pos">中盤・"セキュリティ上の考慮" 章</span></td><td>Slack MCPのセットアップには社内VPN接続とUser Tokenによる認証が必要です。トークンはClaude Codeの設定ファイルに環境変数として渡す形にしており、チャット上でトークン文字列が露出しない設計にしています。</td></tr>
+      <tr><td>テンプレ化（PRDテンプレート + チェックリスト）</td><td><span class="score-bar"><span style="width:67%"></span></span> 2</td><td><span class="pos">中盤・"ファイル構成" 章</span></td><td>├── [prd-template.md]  # PRDテンプレート<br>    ├── [prd-checklist.md] # PRD品質チェックリスト（9項目）</td></tr>
+    </tbody>
+  </table>
+
+  <details open>
+    <summary>コンテキスト最適化（SKILL.md分割と関心の分離） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: <strong>何を見るか</strong>: システムプロンプト・ルールファイル（<code>CLAUDE.md</code>／<code>.cursorrules</code> 等）でコンテキストを <strong>意図的に設計</strong>しているか。</div>
+    <p><span class="pos">📍 中盤・"ファイル構成：関心の分離をプロンプト設計に適用する" 章</span></p>
+    <blockquote>初期は全ての定義を SKILL.md 1ファイルに集約していましたが、後述する評価スキルによるスコアリングを通じて、ファイルが長くなるほど出力精度が低下するという問題を確認しました。</blockquote>
+    <blockquote>コンテキストが長くなると、モデルが文脈の中で関連情報に適切に注目できなくなる現象（いわゆる「Lost in the Middle」問題）が知られており、Anthropicのプロンプトエンジニアリングガイドでもプロンプトを簡潔に保つことが推奨されています。</blockquote>
+    <blockquote>対応として、振る舞いの定義（SKILL.md本体）と参照データ・テンプレート（references/）を分離しました。ソフトウェア開発における「関心の分離（Separation of Concerns）」をプロンプト設計に適用したアプローチです。</blockquote>
+    <p><strong>コメント</strong>: Lost in the Middle 問題への対策として <strong>関心の分離</strong>を持ち込み、SKILL.md とreferences/ の物理分割で精度が改善したという <strong>実測ベース</strong>の知見。ディレクトリ構造例まで提示しており、他プロジェクトでも即模倣できるため具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>スキル・プラグイン化（Claude Code Skill 実装） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: 繰り返す手順をスキル／コマンドとして外部化し、再利用可能にしているか。</div>
+    <p><span class="pos">📍 中盤・"Claude Code Skillsとは" 章 〜 "ファイル構成" 章</span></p>
+    <blockquote>Claude Code Skillsは、Claude Codeの振る舞いをMarkdownファイルで定義する仕組みです。SKILL.md にエージェントの動作手順・制約・ツールへのアクセス方法を記述することで、特定の業務フロー専用のエージェントを構築できます（公式ガイド）。</blockquote>
+    <blockquote>mercari-pm-agent/
+├── [SKILL.md](http://skill.md/)  # エージェントの振る舞い定義（英語）
+└── references/
+    ├── [prd-template.md]  # PRDテンプレート
+    ├── [prd-checklist.md] # PRD品質チェックリスト（9項目）
+    ├── [ui-and-figma.md] # UI Spec・Figma Makeプロンプトテンプレート
+    ├── [laplace-guide.md]  # データ解釈ガイド
+    ├── [data-sources.md] # データソース一覧・使い方
+    └── [quick-reference.md] # 出力チェックリスト</blockquote>
+    <p><strong>コメント</strong>: Claude Code Skill としての実装が <strong>ディレクトリ構造例</strong> で示されている。SKILL.md と6種類の references/ ファイルの責務分担が明確で、SKILL.md フォーマットの実例として完成度が高い。具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>MCP／外部ツール連携（Notion/Slack/Looker/Figma） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: MCP サーバー等で外部システムと接続して能力拡張しているか。</div>
+    <p><span class="pos">📍 中盤・"MCP接続：複数ツールをエージェントに繋ぐ" 章</span></p>
+    <blockquote>MCPはAnthropicが策定したオープンプロトコルで、LLMアプリケーションが外部ツールやデータソースに接続するための標準仕様です。MCPサーバーを通じて、Claude CodeからNotion・Slack・Lookerなどの外部サービスをツールとして呼び出せるようになります。</blockquote>
+    <p><strong>コメント</strong>: Notion 公式 MCP / Slack 社内独自 / Socrates (BigQuery+Looker 社内独自) / Figma 社内独自 の <strong>4 種類</strong> を実プロダクションで接続。各 MCP の「取得できる情報・用途」まで対応表で示されており、業務 LLM の MCP 接続事例として具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>明示的なルール定義（Data integrity rules） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: コーディング規約・出力フォーマット・禁止事項を AI に明示的に伝える仕組みがあるか。</div>
+    <p><span class="pos">📍 中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></p>
+    <blockquote>Data integrity rules:</blockquote>
+    <blockquote>Unconfirmed data must be labeled "Not provided" or "To be validated"
+（未確認のデータは "Not provided" または "To be validated" とラベルすること）
+Never fabricate numbers or sources
+（数値や出典を捏造しないこと）</blockquote>
+    <p><strong>コメント</strong>: 出力ラベルポリシー（"Not provided" / "To be validated"）と捏造禁止を <strong>英語の規約として明文化</strong>。プロンプトで命令するだけでは不十分という前提から、未確認データの <strong>振る舞い</strong> を定義する設計に踏み込んでおり具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>MCP並列クエリとフォールバック設計 ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: 外部接続の堅牢性、並列実行、フォールバック設計に触れているか。</div>
+    <p><span class="pos">📍 中盤・"並列クエリと堅牢性の設計" 章</span></p>
+    <blockquote>- Pull in parallel during Data Enrichment — do not wait for one source
+  before querying another.
+  （データ収集フェーズでは並列で参照する。1つのソースの完了を待たないこと）</blockquote>
+    <blockquote>- If a source is unavailable, skip silently and mark it in the output.
+  （ソースが利用不可の場合は、出力にその旨を明記してスキップする）</blockquote>
+    <p><strong>コメント</strong>: data-sources.md にプロンプト指示として <strong>並列クエリ</strong> と <strong>フォールバック挙動</strong> を明記。直列だと待ち時間が伸びる UX 問題と、いずれかの MCP が落ちても処理が止まらない堅牢性の両方を 2 行のプロンプト指示で実装している。具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>仕様・意図のドキュメント化（references/ 構造） ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: 「何を作りたいか」を仕様書・要件定義として残し、後の AI に伝える設計か。</div>
+    <p><span class="pos">📍 中盤・"ファイル構成" 章</span></p>
+    <blockquote>SKILL.mdはエージェントが「何をどの順序でするか」のみを保持し、具体的なデータやテンプレートは必要なタイミングでreferencesから参照する設計です。この構造変更だけでスコアが明確に改善しました。</blockquote>
+    <p><strong>コメント</strong>: references/ 配下に prd-template / prd-checklist / ui-and-figma / laplace-guide / data-sources / quick-reference の 6 種類を <strong>役割別に分割</strong>。仕様・テンプレ・データガイドを Skill 内ドキュメントとして残し、後続セッションが必要なときだけ参照できるようにしている。具体性 2。</p>
+  </details>
+
+  <details>
+    <summary>アウトプット検証（評価専用スキル） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: AI 生成物をテスト・レビュー・型・スキーマで検証する習慣に触れているか。</div>
+    <p><span class="pos">📍 中盤・"スキルをスキルで評価する——自動評価パイプライン" 章</span></p>
+    <blockquote>設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。mercari-pm-agent に対してテストケースを投げ、出力の品質をスコアリングして返すエージェントです。このスコアを使った反復改善の中から、前述の「SKILL.mdは短いほど精度が上がる」という知見が得られ、ファイル分割の設計変更につながりました。</blockquote>
+    <p><strong>コメント</strong>: <strong>「スキルをスキルで評価する」</strong> という多重構造で AI 生成物を別 LLM レビューさせる実装。評価専用スキルが返すスコアが設計変更（ファイル分割）の意思決定根拠になっており、評価→改善のループが具体的に回っている。具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>小さく繰り返す（評価データセットで反復改善） ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: 一発生成ではなく小さなサイクルで反復改善するスタンスに触れているか。</div>
+    <p><span class="pos">📍 中盤・"評価基準を先に決める——プロンプトのTDD" 章</span></p>
+    <blockquote>実際のWeb改善課題を収集して評価データセットを作り、反復的に精度を上げていきました。</blockquote>
+    <p><strong>コメント</strong>: 評価データセットを作って <strong>反復的</strong> に精度を上げていく開発スタンス。プロンプト TDD の発想と接続している。具体的なサイクル数・期間までは触れていないため具体性 2。</p>
+  </details>
+
+  <details>
+    <summary>エージェント自動進行禁止（オーナーシップ） ── ✅ 該当あり（具体性 3）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: AI の出力に <strong>最終責任を持つ人間</strong>が明示されているか。</div>
+    <p><span class="pos">📍 中盤・"LLMの「それらしい嘘」を制約として防ぐ" 章</span></p>
+    <blockquote>さらに、PMの確認なしに次のステップへ自動的に進むことを禁じました。
+You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression. （完了を推測して次へ進むことを禁じる。PMの明示的な確認があった場合のみ次へ進める）</blockquote>
+    <p><strong>コメント</strong>: 「PMが意思決定のドライバー」という設計思想を、プロンプト制約として実装。AIの自動進行を禁止し、明示的確認を通過要件にすることで、最終責任が人間に残る運用を担保している。具体性 3。</p>
+  </details>
+
+  <details>
+    <summary>MCPセキュリティ設計（VPN/User Token/環境変数） ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: AI 活用に対する <strong>組織的な統制</strong>の整備段階に触れているか。</div>
+    <p><span class="pos">📍 中盤・"セキュリティ上の考慮" 章</span></p>
+    <blockquote>Slack MCPのセットアップには社内VPN接続とUser Tokenによる認証が必要です。トークンはClaude Codeの設定ファイルに環境変数として渡す形にしており、チャット上でトークン文字列が露出しない設計にしています。また、SlackのUser Tokenは7日で失効するため、更新用のスクリプトを別途用意しています。</blockquote>
+    <p><strong>コメント</strong>: 社内VPN必須・User Token（7日失効）・環境変数渡しという 3 段構えのセキュリティ。トークン文字列を <strong>チャットに露出させない</strong> 設計まで踏み込んでいる。組織ガバナンス全体としては個別ツールレベルなので具体性 2。</p>
+  </details>
+
+  <details>
+    <summary>テンプレ化（PRDテンプレート + チェックリスト） ── ✅ 該当あり（具体性 2）</summary>
+    <div class="viewpoint-detail">🎯 <strong>観点</strong>: プロンプト／プロジェクト初期化のテンプレートを整備しているか。</div>
+    <p><span class="pos">📍 中盤・"ファイル構成" 章</span></p>
+    <blockquote>├── [prd-template.md]  # PRDテンプレート
+    ├── [prd-checklist.md] # PRD品質チェックリスト（9項目）</blockquote>
+    <p><strong>コメント</strong>: PRDテンプレート + 9項目の品質チェックリスト + UI Spec / Figma Makeプロンプトテンプレート と、PM業務に必要なテンプレ群を references/ に体系化。テンプレ実物の中身は公開されていないため具体性 2。</p>
+  </details>
+
+  <h3>レビューボトルネック対策（固定項目） ── ❌ 該当なし</h3>
+  <p>記事は単一インターン作の個人事例で、PR レビュー量増加への対策（自動レビュー強化 / AI 事前レビュー / テスト保護 / 型・契約設計 / 小さな PR / トリアージ / トレーサビリティ / QA キャパシティ拡張）には言及がない。<strong>評価専用スキル</strong> という近接の話題はあるが、これは Skill 出力の品質スコアリングであって PR レビューボトルネック対策ではない。</p>
+
+  <h3>📋 補強が必要な実践プラクティス（記事内では言及なし／概念のみ）</h3>
+  <p>本記事は「Skill 設計 × MCP 接続 × 制約による精度向上」フォーカスのため、以下の <strong>実装プラクティス系</strong> には言及がない。動画化・記事化する際は <strong>公式ドキュメント・他社事例・社内ハーネス例</strong> で必ず補完する。</p>
+
+  <div class="reinforce">
+    <h4>🛡️ ガードレール・統制・セキュリティ・権限</h4>
+    <ul>
+      <li><strong>フックによる自動化</strong> ── ❌ 言及なし。<code>PreToolUse</code> / <code>PostToolUse</code> / <code>Stop</code> 等のフックでの自動チェック、<code>pre-commit</code> での lint・テスト強制、出力検証の機械化</li>
+      <li><strong>ガバナンス・統制</strong> ── ⚠️ 概念のみ（記事は「VPN + User Token + 環境変数」の個別ツールレベルに触れるが、データ持ち出し制御・モデル承認リスト・コスト上限・監査ログ・コンプライアンス全体には触れていない）</li>
+    </ul>
+  </div>
+
+  <div class="reinforce">
+    <h4>🤖 エージェント設計・連携・スキル化</h4>
+    <ul>
+      <li><strong>サブエージェント分割</strong> ── ❌ 言及なし。Explorer/Plan/Reviewer 役割分担、<code>subagent_type</code> 並列起動、最小権限ツールセット、メイン司令塔構造（記事は単一 Skill 構成）</li>
+      <li><strong>エージェント連携度（4段階）</strong> ── ❌ 言及なし。単一エージェント／役割分担／オーケストレーター介在／自律チームのどの段階かの言及はない</li>
+    </ul>
+  </div>
+
+  <div class="reinforce">
+    <h4>🔁 フィードバックループ・eval・検証</h4>
+    <ul>
+      <li><strong>自動フィードバックループ</strong> ── ⚠️ 概念のみ（評価スキルからのスコアフィードバックは <strong>設計者の改善</strong> に使うものであって、テスト失敗 → AI が修正 → 再テストの <strong>AI 自走ループ</strong> ではない）</li>
+      <li><strong>フィードバックループの深さ（量的）</strong> ── ❌ 言及なし。1 タスクで何段階のリトライを自動で回せるか、ループの最終成功率、終了判定基準などには触れない</li>
+    </ul>
+  </div>
+
+  <div class="reinforce">
+    <h4>📊 観測・計測・KPI</h4>
+    <ul>
+      <li><strong>観測・計測</strong> ── ❌ 言及なし。API コスト・トークン消費の可視化、タスク成功率トラッキング、処理時間比較、ダッシュボード化</li>
+      <li><strong>効果測定 KPI</strong> ── ❌ 言及なし。リードタイム短縮・デプロイ頻度・障害率・MTTR・DevEx 等のビジネス成果指標との接続なし</li>
+    </ul>
+  </div>
+
+  <div class="reinforce">
+    <h4>🔄 その他</h4>
+    <ul>
+      <li><strong>AI 使用頻度・浸透度</strong> ── ❌ 言及なし。組織全体での AI 利用浸透度を測る指標、開発者の DAU/WAU</li>
+      <li><strong>Vibe Coding の使い分け</strong> ── ❌ 言及なし。探索フェーズと本番化フェーズでのスタンス分離</li>
+      <li><strong>チーム展開度（4段階）</strong> ── ❌ 言及なし。個人運用／チーム共有／部署横断標準化／文化定着のどの段階か</li>
+      <li><strong>スキル習熟度（個人 AI スキル評価軸）</strong> ── ❌ 言及なし。プロンプト設計力・ハーネス設計力・検証スキル等を測る評価軸の運用</li>
+    </ul>
+  </div>
+
+  <h2>観点 3: 読者・組織が試せる実用アクションが、どれだけ抽出できるか</h2>
+  <div class="viewpoint-desc"><strong>この観点とは</strong>: 記事を読んだ <strong>エンジニア個人</strong> または <strong>組織</strong> が、自社・自分の環境で <strong>試せる具体的なアクション</strong> をどれだけ取り出せるかを測る観点。</div>
+
+  <h3>抽出できた実用アクション一覧</h3>
+  <table>
+    <thead><tr><th>アクション</th><th>主な対象者</th><th>根拠（記事内）</th><th>24h で動くか</th><th>引用元テキスト</th></tr></thead>
+    <tbody>
+      <tr><td>SKILL.md と references/ に「関心の分離」で分割する</td><td>個人エンジニア／Platform</td><td><span class="pos">中盤・"ファイル構成" 章</span></td><td>◎ ファイル分割と1パス書き換え</td><td>対応として、振る舞いの定義（SKILL.md本体）と参照データ・テンプレート（references/）を分離しました。</td></tr>
+      <tr><td>Data integrity rules をプロンプト制約として明文化する</td><td>個人エンジニア／EM</td><td><span class="pos">中盤・"LLMの「それらしい嘘」" 章</span></td><td>◎ 5行追加で動く</td><td>Unconfirmed data must be labeled "Not provided" or "To be validated"<br>Never fabricate numbers or sources</td></tr>
+      <tr><td>エージェントの自動進行禁止ルールを書く（人間の明示的確認）</td><td>個人エンジニア／EM</td><td><span class="pos">中盤・"LLMの「それらしい嘘」" 章</span></td><td>◎ 1行追加で動く</td><td>You are NOT allowed to infer completeness. Only explicit confirmation from the PM allows progression.</td></tr>
+      <tr><td>評価基準を実装より先に定義する（プロンプトのTDD）</td><td>個人エンジニア／EM</td><td><span class="pos">中盤・"評価基準を先に決める" 章</span></td><td>◎ 4軸チェックリストを 30 分で起こせる</td><td>実装を始める前に、まず「エージェントの出力をどう評価するか」の基準を定義しました。</td></tr>
+      <tr><td>評価専用スキルを別途用意して反復改善する</td><td>個人エンジニア／Platform</td><td><span class="pos">中盤・"スキルをスキルで評価する" 章</span></td><td>△ テストケース収集と評価スキル設計に1〜2週間</td><td>設計したルールが実際に機能しているかを検証するため、評価専用のスキル（skill-creator-max）を別途作成しました。</td></tr>
+      <tr><td>業務ツール（Notion/Slack/Looker/Figma）を MCP で接続する</td><td>Platform／DevRel</td><td><span class="pos">中盤・"MCP接続" 章</span></td><td>△ MCP サーバー選定と認証設計に 1〜2 週間</td><td>MCPサーバーを通じて、Claude CodeからNotion・Slack・Lookerなどの外部サービスをツールとして呼び出せるようになります。</td></tr>
+      <tr><td>データ取得は並列クエリ + フォールバックで設計する</td><td>個人エンジニア／Platform</td><td><span class="pos">中盤・"並列クエリと堅牢性の設計" 章</span></td><td>◎ プロンプト指示2行で書ける</td><td>Pull in parallel during Data Enrichment — do not wait for one source<br>  before querying another.</td></tr>
+      <tr><td>User Token を環境変数で渡しチャットに露出させない設計にする</td><td>Platform／セキュリティ</td><td><span class="pos">中盤・"セキュリティ上の考慮" 章</span></td><td>◎ 設定ファイル書き換えと token rotation スクリプトで対応</td><td>トークンはClaude Codeの設定ファイルに環境変数として渡す形にしており、チャット上でトークン文字列が露出しない設計にしています。</td></tr>
+      <tr><td>SKILL.md を英語で記述する（精度向上）</td><td>個人エンジニア</td><td><span class="pos">中盤・"ファイル構成" 章</span></td><td>◎ 既存 SKILL.md の英訳で対応</td><td>なお、SKILL.mdは英語で記述しています。Claudeへの指示として英語の方が精度が高いためです。</td></tr>
+      <tr><td>業務ワークフローを <code>/コマンド</code> 1 つで起動できる形にする</td><td>個人エンジニア／EM</td><td><span class="pos">末尾・"まとめ" 章</span></td><td>◎ Skill 化と CLAUDE.md 登録で対応</td><td>mercari-pm-agent はClaude CodeのSkillとして実装しているため、MCP設定が済んでいれば /mercari-pm-agent のコマンド1つで起動できます。</td></tr>
+    </tbody>
+  </table>
+
+  <h3>評価コメント</h3>
+  <ul>
+    <li>記事全体は <strong>「個人エンジニア＋Platform／EM レイヤー」</strong> で動かせる <strong>実装系アクション</strong> が多く、10 件抽出できた。Skill 設計・MCP 接続・制約プロンプト・評価パイプラインまで揃っており、<strong>実装系視聴者・読者の手は確実に動く</strong></li>
+    <li>24h で動かせるアクションが <strong>7 件</strong>、中期投資（1〜2 週間）が必要なものが <strong>3 件</strong>と、<strong>短期に偏った構成</strong>。即実行できる素材として評価記事・動画にしやすい</li>
+    <li>一方で <strong>経営／VPoE／人事レイヤー</strong> のアクション（評価制度刷新／組織新設／予算計画／キャリアラダー設計）は記事に含まれない。これらが必要な読者には別ソースで補強する必要がある</li>
+  </ul>
+</div>
+</body>
+</html>
