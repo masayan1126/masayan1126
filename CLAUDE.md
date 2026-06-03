@@ -39,3 +39,17 @@ masayan1126/
 - 各プロジェクトには `overview.md`（概要・目標）と `workflow.md`（自動化フロー手順）を必ず配置
 - Draw.io で図を作成した場合は `<project>/docs/` に保存（Draw.io ルールに準拠）
 - 新規プロジェクト追加時は `_template/` をコピーして作成
+
+## YouTube チャンネル登録者数マーカールール
+
+リポジトリ内の `.md` でチャンネル登録者数に言及する場合は、必ずマーカーコメントで囲むこと。
+SessionStart フック（`.claude/hooks/fetch_subscribers.py`）が YouTube Data API から最新値を取得し、マーカーの中身だけを自動置換する。
+
+```markdown
+登録者数 **<!--subs-->1,234<!--/subs-->名**（<!--subs-date-->2026/1/23<!--/subs-date-->時点）
+```
+
+- `<!--subs-->N<!--/subs-->` — 登録者数（カンマ区切り）。リポジトリ内の全 `.md` がスキャン対象
+- `<!--subs-date-->YYYY/M/D<!--/subs-date-->` — 取得日（数値が変化したときのみ更新される）
+- 数値をベタ書きすると自動更新の対象外になるため禁止
+- CLAUDE.md 自体はスキャン対象外（この説明例が実数値で上書きされるのを防ぐため）
