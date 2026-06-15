@@ -78,6 +78,9 @@ AI情報収集を2つのフローで自動化。**日次フロー（広く浅く
 - **書籍販売**：[Zenn books](https://zenn.dev/dashboard/books)
 - **コミュニティ登壇**：AI駆動開発系の勉強会でLT登壇
 
+### YouTubeチャンネル
+<img width="540" height="540" alt="image" src="https://github.com/user-attachments/assets/11f208b0-a9cf-4037-9d4f-62c3b7134dea" />
+
 ---
 
 ## OSS / プロダクト（Google Chrome拡張機能）
