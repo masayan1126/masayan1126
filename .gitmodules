@@ -2,3 +2,4 @@
 	path = .claude
 	url = https://github.com/masayan1126/masayan1126-submodule.git
 	branch = claude
+	ignore = untracked
