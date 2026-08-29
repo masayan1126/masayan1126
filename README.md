@@ -65,6 +65,10 @@ MCPサーバー・APIの開発をテックリードとして推進。Claude Code
 
 AI情報収集を2つのフローで自動化。**日次フロー（広く浅く）** は Claude Cowork + Claude Code スキル（6体のエージェントチーム）+ GitHub Actions + Cloudflare Pages により毎朝完全自動で収集・公開し、[daily-news-and-posts.pages.dev](https://daily-news-and-posts.pages.dev/) で公開中。
 
+### スライド作成ナレッジ
+
+見やすく、伝わりやすく、説明しやすいスライドを一貫して作るための[共通規則とデザインシステム](slide-creation-knowledge/)を公開しています。AIから参照できる固定URL、レビューHTML、グリーン系のデッキ雛形をまとめています。
+
 ### Google Chrome拡張機能開発
 下部参照
 

@@ -1,0 +1,24 @@
+/* デザインシステムグリーン — typography */
+:root {
+  --font-sans: Inter, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --type-cover: 96px;
+  --type-section: 76px;
+  --type-title: 58px;
+  --type-subtitle: 32px;
+  --type-body: 28px;
+  --type-support: 22px;
+  --type-caption: 18px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.18;
+  --leading-title: 1.28;
+  --leading-body: 1.62;
+  --tracking-title: -0.02em;
+  --tracking-label: 0.08em;
+}

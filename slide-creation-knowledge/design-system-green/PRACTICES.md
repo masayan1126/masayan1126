@@ -1,0 +1,211 @@
+# 選択済みスライドデザイン規則
+
+この規則を、今後作成するスライドへ共通で適用する。
+
+## 基本設計
+
+- **主目的を一つに決める**（必須）
+  - 規則: 情報共有、意思決定、説得、行動依頼、学習、報告から主目的を一つ選ぶ。
+  - 適用: 作成前に「この資料で何を達成するか」を一文で固定する。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **聞き手を具体的に定義する**（必須）
+  - 規則: 役割、既有知識、関心、意思決定権、利用言語、必要な配慮を確認する。
+  - 適用: 聞き手が知っていることと、説明が必要なことを分ける。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **利用環境を先に確認する**（必須）
+  - 規則: 発表時間、画面比率、会場、視距離、画面共有、配布資料の有無を確認する。
+  - 適用: 条件が不明な場合は、安全側の文字サイズと余白で作る。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **根拠と利用条件を確認する**（必須）
+  - 規則: データの出典、更新日、定義、比較条件、単位、画像の利用許諾を確認する。
+  - 適用: 未確認の数値や因果関係を事実として載せない。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **本編・付録・ノート・配布資料を分ける**（推奨）
+  - 規則: 本編は理解と判断、付録は詳細、ノートは説明、配布資料は後から参照する完全性を担う。
+  - 適用: 詳細を本編へ戻して文字で埋めない。
+  - 根拠: [UT Austin: Presentation Dos & Don’ts](https://hr.utexas.edu/learning-development/resources/ut-ld-dos-donts)
+
+## 見やすさ
+
+- **一枚につき主張を一つに絞る**（必須）
+  - 規則: 通常は、聞き手が持ち帰る主張を一枚につき一つにする。
+  - 適用: 比較、工程全体、配布資料では目的を明記して例外にする。
+  - 根拠: [Garner et al.: Slide Design](https://www.writing.engr.psu.edu/ae_comprehension.pdf)
+- **固有の主張タイトルを付ける**（必須）
+  - 規則: 各スライドに内容を表す固有のタイトルを付け、可能なら結論が分かる短い文にする。
+  - 適用: タイトルだけを読んでも話の流れが分かるようにする。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **本文は18pt以上から始める**（推奨）
+  - 規則: 本文は18pt以上を開始点にし、会場が広い場合はさらに大きくする。
+  - 適用: 小さくして収めず、内容を減らすかスライドを分ける。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **文字のコントラストを確保する**（必須）
+  - 規則: 通常文字は4.5:1以上、大きな文字は3:1以上のコントラストを確保する。
+  - 適用: 背景写真を使う場合も実際の文字位置で再計測する。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **色だけで意味を伝えない**（必須）
+  - 規則: 正誤、状態、系列、優先度にはラベル、形、線種、記号、太さを併用する。
+  - 適用: グレースケールでも意味が残るか確認する。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **情報階層を三段階以内にする**（必須）
+  - 規則: 見出し、主要主張、補足の順を、サイズ、太さ、位置、余白で区別する。
+  - 適用: 一枚の中で最初に見せる要素を一つ決める。
+  - 根拠: [Nielsen Norman Group: Similarity](https://www.nngroup.com/articles/gestalt-similarity/)
+- **グリッドと整列線を使う**（必須）
+  - 規則: 同種の要素の左端、上端、幅、内側余白を共通の基準線へそろえる。
+  - 適用: 位置を目測だけで決めず、見えないグリッドへ合わせる。
+  - 根拠: [IBM Carbon 2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/)
+- **文字を縮小して詰め込まない**（必須）
+  - 規則: 文字が入らない場合は、文章を短くするか、スライド、ノート、付録へ分ける。
+  - 適用: 可読性を守るため、文字サイズを最後の調整弁にしない。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **文字と図に代替情報を持たせる**（必須）
+  - 規則: 本文は編集可能な実テキストにし、意味を持つ図には代替テキストを付ける。
+  - 適用: 複雑な図では、数値、比較、結論を文章でも示す。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+
+## おしゃれさ
+
+- **美しさを整列と一貫性で作る**（必須）
+  - 規則: 装飾量ではなく、整列、階層、余白、反復、色の役割で完成度を上げる。
+  - 適用: 装飾を追加する前に、位置と間隔を整える。
+  - 根拠: [IBM Carbon 2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/)
+- **余白を情報構造として使う**（必須）
+  - 規則: 外側余白、要素間隔、内側余白を意図的に設計する。
+  - 適用: 余白を不足として埋めず、情報群の境界として残す。
+  - 根拠: [Nielsen Norman Group: Common Region](https://www.nngroup.com/articles/common-region/)
+- **近接でグループを作る**（必須）
+  - 規則: 関連する要素の距離を、別グループとの距離より明確に小さくする。
+  - 適用: 近接で十分な場合は、不要な枠線やカードを追加しない。
+  - 根拠: [Nielsen Norman Group: Common Region](https://www.nngroup.com/articles/common-region/)
+- **色の役割を固定する**（必須）
+  - 規則: 背景、本文、主色、補助色、状態色の役割を決め、ページをまたいで変えない。
+  - 適用: 主色は結論、重要数値、現在地など少数の役割へ限定する。
+  - 根拠: [Nielsen Norman Group: Similarity](https://www.nngroup.com/articles/gestalt-similarity/)
+- **書体数を一〜二種類に抑える**（推奨）
+  - 規則: 見出しと本文の差は、まず同じ書体のサイズとウェイトで作る。
+  - 適用: 太字、色、下線を同じ箇所へ重ねない。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **画像とアイコンのスタイルを統一する**（必須）
+  - 規則: 写真、イラスト、アイコンのトーン、線幅、角、トリミングを統一する。
+  - 適用: 写真とフラットイラストを理由なく混在させない。
+  - 根拠: [Nielsen Norman Group: Similarity](https://www.nngroup.com/articles/gestalt-similarity/)
+- **装飾を目的に従わせる**（必須）
+  - 規則: 過剰な影、発光、3D、意味のない曲線、背景模様を使わない。
+  - 適用: 主張の理解を助けない装飾は削除する。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **同じ型を全ページへ繰り返さない**（必須）
+  - 規則: すべてを「見出し＋三つのカード」にせず、内容に合う構図を選ぶ。
+  - 適用: 主張、比較、単一図、写真、工程などから目的に合う形を使う。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **全要素の中央揃えを避ける**（推奨）
+  - 規則: 中央揃えは章扉や短い主張へ限定し、本文は明確な基準線へそろえる。
+  - 適用: 長文や複数要素は左揃えを基本にする。
+  - 根拠: [IBM Carbon 2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/)
+
+## 伝わる構成
+
+- **冒頭で到達点を示す**（必須）
+  - 規則: 結論または問い、到達点、聞き手に求める判断や行動を冒頭で示す。
+  - 適用: 何のために見る資料かを最初の一〜二枚で理解できるようにする。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **タイトルだけで論理を追えるようにする**（必須）
+  - 規則: タイトルを順に読んだとき、背景から結論までの流れが成立するようにする。
+  - 適用: タイトルだけの一覧を作り、論理の飛びを確認する。
+  - 根拠: [Garner et al.: Slide Design](https://www.writing.engr.psu.edu/ae_comprehension.pdf)
+- **主張を支える要素だけを残す**（必須）
+  - 規則: 図、数値、引用、注記を、そのスライドの主張を支えるものへ限定する。
+  - 適用: 興味深くても結論に不要な情報は付録へ移す。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **図表の結論を先に書く**（必須）
+  - 規則: 図表のタイトルか近接注記で、見てほしい差、傾向、判断を明示する。
+  - 適用: 「売上推移」ではなく「売上は第3四半期から回復した」のように書く。
+  - 根拠: [Leppink et al.: Instructional Materials](https://pubmed.ncbi.nlm.nih.gov/33716467/)
+- **ラベルを対象の近くへ置く**（必須）
+  - 規則: 図のラベルと説明を対象の近くへ置き、凡例との往復を減らす。
+  - 適用: 可能な限り系列名を線、棒、点の近くへ直接置く。
+  - 根拠: [Leppink et al.: Instructional Materials](https://pubmed.ncbi.nlm.nih.gov/33716467/)
+- **複雑な図を段階表示する**（推奨）
+  - 規則: 全体、注目部分、含意の順に見せ、説明の順序と強調を同期させる。
+  - 適用: 最初から全データと全注釈を同時に見せない。
+  - 根拠: [Leppink et al.: Instructional Materials](https://pubmed.ncbi.nlm.nih.gov/33716467/)
+- **不要な詳細を削る**（必須）
+  - 規則: 例外、定義、全データ、方法の詳細を本編へ詰め込まない。
+  - 適用: 意思決定に必要な根拠だけを本編へ残す。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **最後に結論と次の行動を示す**（必須）
+  - 規則: 冒頭で示した問いや目的を解決し、聞き手が次に取る行動を明示する。
+  - 適用: 細部の説明や形式的な挨拶だけで終えない。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+
+## 説明しやすさ
+
+- **画面と発表者の役割を分ける**（必須）
+  - 規則: 画面には結論、数値、比較条件、引用、図を残し、因果や具体例は発表者が補う。
+  - 適用: 画面へ説明文をすべて載せない。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **発表者ノートを用意する**（必須）
+  - 規則: ノートに一言結論、背景、説明、次への接続、出典の読み方を置く。
+  - 適用: ノートを画面文の読み上げ原稿にしない。
+  - 根拠: [UT Austin: Presentation Dos & Don’ts](https://hr.utexas.edu/learning-development/resources/ut-ld-dos-donts)
+- **画面文を逐語的に読まない**（必須）
+  - 規則: 画面上の文章と同じ内容を、そのまま話し言葉で重ねない。
+  - 適用: 画面には要点を残し、口頭では関係と意味を説明する。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
+- **章と説明順を標識する**（推奨）
+  - 規則: 現在地と章の結論を示し、ノートに「まず」「次に」「結論として」などを置く。
+  - 適用: 聞き手が話の位置を見失わないようにする。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **想定質問を三〜五件用意する**（推奨）
+  - 規則: 想定質問と短い回答を作り、根拠となる付録へ結び付ける。
+  - 適用: 意思決定会議や重要な提案で適用する。
+  - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **発表者がいない資料は本文を補う**（条件付き）
+  - 規則: 単独で閲覧する資料では、ノートに置く情報を本文または配布資料へ移す。
+  - 適用: 口頭説明の有無を先に確認して適用する。
+  - 根拠: [UT Austin: Presentation Dos & Don’ts](https://hr.utexas.edu/learning-development/resources/ut-ld-dos-donts)
+
+## 図表・検証
+
+- **図表の条件と出典を示す**（必須）
+  - 規則: 軸、単位、期間、比較条件、系列名、重要値、出典を載せる。
+  - 適用: 比較条件が違う数値を同じ基準として見せない。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **データ型に合う図を選ぶ**（必須）
+  - 規則: 棒は量の比較、線は時系列、散布図は関係、表は正確な値の参照に使う。
+  - 適用: 見た目の好みだけで図表形式を選ばない。
+  - 根拠: [Leppink et al.: Instructional Materials](https://pubmed.ncbi.nlm.nih.gov/33716467/)
+- **重要な系列だけを強調する**（必須）
+  - 規則: 結論となる系列だけを主色と注記で強調し、他の系列とグリッド線は抑える。
+  - 適用: 全系列を同じ強さや多色で見せない。
+  - 根拠: [Nielsen Norman Group: Similarity](https://www.nngroup.com/articles/gestalt-similarity/)
+- **表を単純な構造にする**（必須）
+  - 規則: 表は正確な比較に必要な場合だけ使い、結合セルと入れ子を避ける。
+  - 適用: 列見出しを明示し、読み上げ順を保つ。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **タイトル・代替テキスト・読み上げ順を確認する**（必須）
+  - 規則: 各スライドに固有タイトルを付け、図の代替情報と読み上げ順を確認する。
+  - 適用: PowerPointの選択ウィンドウやアクセシビリティ機能で確認する。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **実表示で可読性を確認する**（必須）
+  - 規則: 最後列相当、縮小された画面共有、環境光のある表示で文字と図を確認する。
+  - 適用: 作成画面だけを見て合格にしない。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **グレースケールと拡大表示を確認する**（推奨）
+  - 規則: 色を失っても意味が残るか、200%拡大しても情報が失われないか確認する。
+  - 適用: HTML版や配布版も同じ観点で確認する。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- **アクセシビリティチェックを実行する**（推奨）
+  - 規則: PowerPointで納品する場合は、アクセシビリティチェッカーを実行する。
+  - 適用: 警告を確認し、未解決項目を明示する。
+  - 根拠: [Microsoft PowerPoint アクセシビリティ](https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities)
+- **自己レビューを通過してから納品する**（必須）
+  - 規則: 主張、可読性、コントラスト、整列、出典、代替情報、ノートを確認する。
+  - 適用: 一項目でも不合格なら修正後に再確認する。
+  - 根拠: [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+
+## 共通適用
+
+- 選択した規則は、テーマやレイアウトが異なっても共通で適用する。
+- ブランド固有の色や書体は、可読性と一貫性の規則を満たす範囲で変更する。
+- 参考資料の色や雰囲気を利用しても、配置や情報構造をそのまま複製しない。

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>良いスライドの共通ルール レビュー</title>
+  <style>
+    :root { --brand:#0b4a98; --brand-2:#2d66ab; --ink:#172033; --muted:#64748b; --line:#dbe3ee; --bg:#f4f7fb; --surface:#fff; --soft:#edf4fc; --success:#147a51; --warn:#9a5a00; --radius:18px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--bg); font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",Meiryo,sans-serif; line-height:1.65; }
+    button, input { font:inherit; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline:3px solid #7db6ff; outline-offset:3px; }
+    .shell { width:min(1180px, calc(100% - 32px)); margin:0 auto; padding:32px 0 80px; }
+    .hero { color:#fff; background:linear-gradient(135deg,#073a78 0%,#0b4a98 68%,#2d66ab 100%); border-radius:26px; padding:36px; box-shadow:0 18px 48px rgba(11,74,152,.18); }
+    .eyebrow { margin:0 0 8px; font-size:12px; font-weight:800; letter-spacing:.14em; }
+    h1 { max-width:820px; margin:0; font-size:clamp(30px,5vw,52px); line-height:1.18; letter-spacing:-.03em; }
+    .lead { max-width:820px; margin:18px 0 0; color:#e7f1ff; font-size:17px; }
+    .stats { display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .stat { min-width:140px; padding:12px 16px; border:1px solid rgba(255,255,255,.28); border-radius:14px; background:rgba(255,255,255,.1); }
+    .stat strong { display:block; font-size:24px; line-height:1.1; }
+    .stat span { font-size:12px; color:#d8e9ff; }
+    .howto { margin:20px 0 0; padding:18px 20px; border-radius:16px; background:#fff; border:1px solid var(--line); }
+    .howto strong { color:var(--brand); }
+    .toolbar { position:sticky; top:0; z-index:10; margin:22px 0; padding:14px; background:rgba(244,247,251,.95); border:1px solid var(--line); border-radius:18px; backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(23,32,51,.08); }
+    .toolbar-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .toolbar-row + .toolbar-row { margin-top:10px; }
+    .count { margin-right:auto; font-weight:800; color:var(--brand); }
+    .search { flex:1 1 260px; min-width:180px; border:1px solid #b9c7da; border-radius:12px; padding:10px 12px; background:#fff; color:var(--ink); }
+    .button { border:1px solid #b8c7db; border-radius:12px; padding:9px 13px; background:#fff; color:var(--ink); cursor:pointer; font-weight:700; }
+    .button:hover { border-color:var(--brand); color:var(--brand); }
+    .button.primary { color:#fff; background:var(--brand); border-color:var(--brand); }
+    .tabs { display:flex; gap:8px; overflow:auto; padding:2px; scrollbar-width:thin; }
+    .tab { white-space:nowrap; border:1px solid #c4d0df; border-radius:999px; padding:7px 12px; background:#fff; color:var(--ink); cursor:pointer; font-weight:700; }
+    .tab[aria-selected="true"] { color:#fff; background:var(--brand); border-color:var(--brand); }
+    .section-title { margin:32px 0 14px; font-size:24px; color:var(--brand); }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .practice { position:relative; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); box-shadow:0 7px 22px rgba(23,32,51,.05); transition:.18s ease; }
+    .practice:has(input:checked) { border-color:#8fb5e6; box-shadow:0 10px 28px rgba(11,74,152,.11); }
+    .practice-label { display:block; padding:20px 20px 18px 58px; cursor:pointer; }
+    .practice input { position:absolute; left:20px; top:23px; width:22px; height:22px; accent-color:var(--brand); }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:7px; }
+    .badge { border-radius:999px; padding:3px 8px; font-size:11px; font-weight:800; }
+    .badge.must { color:#fff; background:var(--brand); }
+    .badge.should { color:#075b3c; background:#dff4ea; }
+    .badge.context { color:#8a5200; background:#fff0d5; }
+    .practice h3 { margin:0; font-size:20px; line-height:1.35; }
+    .practice p { margin:9px 0 0; }
+    .apply { color:#40516a; }
+    .source { display:inline-block; margin:0 20px 18px 58px; color:var(--brand); font-size:13px; font-weight:700; }
+    .empty { display:none; padding:40px; text-align:center; color:var(--muted); }
+    .summary { margin-top:30px; padding:22px; border-radius:18px; border:1px solid var(--line); background:#fff; }
+    .summary h2 { margin:0 0 8px; color:var(--brand); font-size:24px; }
+    .summary ul { margin:10px 0 0; padding-left:22px; }
+    .toast { position:fixed; right:18px; bottom:18px; max-width:360px; padding:13px 16px; border-radius:12px; color:#fff; background:#172033; box-shadow:0 16px 38px rgba(0,0,0,.22); opacity:0; transform:translateY(16px); pointer-events:none; transition:.2s ease; }
+    .toast.show { opacity:1; transform:translateY(0); }
+    footer { margin-top:36px; color:var(--muted); font-size:13px; }
+    [hidden] { display:none !important; }
+    @media (max-width:760px) {
+      .shell { width:min(100% - 20px,1180px); padding-top:10px; }
+      .hero { padding:24px 20px; border-radius:20px; }
+      .toolbar { top:6px; padding:10px; }
+      .grid { grid-template-columns:1fr; }
+      .practice-label { padding-right:16px; }
+      .button { flex:1 1 auto; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto !important; transition:none !important; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">CONFIRMED SLIDE DESIGN RULES</p>
+      <h1>良いスライドの共通ルール</h1>
+      <p class="lead">確定した46項目を、今後作成するスライドへ共通で適用します。必要な場合は、この画面で選択を変更できます。</p>
+      <div class="stats" aria-label="ルールの概要">
+        <div class="stat"><strong>47</strong><span>ルール候補</span></div>
+        <div class="stat"><strong>6</strong><span>カテゴリ</span></div>
+        <div class="stat"><strong id="hero-selected">0</strong><span>現在の選択数</span></div>
+      </div>
+    </header>
+
+    <div class="howto"><strong>確定済み：</strong>現在の選択を変更した場合は、「選択済みMarkdownを保存」を押して新しい内容を共有してください。</div>
+
+    <section class="toolbar" aria-label="選択と絞り込み">
+      <div class="toolbar-row">
+        <div class="count" id="selected-count" aria-live="polite">0件を選択中</div>
+        <input class="search" id="search" type="search" placeholder="ルールを検索" aria-label="ルールを検索">
+        <button class="button" id="recommended" type="button">確定内容へ戻す</button>
+        <button class="button" id="select-all" type="button">すべて選択</button>
+        <button class="button" id="clear-all" type="button">すべて解除</button>
+      </div>
+      <div class="toolbar-row">
+        <div class="tabs" id="tabs" role="tablist" aria-label="カテゴリ"></div>
+        <button class="button" id="copy" type="button">選択内容をコピー</button>
+        <button class="button primary" id="download" type="button">選択済みMarkdownを保存</button>
+      </div>
+    </section>
+
+    <div id="content"></div>
+    <div class="empty" id="empty">条件に合うルールがありません。</div>
+
+    <section class="summary">
+      <h2>すべてのデザインへ共通適用する考え方</h2>
+      <ul>
+        <li>選択した規則は、テーマやレイアウトが異なっても共通で適用します。</li>
+        <li>ブランド固有の色や書体は、選択した可読性と一貫性の規則を満たす範囲で変更します。</li>
+        <li>用途に合わない規則は、理由を明示したうえで個別に変更します。</li>
+        <li>参考資料の色や雰囲気を利用しても、配置や情報構造をそのまま複製しません。</li>
+      </ul>
+    </section>
+
+    <footer>選択状態はこのブラウザ内とURLの末尾へ保存されます。別の環境へ渡す場合は、選択済みMarkdownを保存してください。</footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const practices = [{"id":"b01","category":"基本設計","strength":"必須","selected":true,"title":"主目的を一つに決める","rule":"情報共有、意思決定、説得、行動依頼、学習、報告から主目的を一つ選ぶ。","apply":"作成前に「この資料で何を達成するか」を一文で固定する。","source":"waterloo"},{"id":"b02","category":"基本設計","strength":"必須","selected":true,"title":"聞き手を具体的に定義する","rule":"役割、既有知識、関心、意思決定権、利用言語、必要な配慮を確認する。","apply":"聞き手が知っていることと、説明が必要なことを分ける。","source":"waterloo"},{"id":"b03","category":"基本設計","strength":"必須","selected":false,"title":"持ち帰りと次の行動を決める","rule":"最後に覚えてほしい一文と、発表後に取ってほしい行動を各一文で定義する。","apply":"すべてのスライドを、この二つへつながる内容だけで構成する。","source":"waterloo"},{"id":"b04","category":"基本設計","strength":"必須","selected":true,"title":"利用環境を先に確認する","rule":"発表時間、画面比率、会場、視距離、画面共有、配布資料の有無を確認する。","apply":"条件が不明な場合は、安全側の文字サイズと余白で作る。","source":"ms"},{"id":"b05","category":"基本設計","strength":"必須","selected":true,"title":"根拠と利用条件を確認する","rule":"データの出典、更新日、定義、比較条件、単位、画像の利用許諾を確認する。","apply":"未確認の数値や因果関係を事実として載せない。","source":"wcag"},{"id":"b06","category":"基本設計","strength":"推奨","selected":true,"title":"本編・付録・ノート・配布資料を分ける","rule":"本編は理解と判断、付録は詳細、ノートは説明、配布資料は後から参照する完全性を担う。","apply":"詳細を本編へ戻して文字で埋めない。","source":"utaustin"},{"id":"r01","category":"見やすさ","strength":"必須","selected":true,"title":"一枚につき主張を一つに絞る","rule":"通常は、聞き手が持ち帰る主張を一枚につき一つにする。","apply":"比較、工程全体、配布資料では目的を明記して例外にする。","source":"garner"},{"id":"r02","category":"見やすさ","strength":"必須","selected":true,"title":"固有の主張タイトルを付ける","rule":"各スライドに内容を表す固有のタイトルを付け、可能なら結論が分かる短い文にする。","apply":"タイトルだけを読んでも話の流れが分かるようにする。","source":"ms"},{"id":"r03","category":"見やすさ","strength":"推奨","selected":true,"title":"本文は18pt以上から始める","rule":"本文は18pt以上を開始点にし、会場が広い場合はさらに大きくする。","apply":"小さくして収めず、内容を減らすかスライドを分ける。","source":"ms"},{"id":"r04","category":"見やすさ","strength":"必須","selected":true,"title":"文字のコントラストを確保する","rule":"通常文字は4.5:1以上、大きな文字は3:1以上のコントラストを確保する。","apply":"背景写真を使う場合も実際の文字位置で再計測する。","source":"wcag"},{"id":"r05","category":"見やすさ","strength":"必須","selected":true,"title":"色だけで意味を伝えない","rule":"正誤、状態、系列、優先度にはラベル、形、線種、記号、太さを併用する。","apply":"グレースケールでも意味が残るか確認する。","source":"wcag"},{"id":"r06","category":"見やすさ","strength":"必須","selected":true,"title":"情報階層を三段階以内にする","rule":"見出し、主要主張、補足の順を、サイズ、太さ、位置、余白で区別する。","apply":"一枚の中で最初に見せる要素を一つ決める。","source":"similarity"},{"id":"r07","category":"見やすさ","strength":"必須","selected":true,"title":"グリッドと整列線を使う","rule":"同種の要素の左端、上端、幅、内側余白を共通の基準線へそろえる。","apply":"位置を目測だけで決めず、見えないグリッドへ合わせる。","source":"carbon"},{"id":"r08","category":"見やすさ","strength":"必須","selected":true,"title":"文字を縮小して詰め込まない","rule":"文字が入らない場合は、文章を短くするか、スライド、ノート、付録へ分ける。","apply":"可読性を守るため、文字サイズを最後の調整弁にしない。","source":"ms"},{"id":"r09","category":"見やすさ","strength":"必須","selected":true,"title":"文字と図に代替情報を持たせる","rule":"本文は編集可能な実テキストにし、意味を持つ図には代替テキストを付ける。","apply":"複雑な図では、数値、比較、結論を文章でも示す。","source":"wcag"},{"id":"a01","category":"おしゃれさ","strength":"必須","selected":true,"title":"美しさを整列と一貫性で作る","rule":"装飾量ではなく、整列、階層、余白、反復、色の役割で完成度を上げる。","apply":"装飾を追加する前に、位置と間隔を整える。","source":"carbon"},{"id":"a02","category":"おしゃれさ","strength":"必須","selected":true,"title":"余白を情報構造として使う","rule":"外側余白、要素間隔、内側余白を意図的に設計する。","apply":"余白を不足として埋めず、情報群の境界として残す。","source":"common"},{"id":"a03","category":"おしゃれさ","strength":"必須","selected":true,"title":"近接でグループを作る","rule":"関連する要素の距離を、別グループとの距離より明確に小さくする。","apply":"近接で十分な場合は、不要な枠線やカードを追加しない。","source":"common"},{"id":"a04","category":"おしゃれさ","strength":"必須","selected":true,"title":"色の役割を固定する","rule":"背景、本文、主色、補助色、状態色の役割を決め、ページをまたいで変えない。","apply":"主色は結論、重要数値、現在地など少数の役割へ限定する。","source":"similarity"},{"id":"a05","category":"おしゃれさ","strength":"推奨","selected":true,"title":"書体数を一〜二種類に抑える","rule":"見出しと本文の差は、まず同じ書体のサイズとウェイトで作る。","apply":"太字、色、下線を同じ箇所へ重ねない。","source":"ms"},{"id":"a06","category":"おしゃれさ","strength":"必須","selected":true,"title":"画像とアイコンのスタイルを統一する","rule":"写真、イラスト、アイコンのトーン、線幅、角、トリミングを統一する。","apply":"写真とフラットイラストを理由なく混在させない。","source":"similarity"},{"id":"a07","category":"おしゃれさ","strength":"必須","selected":true,"title":"装飾を目的に従わせる","rule":"過剰な影、発光、3D、意味のない曲線、背景模様を使わない。","apply":"主張の理解を助けない装飾は削除する。","source":"mayer"},{"id":"a08","category":"おしゃれさ","strength":"必須","selected":true,"title":"同じ型を全ページへ繰り返さない","rule":"すべてを「見出し＋三つのカード」にせず、内容に合う構図を選ぶ。","apply":"主張、比較、単一図、写真、工程などから目的に合う形を使う。","source":"mayer"},{"id":"a09","category":"おしゃれさ","strength":"推奨","selected":true,"title":"全要素の中央揃えを避ける","rule":"中央揃えは章扉や短い主張へ限定し、本文は明確な基準線へそろえる。","apply":"長文や複数要素は左揃えを基本にする。","source":"carbon"},{"id":"c01","category":"伝わる構成","strength":"必須","selected":true,"title":"冒頭で到達点を示す","rule":"結論または問い、到達点、聞き手に求める判断や行動を冒頭で示す。","apply":"何のために見る資料かを最初の一〜二枚で理解できるようにする。","source":"waterloo"},{"id":"c02","category":"伝わる構成","strength":"必須","selected":true,"title":"タイトルだけで論理を追えるようにする","rule":"タイトルを順に読んだとき、背景から結論までの流れが成立するようにする。","apply":"タイトルだけの一覧を作り、論理の飛びを確認する。","source":"garner"},{"id":"c03","category":"伝わる構成","strength":"必須","selected":true,"title":"主張を支える要素だけを残す","rule":"図、数値、引用、注記を、そのスライドの主張を支えるものへ限定する。","apply":"興味深くても結論に不要な情報は付録へ移す。","source":"mayer"},{"id":"c04","category":"伝わる構成","strength":"必須","selected":true,"title":"図表の結論を先に書く","rule":"図表のタイトルか近接注記で、見てほしい差、傾向、判断を明示する。","apply":"「売上推移」ではなく「売上は第3四半期から回復した」のように書く。","source":"leppink"},{"id":"c05","category":"伝わる構成","strength":"必須","selected":true,"title":"ラベルを対象の近くへ置く","rule":"図のラベルと説明を対象の近くへ置き、凡例との往復を減らす。","apply":"可能な限り系列名を線、棒、点の近くへ直接置く。","source":"leppink"},{"id":"c06","category":"伝わる構成","strength":"推奨","selected":true,"title":"複雑な図を段階表示する","rule":"全体、注目部分、含意の順に見せ、説明の順序と強調を同期させる。","apply":"最初から全データと全注釈を同時に見せない。","source":"leppink"},{"id":"c07","category":"伝わる構成","strength":"必須","selected":true,"title":"不要な詳細を削る","rule":"例外、定義、全データ、方法の詳細を本編へ詰め込まない。","apply":"意思決定に必要な根拠だけを本編へ残す。","source":"mayer"},{"id":"c08","category":"伝わる構成","strength":"必須","selected":true,"title":"最後に結論と次の行動を示す","rule":"冒頭で示した問いや目的を解決し、聞き手が次に取る行動を明示する。","apply":"細部の説明や形式的な挨拶だけで終えない。","source":"waterloo"},{"id":"e01","category":"説明しやすさ","strength":"必須","selected":true,"title":"画面と発表者の役割を分ける","rule":"画面には結論、数値、比較条件、引用、図を残し、因果や具体例は発表者が補う。","apply":"画面へ説明文をすべて載せない。","source":"mayer"},{"id":"e02","category":"説明しやすさ","strength":"必須","selected":true,"title":"発表者ノートを用意する","rule":"ノートに一言結論、背景、説明、次への接続、出典の読み方を置く。","apply":"ノートを画面文の読み上げ原稿にしない。","source":"utaustin"},{"id":"e03","category":"説明しやすさ","strength":"必須","selected":true,"title":"画面文を逐語的に読まない","rule":"画面上の文章と同じ内容を、そのまま話し言葉で重ねない。","apply":"画面には要点を残し、口頭では関係と意味を説明する。","source":"mayer"},{"id":"e04","category":"説明しやすさ","strength":"推奨","selected":true,"title":"章と説明順を標識する","rule":"現在地と章の結論を示し、ノートに「まず」「次に」「結論として」などを置く。","apply":"聞き手が話の位置を見失わないようにする。","source":"waterloo"},{"id":"e05","category":"説明しやすさ","strength":"推奨","selected":true,"title":"想定質問を三〜五件用意する","rule":"想定質問と短い回答を作り、根拠となる付録へ結び付ける。","apply":"意思決定会議や重要な提案で適用する。","source":"waterloo"},{"id":"e06","category":"説明しやすさ","strength":"条件付き","selected":true,"title":"発表者がいない資料は本文を補う","rule":"単独で閲覧する資料では、ノートに置く情報を本文または配布資料へ移す。","apply":"口頭説明の有無を先に確認して適用する。","source":"utaustin"},{"id":"d01","category":"図表・検証","strength":"必須","selected":true,"title":"図表の条件と出典を示す","rule":"軸、単位、期間、比較条件、系列名、重要値、出典を載せる。","apply":"比較条件が違う数値を同じ基準として見せない。","source":"wcag"},{"id":"d02","category":"図表・検証","strength":"必須","selected":true,"title":"データ型に合う図を選ぶ","rule":"棒は量の比較、線は時系列、散布図は関係、表は正確な値の参照に使う。","apply":"見た目の好みだけで図表形式を選ばない。","source":"leppink"},{"id":"d03","category":"図表・検証","strength":"必須","selected":true,"title":"重要な系列だけを強調する","rule":"結論となる系列だけを主色と注記で強調し、他の系列とグリッド線は抑える。","apply":"全系列を同じ強さや多色で見せない。","source":"similarity"},{"id":"d04","category":"図表・検証","strength":"必須","selected":true,"title":"表を単純な構造にする","rule":"表は正確な比較に必要な場合だけ使い、結合セルと入れ子を避ける。","apply":"列見出しを明示し、読み上げ順を保つ。","source":"ms"},{"id":"d05","category":"図表・検証","strength":"必須","selected":true,"title":"タイトル・代替テキスト・読み上げ順を確認する","rule":"各スライドに固有タイトルを付け、図の代替情報と読み上げ順を確認する。","apply":"PowerPointの選択ウィンドウやアクセシビリティ機能で確認する。","source":"ms"},{"id":"d06","category":"図表・検証","strength":"必須","selected":true,"title":"実表示で可読性を確認する","rule":"最後列相当、縮小された画面共有、環境光のある表示で文字と図を確認する。","apply":"作成画面だけを見て合格にしない。","source":"ms"},{"id":"d07","category":"図表・検証","strength":"推奨","selected":true,"title":"グレースケールと拡大表示を確認する","rule":"色を失っても意味が残るか、200%拡大しても情報が失われないか確認する。","apply":"HTML版や配布版も同じ観点で確認する。","source":"wcag"},{"id":"d08","category":"図表・検証","strength":"推奨","selected":true,"title":"アクセシビリティチェックを実行する","rule":"PowerPointで納品する場合は、アクセシビリティチェッカーを実行する。","apply":"警告を確認し、未解決項目を明示する。","source":"ms"},{"id":"d09","category":"図表・検証","strength":"必須","selected":true,"title":"自己レビューを通過してから納品する","rule":"主張、可読性、コントラスト、整列、出典、代替情報、ノートを確認する。","apply":"一項目でも不合格なら修正後に再確認する。","source":"wcag"}];
+    const sources = {"wcag":["W3C WCAG 2.2","https://www.w3.org/TR/WCAG22/"],"ms":["Microsoft PowerPoint アクセシビリティ","https://support.microsoft.com/en-us/accessibility/powerpoint/make-your-powerpoint-presentations-accessible-to-people-with-disabilities"],"carbon":["IBM Carbon 2x Grid","https://carbondesignsystem.com/elements/2x-grid/overview/"],"similarity":["Nielsen Norman Group: Similarity","https://www.nngroup.com/articles/gestalt-similarity/"],"common":["Nielsen Norman Group: Common Region","https://www.nngroup.com/articles/common-region/"],"mayer":["Mayer: Multimedia Learning","https://pubmed.ncbi.nlm.nih.gov/19014238/"],"leppink":["Leppink et al.: Instructional Materials","https://pubmed.ncbi.nlm.nih.gov/33716467/"],"garner":["Garner et al.: Slide Design","https://www.writing.engr.psu.edu/ae_comprehension.pdf"],"waterloo":["University of Waterloo: Presentation Preparation","https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation"],"utaustin":["UT Austin: Presentation Dos & Don’ts","https://hr.utexas.edu/learning-development/resources/ut-ld-dos-donts"]};
+    const storageKey = 'slide-design-practices-selection-v2';
+    const categories = ['すべて'].concat(Array.from(new Set(practices.map(function(p){ return p.category; }))));
+    const defaults = new Set(practices.filter(function(p){ return p.selected; }).map(function(p){ return p.id; }));
+    let activeCategory = 'すべて';
+    let selected = loadSelection();
+
+    function loadSelection() {
+      const hash = new URLSearchParams(location.hash.slice(1)).get('selected');
+      if (hash !== null) return new Set(hash ? hash.split(',').filter(Boolean) : []);
+      try {
+        const stored = JSON.parse(localStorage.getItem(storageKey));
+        if (Array.isArray(stored)) return new Set(stored);
+      } catch (_) {}
+      return new Set(defaults);
+    }
+
+    function persist() {
+      const ids = practices.map(function(p){ return p.id; }).filter(function(id){ return selected.has(id); });
+      try { localStorage.setItem(storageKey, JSON.stringify(ids)); } catch (_) {}
+      history.replaceState(null, '', '#selected=' + ids.join(','));
+      updateCount();
+    }
+
+    function badgeClass(strength) {
+      return strength === '必須' ? 'must' : strength === '推奨' ? 'should' : 'context';
+    }
+
+    function renderTabs() {
+      const tabs = document.getElementById('tabs');
+      tabs.replaceChildren();
+      categories.forEach(function(category) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'tab';
+        button.textContent = category;
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-selected', String(category === activeCategory));
+        button.addEventListener('click', function() { activeCategory = category; renderTabs(); renderPractices(); });
+        tabs.appendChild(button);
+      });
+    }
+
+    function renderPractices() {
+      const query = document.getElementById('search').value.trim().toLowerCase();
+      const content = document.getElementById('content');
+      content.replaceChildren();
+      let visibleCount = 0;
+      categories.slice(1).forEach(function(category) {
+        if (activeCategory !== 'すべて' && activeCategory !== category) return;
+        const items = practices.filter(function(p) {
+          if (p.category !== category) return false;
+          const haystack = [p.title,p.rule,p.apply,p.strength,p.category].join(' ').toLowerCase();
+          return !query || haystack.includes(query);
+        });
+        if (!items.length) return;
+        visibleCount += items.length;
+        const heading = document.createElement('h2');
+        heading.className = 'section-title';
+        heading.textContent = category + '（' + items.length + '）';
+        content.appendChild(heading);
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        items.forEach(function(p) {
+          const card = document.createElement('article');
+          card.className = 'practice';
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.id = 'practice-' + p.id;
+          checkbox.checked = selected.has(p.id);
+          checkbox.addEventListener('change', function() {
+            checkbox.checked ? selected.add(p.id) : selected.delete(p.id);
+            persist();
+          });
+          const label = document.createElement('label');
+          label.className = 'practice-label';
+          label.htmlFor = checkbox.id;
+          const meta = document.createElement('div');
+          meta.className = 'meta';
+          const badge = document.createElement('span');
+          badge.className = 'badge ' + badgeClass(p.strength);
+          badge.textContent = p.strength;
+          meta.appendChild(badge);
+          const title = document.createElement('h3');
+          title.textContent = p.title;
+          const rule = document.createElement('p');
+          rule.textContent = p.rule;
+          const apply = document.createElement('p');
+          apply.className = 'apply';
+          apply.textContent = '適用：' + p.apply;
+          const source = document.createElement('a');
+          source.className = 'source';
+          source.href = sources[p.source][1];
+          source.target = '_blank';
+          source.rel = 'noreferrer';
+          source.textContent = '根拠：' + sources[p.source][0];
+          label.append(meta,title,rule,apply);
+          card.append(checkbox,label,source);
+          grid.appendChild(card);
+        });
+        content.appendChild(grid);
+      });
+      document.getElementById('empty').style.display = visibleCount ? 'none' : 'block';
+    }
+
+    function updateCount() {
+      document.getElementById('selected-count').textContent = selected.size + '件を選択中';
+      document.getElementById('hero-selected').textContent = selected.size;
+    }
+
+    function selectedMarkdown() {
+      const lines = ['# 選択済みスライドデザイン規則','','この規則を、今後作成するスライドへ共通で適用する。',''];
+      categories.slice(1).forEach(function(category) {
+        const items = practices.filter(function(p){ return p.category === category && selected.has(p.id); });
+        if (!items.length) return;
+        lines.push('## ' + category,'');
+        items.forEach(function(p) {
+          lines.push('- **' + p.title + '**（' + p.strength + '）');
+          lines.push('  - 規則: ' + p.rule);
+          lines.push('  - 適用: ' + p.apply);
+          lines.push('  - 根拠: [' + sources[p.source][0] + '](' + sources[p.source][1] + ')');
+        });
+        lines.push('');
+      });
+      lines.push('## 共通適用','','- 選択した規則は、テーマやレイアウトが異なっても共通で適用する。','- ブランド固有の色や書体は、可読性と一貫性の規則を満たす範囲で変更する。','- 参考資料の色や雰囲気を利用しても、配置や情報構造をそのまま複製しない。','');
+      return lines.join('\n');
+    }
+
+    function toast(message) {
+      const el = document.getElementById('toast');
+      el.textContent = message;
+      el.classList.add('show');
+      setTimeout(function(){ el.classList.remove('show'); }, 2200);
+    }
+
+    document.getElementById('search').addEventListener('input', renderPractices);
+    document.getElementById('recommended').addEventListener('click', function(){ selected = new Set(defaults); persist(); renderPractices(); toast('確定済みの選択へ戻しました'); });
+    document.getElementById('select-all').addEventListener('click', function(){ selected = new Set(practices.map(function(p){ return p.id; })); persist(); renderPractices(); toast('すべて選択しました'); });
+    document.getElementById('clear-all').addEventListener('click', function(){ selected = new Set(); persist(); renderPractices(); toast('すべて解除しました'); });
+    document.getElementById('copy').addEventListener('click', async function(){
+      const value = selectedMarkdown();
+      try { await navigator.clipboard.writeText(value); toast('選択内容をコピーしました'); }
+      catch (_) {
+        const area = document.createElement('textarea'); area.value = value; document.body.appendChild(area); area.select(); document.execCommand('copy'); area.remove(); toast('選択内容をコピーしました');
+      }
+    });
+    document.getElementById('download').addEventListener('click', function(){
+      const blob = new Blob([selectedMarkdown()], { type:'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'slide-design-practices-selected.md'; a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      toast('選択済みMarkdownを保存しました');
+    });
+
+    renderTabs();
+    renderPractices();
+    persist();
+  </script>
+</body>
+</html>
