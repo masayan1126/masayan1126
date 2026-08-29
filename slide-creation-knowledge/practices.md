@@ -137,6 +137,10 @@
   - 規則: 冒頭で示した問いや目的を解決し、聞き手が次に取る行動を明示する。
   - 適用: 細部の説明や形式的な挨拶だけで終えない。
   - 根拠: [University of Waterloo: Presentation Preparation](https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/preparing-your-presentation)
+- **説明を補う図形やアイコンを使う**（推奨）
+  - 規則: 関係、順序、比較、状態、行動を文章だけより短く理解できる場合は、図形、矢印、線画アイコンを使う。
+  - 適用: 図形やアイコンには短いラベルを添える。番号付きの項目や通常の箇条書きでは、各項目の先頭に絵文字やアイコンを追加せず、番号または行頭記号だけで整理する。
+  - 根拠: [Mayer: Multimedia Learning](https://pubmed.ncbi.nlm.nih.gov/19014238/)
 
 ## 説明しやすさ
 
