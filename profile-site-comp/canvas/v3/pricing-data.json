@@ -1,5 +1,5 @@
 {
-  "updated": "2026年9月5日",
+  "updated": "2026年9月6日",
   "taxRate": 0.1,
   "revisionFee": 5000,
   "plans": [
@@ -182,7 +182,7 @@
     }
   ],
   "rateMode": "range",
-  "baseDescription": "撮影・動画編集・サムネイル制作・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。",
+  "baseDescription": "撮影・動画編集・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。",
   "checklistGroups": [
     {
       "id": "research",
@@ -257,8 +257,7 @@
       "group": "production",
       "min": 5000,
       "max": 5000,
-      "taxInclusive": true,
-      "fixed": true
+      "taxInclusive": true
     },
     {
       "id": "publishing",
