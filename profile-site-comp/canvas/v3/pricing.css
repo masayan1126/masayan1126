@@ -25,7 +25,7 @@
 .estimate-notes-copy h3{font-size:13px!important;color:#252a33;margin:18px 0 6px}.estimate-notes-copy h3:first-child{margin-top:0}.estimate-notes-copy ul{margin:0;padding-left:1.3em}.estimate-notes-copy li{margin:4px 0}
 
 .sheet-hint{margin-top:0}.estimate-page .sheet-hint .estimate-hint{margin:0;line-height:1.6}.estimate-page .sheet-hint .estimate-hint+.estimate-hint{margin-top:2px}
-.work-row:has(.work-help){row-gap:6px}.work-help{grid-column:2/-1;display:block;font-size:11px;font-weight:400;color:var(--estimate-muted);line-height:1.65}
+.work-row:has(.work-help){row-gap:6px}.work-help{grid-column:2/-1;display:block;font-size:11px;font-weight:400;color:var(--estimate-muted);line-height:1.65;white-space:pre-line}
 
 .estimate-result #estimate-mail{margin-top:16px}
 #share-status:empty{display:none}#share-fallback{font-size:12px;margin-top:12px}#estimate-share-url{display:block;width:100%;padding:10px;border:1px solid var(--estimate-line);border-radius:8px;margin-top:8px;font-size:12px}#estimate-share{width:100%;text-align:center;font-size:12px!important}#shared-rate-note{padding:8px 10px;background:#f3f6fb;border-radius:6px;margin:0 0 14px}#share-load-error{margin-top:20px}
