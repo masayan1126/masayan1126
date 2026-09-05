@@ -182,7 +182,7 @@
     }
   ],
   "rateMode": "range",
-  "baseDescription": "撮影・動画編集・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。",
+  "baseDescription": "事前検証・撮影・動画編集・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。",
   "checklistGroups": [
     {
       "id": "research",
@@ -220,8 +220,9 @@
       "helpText": "サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。仕様書やFAQがある場合は、それらをもとに進めます。",
       "sourceLabel": "リサーチ・事前検証",
       "group": "research",
-      "min": 10000,
-      "max": 20000
+      "min": 5000,
+      "max": 8000,
+      "fixed": true
     },
     {
       "id": "materials",
@@ -229,8 +230,8 @@
       "helpText": "動画で話す内容や説明の順番までまとめた、台本に近い資料です。一般的な製品紹介資料とは異なります。",
       "sourceLabel": "説明用資料の作成",
       "group": "research",
-      "min": 10000,
-      "max": 15000
+      "min": 8000,
+      "max": 10000
     },
     {
       "id": "shooting",

@@ -23,7 +23,7 @@ def amount(item):
     return f'{low:,}〜{high:,}円'
 
 def media_summary():
-    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>事前検証・資料作成・ショート動画など、追加で依頼したい作業を選んで概算料金を確認できます。本編1本の制作と、YouTubeでの掲載が対象です。</p><p>公開前の修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。二次利用や撮り直しの料金は、個別に相談できます。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
+    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>資料作成・サムネイル制作・ショート動画など、追加で依頼したい作業を選んで概算料金をご確認いただけます。本編1本の制作と、YouTubeでの掲載が対象です。</p><p>公開前の修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。二次利用や撮り直しの料金は、個別にご相談いただけます。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
 
 def groups():
     result=[]
@@ -33,10 +33,10 @@ def groups():
             label=html.escape(item['label'])
             if item.get('description'): label += '<small>'+html.escape(item['description'])+'</small>'
             price='<span class="check-price">'+amount(item)+'</span>'
+            help_text = '<small class="work-help">'+html.escape(item['helpText'])+'</small>' if item.get('helpText') else ''
             if item.get('fixed'):
-                row='<div class="work-row work-fixed"><span class="fixed-check">'+icon('check')+'</span><span class="work-label">'+label+'<small>基本料金に含まれます</small></span>'+price+'</div>'
+                row='<div class="work-row work-fixed"><span class="fixed-check">'+icon('check')+'</span><span class="work-label">'+label+'<small>基本料金に含まれます</small></span>'+price+help_text+'</div>'
             else:
-                help_text = '<small class="work-help">'+html.escape(item['helpText'])+'</small>' if item.get('helpText') else ''
                 row=f'<label class="work-row"><input type="checkbox" name="items" value="{item["id"]}"><span class="work-label">{label}</span>{price}{help_text}</label>'
             rows.append(row)
         result.append(f'<fieldset class="estimate-group"><legend>{icon(group["icon"])} {group["title"]}</legend><div class="work-list">'+''.join(rows)+'</div></fieldset>')
@@ -59,35 +59,52 @@ def content(public_data=None):
       <div class="sheet-heading"><h2>依頼したい作業</h2></div>
       <div class="sheet-hint">
         <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
-        <p class="estimate-hint">PRするサービスの検証用アカウントのご用意はお願いします。</p>
-        <p class="estimate-hint">10〜20分程度の動画を想定しています。30分超えの長尺動画に関しては要相談とさせていただきます。</p>
+        <p class="estimate-hint">PRするサービスの検証用アカウントをご用意いただくようお願いいたします。</p>
+        <p class="estimate-hint">10〜20分程度の動画を想定しております。30分を超える長尺動画は、個別にご相談いただけます。</p>
       </div>
       <div id="estimate-groups">{groups()}</div>
       <section class="estimate-notes" aria-labelledby="estimate-notes-heading">
         <h2 id="estimate-notes-heading">{icon('info')} 注意事項</h2>
         <div class="estimate-notes-copy">
           <h3>修正回数</h3>
-          <p>公開前の修正は2回まで料金に含まれます。</p>
-          <p>3回目以降は1回5,500円（税込）です。</p>
+          <ul>
+            <li>公開前の修正は、2回まで追加料金なしで承ります。</li>
+            <li>3回目以降の修正は、1回につき5,500円（税込）を頂戴いたします。</li>
+          </ul>
           <h3>キャンセル料</h3>
           <ul>
-            <li>着手後〜撮影前：制作費の30%</li>
-            <li>撮影後：制作費の50%</li>
-            <li>編集完了後：制作費の100%</li>
+            <li>着手後〜撮影前のキャンセルは、制作費の30%を頂戴いたします。</li>
+            <li>撮影後のキャンセルは、制作費の50%を頂戴いたします。</li>
+            <li>編集完了後のキャンセルは、制作費の100%を頂戴いたします。</li>
           </ul>
           <h3>制作・公開の範囲</h3>
-          <p>本編動画1本の制作と、Masaya NishigakiのYouTubeチャンネルでの公開を依頼できます。</p>
-          <p>依頼できる編集は、通常公開している動画と同水準の編集とテロップの追加です。モーショングラフィックスやアニメーションなどの高度な編集は対象外です。</p>
-          <p>本編は10〜20分程度を想定しています。30分を超える動画や撮り直しの料金は、個別に相談できます。</p>
+          <ul>
+            <li>本編動画1本の制作と、Masaya NishigakiのYouTubeチャンネルでの公開を承ります。</li>
+            <li>通常公開している動画と同水準の編集・テロップ追加に対応いたします。モーショングラフィックスやアニメーションなどの高度な編集は、対象に含まれておりません。</li>
+            <li>本編は10〜20分程度を想定しております。30分を超える動画や撮り直しの料金は、個別にご相談いただけます。</li>
+          </ul>
           <h3>日程・お支払い</h3>
-          <p>発注確定から公開までは1〜2週間が目安です。依頼者が内容を確認する期間は別途かかります。</p>
-          <p>お支払いは動画公開月の月末締め・翌月末払いです。表示料金には消費税を含みます。適格請求書発行事業者には未登録です。</p>
+          <ul>
+            <li>ご発注の確定から公開までは、1〜2週間を目安としております。</li>
+            <li>お客様に内容をご確認いただく期間は、上記の日数に含まれておりません。</li>
+            <li>お支払いは、動画公開月の月末締め・翌月末払いでお願いいたします。</li>
+            <li>表示料金には消費税を含んでおります。適格請求書発行事業者には登録しておりません。</li>
+          </ul>
           <h3>PR表記・評価・効果レポート</h3>
-          <p>動画と概要欄には「PR」「プロモーションを含む」などの表記が入ります。動画の構成・表現は制作者が判断します。率直な評価や指摘も含まれます。事実誤認の修正は依頼できます。</p>
-          <p>公開30日後に、効果レポートを受け取れます。再生数・視聴維持率と、概要欄の計測用リンク（UTM）から集計したクリック数を確認できます。再生回数や登録者増加数などの成果の保証はありません。</p>
+          <ul>
+            <li>動画と概要欄には「PR」「プロモーションを含む」などの表記を入れます。</li>
+            <li>動画の構成・表現は、Masaya Nishigakiが判断いたします。サービスに対する率直な評価や指摘も含みます。</li>
+            <li>事実と異なる内容がございましたら、修正をご依頼いただけます。</li>
+            <li>公開30日後に、効果レポートをお渡しいたします。再生数・視聴維持率と、概要欄の計測用リンク（UTM）から集計したクリック数をご確認いただけます。</li>
+            <li>再生回数や登録者増加数などの成果は、保証しておりません。</li>
+          </ul>
           <h3>著作権・二次利用・掲載期間</h3>
-          <p>動画・資料の著作権は、個別契約で取り決めます。自社サイト・SNS・広告などで二次利用したい場合は、利用範囲を個別に相談できます。</p>
-          <p>公開後の動画は、原則として公開が続きます。掲載期間の指定や、複数本・継続契約は個別に相談できます。</p>
+          <ul>
+            <li>動画・資料の著作権は、個別のご契約で取り決めます。</li>
+            <li>自社サイト・SNS・広告などでの二次利用をご希望の場合は、利用範囲を個別にご相談いただけます。</li>
+            <li>公開後の動画は、原則として継続して掲載いたします。</li>
+            <li>掲載期間のご指定や、複数本の制作・継続契約も個別にご相談いただけます。</li>
+          </ul>
           <p>料金表の更新日：{DATA['updated']}　／　税込表示は消費税10%で計算しています。</p>
           <p><a href="/media/">代表動画・チャンネルを見る →</a></p>
         </div>

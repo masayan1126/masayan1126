@@ -1,0 +1,129 @@
+{
+  "updated": "2026年9月6日",
+  "taxRate": 0.1,
+  "revisionFee": 5000,
+  "rateMode": "range",
+  "baseDescription": "事前検証・撮影・動画編集・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。",
+  "checklistGroups": [
+    {
+      "id": "research",
+      "title": "事前準備作業",
+      "icon": "file",
+      "items": [
+        "research",
+        "materials"
+      ]
+    },
+    {
+      "id": "production",
+      "title": "撮影・編集",
+      "icon": "video",
+      "items": [
+        "shooting",
+        "editing",
+        "thumbnail"
+      ]
+    },
+    {
+      "id": "publication",
+      "title": "公開・SNS発信",
+      "icon": "share",
+      "items": [
+        "publishing",
+        "shorts"
+      ]
+    }
+  ],
+  "checklistItems": [
+    {
+      "id": "research",
+      "label": "サービスの事前検証",
+      "helpText": "サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。仕様書やFAQがある場合は、それらをもとに進めます。",
+      "sourceLabel": "リサーチ・事前検証",
+      "group": "research",
+      "min": 5000,
+      "max": 8000,
+      "fixed": true
+    },
+    {
+      "id": "materials",
+      "label": "動画で使用する資料の作成",
+      "helpText": "動画で話す内容や説明の順番までまとめた、台本に近い資料です。一般的な製品紹介資料とは異なります。",
+      "sourceLabel": "説明用資料の作成",
+      "group": "research",
+      "min": 8000,
+      "max": 10000
+    },
+    {
+      "id": "shooting",
+      "label": "動画撮影",
+      "sourceLabel": "動画撮影",
+      "group": "production",
+      "min": 8000,
+      "max": 10000,
+      "fixed": true
+    },
+    {
+      "id": "editing",
+      "label": "動画編集",
+      "group": "production",
+      "min": 15000,
+      "max": 15000,
+      "description": "カット、テロップ、BGM、効果音など",
+      "taxInclusive": true,
+      "fixed": true
+    },
+    {
+      "id": "thumbnail",
+      "label": "サムネイル制作",
+      "group": "production",
+      "min": 5000,
+      "max": 5000,
+      "taxInclusive": true
+    },
+    {
+      "id": "publishing",
+      "label": "公開作業および公開30日後のレポート提出",
+      "sourceLabel": "公開作業",
+      "group": "publication",
+      "min": 2000,
+      "max": 2000,
+      "fixed": true
+    },
+    {
+      "id": "shorts",
+      "label": "ショート動画制作・SNSシェア",
+      "sourceLabel": "ショート動画・SNSシェア",
+      "group": "publication",
+      "min": 5000,
+      "max": 5000
+    }
+  ],
+  "custom": [
+    {
+      "id": "preparation",
+      "label": "準備物や作業の分担を相談したい"
+    },
+    {
+      "id": "reuse",
+      "label": "自社サイト・SNS・広告などで二次利用したい"
+    },
+    {
+      "id": "reshoot",
+      "label": "撮り直しを含めて依頼したい"
+    },
+    {
+      "id": "long",
+      "label": "目安より大幅に長い動画を依頼したい"
+    },
+    {
+      "id": "multiple",
+      "label": "複数本の制作・継続契約を相談したい"
+    },
+    {
+      "id": "period",
+      "label": "掲載期間を指定したい"
+    }
+  ],
+  "rateVersion": "5bf426700870"
+}

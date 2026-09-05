@@ -5,13 +5,18 @@ import {quote, summary, mailto, amountText, taxIncluded, selectedFromUrl, estima
 const data=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
 const source=JSON.parse(readFileSync(new URL('./pricing-proposal.json',import.meta.url)));
 const optional=data.checklistItems.filter(x=>!x.fixed&&x.min!=null).map(x=>x.id);
-test('source rates are preserved except the two user-specified tax-inclusive prices',()=>{
-  for(const work of data.checklistItems.filter(x=>x.sourceLabel)){
+test('source rates are preserved except explicitly revised preparation and production prices',()=>{
+  for(const work of data.checklistItems.filter(x=>x.sourceLabel&&!['research','materials'].includes(x.id))){
     const rates=source.items.find(x=>x.label===work.sourceLabel).amounts.filter(n=>n>0);
     assert.equal(work.min,Math.min(...rates)); assert.equal(work.max,Math.max(...rates));
   }
   for(const [id,price] of [['editing',15000],['thumbnail',5000]]){
     const item=data.checklistItems.find(x=>x.id===id); assert.equal(item.min,price);assert.equal(item.max,price);assert.equal(item.taxInclusive,true);
+  }
+  for(const [id,min,max,grossMin,grossMax] of [['research',5000,8000,5500,8800],['materials',8000,10000,8800,11000]]){
+    const item=data.checklistItems.find(x=>x.id===id);
+    assert.deepEqual([item.min,item.max],[min,max]);assert.ok(!item.taxInclusive);
+    assert.deepEqual([taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive)],[grossMin,grossMax]);
   }
   for(const id of ['placement','script','comparison']){
     assert.ok(!data.checklistItems.some(item=>item.id===id));
@@ -19,29 +24,29 @@ test('source rates are preserved except the two user-specified tax-inclusive pri
   }
   assert.deepEqual(quote(data,{items:['script','comparison','placement']}),quote(data));
 });
-test('thumbnail is optional while shooting, editing and publishing remain in the minimum',()=>{
-  for(const [items,min,max] of [[[],26000,28200],[['editing'],26000,28200],[['thumbnail'],31000,33200],[['editing','thumbnail'],31000,33200]]){
+test('research is included and thumbnail stays optional in the minimum',()=>{
+  for(const [items,min,max] of [[[],31500,37000],[['research','editing'],31500,37000],[['thumbnail'],36500,42000],[['editing','thumbnail'],36500,42000]]){
     const r=quote(data,{items});assert.equal(r.totalMin,min);assert.equal(r.totalMax,max);
     assert.equal(r.min+r.taxMin,min);assert.equal(r.max+r.taxMax,max);
     assert.equal(r.quotedTotal,null);
     assert.equal(r.preparation.includes('サムネイルの制作'),!items.includes('thumbnail'));
     assert.equal(r.preparation.includes('撮影素材の編集・完成データの提供'),false);
-    assert.deepEqual(r.lines.map(x=>x.id),['shooting','editing',...(items.includes('thumbnail')?['thumbnail']:[]),'publishing']);
+    assert.deepEqual(r.lines.map(x=>x.id),['research','shooting','editing',...(items.includes('thumbnail')?['thumbnail']:[]),'publishing']);
     assert.equal(summary(data,{items}).includes('サムネイル制作：5,000円'),items.includes('thumbnail'));
   }
 });
-test('all work sums to 58,500–77,200 including tax; third revision adds 5,500',()=>{
+test('all work sums to 50,800–58,500 including tax; third revision adds 5,500',()=>{
   const full=quote(data,{items:optional}),third=quote(data,{items:optional,revisions:3});
-  assert.deepEqual([full.totalMin,full.totalMax],[58500,77200]);
-  assert.deepEqual([third.totalMin,third.totalMax],[64000,82700]);
+  assert.deepEqual([full.totalMin,full.totalMax],[50800,58500]);
+  assert.deepEqual([third.totalMin,third.totalMax],[56300,64000]);
   assert.equal(third.extra,5000);assert.equal(third.lines.at(-1).label,'追加修正（1回）');
-  assert.equal(third.min,58182);assert.equal(third.taxMin,5818);
+  assert.equal(third.min,51182);assert.equal(third.taxMin,5118);
 });
-test('all 16 optional combinations stay above the minimum without double taxation',()=>{
+test('all eight optional combinations stay above the minimum without double taxation',()=>{
   let count=0;
   for(let mask=0;mask<2**optional.length;mask++){
     const items=optional.filter((id,i)=>mask&(1<<i)),r=quote(data,{items});count++;
-    assert.ok(r.totalMin>=26000);assert.ok(r.totalMax>=28200);
+    assert.ok(r.totalMin>=31500);assert.ok(r.totalMax>=37000);
     const lines=data.checklistItems.filter(x=>x.fixed||items.includes(x.id));
     for(const edge of ['min','max']){
       const sum=lines.reduce((n,x)=>n+(x.taxInclusive?x[edge]:x[edge]+Math.round(x[edge]*.1)),0);
@@ -52,13 +57,13 @@ test('all 16 optional combinations stay above the minimum without double taxatio
       const next=quote(data,{items:[...items,id]});assert.ok(next.totalMin>=r.totalMin);assert.ok(next.totalMax>=r.totalMax);
     }
   }
-  assert.equal(count,16);
+  assert.equal(count,8);
 });
-test('research and materials have separate prices and preparation responsibilities',()=>{
+test('research is always included and only materials require a preparation choice',()=>{
   const base=quote(data),research=quote(data,{items:['research']}),materials=quote(data,{items:['materials']});
-  assert.deepEqual([research.totalMin,research.totalMax],[37000,50200]);
-  assert.deepEqual([materials.totalMin,materials.totalMax],[37000,44700]);
-  assert.ok(base.preparation.includes('紹介する機能・操作手順の検証結果'));
+  assert.deepEqual(research,base);
+  assert.deepEqual([materials.totalMin,materials.totalMax],[40300,48000]);
+  assert.ok(!base.preparation.includes('紹介する機能・操作手順の検証結果'));
   assert.ok(!research.preparation.includes('紹介する機能・操作手順の検証結果'));
   assert.ok(research.preparation.includes('台本'));
   assert.ok(!materials.preparation.includes('台本'));
@@ -92,11 +97,11 @@ test('inquiry keeps the separate work, responsibilities and correct gross and ne
     for(const item of r.preparation)assert.ok(text.includes(item));
     const link=new URL(mailto(text));assert.equal(link.pathname,'contact@msyn.me');assert.equal(link.searchParams.get('body'),text);
   }
-  assert.equal(quote(data,{}).totalMin,26000);assert.equal(summary(data,{revisions:-1}),'');
+  assert.equal(quote(data,{}).totalMin,31500);assert.equal(summary(data,{revisions:-1}),'');
 });
 
 const versionedData = {...data,rateVersion:'123456abcdef'};
-test('shared URLs reproduce all 16 selections, itemized prices and totals',()=>{
+test('shared URLs reproduce all eight selections, itemized prices and totals',()=>{
   for(let mask=0;mask<2**optional.length;mask++) {
     const state={items:optional.filter((id,index)=>mask&(1<<index))};
     const url=estimateUrl(versionedData,state);
@@ -107,9 +112,9 @@ test('shared URLs reproduce all 16 selections, itemized prices and totals',()=>{
   }
 });
 test('URLs ignore unknown items, fixed rows, duplicates and supplied amounts',()=>{
-  const url='https://studio.msyn.me/pricing/?items=thumbnail,editing,editing,shooting,script,unknown&items=materials&total=1&taxRate=0';
+  const url='https://studio.msyn.me/pricing/?items=thumbnail,editing,editing,shooting,research,script,unknown&items=materials&total=1&taxRate=0';
   assert.deepEqual(selectedFromUrl(versionedData,url),['materials','thumbnail']);
-  assert.equal(quote(versionedData,{items:selectedFromUrl(versionedData,url)}).totalMin,42000);
+  assert.equal(quote(versionedData,{items:selectedFromUrl(versionedData,url)}).totalMin,45300);
   assert.deepEqual(selectedFromUrl(versionedData,'https://studio.msyn.me/pricing/'),[]);
   assert.deepEqual(selectedFromUrl(versionedData,estimateUrl(versionedData,{items:[]})),[]);
 });
@@ -120,8 +125,8 @@ test('archived rates preserve shared amounts after a later price change',async()
   newer.checklistItems.find(item=>item.id==='editing').max=20000;
   const state={items:['editing','thumbnail']},url=estimateUrl(previous,state);
   const restored=await loadSharedRates(newer,url,async version=>{assert.equal(version,previous.rateVersion);return previous;});
-  assert.equal(quote(newer,state).totalMin,36000);
-  assert.equal(quote(restored,{items:selectedFromUrl(restored,url)}).totalMin,31000);
+  assert.equal(quote(newer,state).totalMin,41500);
+  assert.equal(quote(restored,{items:selectedFromUrl(restored,url)}).totalMin,36500);
   assert.ok(summary(restored,state).includes(url));
 });
 test('existing shared links preserve their optional editing and thumbnail and old minimum',async()=>{
@@ -145,6 +150,15 @@ test('previous fixed-thumbnail quotes retain the original inclusion and minimum'
   assert.deepEqual([result.totalMin,result.totalMax],[31000,33200]);
   assert.ok(result.lines.some(line=>line.id==='thumbnail'&&line.fixed));
   assert.ok(!result.preparation.includes('サムネイルの制作'));
+});
+test('previous optional-research quotes retain their selected work and original rates',async()=>{
+  const old=JSON.parse(readFileSync(new URL('./pricing-rates/bda428420609.json',import.meta.url)));
+  for (const state of [{items:[]},{items:['research','materials']}]){
+    const restored=await loadSharedRates(versionedData,estimateUrl(old,state),async()=>old);
+    const result=quote(restored,state);
+    assert.deepEqual([result.totalMin,result.totalMax],state.items.length?[48000,66700]:[26000,28200]);
+    assert.equal(result.preparation.includes('紹介する機能・操作手順の検証結果'),!state.items.includes('research'));
+  }
 });
 test('missing or invalid rate archives fail instead of showing a different price',async()=>{
   for(const version of ['../secrets','bad','','123456abcdef']){
