@@ -56,7 +56,6 @@ def content(public_data=None):
   </div></section>
   <div class="v3-wrap estimate-layout">
     <form id="estimate-form" aria-label="PR動画制作の見積もり条件">
-      <div class="sheet-heading"><h2>依頼したい作業</h2></div>
       <div class="sheet-hint">
         <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
         <p class="estimate-hint">PRするサービスの検証用アカウントをご用意いただくようお願いいたします。</p>
@@ -106,7 +105,6 @@ def content(public_data=None):
             <li>掲載期間のご指定や、複数本の制作・継続契約も個別にご相談いただけます。</li>
           </ul>
           <p>料金表の更新日：{DATA['updated']}　／　税込表示は消費税10%で計算しています。</p>
-          <p><a href="/media/">代表動画・チャンネルを見る →</a></p>
         </div>
       </section>
     </form>
@@ -128,9 +126,6 @@ def content(public_data=None):
       <button id="estimate-share" type="button" class="estimate-copy-button">見積もりURLをコピー</button>
       <div id="share-fallback" hidden><label for="estimate-share-url">以下のURLをコピーして共有してください。</label><input id="estimate-share-url" type="url" readonly></div>
       <p id="share-status" role="status" class="estimate-hint"></p>
-      <button id="estimate-copy" type="button" class="estimate-copy-button">メールが開かない場合は、内容をコピー</button>
-      <div id="copy-fallback" hidden><label for="estimate-text">以下の内容をコピーして、メールに貼り付けてください。</label><textarea id="estimate-text" readonly rows="10"></textarea></div>
-      <p id="copy-status" role="status" class="estimate-hint"></p>
       <noscript><p>自動計算を使うには、JavaScriptを有効にしてください。各工程の料金はチェック欄でも確認できます。</p></noscript>
     </aside>
   </div>

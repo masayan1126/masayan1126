@@ -23,7 +23,6 @@ function render(announce = true, updateUrl = true) {
   el('estimate-share-url').value = sharedUrl;
   show('share-fallback', false); write('share-status', '');
   if (valid && updateUrl) history.replaceState(null, '', estimateUrl(data, state, location.href));
-  show('copy-fallback', false); write('copy-status', '');
   show('result-filled', valid); show('result-error', !valid); write('result-error', r.error ?? '');
   el('estimate-result').classList.toggle('is-custom', individual);
   if (valid) {
@@ -41,8 +40,8 @@ function render(announce = true, updateUrl = true) {
     write('mobile-amount', individual ? '要相談の項目があります' : compactAmount(r.totalMin, r.totalMax) + '（税込）');
   }
   mobileResult();
-  show('estimate-mail', valid); show('estimate-copy', valid); show('estimate-share', valid);
-  el('estimate-mail').href = mailto(text); el('estimate-text').value = text;
+  show('estimate-mail', valid); show('estimate-share', valid);
+  el('estimate-mail').href = mailto(text);
   write('estimate-mail-label', changed ? 'この内容で相談する' : 'とりあえず相談する');
   if (announce) write('estimate-live', !valid ? r.error : individual ?
     '合計は相談後に決まります。金額を算出できる項目の小計は税込' + amountText(r.totalMin,r.totalMax) + 'です。' :
@@ -50,18 +49,6 @@ function render(announce = true, updateUrl = true) {
 }
 form.addEventListener('input', () => render());
 form.addEventListener('submit', event => event.preventDefault());
-el('estimate-copy').addEventListener('click', async () => {
-  const current = copyVersion, copiedText = text;
-  try {
-    await navigator.clipboard.writeText(copiedText);
-    if (current === copyVersion) write('copy-status', '見積もり内容をコピーしました。');
-  } catch {
-    if (current !== copyVersion) return;
-    show('copy-fallback', true);
-    write('copy-status', '自動でコピーできませんでした。下の内容をコピーして、メールに貼り付けてください。');
-    el('estimate-text').focus(); el('estimate-text').select();
-  }
-});
 el('estimate-share').addEventListener('click', async () => {
   const current = copyVersion, url = sharedUrl;
   try {
@@ -109,7 +96,7 @@ function renderArchivedGroups() {
 
 async function initialize() {
   form.inert = true;
-  for (const id of ['estimate-mail','estimate-copy','estimate-share']) show(id,false);
+  for (const id of ['estimate-mail','estimate-share']) show(id,false);
   try {
     data = await loadSharedRates(currentData, location.href, async version => {
       const response = await fetch('/pricing-rates/' + version + '.json');
