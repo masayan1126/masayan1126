@@ -24,7 +24,12 @@ export async function loadSharedRates(currentData, url, readSnapshot) {
   if (!/^[a-f0-9]{12}$/.test(version)) throw new Error('Invalid rate version');
   const archived = await readSnapshot(version);
   if (archived.rateVersion !== version || !Array.isArray(archived.checklistItems) || !Array.isArray(archived.checklistGroups)) throw new Error('Invalid rate snapshot');
-  return archived;
+  // Keep archived prices and scope, but use current help text for display.
+  const currentItems = new Map(currentData.checklistItems.map(item => [item.id, item]));
+  return {...archived, checklistItems: archived.checklistItems.map(item => {
+    const current = currentItems.get(item.id);
+    return current ? {...item, helpText: current.helpText} : item;
+  })};
 }
 
 export function quote(data, state = {}) {

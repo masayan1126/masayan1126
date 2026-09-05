@@ -160,6 +160,27 @@ test('previous optional-research quotes retain their selected work and original 
     assert.equal(result.preparation.includes('紹介する機能・操作手順の検証結果'),!state.items.includes('research'));
   }
 });
+test('old links show corrected help text while keeping their quotes and stored snapshots unchanged',async()=>{
+  for(const version of ['46dd15855eab','bda428420609','5bf426700870','e59497ebf5cc']){
+    const old=JSON.parse(readFileSync(new URL('./pricing-rates/'+version+'.json',import.meta.url)));
+    const original=structuredClone(old);
+    const restored=await loadSharedRates(versionedData,estimateUrl(old,{items:['materials']}),async()=>old);
+    assert.equal(restored.checklistItems.find(item=>item.id==='research').helpText,
+      'サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。');
+    assert.equal(restored.checklistItems.find(item=>item.id==='materials').helpText,
+      '動画内で使用する説明用資料（台本のような構成に近い資料）を作成します。\n一般的な製品紹介資料とは異なります。');
+    const ids=old.checklistItems.filter(item=>!item.fixed).map(item=>item.id);
+    for(let mask=0;mask<2**ids.length;mask++){
+      const state={items:ids.filter((id,index)=>mask&(1<<index))};
+      const url=estimateUrl(old,state);
+      assert.equal(estimateUrl(restored,state),url);
+      assert.deepEqual(selectedFromUrl(restored,url),state.items);
+      assert.deepEqual(quote(restored,state),quote(old,state));
+      assert.equal(summary(restored,state),summary(old,state));
+    }
+    assert.deepEqual(old,original);
+  }
+});
 test('missing or invalid rate archives fail instead of showing a different price',async()=>{
   for(const version of ['../secrets','bad','','123456abcdef']){
     const current={...data,rateVersion:'abcdef123456'};
