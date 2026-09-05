@@ -78,7 +78,7 @@ function renderArchivedGroups() {
       const row = document.createElement(item.fixed ? 'div' : 'label'), name = document.createElement('span'), price = document.createElement('span');
       row.className = 'work-row' + (item.fixed ? ' work-fixed' : '');
       name.className = 'work-label'; name.textContent = item.label;
-      for (const description of [item.description, item.fixed ? '基本料金に含まれます' : null].filter(Boolean)) {
+      for (const description of [item.description].filter(Boolean)) {
         const detail = document.createElement('small'); detail.textContent = description; name.append(detail);
       }
       price.className = 'check-price'; price.textContent = compactAmount(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive));
@@ -104,7 +104,7 @@ async function initialize() {
       return response.json();
     });
     if (data !== currentData) renderArchivedGroups();
-    write('base-scope-hint', data.baseDescription ?? '撮影・YouTubeへの公開作業は、基本料金として最初から概算に含まれます。');
+    write('base-scope-hint', currentData.baseDescription);
     show('shared-rate-note',data !== currentData);
     const selected = new Set(selectedFromUrl(data, location.href));
     for (const input of form.querySelectorAll('input[name="items"]')) input.checked = selected.has(input.value);

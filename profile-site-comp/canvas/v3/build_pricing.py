@@ -35,7 +35,7 @@ def groups():
             price='<span class="check-price">'+amount(item)+'</span>'
             help_text = '<small class="work-help">'+html.escape(item['helpText'])+'</small>' if item.get('helpText') else ''
             if item.get('fixed'):
-                row='<div class="work-row work-fixed"><span class="fixed-check">'+icon('check')+'</span><span class="work-label">'+label+'<small>基本料金に含まれます</small></span>'+price+help_text+'</div>'
+                row='<div class="work-row work-fixed"><span class="fixed-check">'+icon('check')+'</span><span class="work-label">'+label+'</span>'+price+help_text+'</div>'
             else:
                 row=f'<label class="work-row"><input type="checkbox" name="items" value="{item["id"]}"><span class="work-label">{label}</span>{price}{help_text}</label>'
             rows.append(row)
@@ -52,12 +52,12 @@ def content(public_data=None):
   <section class="estimate-intro"><div class="v3-wrap">
     <a class="v3-breadcrumb" href="/media/">← YouTube・PR・コラボ</a>
     <h1>PR動画制作の見積もり</h1>
+    <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
     <div id="share-load-error" class="estimate-error" role="alert" hidden><p>共有された見積もりを読み込めませんでした。URLをご確認ください。</p><a href="/pricing/">新しく見積もる</a></div>
   </div></section>
   <div class="v3-wrap estimate-layout">
     <form id="estimate-form" aria-label="PR動画制作の見積もり条件">
       <div class="sheet-hint">
-        <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
         <p class="estimate-hint">PRするサービスの検証用アカウントをご用意いただくようお願いいたします。</p>
         <p class="estimate-hint">10〜20分程度の動画を想定しております。30分を超える長尺動画は、個別にご相談いただけます。</p>
       </div>
