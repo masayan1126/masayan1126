@@ -236,6 +236,7 @@
     {
       "id": "shooting",
       "label": "動画撮影",
+      "helpText": "本編は10〜20分程度を想定しております。30分を超える動画や撮り直しの料金は、個別にご相談いただけます。",
       "sourceLabel": "動画撮影",
       "group": "production",
       "min": 8000,

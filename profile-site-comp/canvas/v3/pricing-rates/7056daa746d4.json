@@ -1,0 +1,130 @@
+{
+  "updated": "2026年9月6日",
+  "taxRate": 0.1,
+  "revisionFee": 5000,
+  "rateMode": "range",
+  "baseDescription": "チェックが付いていて選択を外せない項目は、基本料金に含まれます。",
+  "checklistGroups": [
+    {
+      "id": "research",
+      "title": "事前準備作業",
+      "icon": "file",
+      "items": [
+        "research",
+        "materials"
+      ]
+    },
+    {
+      "id": "production",
+      "title": "撮影・編集",
+      "icon": "video",
+      "items": [
+        "shooting",
+        "editing",
+        "thumbnail"
+      ]
+    },
+    {
+      "id": "publication",
+      "title": "公開・SNS発信",
+      "icon": "share",
+      "items": [
+        "publishing",
+        "shorts"
+      ]
+    }
+  ],
+  "checklistItems": [
+    {
+      "id": "research",
+      "label": "サービスの事前検証",
+      "helpText": "サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。",
+      "sourceLabel": "リサーチ・事前検証",
+      "group": "research",
+      "min": 5000,
+      "max": 8000,
+      "fixed": true
+    },
+    {
+      "id": "materials",
+      "label": "動画で使用する資料の作成",
+      "helpText": "動画内で使用する説明用資料（台本のような構成に近い資料）を作成します。\n動画で説明する内容と順番がまとまった資料をご用意いただいている場合は、そちらを使用いたします。その場合、この項目の選択は不要です。\n製品マニュアルや一般的な製品紹介資料のみの場合は、動画用に構成をまとめるため、この項目をご選択ください。",
+      "sourceLabel": "説明用資料の作成",
+      "group": "research",
+      "min": 8000,
+      "max": 10000
+    },
+    {
+      "id": "shooting",
+      "label": "動画撮影",
+      "helpText": "本編は10〜20分程度を想定しております。30分を超える動画や撮り直しの料金は、個別にご相談いただけます。",
+      "sourceLabel": "動画撮影",
+      "group": "production",
+      "min": 8000,
+      "max": 10000,
+      "fixed": true
+    },
+    {
+      "id": "editing",
+      "label": "動画編集",
+      "group": "production",
+      "min": 15000,
+      "max": 15000,
+      "description": "カット、テロップ、BGM、効果音",
+      "taxInclusive": true,
+      "fixed": true
+    },
+    {
+      "id": "thumbnail",
+      "label": "サムネイル制作",
+      "group": "production",
+      "min": 5000,
+      "max": 5000,
+      "taxInclusive": true
+    },
+    {
+      "id": "publishing",
+      "label": "公開作業および公開30日後のレポート提出",
+      "sourceLabel": "公開作業",
+      "group": "publication",
+      "min": 2000,
+      "max": 2000,
+      "fixed": true
+    },
+    {
+      "id": "shorts",
+      "label": "ショート動画制作・SNSシェア",
+      "sourceLabel": "ショート動画・SNSシェア",
+      "group": "publication",
+      "min": 5000,
+      "max": 5000
+    }
+  ],
+  "custom": [
+    {
+      "id": "preparation",
+      "label": "準備物や作業の分担を相談したい"
+    },
+    {
+      "id": "reuse",
+      "label": "自社サイト・SNS・広告などで二次利用したい"
+    },
+    {
+      "id": "reshoot",
+      "label": "撮り直しを含めて依頼したい"
+    },
+    {
+      "id": "long",
+      "label": "目安より大幅に長い動画を依頼したい"
+    },
+    {
+      "id": "multiple",
+      "label": "複数本の制作・継続契約を相談したい"
+    },
+    {
+      "id": "period",
+      "label": "掲載期間を指定したい"
+    }
+  ],
+  "rateVersion": "7056daa746d4"
+}
