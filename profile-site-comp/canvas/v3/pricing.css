@@ -31,4 +31,5 @@
 .work-help,.work-label small,.quote-line-detail,.estimate-hint,.estimate-notes-copy li{word-break:normal;word-break:auto-phrase;line-break:strict;text-wrap:pretty;overflow-wrap:break-word}
 
 .estimate-result #estimate-mail{margin-top:16px}
+.quote-heading .quote-updated{margin:4px 0 12px;font-size:11px;color:var(--estimate-muted)}.result-tax-rate{margin:4px 0 0;font-size:11px;line-height:1.6;color:var(--estimate-muted)}
 #share-status:empty{display:none}#share-fallback{font-size:12px;margin-top:12px}#estimate-share-url{display:block;width:100%;padding:10px;border:1px solid var(--estimate-line);border-radius:8px;margin-top:8px;font-size:12px}#estimate-share{width:100%;text-align:center;font-size:12px!important}#shared-rate-note{padding:8px 10px;background:#f3f6fb;border-radius:6px;margin:0 0 14px}#share-load-error{margin-top:20px}

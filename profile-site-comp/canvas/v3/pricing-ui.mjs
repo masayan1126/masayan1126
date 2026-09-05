@@ -35,6 +35,7 @@ function render(announce = true, updateUrl = true) {
     write('result-total-label', individual ? '金額を算出できる項目の小計（税込）' : '概算合計（税込）');
     write('result-range', compactAmount(r.totalMin, r.totalMax));
     write('result-tax', '税抜 ' + compactAmount(r.min, r.max));
+    write('result-tax-rate', '税込表示は消費税' + Number((data.taxRate * 100).toFixed(2)) + '%で計算しています。');
     show('result-custom', individual); show('result-pending-note', individual);
     list('result-custom-list', r.pending.map(item => item.label));
     write('mobile-amount', individual ? '要相談の項目があります' : compactAmount(r.totalMin, r.totalMax) + '（税込）');
@@ -105,6 +106,7 @@ async function initialize() {
     });
     if (data !== currentData) renderArchivedGroups();
     write('base-scope-hint', currentData.baseDescription);
+    write('rate-updated', '料金表の更新日：' + data.updated);
     show('shared-rate-note',data !== currentData);
     const selected = new Set(selectedFromUrl(data, location.href));
     for (const input of form.querySelectorAll('input[name="items"]')) input.checked = selected.has(input.value);

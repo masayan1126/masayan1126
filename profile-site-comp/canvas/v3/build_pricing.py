@@ -90,23 +90,21 @@ def content(public_data=None):
           <h3>PR表記・評価・効果レポート</h3>
           <ul>
             <li>動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。</li>
-            <li>事実と異なる内容がございましたら、修正をご依頼いただけます。</li>
             <li>公開30日後に、効果レポートをお渡しいたします。再生数・視聴維持率と、概要欄の計測用リンク（UTM）から集計したクリック数をご確認いただけます。</li>
-            <li>再生回数や登録者増加数などの成果は、保証しておりません。</li>
+            <li>動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。</li>
           </ul>
           <h3>著作権・二次利用・掲載期間</h3>
           <ul>
             <li>動画・資料の著作権は、個別のご契約で取り決めます。</li>
             <li>自社サイト・SNS・広告などでの二次利用をご希望の場合は、利用範囲を個別にご相談いただけます。</li>
-            <li>公開後の動画は、原則として継続して掲載いたします。</li>
+            <li>公開後の動画は、原則として継続して掲載いたします。ただし、サービスの終了や大幅な仕様変更、YouTubeの規約への対応に伴い、非公開または削除する場合がございます。</li>
             <li>掲載期間のご指定や、複数本の制作・継続契約も個別にご相談いただけます。</li>
           </ul>
-          <p>料金表の更新日：{DATA['updated']}　／　税込表示は消費税10%で計算しています。</p>
         </div>
       </section>
     </form>
     <aside id="estimate-result" class="estimate-result" aria-labelledby="result-heading" tabindex="-1">
-      <div class="quote-heading"><h2 id="result-heading">{icon()} 概算見積書</h2><p class="estimate-hint result-disclaimer">※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。</p></div>
+      <div class="quote-heading"><h2 id="result-heading">{icon()} 概算見積書</h2><p id="rate-updated" class="quote-updated">料金表の更新日：{html.escape(public_data['updated'])}</p><p class="estimate-hint result-disclaimer">※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。</p></div>
       <p id="shared-rate-note" class="estimate-hint" hidden>共有時の料金表で表示しています。</p>
       <p id="result-error" class="estimate-error" role="alert" hidden></p>
       <div id="result-filled">
@@ -116,6 +114,7 @@ def content(public_data=None):
           <p id="result-total-label">概算合計（税込）</p>
           <p class="result-amount"><strong id="result-range"></strong></p>
           <p class="result-tax" id="result-tax"></p>
+          <p class="result-tax-rate" id="result-tax-rate"></p>
           <p class="estimate-hint" id="result-pending-note" hidden>要相談の項目の金額は、小計に含まれていません。</p>
         </div>
       </div>
