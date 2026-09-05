@@ -74,7 +74,7 @@ export function summary(data, state, result = quote(data,state)) {
     'PR動画の制作・掲載について相談したく、ご連絡しました。','',
     '依頼したい作業と概算料金（税込）：',
     ...result.lines.flatMap(line => ['・'+line.label+'：'+amountText(taxIncluded(line.min,data.taxRate,line.taxInclusive),taxIncluded(line.max,data.taxRate,line.taxInclusive)), ...(line.description ? ['  内訳：'+line.description] : [])]),
-    '公開前の修正：'+result.revisions+'回（2回まで料金内）',
+    '公開前の軽微修正：'+result.revisions+'回（2回まで料金内）',
     '動画の長さの目安：10〜20分程度（30分を超える場合は要相談）',
     (result.pending.length ? '金額を算出できる項目の小計：' : '概算合計：')+amountText(result.totalMin,result.totalMax)+'（税込）',
     '税抜：'+amountText(result.min,result.max),
