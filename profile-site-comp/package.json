@@ -1,0 +1,13 @@
+{
+  "name": "miyabiya-studio-site",
+  "private": true,
+  "scripts": {
+    "build": "python3 canvas/v3/build_public.py",
+    "test": "node --test canvas/v3/pricing-model.test.mjs",
+    "preview": "python3 -m http.server 8769 --bind 127.0.0.1 --directory canvas/v3/site",
+    "deploy": "npm run build && npm test && wrangler pages deploy canvas/v3/site --project-name miyabiya-studio --branch main"
+  },
+  "devDependencies": {
+    "wrangler": "4.129.0"
+  }
+}

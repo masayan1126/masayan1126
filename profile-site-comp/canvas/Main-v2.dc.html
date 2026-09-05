@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+/* design-system-blue web.css のトークンと部品をそのまま使う (影なし・青い大面は .msg だけ) */
+:root{--b50:#F6F7FB;--b100:#ECEFF6;--b200:#D3DBEA;--b300:#B1BFDA;--b400:#7D95C1;--b500:#4164A5;--b600:#274F99;--b700:#133F8F;--b800:#0F3373;--b900:#0B2656;--n0:#FFFFFF;--n50:#F7F7F5;--n100:#F0EFEA;--n200:#DDE2E6;--n300:#C2C7CB;--n500:#8A8A86;--n600:#6C6C68;--n800:#3B3936;--n900:#2A2926;--sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",Meiryo,sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FFFFFF;color:#2A2926;font-family:var(--sans);font-size:16px;line-height:1.75}
+h1,h2,h3,h4{font-weight:700;letter-spacing:-.01em;line-height:1.35;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:#133F8F}
+a:hover{color:#0F3373}
+svg{vertical-align:middle}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.site-head{background:#FFFFFF;border-bottom:1px solid #DDE2E6}
+.site-head .wrap{display:flex;align-items:center;gap:24px;min-height:64px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.02em;color:#2A2926;white-space:nowrap;text-decoration:none}
+.logo .mark{width:32px;height:32px;border-radius:50%;background:#133F8F;color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.logo em{font-style:normal;color:#133F8F}
+.nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.nav a{border:0;background:none;color:#3B3936;font-size:13.5px;font-weight:400;padding:8px 10px;border-radius:8px;text-decoration:none}
+.nav a:hover{color:#133F8F;background:#F6F7FB}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:14px;padding:13px 24px;font-size:14.5px;font-weight:700;letter-spacing:.01em;text-decoration:none;border:2px solid transparent;transition:background .18s,color .18s,border-color .18s,box-shadow .18s,transform .12s}
+.btn svg{transition:transform .18s}
+.btn:hover svg{transform:translateX(3px)}
+.btn-p{background:#133F8F;color:#fff}
+.btn-p:hover{background:#0F3373;color:#fff;box-shadow:0 0 0 4px #ECEFF6}
+.btn-g{background:#FFFFFF;color:#133F8F;border-color:#133F8F}
+.btn-g:hover{background:#F6F7FB;box-shadow:0 0 0 4px #ECEFF6}
+.btn-w{background:#fff;color:#133F8F}
+.btn-w:hover{background:#ECEFF6;color:#133F8F;box-shadow:0 0 0 4px rgba(255,255,255,.28)}
+.btn-sm{padding:9px 18px;font-size:13px;border-radius:12px}
+.kicker{display:block;color:#133F8F;font-size:13px;font-weight:700;letter-spacing:.14em;margin-bottom:14px}
+.sec{padding:76px 0}
+.sec.alt{background:#F7F7F5;border-top:1px solid #DDE2E6;border-bottom:1px solid #DDE2E6}
+.sec-h{font-size:clamp(26px,4vw,36px);margin-bottom:16px}
+.sec-lead{color:#6C6C68;max-width:640px;margin-bottom:40px}
+.sec-lead strong{color:#2A2926}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.card{background:#FFFFFF;border:1px solid #DDE2E6;border-radius:18px;padding:30px 28px}
+.numchip{width:44px;height:44px;border-radius:50%;background:#ECEFF6;color:#133F8F;font-weight:700;font-size:17px;display:grid;place-items:center;margin-bottom:18px;font-variant-numeric:tabular-nums}
+.icochip{width:52px;height:52px;border-radius:50%;background:#ECEFF6;color:#133F8F;display:grid;place-items:center;margin-bottom:18px}
+.card h3{font-size:18px;margin-bottom:10px}
+.card p{font-size:14.5px;color:#6C6C68;line-height:1.8}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:4px 12px;font-size:12px;font-weight:700}
+.pill-b{background:#ECEFF6;color:#133F8F}
+.pill-o{background:#F0EFEA;color:#6C6C68}
+.callout{border:1px solid #DDE2E6;border-left:6px solid #133F8F;border-radius:0 14px 14px 0;background:#F6F7FB;padding:20px 24px}
+.callout .kicker{margin-bottom:6px;font-size:12px}
+.callout p{font-size:14.5px;color:#3B3936}
+.hero{padding:84px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero-copy{border-left:8px solid #133F8F;padding-left:36px}
+.hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.22}
+.hero h1 span{display:block}
+.hero-lead{color:#6C6C68;margin:24px 0 32px;max-width:520px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.audience{font-size:14px;color:#6C6C68;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.kpi{background:#FFFFFF;border:1px solid #DDE2E6;border-radius:18px;padding:26px 28px}
+.kpi .k{font-size:13px;color:#6C6C68;margin-bottom:6px}
+.kpi .v{font-size:52px;font-weight:700;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:16px;font-weight:700;color:#6C6C68;margin-left:4px;letter-spacing:0}
+.kpi .note{font-size:12.5px;color:#8A8A86;margin-top:8px}
+.msg{background:#133F8F;color:#fff;padding:88px 0;text-align:center}
+.msg h2{font-size:clamp(30px,4.6vw,44px);color:#fff}
+.msg p{color:#D3DBEA;margin:18px 0 32px}
+.msg .bubble{display:inline-block;background:#4164A5;border:1px solid #7D95C1;border-radius:14px;padding:10px 20px;font-size:13.5px;color:#F6F7FB;margin-bottom:28px}
+.foot{background:#F7F7F5;color:#6C6C68;border-top:1px solid #DDE2E6;padding:60px 0 40px;font-size:13.5px}
+.foot .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
+.foot h4{color:#2A2926;font-size:13px;letter-spacing:.1em;margin-bottom:16px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.foot a{color:#6C6C68;text-decoration:none}
+.foot a:hover{color:#133F8F}
+.foot .brand{color:#2A2926;font-weight:700;font-size:16px;margin-bottom:8px}
+.foot .copy{grid-column:1/-1;border-top:1px solid #DDE2E6;margin-top:28px;padding-top:22px;color:#6C6C68;font-size:12.5px}
+.steps-rail{display:flex;align-items:center;gap:0;max-width:560px}
+.steps-rail .st{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none;width:120px;text-align:center}
+.steps-rail .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:#F0EFEA;color:#6C6C68;border:2px solid #DDE2E6;font-variant-numeric:tabular-nums}
+.steps-rail .st.on .dot{background:#133F8F;border-color:#133F8F;color:#fff}
+.steps-rail .st span{font-size:12.5px;font-weight:700;color:#6C6C68}
+.steps-rail .st.on span{color:#133F8F}
+.steps-rail .ln{flex:1;height:2px;background:#DDE2E6;margin-bottom:26px}
+@media (max-width:820px){
+  .hero{padding:52px 0 56px}
+  .hero .wrap{grid-template-columns:1fr;gap:32px}
+  .hero-copy{border-left-width:6px;padding-left:20px}
+  .grid3,.grid2{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .kpi{padding:20px 20px}
+  .kpi .v{font-size:38px}
+  .sec{padding:56px 0}
+  .foot .wrap{grid-template-columns:1fr;gap:28px}
+  .nav{display:none}
+  .msg{padding:64px 0}
+}
+/* このサイト固有の組み (部品はすべて design-system-blue の語彙で作る) */
+.vplate{aspect-ratio:16/9;border-radius:18px;background:#133F8F;color:#fff;display:grid;place-items:center;position:relative;overflow:hidden}
+.vplate .play{width:72px;height:72px;border-radius:50%;background:#fff;color:#133F8F;display:grid;place-items:center;border:0}
+.vplate .vlabel{position:absolute;left:20px;bottom:16px;font-size:13px;color:#B1BFDA;letter-spacing:.06em}
+.vplate .vdur{position:absolute;right:16px;bottom:14px;background:rgba(255,255,255,.22);color:#fff;border-radius:8px;padding:2px 10px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.vplate .vtop{position:absolute;left:20px;top:16px;font-size:13px;color:#D3DBEA;letter-spacing:.04em}
+.hero-side{display:flex;flex-direction:column;gap:14px}
+.only-m{display:none}
+.hero-side .cap{font-size:13px;color:#6C6C68;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;text-align:right}
+.group-h{display:flex;align-items:center;gap:12px;margin:0 0 18px}
+.group-h h3{font-size:16px;color:#133F8F;letter-spacing:.04em}
+.group-h .ln{flex:1;height:1px;background:#DDE2E6}
+.group+.group{margin-top:36px}
+.card .who{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.work{display:flex;flex-direction:column;gap:0}
+.work .lbl{font-size:12px;font-weight:700;color:#133F8F;letter-spacing:.1em;margin-bottom:6px}
+.work h3{margin-bottom:12px}
+.work .res{margin-top:18px;padding-top:16px;border-top:1px solid #DDE2E6;display:flex;flex-direction:column;gap:8px}
+.work .res div{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#2A2926;line-height:1.6}
+.work .res svg{flex:none;color:#133F8F;margin-top:3px}
+.work .res b{font-variant-numeric:tabular-nums}
+.talks{display:flex;flex-direction:column;max-width:900px}
+.talk{display:grid;grid-template-columns:110px 1fr auto;gap:24px;align-items:center;padding:22px 4px;border-bottom:1px solid #DDE2E6}
+.talk:first-child{border-top:1px solid #DDE2E6}
+.talk .d{font-size:13.5px;color:#6C6C68;font-variant-numeric:tabular-nums;font-weight:700}
+.talk .ev{font-size:13px;color:#6C6C68;margin-bottom:4px}
+.talk h3{font-size:16px;line-height:1.5}
+.talk .lk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#133F8F;text-decoration:none;white-space:nowrap}
+.talk .lk:hover{color:#0F3373}
+.profile{display:grid;grid-template-columns:220px 1fr;gap:48px;align-items:start}
+.avatar{width:220px;height:220px;border-radius:50%;background:#ECEFF6;border:1px solid #DDE2E6;display:grid;place-items:center;color:#7D95C1;text-align:center;font-size:13px;line-height:1.6}
+.profile .nm{font-size:26px;margin-bottom:4px}
+.profile .rl{font-size:14.5px;color:#133F8F;font-weight:700;margin-bottom:18px}
+.profile .bio{font-size:15px;color:#3B3936;line-height:1.9;max-width:640px}
+.profile .bio+.bio{margin-top:12px}
+.stack{margin-top:24px}
+.stack .lb{font-size:12.5px;color:#6C6C68;letter-spacing:.08em;font-weight:700;margin-bottom:10px}
+.stack .row{display:flex;flex-wrap:wrap;gap:8px}
+.stack .row+.lb{margin-top:16px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#133F8F;text-decoration:none;border:1px solid #DDE2E6;border-radius:12px;padding:8px 14px;background:#FFFFFF}
+.links a:hover{border-color:#133F8F;background:#F6F7FB}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.step{background:#FFFFFF;border:1px solid #DDE2E6;border-radius:18px;padding:26px 24px}
+.step .numchip{margin-bottom:14px}
+.step h3{font-size:16px;margin-bottom:8px}
+.step p{font-size:14px;color:#6C6C68;line-height:1.8}
+.contact-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.msg .fine{font-size:13px;color:#B1BFDA;margin-top:26px}
+.foot .sns{display:flex;flex-direction:column;gap:10px}
+@media (max-width:820px){
+  .talk{grid-template-columns:1fr;gap:8px;padding:18px 0}
+  .profile{grid-template-columns:1fr;gap:24px}
+  .avatar{width:160px;height:160px}
+  .steps{grid-template-columns:1fr;gap:14px}
+  .work .res{margin-top:14px}
+  .hero-side{order:-1}
+}
+@media (max-width:820px){
+  .site-head .wrap{gap:12px}
+  .site-head .btn{margin-left:auto}
+  .kpi{padding:18px 16px}
+  .kpi .v{font-size:32px;white-space:nowrap}
+  .kpi .v small{font-size:14px}
+}
+/* 写真 (ヒーロー右・プロフィール) */
+.photo{position:relative;border-radius:18px;overflow:hidden;background:transparent;border:0;max-width:360px;margin-left:auto;margin-right:24px;aspect-ratio:4/5}
+.photo img{display:block;width:100%;height:100%;object-fit:cover}
+.photo .ptag{position:absolute;left:14px;bottom:14px;background:rgba(19,63,143,.92);color:#fff;border-radius:10px;padding:6px 12px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.avatar{overflow:hidden;padding:0;background:transparent}
+.avatar img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+/* 料金の折りたたみ (DSの details.tr と料金プランカード) */
+details.tr{border:1px solid #DDE2E6;border-radius:14px;background:#FFFFFF;margin-top:24px}
+details.tr summary{list-style:none;cursor:pointer;padding:16px 22px;font-weight:700;font-size:15px;color:#133F8F;display:flex;align-items:center;justify-content:space-between;gap:12px}
+details.tr summary::-webkit-details-marker{display:none}
+details.tr summary .sum-l{display:inline-flex;align-items:center;gap:10px}
+details.tr summary .sum-r{display:inline-flex;transition:transform .18s}
+details.tr[open] summary{border-bottom:1px solid #DDE2E6}
+details.tr[open] summary .sum-r{transform:rotate(90deg)}
+details.tr .trb{padding:26px 22px 28px;font-size:14px;color:#6C6C68;line-height:1.9}
+.rc-lead{color:#3B3936;font-size:15px;max-width:720px;margin-bottom:26px}
+.rc-h{font-size:16px;color:#2A2926;margin:0 0 14px}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.plan{display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DDE2E6;border-radius:18px;padding:28px 26px}
+.plan.reco{border:2px solid #133F8F;border-top:8px solid #133F8F}
+.plan .flag{font-size:12.5px;font-weight:700;letter-spacing:.1em;color:#133F8F;margin-bottom:10px}
+.plan h3{font-size:17px;margin-bottom:8px;color:#2A2926}
+.plan .spec{font-size:13px;color:#6C6C68;margin-bottom:14px}
+.price{display:flex;align-items:baseline;gap:6px;margin-bottom:12px}
+.price .v{font-size:36px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;color:#2A2926}
+.price .u{font-size:13px;color:#6C6C68;font-weight:700}
+.price-note{font-size:12.5px;color:#6C6C68;margin-bottom:8px;font-weight:700}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.plan li{display:flex;gap:8px;font-size:14px;color:#3B3936;line-height:1.6;align-items:flex-start}
+.plan li svg{flex:none;color:#133F8F;margin-top:4px}
+.rc-note{font-size:13px;color:#6C6C68;margin-top:14px}
+.rc-cols{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;margin-top:30px;padding-top:26px;border-top:1px solid #DDE2E6}
+.rc-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rc-list li{display:flex;gap:8px;align-items:flex-start;color:#3B3936;line-height:1.6}
+.rc-list li svg{flex:none;color:#133F8F;margin-top:4px}
+.rc-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.rc-table th{text-align:left;font-size:12px;color:#6C6C68;letter-spacing:.06em;padding:0 0 8px;border-bottom:1px solid #DDE2E6}
+.rc-table td{padding:9px 0;border-bottom:1px solid #F0EFEA;color:#3B3936;vertical-align:top}
+.rc-table td+td,.rc-table th+th{padding-left:16px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rc-cond{margin:0;padding:0 0 0 1.2em;display:grid;gap:6px;color:#3B3936}
+.rc-h.cond{border-top:1px solid #DDE2E6;padding-top:26px;margin-top:30px}
+.rc-cond+.rc-h{margin-top:0}
+details.tr .rc-cond{list-style:disc}
+.rc-foot{margin-top:20px;font-size:13px;color:#6C6C68}
+@media (max-width:820px){
+  .photo{max-width:280px;margin:0 auto}
+  .photo .ptag{display:none}
+  .only-m{display:inline-flex}
+  .hero-side .cap{justify-content:center;text-align:center}
+  .plans{grid-template-columns:1fr;gap:14px}
+  .rc-cols{grid-template-columns:1fr;gap:26px}
+  .rc-table td+td,.rc-table th+th{white-space:normal}
+  details.tr .trb{padding:20px 16px 22px}
+}
+
+/* ヒーロー下の登壇写真 (横長パノラマ) */
+.hero .wrap.hero-shot{display:block;margin-top:44px}
+.hero-shot figure{margin:0}
+.hero-shot img{display:block;width:100%;aspect-ratio:2.74/1;object-fit:cover;object-position:50% 40%;border-radius:18px;border:1px solid #DDE2E6}
+.hero-shot figcaption{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:#6C6C68}
+.hero-shot figcaption svg{color:#133F8F;flex:none}
+@media (max-width:820px){
+  .hero-shot{margin-top:28px}
+  .hero-shot img{aspect-ratio:16/9;object-position:22% 50%}
+}
+
+  
+/* ボタン群: 横幅は必ず揃える (いちばん広いボタンに合わせる)。1つだけの場所は .btns を使わない */
+.btns{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:14px;max-width:100%;vertical-align:top}
+.btns .btn{width:100%;white-space:nowrap}
+.btns.center{margin:0 auto}
+.btns-wrap{text-align:center}
+.card .btns{margin-top:22px}
+.card .btns .btn{padding:11px 18px;font-size:13.5px;border-radius:12px}
+
+/* ご用件から選ぶ (ヒーロー直下の振り分け) */
+.route{border-top:1px solid #DDE2E6;border-bottom:1px solid #DDE2E6;background:#FFFFFF;padding:22px 0}
+.route .lb{display:block;font-size:13px;font-weight:700;color:#133F8F;letter-spacing:.08em;margin-bottom:12px}
+.route ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.route a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;border:1px solid #DDE2E6;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;color:#2A2926;text-decoration:none;background:#FFFFFF;line-height:1.4}
+.route a:hover{border-color:#133F8F;color:#133F8F;background:#F6F7FB}
+.route a svg{flex:none;color:#133F8F}
+
+/* できること: カードから別セクションへ送るリンク */
+.card .more{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#133F8F;text-decoration:none;margin-top:16px}
+.card .more:hover{color:#0F3373}
+.sec-lead .fee{display:block;margin-top:6px;font-size:14px}
+
+/* 登壇: テーマと形式 */
+.talk-more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:36px;max-width:900px}
+.talk-more .card h3{font-size:16px;margin-bottom:12px}
+.talk-more ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.talk-more li{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#3B3936;line-height:1.6}
+.talk-more li svg{flex:none;color:#133F8F;margin-top:3px}
+.sec-cta{margin-top:32px}
+.intro-kit{margin-top:28px;max-width:900px}
+.intro-kit p{font-size:14.5px;color:#2A2926;line-height:1.9}
+.intro-kit .kit-note{margin-top:8px;font-size:13px;color:#6C6C68}
+.hero h1{font-size:clamp(30px,3.9vw,42px)}
+.hero .wrap{grid-template-columns:minmax(0,1fr) 340px;gap:48px}
+.hero-lead{max-width:620px}
+.photo{max-width:340px;margin:0 0 0 auto}
+
+/* プロフィール: 採用・メンバーシップの2枠 */
+.aud{margin-top:44px;padding-top:40px;border-top:1px solid #DDE2E6}
+.aud .card{display:flex;flex-direction:column}
+.aud .card .lbl{font-size:12px;font-weight:700;color:#133F8F;letter-spacing:.1em;margin-bottom:8px}
+.aud .card h3{font-size:18px;margin-bottom:10px}
+.aud .card .who{margin-top:14px}
+.aud .sub-h{font-size:13px;font-weight:700;color:#133F8F;letter-spacing:.06em;margin-top:16px}
+.aud .promise{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.aud .promise li{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#2A2926;line-height:1.6}
+.aud .promise li svg{flex:none;color:#133F8F;margin-top:3px}
+.aud .card .btns{margin-top:auto;padding-top:22px}
+.aud .promise+p{margin-top:16px}
+
+.profile .nm-real{font-size:15px;font-weight:700;color:#6C6C68;letter-spacing:.02em;margin-left:6px;white-space:nowrap}
+
+/* 実績: 3列 */
+.work h3{font-size:17px}
+.work p{font-size:14px}
+
+/* セクション見出しは名前だけ (説明はリードへ) */
+.sec-h{margin-bottom:12px}
+.profile{margin-top:8px}
+
+/* 経歴: 左に時系列、右に強み */
+.career{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 28px 34px}
+.tl li::before{content:"";position:absolute;left:8px;top:7px;width:12px;height:12px;border-radius:50%;background:#133F8F}
+.tl li::after{content:"";position:absolute;left:13px;top:23px;bottom:-2px;width:2px;background:#DDE2E6}
+.tl li:last-child{padding-bottom:0}
+.tl li:last-child::after{display:none}
+.tl .st{font-size:12.5px;font-weight:700;color:#133F8F;letter-spacing:.06em;margin-bottom:4px}
+.tl h3{font-size:17px;margin-bottom:6px}
+.tl p{font-size:14px;color:#6C6C68;line-height:1.8}
+.strengths{display:grid;gap:14px}
+.strengths .card h3{font-size:16px}
+@media (max-width:820px){.career{grid-template-columns:1fr;gap:28px}}
+
+/* ヒーロー見出し下の証拠3項目 */
+.proof{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}
+.proof li{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#2A2926;white-space:nowrap}
+.proof li svg{color:#133F8F;flex:none}
+.hero-lead{margin-top:18px}
+
+/* 代表的な動画 */
+.videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vcard{display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DDE2E6;border-radius:18px;overflow:hidden;text-decoration:none;color:#2A2926}
+.vcard:hover{border-color:#133F8F}
+.vcard img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.vcard .vb{padding:16px 18px 18px}
+.vcard h3{font-size:15px;line-height:1.5;margin-bottom:8px;color:#2A2926}
+.vcard .vm{font-size:12.5px;color:#6C6C68;font-variant-numeric:tabular-nums}
+@media (max-width:820px){.videos{grid-template-columns:1fr;gap:14px} .proof{gap:6px 16px} .proof li{font-size:13px}}
+
+/* ヘッダーの外部リンク (YouTube / X / GitHub) */
+.hd-links{display:flex;gap:4px;margin-left:auto}
+.nav+.hd-links{margin-left:0}
+.hd-links a{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;color:#3B3936}
+.hd-links a:hover{color:#133F8F;background:#F6F7FB}
+.aud.grid1{display:grid;grid-template-columns:1fr;max-width:720px}
+@media (max-width:820px){.hd-links{margin-left:auto} .site-head .btn{margin-left:0}}
+
+/* ご依頼の流れ: 補足 */
+.flow-note{font-size:14px;color:#6C6C68;margin-top:18px;max-width:720px}
+
+/* ヒーロー文言の左の青い縦線は付けない (2026-09-04 指示) */
+.hero-copy{border-left:0;padding-left:0}
+
+@media (max-width:820px){
+  .btns{display:grid;grid-auto-flow:row;width:100%}
+  .hero-copy{border-left:0;padding-left:0}
+  .hero .wrap{grid-template-columns:1fr;gap:32px}
+  .photo{max-width:280px;margin:0 auto}
+  .route ul{grid-template-columns:1fr}
+  .route a{min-height:44px}
+  .talk-more{grid-template-columns:1fr;gap:14px}
+  .aud{margin-top:32px;padding-top:28px}
+}
+
+/* ヘッダーのマーク: 青丸のMをやめて本人のアイコンにする (2026-09-05) */
+.logo .mark{width:36px;height:36px;background:#E8EEF8;overflow:hidden;border:1px solid #DDE2E6;padding:0;flex:none}
+.logo .mark img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* 料金表の注意書き: DSの注意色 (えんじ #8A1E24、深い紺青に合わせて設計された赤系) */
+.rc-alert{color:#8A1E24;font-weight:700}
+
+/* ===== 改訂案 (v2) だけの追加 ===== */
+/* ヘッダーのSNSアイコンは目立たせない */
+.hd-links.muted a{color:#8A8A86;width:32px;height:32px}
+.hd-links.muted a:hover{color:#133F8F}
+/* ヒーロー: 写真の下に名前と屋号の関係 */
+.hero .wrap{grid-template-columns:minmax(0,1fr) 320px}
+.hero-side{gap:10px}
+figure.photo{margin:0;max-width:320px}
+.hero-side .cap{font-size:12.5px;color:#6C6C68;line-height:1.7;text-align:left;justify-content:flex-start}
+.hero h1{font-size:clamp(28px,3.4vw,38px)}
+.proof{margin-bottom:28px}
+/* 事業内容: 相談内容を先に、納品物と完了条件、タグは2段 */
+.svc .ask{font-size:14px;color:#2A2926;font-weight:700;line-height:1.7;margin-bottom:10px}
+.deliv{margin:14px 0 0;padding:12px 14px;border:1px solid #DDE2E6;border-radius:12px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px}
+.deliv dt{color:#133F8F;font-weight:700;white-space:nowrap}
+.deliv dd{margin:0;color:#3B3936;line-height:1.6}
+.tagl{font-size:11.5px;color:#6C6C68;letter-spacing:.06em;font-weight:700;margin:14px 0 0}
+.tagl+.who{margin-top:6px}
+.svc-note{margin-top:28px;max-width:900px}
+.after{font-size:13.5px;color:#6C6C68;margin-top:14px;line-height:1.8}
+.after a{font-weight:700}
+.sec-cta{margin-top:28px}
+/* 実績: 課題 / 担当 / 実施 / 結果 */
+.kv{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:13.5px;line-height:1.7}
+.kv dt{color:#133F8F;font-weight:700;white-space:nowrap}
+.kv dd{margin:0;color:#2A2926}
+.kv b{font-variant-numeric:tabular-nums}
+/* 動画: 1行の説明と「まず見る1本」 */
+.vcard .vd{font-size:13px;color:#3B3936;line-height:1.6;margin-bottom:8px}
+.vcard .first{display:inline-block;background:#ECEFF6;color:#133F8F;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:700;margin-bottom:8px}
+/* 製品PR */
+.pr-grid{align-items:start}
+.pr-grid .card{display:flex;flex-direction:column}
+.pr-grid .card .btns{margin-top:auto;padding-top:22px}
+.pr-grid .card .sub-h{font-size:13px;font-weight:700;color:#133F8F;letter-spacing:.06em;margin-top:16px}
+.pr-grid .promise{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.pr-grid .promise li{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#2A2926;line-height:1.6}
+.pr-grid .promise li svg{flex:none;color:#133F8F;margin-top:3px}
+.pr-grid .promise a{font-weight:700}
+.price-line{font-size:14px;color:#2A2926;margin-top:16px;line-height:1.7}
+/* 料金表 (v2): 閉じた状態でも最低料金、プランごとの相談ボタン、進め方 */
+details.tr summary .sum-sub{font-size:13px;font-weight:400;color:#6C6C68;margin-left:8px}
+.plan .spec-sub{font-size:12.5px;color:#6C6C68;margin-top:12px}
+.plan .plan-btn{margin-top:auto;width:100%;padding:11px 18px;font-size:13.5px;border-radius:12px}
+.plan ul{margin-bottom:0}
+.plan .spec-sub+.plan-btn{margin-top:16px}
+.rc-flow{font-size:14px;color:#3B3936;line-height:1.8;max-width:820px}
+/* 登壇: テーマごとの対象と持ち帰り */
+.themes{margin:0;display:grid;gap:12px}
+.themes dt{font-size:14px;font-weight:700;color:#2A2926;line-height:1.5}
+.themes dd{margin:2px 0 0;font-size:13px;color:#6C6C68;line-height:1.7}
+/* 経歴: 職務要約カード */
+.career{grid-template-columns:1.05fr .95fr}
+.card.summary{display:flex;flex-direction:column}
+.card.summary h3{font-size:16px;margin-bottom:12px}
+.card.summary .promise{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.card.summary .promise li{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#2A2926;line-height:1.6}
+.card.summary .promise li svg{flex:none;color:#133F8F;margin-top:3px}
+.card.summary .btns{margin-top:22px}
+/* 問い合わせ: メールを主、X・Instagramを補助。アドレスのコピー。用件別に次に起きること */
+.btn-wo{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.btn-wo:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)}
+.msg .addr{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.msg .addr .mail{color:#fff;font-weight:700}
+.msg .copy{font-family:inherit;font-size:12.5px;font-weight:700;color:#133F8F;background:#fff;border:0;border-radius:10px;padding:7px 12px;cursor:pointer}
+.msg .next{list-style:none;margin:30px auto 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;max-width:720px;text-align:left;font-size:13.5px;color:#D3DBEA}
+.msg .next b{color:#fff;margin-right:8px}
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:1fr}
+  figure.photo{max-width:200px;margin:0 auto}
+  .hero-side .cap{text-align:center;justify-content:center}
+  .msg .next{grid-template-columns:1fr}
+  .pr-grid{grid-template-columns:1fr}
+}
+
+  </style>
+</helmet>
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top"><span class="mark"><img src="avatar.webp" alt=""></span><span>Miyabiya <em>Studio</em></span></a>
+  <nav class="nav"><a href="#services">事業内容</a><a href="#works">実績</a><a href="#pr">製品PR</a><a href="#talks">技術登壇実績</a><a href="#career-history">経歴</a></nav>
+  <div class="hd-links muted"><a href="https://www.youtube.com/@masayan-ai-hack" aria-label="YouTube" title="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10.5l5-2.5v8l-5-2.5"></path></svg></a><a href="https://x.com/masayan_ai_hack" aria-label="X" title="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11h-9l-4 3.5V16H4z"></path></svg></a><a href="https://github.com/masayan1126" aria-label="GitHub" title="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5"></path><path d="M15.5 7.5L20 12l-4.5 4.5"></path><path d="M13.5 5l-3 14"></path></svg></a></div>
+  <a href="mailto:contact@msyn.me?subject=%E3%81%94%E7%9B%B8%E8%AB%87%20%28Miyabiya%20Studio%29&amp;body=%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A" class="btn btn-p btn-sm">メールで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+</div></header>
+
+<main id="top">
+
+  <div class="hero"><div class="wrap">
+    <div class="hero-copy">
+      <span class="kicker">まさやん (Masaya Nishigaki) ／ Webエンジニア (テックリード)</span>
+      <h1><span>Web開発・AI導入を支援し、</span><span>YouTubeで技術を伝えています</span></h1>
+      <p class="hero-lead">得意分野は、AI駆動開発の環境づくりとMCPサーバーの開発です。Webサービスの開発、社内へのAI導入、YouTubeでの製品PR、技術登壇のご相談をお受けしています。</p>
+      <ul class="proof"><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>設計・実装・レビューの工数を50〜75%削減 (会社の業務)</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>YouTube登録者3,360人 (2026年9月5日時点)</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>直近12か月に本編129本を公開</li></ul>
+      <div class="btns hero-ctas"><a href="mailto:contact@msyn.me?subject=%E3%81%94%E7%9B%B8%E8%AB%87%20%28Miyabiya%20Studio%29&amp;body=%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A" class="btn btn-p">メールで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="#videos" class="btn btn-g">代表動画で話し方を見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+    </div>
+    <div class="hero-side">
+      <figure class="photo"><img src="hero-photo.webp" alt="まさやんのプロフィール写真"></figure>
+      <p class="cap">まさやん (Masaya Nishigaki)。Miyabiya Studio は、個人で仕事を受けるときの屋号です。</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="route" id="route"><div class="wrap">
+    <span class="lb">ご用件から選ぶ</span>
+    <ul>
+      <li><a href="#services">開発・AI導入のご相談 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></li>
+      <li><a href="#pr">製品PR・コラボのご相談 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></li>
+      <li><a href="#talks">登壇のご依頼 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></li>
+      <li><a href="#career-history">採用をご検討の方 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></li>
+      <li><a href="#membership">メンバーシップをご検討中 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></li>
+    </ul>
+  </div></div>
+
+  <div class="sec" id="services"><div class="wrap">
+    <h2 class="sec-h">事業内容</h2>
+    <p class="sec-lead">Webサービスの開発、AIの品質改善、社内へのAI導入の3つをお受けしています。<span class="fee">料金は内容に応じてお見積もりします。お見積もりは無料です。</span></p>
+    <div class="grid3">
+      <div class="card svc">
+        <div class="icochip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5"></path><path d="M15.5 7.5L20 12l-4.5 4.5"></path><path d="M13.5 5l-3 14"></path></svg></div>
+        <h3>Webサービスの開発</h3>
+        <p class="ask">こんなご相談に: 新しいWebサービスや社内ツールを作りたい。既存のサービスに機能を足したい。</p>
+        <p>要件整理から設計・実装・運用まで担当します。フロントエンド、バックエンド、クラウドまで対応します。開発にはAIエージェントを組み込んだフローを使い、生成と評価を分担させて、レビューを通った変更だけを取り込みます。</p>
+        <dl class="deliv"><dt>納品物</dt><dd>動作するアプリケーション、ソースコード、設計と運用の資料</dd><dt>完了の条件</dt><dd>合意した機能の受け入れ確認</dd></dl>
+        <p class="tagl">相談内容</p><div class="who"><span class="pill pill-o">新規開発</span><span class="pill pill-o">機能追加</span><span class="pill pill-o">MCPサーバー</span></div>
+        <p class="tagl">使う技術</p><div class="who"><span class="pill pill-b">Python</span><span class="pill pill-b">TypeScript</span><span class="pill pill-b">Google Cloud / AWS</span></div>
+      </div>
+      <div class="card svc">
+        <div class="icochip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="6" height="5" rx="1.5"></rect><rect x="15" y="4" width="6" height="5" rx="1.5"></rect><rect x="9" y="15" width="6" height="5" rx="1.5"></rect><path d="M6 9v3h12V9"></path><path d="M12 12v3"></path></svg></div>
+        <h3>AIの品質改善</h3>
+        <p class="ask">こんなご相談に: AIを組み込んだが出力が安定しない。何を任せてよいか決められない。</p>
+        <p>任せる範囲の決め方、評価の仕組み、失敗したときの止め方を設計し、実装まで行います。エージェントを安全に動かす実行基盤 (ハーネス) の整備が中心です。開発・動画制作・SNS発信で毎日運用している構成をもとにご提案します。</p>
+        <dl class="deliv"><dt>納品物</dt><dd>設計書、評価基準、実装したコード</dd><dt>完了の条件</dt><dd>合意した品質基準を満たすことの確認</dd></dl>
+        <p class="tagl">相談内容</p><div class="who"><span class="pill pill-o">品質改善</span><span class="pill pill-o">設計レビュー</span><span class="pill pill-o">技術顧問</span></div>
+        <p class="tagl">使う技術</p><div class="who"><span class="pill pill-b">Claude Code</span><span class="pill pill-b">MCP</span><span class="pill pill-b">マルチエージェント</span></div>
+      </div>
+      <div class="card svc">
+        <div class="icochip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5h8"></path><path d="M17.5 7.5H20"></path><circle cx="14.5" cy="7.5" r="2.5"></circle><path d="M4 16.5h3"></path><path d="M12.5 16.5H20"></path><circle cx="9.5" cy="16.5" r="2.5"></circle></svg></div>
+        <h3>社内へのAI導入</h3>
+        <p class="ask">こんなご相談に: チームでAIを使い始めたいが、定着しない。</p>
+        <p>社内勉強会、業務フローへの組み込み、導入後のフォローを行います。会社の業務では、勉強会2回で約20名に展開し、約10名が実務で活用しています。</p>
+        <dl class="deliv"><dt>納品物</dt><dd>勉強会の資料、業務フローへの組み込み手順、運用ルール</dd><dt>完了の条件</dt><dd>合意した期間のフォローの終了</dd></dl>
+        <p class="tagl">相談内容</p><div class="who"><span class="pill pill-o">導入支援</span><span class="pill pill-o">社内勉強会</span><span class="pill pill-o">定着フォロー</span></div>
+        <p class="tagl">使う技術</p><div class="who"><span class="pill pill-b">Claude Code</span><span class="pill pill-b">Cursor</span><span class="pill pill-b">GitHub Actions</span></div>
+      </div>
+    </div>
+    <div class="callout svc-note">
+      <span class="kicker">機密情報の扱いと、納品前の確認</span>
+      <p>機密情報は秘密保持契約のもとで扱い、社外のAIサービスへ送る情報の範囲は事前に合意します。納品前に、動作確認と説明の場を設けます。</p>
+    </div>
+    <p class="after">ご相談後の流れ: 30分のオンラインヒアリング → 提案と見積もり (無料) → 合意した範囲で着手。詳しくは <a href="#flow">ご依頼の流れ</a> へ。</p>
+    <div class="sec-cta"><a href="mailto:contact@msyn.me?subject=%E9%96%8B%E7%99%BA%E3%83%BBAI%E5%B0%8E%E5%85%A5%E3%81%AE%E7%9B%B8%E8%AB%87&amp;body=%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%20%28Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%AE%E9%96%8B%E7%99%BA%20/%20AI%E3%81%AE%E5%93%81%E8%B3%AA%E6%94%B9%E5%96%84%20/%20%E7%A4%BE%E5%86%85%E3%81%B8%E3%81%AEAI%E5%B0%8E%E5%85%A5%29%3A%0A%E7%8F%BE%E7%8A%B6%E3%81%A8%E5%9B%B0%E3%82%8A%E3%81%94%E3%81%A8%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A" class="btn btn-p">開発・AI導入を相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+  </div></div>
+
+  <div class="sec alt" id="works"><div class="wrap">
+    <h2 class="sec-h">AI活用の成果・実績</h2>
+    <p class="sec-lead">会社の業務と個人の活動を分けて載せています。</p>
+    <div class="grid3">
+      <div class="card work">
+        <p class="lbl">会社の業務 (社名非公開)</p>
+        <h3>AI駆動開発環境の構築・運用</h3>
+        <dl class="kv">
+          <dt>課題</dt><dd>設計・実装・レビューに時間がかかり、少人数では回らなかった</dd>
+          <dt>担当</dt><dd>テックリードとして、環境の設計・構築・運用</dd>
+          <dt>実施</dt><dd>Issue起点の開発フローに、生成役と評価役をペアにしたAIエージェントを組み込み、チーム全員が使う環境として運用</dd>
+          <dt>結果</dt><dd>設計・実装・コードレビューの工数を <b>約50〜75%</b> 削減。商談用デモの準備を <b>4時間から20分</b> に短縮 (月110時間以上)</dd>
+        </dl>
+      </div>
+      <div class="card work">
+        <p class="lbl">会社の業務 (社名非公開)</p>
+        <h3>MCPサーバーの開発とプロジェクト推進</h3>
+        <dl class="kv">
+          <dt>課題</dt><dd>社外クライアントと社内の運用チームの定型作業に、工数がかかっていた</dd>
+          <dt>担当</dt><dd>MCPサーバーの開発と、プロジェクトの推進</dd>
+          <dt>実施</dt><dd>MCPサーバーを開発し、社外クライアントと社内運用チームの両方に展開。エージェントスキルを作成してチームに配布</dd>
+          <dt>結果</dt><dd>両チームの工数を大幅に削減。ノウハウ共有とAI活用レベルの底上げ (勉強会2回で約20名に展開、約10名が実務で活用)</dd>
+        </dl>
+      </div>
+      <div class="card work">
+        <p class="lbl">個人の活動</p>
+        <h3>YouTubeチャンネルの運営</h3>
+        <dl class="kv">
+          <dt>課題</dt><dd>ひとりで本編とShortsを出し続けるには、制作の手間が大きすぎた</dd>
+          <dt>担当</dt><dd>企画から公開・分析までの全工程</dd>
+          <dt>実施</dt><dd>台本・スライド・文字起こし・概要欄・公開予約・Shortsの切り出しをAIで仕組み化</dd>
+          <dt>結果</dt><dd>直近12か月で本編 <b>129本</b> を公開。登録者 <b>3,360人</b>、メンバー <b>30人以上</b> (2026年9月5日時点)</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="sec-cta"><a href="mailto:contact@msyn.me?subject=%E9%96%8B%E7%99%BA%E3%83%BBAI%E5%B0%8E%E5%85%A5%E3%81%AE%E7%9B%B8%E8%AB%87&amp;body=%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%20%28Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%AE%E9%96%8B%E7%99%BA%20/%20AI%E3%81%AE%E5%93%81%E8%B3%AA%E6%94%B9%E5%96%84%20/%20%E7%A4%BE%E5%86%85%E3%81%B8%E3%81%AEAI%E5%B0%8E%E5%85%A5%29%3A%0A%E7%8F%BE%E7%8A%B6%E3%81%A8%E5%9B%B0%E3%82%8A%E3%81%94%E3%81%A8%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A" class="btn btn-p">開発・AI導入を相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+  </div></div>
+
+  <div class="sec" id="videos"><div class="wrap">
+    <h2 class="sec-h">代表的な動画</h2>
+    <p class="sec-lead">Claude Codeを中心に、チャンネルの方向性が分かる本編3本です。再生数は2026年9月5日時点です。</p>
+    <div class="videos">
+      <a class="vcard" href="https://youtu.be/Kggm_W0w0lw"><img src="thumb-Kggm_W0w0lw.webp" alt=""><div class="vb"><span class="first">まず見る1本</span><h3>Claude Code ループエンジニアリング完全ガイド｜5つの構成要素で“使うほど賢くなる”自律ループを作る</h3><p class="vd">自律ループの5つの構成要素を、実際の運用例で説明</p><p class="vm">15,495回再生 ／ 2026年6月公開</p></div></a>
+      <a class="vcard" href="https://youtu.be/BxQ2nutD-_o"><img src="thumb-BxQ2nutD-_o.webp" alt=""><div class="vb"><h3>Claude CodeやCodexが使えるAIエディタ Zed ハンズオン｜DL・インストール・ACP接続から実機デモまで徹底解説</h3><p class="vd">AIエディタ Zed の導入から操作まで実演</p><p class="vm">4,706回再生 ／ 2026年6月公開</p></div></a>
+      <a class="vcard" href="https://youtu.be/D1gsaCoJelw"><img src="thumb-D1gsaCoJelw.webp" alt=""><div class="vb"><h3>Claude Codeの公式スキル＆プラグイン、全部紹介｜純正だけで開発ライフサイクル完全カバーできます</h3><p class="vd">公式スキルとプラグインを一つずつ検証</p><p class="vm">4,446回再生 ／ 2026年4月公開</p></div></a>
+    </div>
+    <div class="aud grid1">
+      <div class="card" id="membership">
+        <p class="lbl">メンバーシップをご検討の方へ</p>
+        <h3>メンバーシップについて</h3>
+        <p>3つのランクがあります。C (月額390円) はメンバー限定の投稿、B (月額690円) はそれに加えて限定動画とShorts、A (月額990円) はさらにAI活用のドキュメントとソースコードの配布です。解約はいつでもできます。</p>
+        <p class="sub-h">発信で大切にしていること</p>
+        <ul class="promise">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>実際に試した内容と、公式情報の紹介を区別して伝えます</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>うまくいかなかったことや、かかった費用も公開します</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>企業から提供を受けた動画には「PR」「提供」の表示を入れ、長所だけでなく制約や向いている用途も伝えます</li>
+        </ul>
+        <div class="btns"><a href="https://masayan-ai-tech-ch.pages.dev/membership/" class="btn btn-p">特典と内容の見本を見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="https://www.youtube.com/@masayan-ai-hack/join" class="btn btn-g">YouTubeで加入する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec alt" id="pr"><div class="wrap">
+    <h2 class="sec-h">YouTubeでの製品PR・コラボ</h2>
+    <p class="sec-lead">企業の有償PRと、対談・共同企画を分けてご案内します。</p>
+    <div class="grid2 pr-grid">
+      <div class="card">
+        <div class="icochip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10.5l5-2.5v8l-5-2.5"></path></svg></div>
+        <h3>企業の製品PR (有償)</h3>
+        <p>AIツールや開発者向けサービスを、実際に使ったうえで紹介します。長所だけでなく、制約や向いている用途も伝えます。動画には「PR」「提供」の表示を入れます。</p>
+        <p class="sub-h">チャンネルの数字 (2026年9月5日時点)</p>
+        <ul class="promise stats">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>登録者3,360人。本編の再生の71%が、Claude Code・MCP・エージェント開発をテーマにした動画です (直近12か月)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>直近90日に公開した本編32本の再生数: 平均596回、中央値351回 (Shortsを除く)</li>
+        </ul>
+        <p class="sub-h">紹介の具体例 (いずれも自主制作の通常動画)</p>
+        <ul class="promise">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg><a href="https://youtu.be/BxQ2nutD-_o">AIエディタ Zed を、導入から操作まで実演</a></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg><a href="https://youtu.be/D1gsaCoJelw">Claude Codeの公式スキルとプラグインを一つずつ検証</a></li>
+        </ul>
+        <p class="price-line">料金は、動画制作とチャンネル掲載を含めて <b>3万円 (税別) から</b>。詳しい料金と条件は下の料金表へ。</p>
+        <p class="after">ご相談後の流れ: 打ち合わせ1回 → 見積書と制作日程 → 台本の確認 → 撮影・編集 → 初稿の確認 → 公開。</p>
+        <div class="btns"><a href="mailto:contact@msyn.me?subject=%E8%A3%BD%E5%93%81PR%E3%81%AE%E7%9B%B8%E8%AB%87&amp;body=%E8%A3%BD%E5%93%81%E3%83%BB%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%90%8D%3A%0A%E5%B8%8C%E6%9C%9B%E3%81%99%E3%82%8B%E3%83%97%E3%83%A9%E3%83%B3%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%3A%0A" class="btn btn-p">製品PRを相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="#ratecard" class="btn btn-g">料金表を見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+      <div class="card">
+        <div class="icochip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3.5" width="6" height="11" rx="3"></rect><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"></path><path d="M12 18v2.5"></path></svg></div>
+        <h3>対談・共同企画 (コラボ)</h3>
+        <p>個人の方や他のチャンネルとの対談、共同企画のご相談です。出演先 (どちらのチャンネルか)、企画内容、費用の有無を含めてご相談ください。下の料金表の対象外です。</p>
+        <p class="after">ご相談後の流れ: 企画内容と日程の確認 → 収録。</p>
+        <div class="btns"><a href="mailto:contact@msyn.me?subject=%E3%82%B3%E3%83%A9%E3%83%9C%E4%BC%81%E7%94%BB%E3%81%AE%E7%9B%B8%E8%AB%87&amp;body=%E4%BC%81%E7%94%BB%E5%86%85%E5%AE%B9%3A%0A%E5%87%BA%E6%BC%94%E5%85%88%20%28%E3%81%A9%E3%81%A1%E3%82%89%E3%81%AE%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E3%81%8B%29%3A%0A%E8%B2%BB%E7%94%A8%E3%81%AE%E6%9C%89%E7%84%A1%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A" class="btn btn-p">コラボ企画を相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="#videos" class="btn btn-g">代表的な動画を見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+    </div>
+
+      <!-- RATECARD:START -->
+      <details class="tr ratecard" id="ratecard">
+        <summary><span class="sum-l"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path><path d="M10 12h4.5"></path><path d="M10 16h4.5"></path></svg> YouTubeプロモーション動画の料金表 <span class="sum-sub">動画制作とチャンネル掲載を含め、3万円 (税別) から</span></span><span class="sum-r"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></summary>
+        <div class="trb">
+          <p class="rc-lead">生成AIや開発者向けの製品・サービスを、実際に試して動画で紹介します。料金には、動画制作とYouTubeチャンネルへの掲載を含みます。目的に合うプランを選んでください。</p>
+
+          <h4 class="rc-h">プランを選ぶ</h4>
+          <div class="plans">
+            <div class="plan">
+              <h3>新機能を短く紹介する</h3>
+              <p class="spec">10分未満の動画</p>
+              <div class="price"><span class="v">30,000</span><span class="u">円 税別</span></div>
+              <p class="price-note">向いている内容</p>
+              <ul><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>新機能の紹介</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>アップデートの紹介</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>単機能のツール</li></ul>
+              <p class="spec-sub">台本の目安: 約3,000字まで</p>
+              <a href="mailto:contact@msyn.me?subject=%E8%A3%BD%E5%93%81PR%E3%81%AE%E7%9B%B8%E8%AB%87%20%28%E6%96%B0%E6%A9%9F%E8%83%BD%E3%82%92%E7%9F%AD%E3%81%8F%E7%B4%B9%E4%BB%8B%E3%81%99%E3%82%8B%20/%2010%E5%88%86%E6%9C%AA%E6%BA%80%29&amp;body=%E8%A3%BD%E5%93%81%E3%83%BB%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%90%8D%3A%0A%E7%B4%B9%E4%BB%8B%E3%81%97%E3%81%9F%E3%81%84%E6%A9%9F%E8%83%BD%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A" class="btn btn-g plan-btn">このプランで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+            </div>
+            <div class="plan reco">
+              <p class="flag">おすすめ</p>
+              <h3>操作を実演して紹介する</h3>
+              <p class="spec">10分以上20分未満の動画</p>
+              <div class="price"><span class="v">50,000</span><span class="u">円 税別</span></div>
+              <p class="price-note">向いている内容</p>
+              <ul><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>製品の全体像の紹介</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>操作方法の実演</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>使用後のレビュー</li></ul>
+              <p class="spec-sub">台本の目安: 約3,000〜6,000字</p>
+              <a href="mailto:contact@msyn.me?subject=%E8%A3%BD%E5%93%81PR%E3%81%AE%E7%9B%B8%E8%AB%87%20%28%E6%93%8D%E4%BD%9C%E3%82%92%E5%AE%9F%E6%BC%94%E3%81%97%E3%81%A6%E7%B4%B9%E4%BB%8B%E3%81%99%E3%82%8B%20/%2010%E3%80%9C20%E5%88%86%29&amp;body=%E8%A3%BD%E5%93%81%E3%83%BB%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%90%8D%3A%0A%E7%B4%B9%E4%BB%8B%E3%81%97%E3%81%9F%E3%81%84%E5%86%85%E5%AE%B9%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A" class="btn btn-p plan-btn">このプランで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+            </div>
+            <div class="plan">
+              <h3>複数機能を比較・検証する</h3>
+              <p class="spec">20分以上30分以下の動画</p>
+              <div class="price"><span class="v">100,000</span><span class="u">円 税別</span></div>
+              <p class="price-note">向いている内容</p>
+              <ul><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>複数機能の検証</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>他製品との比較</li><li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>詳しい操作解説</li></ul>
+              <p class="spec-sub">台本の目安: 約6,000〜9,000字</p>
+              <a href="mailto:contact@msyn.me?subject=%E8%A3%BD%E5%93%81PR%E3%81%AE%E7%9B%B8%E8%AB%87%20%28%E8%A4%87%E6%95%B0%E6%A9%9F%E8%83%BD%E3%82%92%E6%AF%94%E8%BC%83%E3%83%BB%E6%A4%9C%E8%A8%BC%E3%81%99%E3%82%8B%20/%2020%E3%80%9C30%E5%88%86%29&amp;body=%E8%A3%BD%E5%93%81%E3%83%BB%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%90%8D%3A%0A%E6%AF%94%E8%BC%83%E3%83%BB%E6%A4%9C%E8%A8%BC%E3%81%97%E3%81%9F%E3%81%84%E6%A9%9F%E8%83%BD%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A" class="btn btn-g plan-btn">このプランで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+            </div>
+          </div>
+          <p class="rc-note rc-alert">30分を超える動画は個別に見積もります。料金は改定することがあります。お見積もり時点の料金表を適用します。</p>
+
+          <h4 class="rc-h cond">進め方</h4>
+          <p class="rc-flow">打ち合わせ1回 → 見積書と制作日程 → 台本の確認 (1回) → 撮影・編集 → 初稿の確認 (修正2回まで) → 公開。初稿は、カット・字幕・BGMまで入れた編集済みの動画です。</p>
+
+          <div class="rc-cols">
+            <div>
+              <h4 class="rc-h">各プランに含まれる内容</h4>
+              <ul class="rc-list">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>事前の打ち合わせ1回</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>製品またはサービスの確認</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>動画の企画と構成</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>台本の作成と、撮影前の確認1回</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>撮影または画面収録</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>カット、字幕、BGMを含む編集</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>サムネイル1枚</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>YouTubeへの公開</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>指定リンク1件の掲載</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>初稿提出後の修正2回</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="rc-h">追加料金が発生する内容</h4>
+              <table class="rc-table">
+                <tr><th>内容</th><th>追加料金</th></tr>
+                <tr><td>3回目以降の修正</td><td>1回につき10,000円</td></tr>
+                <tr><td>同じ企画からショート動画を1本制作</td><td>30,000円</td></tr>
+                <tr><td>素材データまたは未編集映像の提供</td><td>30,000円から</td></tr>
+                <tr><td>動画ファイルの転載、広告への転用 (二次利用)</td><td>動画料金の50%から</td></tr>
+                <tr><td>競合製品を紹介しない契約</td><td>3か月につき動画料金の30%から</td></tr>
+                <tr><td>公開期間を1年延長する保証</td><td>動画料金の25%</td></tr>
+                <tr><td>7営業日以内の公開</td><td>動画料金の30%</td></tr>
+              </table>
+              <p class="rc-note">二次利用と競合制限の料金は、利用期間と利用範囲を確認して決めます。</p>
+            </div>
+          </div>
+
+          <h4 class="rc-h cond">ご依頼時の条件</h4>
+          <ul class="rc-cond">
+            <li>表示料金には消費税を加算します。</li>
+            <li>制作に必要な製品や有料プランは、制作費とは別にご提供ください。</li>
+            <li>製品をお送りいただく場合は、返却の要否を事前にお知らせください。</li>
+            <li>公開後1年間は動画を公開します。1年後は公開の継続を判断します。</li>
+            <li>URLの共有と、YouTubeプレイヤーの埋め込みは無料です。商品紹介ページへの埋め込みも無料です。</li>
+            <li>動画ファイルの転載 (自社サイトやSNSへの直接アップロード) と、広告への転用には二次利用料がかかります。</li>
+            <li>動画には「PR」「提供」などの表示を入れます。</li>
+            <li>再生回数、クリック数、申込数、売上は保証しません。</li>
+            <li>実際に試した結果をもとに紹介します。長所だけを取り上げる動画にはせず、制約や向いている用途も伝えます。</li>
+            <li>個人の方との対談や共同企画は、この料金表の対象外です。別途ご相談ください。</li>
+          </ul>
+          <p class="rc-foot">詳細を確認したあとに、正式な見積書と制作日程をお送りします。料金表の更新日: 2026年9月5日</p>
+        </div>
+      </details>
+
+      <!-- RATECARD:END -->
+  </div></div>
+
+  <div class="sec" id="talks"><div class="wrap">
+    <h2 class="sec-h">技術登壇実績</h2>
+    <p class="sec-lead">実務とYouTube運営で実際に運用している事例をお話しします。</p>
+    <div class="talks">
+      <div class="talk">
+        <p class="d">2026年6月</p>
+        <div><p class="ev">ClaudeCodeMeetupOsaka (AIエージェントユーザー会)</p><h3>Claude Code と回す、YouTube運営のPDCA 〜コマンド1発で始まるエージェントオーケストレーション〜</h3></div>
+        <a class="lk" href="https://aiau.connpass.com/event/394827/">イベントページ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+      </div>
+      <div class="talk">
+        <p class="d">2026年3月</p>
+        <div><p class="ev">AI駆動開発勉強会 神戸支部 第003回 オンラインLT大会</p><h3>『こういうのでいいんだよ。こういうので』精神でシンプルにAIを使いこなす</h3></div>
+        <a class="lk" href="https://aid.connpass.com/event/384254/">イベントページ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+      </div>
+    </div>
+    <div class="talk-more">
+      <div class="card">
+        <h3>お話しできるテーマ</h3>
+        <dl class="themes">
+          <dt>Claude Codeによるエージェントオーケストレーション</dt><dd>対象: Claude Codeを使い始めたエンジニア。持ち帰り: 複数のエージェントを1つのコマンドで回す構成と、失敗時の止め方</dd>
+          <dt>MCPサーバーの開発と、開発チームへのAI導入</dt><dd>対象: チームにAIを入れる立場の人。持ち帰り: MCPサーバーを社内外へ展開する手順と、定着までの勉強会の組み方</dd>
+          <dt>AI駆動開発による工数削減の実例</dt><dd>対象: 開発リーダー。持ち帰り: 生成と評価を分担する開発フローの作り方と、工数の測り方</dd>
+          <dt>動画制作・公開フローの自動化</dt><dd>対象: 発信を仕組み化したい人。持ち帰り: 企画から公開までをAIに分担させる設計</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3>対応できる形式</h3>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>LT (5〜15分) からセッション (30〜45分) まで</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>オンライン・オフラインのどちらも可</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>社内向けの勉強会・講演</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>スライドは登壇後に共有可能</li>
+        </ul>
+        <p class="after">ご依頼時に、開催日・形式・対象者をお知らせください。告知用のプロフィール文と写真は、ご依頼時にお送りします。</p>
+      </div>
+    </div>
+    <div class="btns sec-cta"><a href="mailto:contact@msyn.me?subject=%E7%99%BB%E5%A3%87%E3%81%AE%E3%81%94%E4%BE%9D%E9%A0%BC&amp;body=%E9%96%8B%E5%82%AC%E6%97%A5%3A%0A%E5%BD%A2%E5%BC%8F%20%28%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%20/%20%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E3%83%BB%E5%A0%B4%E6%89%80%29%3A%0A%E5%AF%BE%E8%B1%A1%E8%80%85%3A%0A%E6%8C%81%E3%81%A1%E6%99%82%E9%96%93%3A%0A%E5%B8%8C%E6%9C%9B%E3%83%86%E3%83%BC%E3%83%9E%3A%0A" class="btn btn-p">登壇を依頼する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="https://youtu.be/NuGCY0JGVkc" class="btn btn-g">登壇に近い話を動画で見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+  </div></div>
+
+  <div class="sec alt" id="career-history"><div class="wrap">
+    <h2 class="sec-h">経歴</h2>
+    <p class="sec-lead">SIerからWeb系企業へ移り、フロントエンド・バックエンド・インフラを横断して担当してきました。</p>
+    <div class="career">
+      <ul class="tl">
+        <li>
+          <p class="st">SIer</p>
+          <h3>システム開発の基礎を習得</h3>
+          <p>エンジニアとしてのキャリアを開始し、要件定義から運用までの一連の工程を経験しました。</p>
+        </li>
+        <li>
+          <p class="st">Web系企業</p>
+          <h3>Webサービスの開発を担当</h3>
+          <p>フロントエンド・バックエンド・インフラを横断して担当。自動テストとクリーンアーキテクチャを軸に、変更に強く長く運用できるコードベースを維持してきました。</p>
+        </li>
+        <li>
+          <p class="st">Web系企業 (現職)</p>
+          <h3>テックリードとしてAI駆動開発を推進</h3>
+          <p>MCPサーバーとAPIの開発、Claude Codeを使った開発フローのチーム導入を担当。この土台の上でAIとMCPを使い、開発・業務・発信の各領域で成果を出しています。</p>
+        </li>
+      </ul>
+      <div class="card summary">
+        <h3>職務要約</h3>
+        <ul class="promise">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>Web系フルスタックエンジニア 7年以上 (要件定義から運用まで)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>現職テックリード: MCPサーバー・API開発、AI駆動開発フローのチーム導入、社内勉強会の運営</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>技術: Python / TypeScript / FastAPI / Vue / React・Next.js / PostgreSQL / Google Cloud / AWS</li>
+        </ul>
+        <div class="btns"><a href="mailto:contact@msyn.me?subject=%E8%81%B7%E5%8B%99%E7%B5%8C%E6%AD%B4%E6%9B%B8%E3%81%AE%E4%BE%9D%E9%A0%BC&amp;body=%E4%BC%81%E6%A5%AD%E5%90%8D%3A%0A%E7%94%A8%E9%80%94%3A%0A" class="btn btn-p">職務経歴書を依頼する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="https://github.com/masayan1126" class="btn btn-g">GitHubを見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+    </div>
+
+    <div class="aud grid2">
+      <div class="card" id="career">
+        <p class="lbl">正社員の採用をご検討の方へ</p>
+        <h3>入社後に任せられる役割</h3>
+        <ul class="promise">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>AI駆動開発フローの設計と運用 (任せる範囲の設計、評価の仕組み、レビュー体制)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>MCPサーバー・API開発のリード (要件定義から運用まで)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>社内勉強会の運営と、現場への定着支援</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>技術ブログや勉強会の運営など、採用向けの技術発信 (YouTube・X・Zenn・Substackでの発信は個人の活動です)</li>
+        </ul>
+        <p class="after">ご連絡後の流れ: 職務経歴書をお送りし、面談の日程をご案内します。</p>
+        <div class="btns"><a href="mailto:contact@msyn.me?subject=%E6%8E%A1%E7%94%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6&amp;body=%E4%BC%81%E6%A5%AD%E5%90%8D%3A%0A%E5%8B%9F%E9%9B%86%E8%81%B7%E7%A8%AE%3A%0A%E9%9B%87%E7%94%A8%E5%BD%A2%E6%85%8B%20%28%E6%AD%A3%E7%A4%BE%E5%93%A1%20/%20%E6%A5%AD%E5%8B%99%E5%A7%94%E8%A8%97%20/%20%E6%8A%80%E8%A1%93%E9%A1%A7%E5%95%8F%29%3A%0A" class="btn btn-p">採用について連絡する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="mailto:contact@msyn.me?subject=%E8%81%B7%E5%8B%99%E7%B5%8C%E6%AD%B4%E6%9B%B8%E3%81%AE%E4%BE%9D%E9%A0%BC&amp;body=%E4%BC%81%E6%A5%AD%E5%90%8D%3A%0A%E7%94%A8%E9%80%94%3A%0A" class="btn btn-g">職務経歴書を依頼する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+      <div class="card" id="contract">
+        <p class="lbl">業務委託・技術顧問をご検討の方へ</p>
+        <h3>お受けできる形</h3>
+        <ul class="promise">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>業務委託: 事業内容の3つ (Webサービスの開発 / AIの品質改善 / 社内へのAI導入) を、期間と稼働量を決めてお受けします</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>技術顧問: 設計レビュー、AI導入の助言、勉強会の実施を、月単位でお受けします</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>稼働量と期間は、ご相談のうえで決めます</li>
+        </ul>
+        <p class="after">ご連絡後の流れ: 30分のオンラインヒアリング → 提案と見積もり (無料)。</p>
+        <div class="btns"><a href="mailto:contact@msyn.me?subject=%E6%A5%AD%E5%8B%99%E5%A7%94%E8%A8%97%E3%83%BB%E6%8A%80%E8%A1%93%E9%A1%A7%E5%95%8F%E3%81%AE%E7%9B%B8%E8%AB%87&amp;body=%E5%86%85%E5%AE%B9%3A%0A%E6%83%B3%E5%AE%9A%E3%81%99%E3%82%8B%E7%A8%BC%E5%83%8D%E9%87%8F%3A%0A%E6%9C%9F%E9%96%93%3A%0A" class="btn btn-p">業務委託を相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="#services" class="btn btn-g">事業内容を見る <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec" id="flow"><div class="wrap">
+    <h2 class="sec-h">ご依頼の流れ (開発・AI導入)</h2>
+    <p class="sec-lead">要件が固まっていない段階でも大丈夫です。話しながら一緒に整理します。製品PR・登壇・採用の流れは、それぞれの欄に書いています。</p>
+    <div class="steps">
+      <div class="step"><div class="numchip">01</div><h3>ご相談</h3><p>メールかXで、相談内容と希望時期をお知らせください。予算は未定でも構いません。</p></div>
+      <div class="step"><div class="numchip">02</div><h3>ヒアリング</h3><p>オンラインで30分ほど、現状とゴールをお聞きします。</p></div>
+      <div class="step"><div class="numchip">03</div><h3>ご提案・お見積もり</h3><p>進め方・期間・費用を文書でお出しします。お見積もりは無料です。合わなければ、ここで終了していただいて構いません。</p></div>
+      <div class="step"><div class="numchip">04</div><h3>着手</h3><p>合意した範囲で進め、途中経過を共有しながら仕上げます。</p></div>
+    </div>
+  </div></div>
+
+  <div class="msg" id="contact"><div class="wrap">
+    <h2>まずはお気軽にご相談ください</h2>
+    <p>相談内容と希望時期をお知らせください。予算は未定でも構いません。</p>
+    <div class="btns-wrap"><div class="btns center"><a href="mailto:contact@msyn.me?subject=%E3%81%94%E7%9B%B8%E8%AB%87%20%28Miyabiya%20Studio%29&amp;body=%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%3A%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%0A%E4%BA%88%E7%AE%97%20%28%E6%9C%AA%E5%AE%9A%E3%81%A7%E3%82%82%E5%8F%AF%29%3A%0A" class="btn btn-w">メールで相談する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="https://x.com/masayan_ai_hack" class="btn btn-wo">Xで連絡する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a><a href="https://www.instagram.com/miyabiya1126/" class="btn btn-wo">Instagramで連絡する <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a></div></div>
+    <p class="fine addr">メール: <span class="mail">contact@msyn.me</span> <button type="button" class="copy" data-copy="contact@msyn.me">アドレスをコピー</button></p>
+    <ul class="next">
+      <li><b>開発・AI導入</b> 30分のヒアリングの日程をご案内します</li>
+      <li><b>製品PR</b> 打ち合わせ1回のあと、見積書と制作日程をお送りします</li>
+      <li><b>登壇</b> 日程・テーマ・条件を確認してお返事します</li>
+      <li><b>採用</b> 職務経歴書をお送りし、面談の日程をご案内します</li>
+    </ul>
+  </div></div>
+
+</main>
+
+<footer class="foot"><div class="wrap">
+  <div><p class="brand">Miyabiya <span style="color:#133F8F">Studio</span></p><p>Web開発・AI導入を支援し、YouTubeで技術を伝えています</p></div>
+  <div><h4>リンク</h4><ul class="sns"><li><a href="https://www.youtube.com/@masayan-ai-hack">YouTube まさやん【AIギルドch】</a></li><li><a href="https://x.com/masayan_ai_hack">X @masayan_ai_hack</a></li><li><a href="https://github.com/masayan1126">GitHub masayan1126</a></li><li><a href="https://www.instagram.com/miyabiya1126/">Instagram @miyabiya1126</a></li><li><a href="https://zenn.dev/masayan1126">Zenn</a></li><li><a href="https://substack.com/@masayan1126">Substack</a></li></ul></div>
+  <div><h4>このサイト</h4><ul><li><a href="#services">事業内容</a></li><li><a href="#works">実績</a></li><li><a href="#pr">製品PR・コラボ</a></li><li><a href="#ratecard">料金表</a></li><li><a href="#talks">技術登壇実績</a></li><li><a href="#career-history">経歴</a></li><li><a href="#career">採用ご担当の方へ</a></li><li><a href="#membership">メンバーシップ</a></li><li><a href="#contact">お問い合わせ</a></li></ul></div>
+  <p class="copy">© 2026 Masaya Nishigaki (まさやん)</p>
+</div></footer>
+
+</x-dc>
+</body>
+</html>

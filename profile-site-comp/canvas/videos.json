@@ -1,0 +1,26 @@
+[
+ {
+  "id": "Kggm_W0w0lw",
+  "title": "Claude Code ループエンジニアリング完全ガイド｜5つの構成要素で“使うほど賢くなる”自律ループを作る",
+  "views": 15495,
+  "month": "2026年6月",
+  "desc": "自律ループの5つの構成要素を、実際の運用例で説明",
+  "first": true
+ },
+ {
+  "id": "BxQ2nutD-_o",
+  "title": "Claude CodeやCodexが使えるAIエディタ Zed ハンズオン｜DL・インストール・ACP接続から実機デモまで徹底解説",
+  "views": 4706,
+  "month": "2026年6月",
+  "desc": "AIエディタ Zed の導入から操作まで実演",
+  "first": false
+ },
+ {
+  "id": "D1gsaCoJelw",
+  "title": "Claude Codeの公式スキル＆プラグイン、全部紹介｜純正だけで開発ライフサイクル完全カバーできます",
+  "views": 4446,
+  "month": "2026年4月",
+  "desc": "公式スキルとプラグインを一つずつ検証",
+  "first": false
+ }
+]

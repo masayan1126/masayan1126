@@ -1,0 +1,7 @@
+name = "miyabiya-studio"
+pages_build_output_dir = "canvas/v3/site"
+compatibility_date = "2026-09-04"
+
+# 公開用の静的サイトは、採用した別案 V3 から組み立てる。
+#   python3 canvas/v3/build_public.py && npx wrangler pages deploy
+# 初回のプロジェクト作成: npx wrangler pages project create miyabiya-studio --production-branch main

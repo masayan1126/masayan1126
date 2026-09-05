@@ -1,0 +1,32 @@
+.DS_Store
+.wrangler/
+.designer-org/
+node_modules/
+__pycache__/
+*.pyc
+.env
+.env.*
+
+# Local review material and private source notes.
+/output/
+/build/
+/docs/pricing/private/
+/docs/design/
+
+# Regenerated previews, published output and verification snapshots.
+/canvas/v3/preview/
+/canvas/v3/site/
+/canvas/v3/public-verification/
+/canvas/v3/Artboard*.dc.html
+/canvas/v3/comparison.html
+/canvas/v3/*validation.json
+/canvas/v3/*.check.json
+/canvas/v3/*.lint.json
+/canvas/v3/*copy*.md
+/canvas/v3/pages.json
+/site/*.html
+/site/pricing/
+/site/robots.txt
+/site/sitemap.xml
+/site/_headers
+/site/_redirects
