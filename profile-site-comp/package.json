@@ -3,11 +3,16 @@
   "private": true,
   "scripts": {
     "build": "python3 canvas/v3/build_public.py",
-    "test": "node --test canvas/v3/pricing-model.test.mjs",
+    "test": "node --test canvas/v3/*.test.mjs",
     "preview": "python3 -m http.server 8769 --bind 127.0.0.1 --directory canvas/v3/site",
     "deploy": "npm run build && npm test && wrangler pages deploy canvas/v3/site --project-name miyabiya-studio --branch main"
   },
   "devDependencies": {
+    "esbuild": "0.28.1",
     "wrangler": "4.129.0"
+  },
+  "dependencies": {
+    "@pdf-lib/fontkit": "1.1.1",
+    "pdf-lib": "1.17.1"
   }
 }

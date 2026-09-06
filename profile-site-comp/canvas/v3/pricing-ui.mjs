@@ -41,7 +41,7 @@ function render(announce = true, updateUrl = true) {
     write('mobile-amount', individual ? '要相談の項目があります' : compactAmount(r.totalMin, r.totalMax) + '（税込）');
   }
   mobileResult();
-  show('estimate-mail', valid); show('estimate-share', valid);
+  show('estimate-mail', valid); show('estimate-share', valid); show('estimate-pdf',valid);
   el('estimate-mail').href = mailto(text);
   write('estimate-mail-label', changed ? 'この内容で相談する' : 'とりあえず相談する');
   if (announce) write('estimate-live', !valid ? r.error : individual ?
@@ -63,6 +63,27 @@ el('estimate-share').addEventListener('click', async () => {
   }
 });
 el('estimate-mobile-total').addEventListener('click', () => el('estimate-result').focus({preventScroll:true}));
+el('estimate-pdf').addEventListener('click',()=>{
+  show('pdf-error',false);write('pdf-status','');el('pdf-dialog').showModal();
+});
+el('pdf-close').addEventListener('click',()=>el('pdf-dialog').close());
+el('pdf-dialog').addEventListener('close',()=>el('estimate-pdf').focus({preventScroll:true}));
+el('pdf-form').addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(el('pdf-download').disabled) return;
+  const fields=new FormData(form);
+  const state={items:fields.getAll('items'),revisions:fields.get('revisions')??2,custom:fields.getAll('custom')};
+  const recipient=el('pdf-recipient').value,honorific=el('pdf-honorific').value;
+  el('pdf-download').disabled=true;show('pdf-error',false);write('pdf-status','PDFを作成しています。');
+  try {
+    const {downloadEstimatePdf}=await import('./pricing-pdf.mjs');
+    await downloadEstimatePdf(data,state,recipient,honorific);
+    write('pdf-status','PDFをダウンロードしました。');
+  } catch(error) {
+    const message=error instanceof Error && /^(宛名|PDF用フォント)/.test(error.message)?error.message:'PDFを作成できませんでした。通信状況をご確認のうえ、もう一度お試しください。';
+    show('pdf-error',true);write('pdf-error',message);write('pdf-status','');
+  } finally {el('pdf-download').disabled=false;}
+});
 const resultObserver = new IntersectionObserver(entries => {
   resultInView = entries[0].isIntersecting && entries[0].intersectionRatio >= 1; mobileResult();
 }, {threshold:1, rootMargin:'-90px 0px -20px 0px'});
@@ -97,7 +118,7 @@ function renderArchivedGroups() {
 
 async function initialize() {
   form.inert = true;
-  for (const id of ['estimate-mail','estimate-share']) show(id,false);
+  for (const id of ['estimate-mail','estimate-share','estimate-pdf']) show(id,false);
   try {
     data = await loadSharedRates(currentData, location.href, async version => {
       const response = await fetch('/pricing-rates/' + version + '.json');

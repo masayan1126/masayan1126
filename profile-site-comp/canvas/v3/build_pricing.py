@@ -11,6 +11,7 @@ def icon(kind='calculator'):
       'video':'<rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 10 6-3v10l-6-3"/>',
       'share':'<circle cx="5" cy="12" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><path d="m8 10 8-4M8 14l8 4"/>',
       'info':'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>',
+      'download':'<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
       'check':'<path d="m5 12 4 4L19 6"/>',
       'settings':'<path d="M3 6h6m4 0h8M3 18h10m4 0h4"/><circle cx="11" cy="6" r="2"/><circle cx="15" cy="18" r="2"/>'}
     return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths[kind]+'</svg>'
@@ -23,7 +24,7 @@ def amount(item):
     return f'{low:,}〜{high:,}円'
 
 def media_summary():
-    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>資料作成・サムネイル制作・ショート動画など、追加で依頼したい作業を選んで概算料金をご確認いただけます。本編1本の制作と、YouTubeでの掲載が対象です。</p><p>公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。二次利用や撮り直しの料金は、個別にご相談いただけます。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
+    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>資料作成・サムネイル制作・ショート動画など、追加で依頼したい作業を選んで概算料金をご確認いただけます。本編1本の制作と、YouTubeでの掲載が対象です。</p><p>公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。二次利用や撮り直しの料金は、要相談とさせていただきます。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
 
 def groups():
     result=[]
@@ -59,7 +60,6 @@ def content(public_data=None):
     <form id="estimate-form" aria-label="PR動画制作の見積もり条件">
       <div class="sheet-hint">
         <p class="estimate-hint">PRするサービスの検証用アカウントをご用意いただくようお願いいたします。</p>
-        <p class="estimate-hint">10〜20分程度の動画を想定しております。30分を超える長尺動画は、個別にご相談いただけます。</p>
       </div>
       <div id="estimate-groups">{groups()}</div>
       <section class="estimate-notes" aria-labelledby="estimate-notes-heading">
@@ -90,15 +90,16 @@ def content(public_data=None):
           <h3>PR表記・評価・効果レポート</h3>
           <ul>
             <li>動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。</li>
-            <li>公開30日後に、効果レポートをお渡しいたします。再生数・視聴維持率と、概要欄の計測用リンク（UTM）から集計したクリック数をご確認いただけます。</li>
+            <li>公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。</li>
+            <li>お客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。</li>
             <li>動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。</li>
           </ul>
           <h3>著作権・二次利用・掲載期間</h3>
           <ul>
             <li>動画・資料の著作権は、個別のご契約で取り決めます。</li>
-            <li>自社サイト・SNS・広告などでの二次利用をご希望の場合は、利用範囲を個別にご相談いただけます。</li>
+            <li>自社サイト・SNS・広告などでの二次利用については、利用範囲を含めて要相談とさせていただきます。</li>
             <li>公開後の動画は、原則として継続して掲載いたします。ただし、サービスの終了や大幅な仕様変更、YouTubeの規約への対応に伴い、非公開または削除する場合がございます。</li>
-            <li>掲載期間のご指定や、複数本の制作・継続契約も個別にご相談いただけます。</li>
+            <li>掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。</li>
           </ul>
         </div>
       </section>
@@ -120,11 +121,24 @@ def content(public_data=None):
       </div>
       <a id="estimate-mail" class="estimate-button" href="mailto:contact@msyn.me"><span id="estimate-mail-label">とりあえず相談する</span> <span aria-hidden="true">↗</span></a>
       <button id="estimate-share" type="button" class="estimate-copy-button">見積もりURLをコピー</button>
+      <button id="estimate-pdf" type="button" class="estimate-copy-button" aria-haspopup="dialog" hidden>{icon('download')} 見積書をPDFでダウンロード</button>
       <div id="share-fallback" hidden><label for="estimate-share-url">以下のURLをコピーして共有してください。</label><input id="estimate-share-url" type="url" readonly></div>
       <p id="share-status" role="status" class="estimate-hint"></p>
       <noscript><p>自動計算を使うには、JavaScriptを有効にしてください。各工程の料金はチェック欄でも確認できます。</p></noscript>
     </aside>
   </div>
+  <dialog id="pdf-dialog" class="estimate-pdf-dialog" aria-labelledby="pdf-dialog-title">
+    <form id="pdf-form">
+      <div class="pdf-dialog-heading"><h2 id="pdf-dialog-title">見積書をPDFでダウンロード</h2><button id="pdf-close" type="button" aria-label="閉じる">×</button></div>
+      <p class="pdf-dialog-lead">現在の選択内容と金額を、概算お見積書として保存します。</p>
+      <label class="pdf-recipient-label" for="pdf-recipient">宛名 <span>任意</span></label>
+      <div class="pdf-recipient-fields"><input id="pdf-recipient" name="recipient" type="text" maxlength="80" autocomplete="organization" placeholder="会社名・お名前" aria-describedby="pdf-recipient-hint"><select id="pdf-honorific" name="honorific" aria-label="宛名の敬称"><option>御中</option><option>様</option></select></div>
+      <p id="pdf-recipient-hint" class="estimate-hint">未入力の場合は「お客様」と記載します。</p>
+      <p id="pdf-error" class="estimate-error" role="alert" hidden></p>
+      <button id="pdf-download" class="estimate-button" type="submit">PDFをダウンロード</button>
+      <p id="pdf-status" class="estimate-hint" role="status"></p>
+    </form>
+  </dialog>
   <a id="estimate-mobile-total" class="estimate-mobile-total" href="#estimate-result" aria-controls="estimate-result" hidden><span id="mobile-amount"></span><span>明細を見る ↓</span></a>
   <div id="estimate-live" role="status" aria-live="polite" aria-atomic="true" class="estimate-sr-only"></div>
 </main><script id="pricing-data" type="application/json">{json.dumps(public_data,ensure_ascii=False)}</script><script type="module" src="/pricing-ui.mjs"></script>'''

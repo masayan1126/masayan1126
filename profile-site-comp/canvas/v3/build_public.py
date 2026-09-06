@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import runpy
 import shutil
+import subprocess
 
 HERE = Path(__file__).resolve().parent
 design = runpy.run_path(str(HERE / 'build_v3.py'))
@@ -84,7 +85,7 @@ shutil.copytree(archive, OUT / 'pricing-rates', dirs_exist_ok=True)
 # Content-addressed assets prevent an older cached stylesheet or model from mixing
 # with the updated estimate form.
 for stale in OUT.iterdir():
-    if re.fullmatch(r'pricing(?:-model|-ui)?\.[a-f0-9]{12}\.(?:css|mjs)', stale.name):
+    if re.fullmatch(r'pricing(?:-model|-ui|-pdf)?\.[a-f0-9]{12}\.(?:css|mjs)', stale.name):
         stale.unlink()
 def pricing_asset(stem, suffix, content):
     digest = hashlib.sha256(content.encode()).hexdigest()[:12]
@@ -92,15 +93,31 @@ def pricing_asset(stem, suffix, content):
     (OUT / filename).write_text(content)
     return filename
 model_name = pricing_asset('pricing-model', 'mjs', (HERE / 'pricing-model.mjs').read_text())
-ui_source = (HERE / 'pricing-ui.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'")
+pdf_source = (HERE / 'pricing-pdf.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'")
+pdf_name = pricing_asset('pricing-pdf', 'mjs', pdf_source)
+ui_source = (HERE / 'pricing-ui.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'").replace("'./pricing-pdf.mjs'", "'./"+pdf_name+"'")
 ui_name = pricing_asset('pricing-ui', 'mjs', ui_source)
+shutil.copytree(HERE / 'pdf-assets', OUT / 'pdf-assets', dirs_exist_ok=True)
+vendor = OUT / 'pdf-vendor'
+vendor.mkdir(exist_ok=True)
+modules = HERE.parent.parent / 'node_modules'
+for source, filename in (
+    ('pdf-lib/dist/pdf-lib.esm.min.js', 'pdf-lib-1.17.1.mjs'),
+    ('pdf-lib/LICENSE.md', 'pdf-lib-LICENSE.md'),
+):
+    shutil.copyfile(modules / source, vendor / filename)
+subprocess.run([
+    str(modules / 'esbuild/bin/esbuild'), str(modules / '@pdf-lib/fontkit/dist/fontkit.es.js'),
+    '--bundle', '--format=esm', '--platform=browser', '--minify',
+    '--outfile='+str(vendor / 'fontkit-1.1.1.mjs'), '--log-level=warning',
+], check=True)
 css_name = pricing_asset('pricing', 'css', (HERE / 'pricing.css').read_text())
 pricing_body = pricing_builder['content'](rate_data).replace('/pricing.css', '/'+css_name).replace('/pricing-ui.mjs', '/'+ui_name)
 pricing = '<div class="v3 v3-detail">'+style+header+pricing_body+footer+'</div>'
 (OUT / 'pricing').mkdir(exist_ok=True)
 (OUT / 'pricing/index.html').write_text(document('pricing',pricing))
 # Keep the existing asset URLs available for previously opened pages.
-for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs'):
+for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf.mjs'):
     shutil.copyfile(HERE / asset, OUT / asset)
 (OUT / 'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+BASE+'/sitemap.xml\n')
 (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+p+'</loc></url>' for p in paths.values())+'</urlset>')
