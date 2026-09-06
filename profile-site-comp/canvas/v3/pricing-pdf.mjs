@@ -8,6 +8,7 @@ export async function createEstimatePdf(data, state, options) {
   const {PDFDocument, PDFString, rgb, fontkit, fontBytes, recipient = '', honorific = '御中', date = new Date()} = options;
   const result = quote(data, state);
   if (result.status === 'invalid') throw new Error(result.error);
+  const included=new Set(result.lines.map(item=>item.id));
   const document = await PDFDocument.create();
   document.registerFontkit(fontkit);
   // Keep the Japanese font intact: fontkit subsetting can omit visible glyphs.
@@ -76,7 +77,8 @@ export async function createEstimatePdf(data, state, options) {
   tableHeader();
   for(const item of result.lines) {
     const labels=wrap(item.label,cols[1]-left-20,10);
-    const details=item.description?wrap(item.description,cols[1]-left-20,8):[];
+    const description=item.id==='materials'?'説明内容と順番をまとめた動画用資料':item.description;
+    const details=description?wrap(description,cols[1]-left-20,8):[];
     const height=Math.max(33,labels.length*15+details.length*12+14);
     if(y+height>720) {addPage(true);tableHeader();}
     labels.forEach((value,index)=>text(value,left+9,y+8+index*15,10));
@@ -96,6 +98,9 @@ export async function createEstimatePdf(data, state, options) {
   // Keep the price page brief; the attached page records the agreed service terms.
   const conditions=[
     ['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載を見積額に含みます。\n掲載先：https://www.youtube.com/@masayan-ai-hack'],
+    ['納品形態',included.has('editing')
+      ?'納品はYouTubeでの公開です。動画ファイルの提供は別途ご相談ください。'
+      :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開します。'],
     ['登録状況','適格請求書発行事業者には登録しておりません。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n有効期限は、正式見積もり時にご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
@@ -109,7 +114,6 @@ export async function createEstimatePdf(data, state, options) {
     for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
     y+=5;
   }
-  const included=new Set(result.lines.map(item=>item.id));
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
   const termSections=[
     ['公開時期・お支払い',[
@@ -120,7 +124,7 @@ export async function createEstimatePdf(data, state, options) {
       '原則、お支払いは動画公開月の月末締め・翌月末払いでお願いいたします。振込手数料はお客様にご負担いただきます。',
     ]],
     ['修正・追加料金',[
-      '当チャンネルで通常公開している動画と同水準の編集を行います。モーショングラフィックスやアニメーションなどの高度な編集は対象外です。',
+      ...(included.has('editing')?['当チャンネルで通常公開している動画と同水準の編集を行います。モーショングラフィックスやアニメーションなどの高度な編集は対象外です。']:[]),
       '公開前の軽微修正は、2回まで追加料金なしで承ります。テロップの誤字修正・不要な部分のカット・事実関係の訂正が対象です。',
       '3回目以降の修正は、1回につき'+revisionFee+'（税込）を頂戴いたします。',
       '20分を超え30分以内の動画は、内容と尺を確認して正式料金をご提示します。',
@@ -141,6 +145,7 @@ export async function createEstimatePdf(data, state, options) {
       '動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。',
     ]],
     ['著作権・二次利用',[
+      'ご提供素材は、動画での使用・公開に必要な権利・許諾を確認済みのものをご用意ください。',
       '動画・資料の著作権は、個別のご契約で取り決めます。',
       '自社サイト・SNS・広告などでの二次利用については、利用範囲を含めて要相談とさせていただきます。',
     ]],
@@ -158,18 +163,18 @@ export async function createEstimatePdf(data, state, options) {
   addPage();
   text('取引条件・作業範囲',left,y,20);y+=35;
   text('PR動画制作 / Miyabiya Studio',left,y,10);
-  aligned('見積日：'+issued,right,y,9);y+=32;
+  aligned('見積日：'+issued,right,y,9);y+=28;
   for(const [heading,values] of termSections) {
     const rows=values.map(value=>wrap(value,right-left-18,9.5));
-    const height=22+rows.reduce((sum,row)=>sum+row.length*14+2,0);
+    const height=20+rows.reduce((sum,row)=>sum+row.length*14+2,0);
     room(height);
-    text(heading,left,y,11);y+=18;
+    text(heading,left,y,11);y+=17;
     for(const row of rows) {
       text('・',left,y,9.5);
       for(const value of row) {text(value,left+12,y,9.5);y+=14;}
       y+=2;
     }
-    y+=4;
+    y+=3;
   }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
