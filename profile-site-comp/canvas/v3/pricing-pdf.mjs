@@ -51,17 +51,17 @@ export async function createEstimatePdf(data, state, options) {
   addPage();
   const title='概算見積書';
   text(title,(W-font.widthOfTextAtSize(title,25))/2,42,25);
-  aligned('見積日：'+issued,right,88,9);
+  aligned('見積日：'+issued,right,80,9);
   const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
   const recipientLines=wrap(addressee,275,12);
-  text('宛先（お客様）',left,111,9);
-  recipientLines.forEach((value,index)=>text(value,left,129+index*18,12));
+  text('宛先（お客様）',left,96,9);
+  recipientLines.forEach((value,index)=>text(value,left,112+index*17,12));
   const senderX=354;
-  text('発行者',senderX,111,9);
-  text('Miyabiya Studio',senderX,129,13);
-  text('Masaya Nishigaki',senderX,152,10);
-  text('contact@msyn.me',senderX,170,9);
-  y=Math.max(197,129+recipientLines.length*18+14);
+  text('発行者',senderX,96,9);
+  text('Miyabiya Studio',senderX,112,13);
+  text('Masaya Nishigaki',senderX,133,10);
+  text('contact@msyn.me',senderX,150,9);
+  y=Math.max(173,112+recipientLines.length*17+10);
   text('件名：PR動画制作',left,y,11);y+=26;
   page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.97,.97,.97)});
   text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9);
@@ -79,7 +79,7 @@ export async function createEstimatePdf(data, state, options) {
     const labels=wrap(item.label,cols[1]-left-20,10);
     const description=item.id==='materials'?'説明内容と順番をまとめた動画用資料':item.description;
     const details=description?wrap(description,cols[1]-left-20,8):[];
-    const height=Math.max(33,labels.length*15+details.length*12+14);
+    const height=Math.max(31,labels.length*15+details.length*12+12);
     if(y+height>720) {addPage(true);tableHeader();}
     labels.forEach((value,index)=>text(value,left+9,y+8+index*15,10));
     details.forEach((value,index)=>text(value,left+9,y+8+labels.length*15+index*12,8));
@@ -101,18 +101,20 @@ export async function createEstimatePdf(data, state, options) {
     ['納品形態',included.has('editing')
       ?'納品はYouTubeでの公開です。動画ファイルの提供は別途ご相談ください。'
       :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開します。'],
-    ['登録状況','適格請求書発行事業者には登録しておりません。'],
+    ['登録状況','適格請求書発行事業者には登録しておりません。'+
+      '適格請求書は発行できません。仕入税額控除は、ご発注前に貴社の経理担当者へご確認ください。'],
+    ['源泉徴収','法令に基づき源泉徴収が必要な場合は、対象額・税額・振込額を事前に確認します。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
-  const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+5,0);
+  const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+4,0);
   y+=3;room(notesHeight);
   page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
   text('ご確認事項',left+10,y+8,9);y+=27;
   for(const row of conditions) {
     text(row.label,left+10,y,8.5);
     for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
-    y+=5;
+    y+=4;
   }
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
   const termSections=[
@@ -126,7 +128,7 @@ export async function createEstimatePdf(data, state, options) {
     ['修正・追加料金',[
       ...(included.has('editing')?['当チャンネルで通常公開している動画と同水準の編集を行います。モーショングラフィックスやアニメーションなどの高度な編集は対象外です。']:[]),
       '公開前の軽微修正は、2回まで追加料金なしで承ります。テロップの誤字修正・不要な部分のカット・事実関係の訂正が対象です。',
-      '3回目以降の軽微修正は、1回につき'+revisionFee+'（税込）を頂戴いたします。',
+      '軽微修正は、ご連絡1件にまとめた内容への対応を1回と数えます。3回目以降は1回'+revisionFee+'（税込）です。',
       '10分未満や20分を超え30分以内の動画は、内容と尺を確認して正式料金をご提示します。',
       '30分を超える動画・撮り直し・構成や尺の変更を伴う修正は、要相談とさせていただきます。',
     ]],
@@ -138,8 +140,7 @@ export async function createEstimatePdf(data, state, options) {
       '公開または制作中止後は検証用アカウントを使用せず、保管したログイン情報を削除いたします。',
       ...(included.has('research')?['サービスの事前検証では、機能や操作手順を確認し、動画で紹介する内容を検証します。']:[]),
       ...(included.has('publishing')?[
-        '公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。',
-        'お客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。',
+        '公開30日後に再生数・視聴維持率のレポートをお渡しします。ご用意いただいた計測用リンクは概要欄へ掲載し、クリック数はお客様側で計測をお願いいたします。',
       ]:[]),
     ]],
     ['PR表記・成果について',[
@@ -152,7 +153,7 @@ export async function createEstimatePdf(data, state, options) {
       '動画・資料の著作権は、個別のご契約で取り決めます。',
       '自社サイト・SNS・広告などでの二次利用については、利用範囲を含めて要相談とさせていただきます。',
 
-      '公開後の動画は、原則として継続して掲載いたします。ただし、サービスの終了や大幅な仕様変更、YouTubeの規約への対応に伴い、非公開または削除する場合がございます。',
+      '公開後の動画は原則継続掲載します。ただし、サービス終了・大幅な仕様変更、YouTubeの規約への対応、当チャンネルの運営終了・方針変更により非公開・削除する場合がございます。',
       '掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。',
       '記載のない事項は、お客様と協議のうえ決定いたします。',
     ]],
@@ -177,7 +178,7 @@ export async function createEstimatePdf(data, state, options) {
       for(const value of row) {text(value,left+12,y,9.5);y+=14;}
       y+=2;
     }
-    y+=3;
+    y+=1;
   }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
