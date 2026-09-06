@@ -93,11 +93,13 @@ export async function createEstimatePdf(data, state, options) {
   for(const item of result.lines) {
     const labels=wrap(item.label,cols[1]-left-20,10);
     const description=item.id==='materials'?'説明内容と順番をまとめた動画用資料':item.description;
-    const details=description?wrap(description,cols[1]-left-20,8):[];
-    const height=Math.max(31,labels.length*15+details.length*12+12);
+    const details=description?wrap(description,cols[1]-left-20,10):[];
+    const height=Math.max(31,(labels.length+details.length)*14+12);
     if(y+height>720) {addPage(true);tableHeader();}
-    labels.forEach((value,index)=>text(value,left+9,y+8+index*15,10));
-    details.forEach((value,index)=>text(value,left+9,y+8+labels.length*15+index*12,8));
+    // One text block keeps the item name and description together when copied.
+    page.drawText([...labels,...details].join('\n'), {
+      x:left+9,y:H-y-18,size:10,lineHeight:14,font,color:ink,
+    });
     const amount=money(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive));
     text('1式',cols[1]+9,y+10,9);
     aligned(amount,cols[3]-10,y+10,9);
@@ -166,6 +168,7 @@ export async function createEstimatePdf(data, state, options) {
       '適格請求書発行事業者には登録しておりません。適格請求書は発行できません。',
       '免税事業者等からの仕入れに係る経過措置では、要件を満たす場合に仕入税額相当額の一定割合を控除できます。',
       "控除割合は、課税仕入れの日を基準に決まります。",
+      '2026年9月30日までの控除割合は80%です。',
       "2026年10月1日〜2028年9月30日の控除割合は70%です。",
       "2028年10月1日〜2030年9月30日の控除割合は50%です。",
       "2030年10月1日〜2031年9月30日の控除割合は30%です。",
@@ -188,6 +191,7 @@ export async function createEstimatePdf(data, state, options) {
     ]],
     ['お客様のご都合によるキャンセル',[
       '事前検証の開始前のキャンセルは、費用をいただきません。',
+      '正式なお見積もりと取引条件にご承諾いただいた後に、サービスの事前検証を開始します。',
       'サービスの事前検証を開始した時点を「着手」といたします。',
       '着手後〜撮影開始前：正式に確定したお見積もり総額（税込）の30%',
       '撮影開始時点〜編集完了前：正式に確定したお見積もり総額（税込）の50%',

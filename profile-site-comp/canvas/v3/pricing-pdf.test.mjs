@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -61,4 +62,22 @@ test('a supplied export reference is retained in PDF metadata and malformed refe
   assert.equal(document.getKeywords(),estimateNumber);
   assert.equal(document.getPageCount(),3);
   await assert.rejects(createEstimatePdf(data,{}, {...options,estimateNumber:'bad-reference'}),/見積番号/);
+});
+
+
+test('item names and descriptions remain together in extracted PDF text',async()=>{
+  const bytes=await createEstimatePdf(data,{items:['materials','thumbnail']},options);
+  const extracted=spawnSync('pdftotext',['-f','1','-l','1','-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+  if(extracted.error) throw extracted.error;
+  assert.equal(extracted.status,0,extracted.stderr);
+  const text=extracted.stdout;
+  assert.ok(text.includes('動画で使用する資料の作成\n説明内容と順番をまとめた動画用資料'));
+  assert.ok(text.includes('動画編集\nカット、テロップ、BGM、効果音'));
+  const ordered=['サービスの事前検証','動画で使用する資料の作成','動画撮影','動画編集','サムネイル制作','公開作業および公開30日後のレポート提出'];
+  let last=-1;
+  for(const label of ordered) {
+    const offset=text.indexOf(label);
+    assert.ok(offset>last,'Item reading order: '+label);
+    last=offset;
+  }
 });
