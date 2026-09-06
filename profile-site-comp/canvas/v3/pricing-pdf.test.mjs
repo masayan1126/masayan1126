@@ -19,7 +19,7 @@ test('all current selections export as readable A4 PDF documents',async()=>{
     const bytes=await createEstimatePdf(data,{items},{...options,recipient:'株式会社サンプル'});
     const document=await PDFDocument.load(bytes);
     assert.equal(document.getPageCount(),1);
-    assert.equal(document.getTitle(),'PR動画制作 概算お見積書');
+    assert.equal(document.getTitle(),'PR動画制作 概算見積書');
     assert.ok(Math.abs(document.getPage(0).getWidth()-595.28)<.01);
     const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
     const action=annotation.lookup(PDFName.of('A'));

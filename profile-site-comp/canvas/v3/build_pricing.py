@@ -121,7 +121,7 @@ def content(public_data=None):
       </div>
       <a id="estimate-mail" class="estimate-button" href="mailto:contact@msyn.me"><span id="estimate-mail-label">とりあえず相談する</span> <span aria-hidden="true">↗</span></a>
       <button id="estimate-share" type="button" class="estimate-copy-button">見積もりURLをコピー</button>
-      <button id="estimate-pdf" type="button" class="estimate-copy-button" aria-haspopup="dialog" hidden>{icon('download')} 見積書をPDFでダウンロード</button>
+      <button id="estimate-pdf" type="button" class="estimate-copy-button" aria-haspopup="dialog" hidden>{icon('download')} 概算見積書をダウンロード</button>
       <div id="share-fallback" hidden><label for="estimate-share-url">以下のURLをコピーして共有してください。</label><input id="estimate-share-url" type="url" readonly></div>
       <p id="share-status" role="status" class="estimate-hint"></p>
       <noscript><p>自動計算を使うには、JavaScriptを有効にしてください。各工程の料金はチェック欄でも確認できます。</p></noscript>
@@ -129,9 +129,9 @@ def content(public_data=None):
   </div>
   <dialog id="pdf-dialog" class="estimate-pdf-dialog" aria-labelledby="pdf-dialog-title">
     <form id="pdf-form">
-      <div class="pdf-dialog-heading"><h2 id="pdf-dialog-title">見積書をPDFでダウンロード</h2><button id="pdf-close" type="button" aria-label="閉じる">×</button></div>
-      <p class="pdf-dialog-lead">現在の選択内容と金額を、概算お見積書として保存します。</p>
-      <label class="pdf-recipient-label" for="pdf-recipient">宛名 <span>任意</span></label>
+      <div class="pdf-dialog-heading"><h2 id="pdf-dialog-title">概算見積書をダウンロード</h2><button id="pdf-close" type="button" aria-label="閉じる">×</button></div>
+      <p class="pdf-dialog-lead">ご検討や社内共有に使える概算見積書をダウンロードできます。</p>
+      <label class="pdf-recipient-label" for="pdf-recipient">お客様の会社名・お名前 <span>任意</span></label>
       <div class="pdf-recipient-fields"><input id="pdf-recipient" name="recipient" type="text" maxlength="80" autocomplete="organization" placeholder="会社名・お名前" aria-describedby="pdf-recipient-hint"><select id="pdf-honorific" name="honorific" aria-label="宛名の敬称"><option>御中</option><option>様</option></select></div>
       <p id="pdf-recipient-hint" class="estimate-hint">未入力の場合は「お客様」と記載します。</p>
       <p id="pdf-error" class="estimate-error" role="alert" hidden></p>

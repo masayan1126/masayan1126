@@ -11,8 +11,8 @@ export async function createEstimatePdf(data, state, options) {
   const document = await PDFDocument.create();
   document.registerFontkit(fontkit);
   // Keep the Japanese font intact: fontkit subsetting can omit visible glyphs.
-  const font = await document.embedFont(fontBytes, {subset:false});
-  const latinFont = await document.embedFont('Helvetica');
+  // Localized digit substitutions lack Unicode mappings in this embedded font.
+  const font = await document.embedFont(fontBytes, {subset:false,features:{locl:false}});
   const name = recipient.trim().replace(/\s+/gu, ' ');
   if ([...name].length > 80) throw new Error('宛名は80文字以内で入力してください。');
   const supported = new Set(font.getCharacterSet());
@@ -20,7 +20,7 @@ export async function createEstimatePdf(data, state, options) {
     throw new Error('宛名にPDFで使用できない文字が含まれています。絵文字や特殊文字を変更してください。');
   }
   const issued = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo',year:'numeric',month:'long',day:'numeric'}).format(date);
-  document.setTitle('PR動画制作 概算お見積書');
+  document.setTitle('PR動画制作 概算見積書');
   document.setAuthor('Miyabiya Studio / Masaya Nishigaki');
   document.setSubject('PR動画制作の概算見積もり');
   document.setCreationDate(date);
@@ -44,33 +44,25 @@ export async function createEstimatePdf(data, state, options) {
   };
   const addPage = (continuation=false) => {
     page = document.addPage([W,H]); y=44;
-    if (continuation) {text('PR動画制作 概算お見積書（続き）',left,y,12,blue);y+=34;}
+    if (continuation) {text('PR動画制作 概算見積書（続き）',left,y,12,blue);y+=34;}
   };
   const room = height => {if(y+height>758) addPage(true);};
-  const paragraph = (value, size=9, color=muted) => {
-    const lines = wrap(value,right-left,size);
-    room(lines.length*(size+5)+5);
-    for(const value of lines) {text(value,left,y,size,color);y+=size+5;}
-    y+=5;
-  };
   addPage();
-  const title='御見積書';
+  const title='概算見積書';
   text(title,(W-font.widthOfTextAtSize(title,25))/2,42,25,blue);
-  const subtitle='概算';
-  text(subtitle,(W-font.widthOfTextAtSize(subtitle,10))/2,78,10,muted);
-  aligned('発行日：'+issued,right,104,9,muted);
+  aligned('見積日：'+issued,right,88,9,muted);
   const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
   const recipientLines=wrap(addressee,275,12);
-  recipientLines.forEach((value,index)=>text(value,left,128+index*18,12));
+  recipientLines.forEach((value,index)=>text(value,left,111+index*18,12));
   const senderX=354;
-  text('Miyabiya Studio',senderX,135,13,blue);
-  text('Masaya Nishigaki',senderX,158,10);
-  text('contact@msyn.me',senderX,177,9,muted);
-  y=Math.max(207,128+recipientLines.length*18+14);
+  text('Miyabiya Studio',senderX,111,13,blue);
+  text('Masaya Nishigaki',senderX,134,10);
+  text('contact@msyn.me',senderX,152,9,muted);
+  y=Math.max(175,111+recipientLines.length*18+14);
   text('件名：PR動画制作',left,y,11);y+=26;
   page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.95,.97,.99)});
   text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9,muted);
-  aligned(money(result.totalMin,result.totalMax),right-14,y+20,21,blue);y+=69;
+  aligned(money(result.totalMin,result.totalMax),right-14,y+20,21,blue);y+=63;
   const cols=[left,286,325,438,right];
   const tableHeader=()=>{
     page.drawRectangle({x:left,y:H-y-26,width:right-left,height:26,color:rgb(.94,.95,.97)});
@@ -83,7 +75,7 @@ export async function createEstimatePdf(data, state, options) {
   for(const item of result.lines) {
     const labels=wrap(item.label,cols[1]-left-20,10);
     const details=item.description?wrap(item.description,cols[1]-left-20,8):[];
-    const height=Math.max(35,labels.length*15+details.length*12+14);
+    const height=Math.max(33,labels.length*15+details.length*12+14);
     if(y+height>720) {addPage(true);tableHeader();}
     labels.forEach((value,index)=>text(value,left+9,y+8+index*15,10));
     details.forEach((value,index)=>text(value,left+9,y+8+labels.length*15+index*12,8,muted));
@@ -92,29 +84,39 @@ export async function createEstimatePdf(data, state, options) {
     aligned(amount,cols[3]-10,y+10,9);
     aligned(amount,right-10,y+10,9);y+=height;line(y);
   }
-  y+=12;room(83);
+  y+=10;room(70);
   for(const [label,value,bold] of [
     ['税抜小計',money(result.min,result.max),false],
     ['消費税（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false],
     [result.pending.length?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true]
   ]) {
-    text(label,320,y,9,bold?blue:muted);aligned(value,right-9,y,bold?12:10,bold?blue:ink);y+=23;
+    text(label,320,y,9,bold?blue:muted);aligned(value,right-9,y,bold?12:10,bold?blue:ink);y+=20;
   }
-  y+=7;
-  paragraph('※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。');
-  if(result.pending.length) paragraph('要相談：'+result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。');
-  paragraph('公開時期：ご発注の確定から2〜3週間（お客様に内容をご確認いただく期間を含みます）');
-  paragraph('お支払い：原則、動画公開月の月末締め・翌月末払い');
-  paragraph('その他の条件は、下記の見積もりページでご確認ください。');
+  // Keep quotation conditions together, including when a long addressee adds a page.
+  const conditions=[
+    ['対象動画','YouTube公開用のPR動画（本編1本・10〜20分程度）'],
+    ['公開時期','ご発注の確定から2〜3週間\nお客様に内容をご確認いただく期間を含みます。'],
+    ['支払条件','原則、動画公開月の月末締め・翌月末払い'],
+    ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n有効期限は、正式見積もり時にご提示いたします。'],
+    ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
+  ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
+  const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+5,0);
+  y+=3;room(notesHeight);
+  page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
+  text('取引条件・備考',left+10,y+8,9,blue);y+=27;
+  for(const row of conditions) {
+    text(row.label,left+10,y,8.5,muted);
+    for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
+    y+=5;
+  }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
   pdfPages.forEach((target,index)=>{
     page=target;line(778);
-    text('料金表：'+data.updated,left,786,8,muted);
+    text('選択内容・その他の条件をWebで確認',left,790,8,blue);
     aligned((index+1)+' / '+pdfPages.length,right,786,8,muted);
-    wrap(url,right-left,7,latinFont).forEach((value,i)=>page.drawText(value,{x:left,y:H-808-i*10,size:7,font:latinFont,color:muted}));
     const link=document.context.register(document.context.obj({
-      Type:'Annot',Subtype:'Link',Rect:[left,12,right,43],Border:[0,0,0],
+      Type:'Annot',Subtype:'Link',Rect:[left,H-803,left+180,H-786],Border:[0,0,0],
       A:{Type:'Action',S:'URI',URI:PDFString.of(url)},
     }));
     page.node.addAnnot(link);
