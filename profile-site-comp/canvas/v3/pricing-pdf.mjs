@@ -131,6 +131,7 @@ export async function createEstimatePdf(data, state, options) {
       '30分を超える動画・撮り直し・構成や尺の変更を伴う修正は、要相談とさせていただきます。',
     ]],
     ['事前検証・レポート',[
+      '事前検証の結果、当方の判断で制作を見送る場合は、検証費を含め費用を請求いたしません。',
       'PRするサービスの検証用アカウントをご用意いただくようお願いいたします。',
       '検証用アカウントは本件の制作にのみ使用し、ログイン情報を第三者に開示いたしません。',
       ...(included.has('research')?['サービスの事前検証では、機能や操作手順を確認し、動画で紹介する内容を検証します。']:[]),
@@ -153,7 +154,7 @@ export async function createEstimatePdf(data, state, options) {
       '公開後の動画は、原則として継続して掲載いたします。ただし、サービスの終了や大幅な仕様変更、YouTubeの規約への対応に伴い、非公開または削除する場合がございます。',
       '掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。',
     ]],
-    ['キャンセル料',[
+    ['お客様のご都合によるキャンセル',[
       'サービスの事前検証を開始した時点を「着手」といたします。',
       '着手後〜撮影前：正式に確定したお見積もり総額（税込）の30%',
       '撮影後：正式に確定したお見積もり総額（税込）の50%',
@@ -161,9 +162,9 @@ export async function createEstimatePdf(data, state, options) {
     ]],
   ];
   addPage();
-  text('取引条件・作業範囲',left,y,20);y+=35;
+  text('取引条件・作業範囲',left,y,20);y+=31;
   text('PR動画制作 / Miyabiya Studio',left,y,10);
-  aligned('見積日：'+issued,right,y,9);y+=28;
+  aligned('見積日：'+issued,right,y,9);y+=20;
   for(const [heading,values] of termSections) {
     const rows=values.map(value=>wrap(value,right-left-18,9.5));
     const height=20+rows.reduce((sum,row)=>sum+row.length*14+2,0);
