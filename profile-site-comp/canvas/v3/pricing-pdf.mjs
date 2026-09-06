@@ -117,7 +117,7 @@ export async function createEstimatePdf(data, state, options) {
       ?'本編動画はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'
       :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。'],
     ['登録状況','適格請求書発行事業者には登録しておりません。'+
-      '適格請求書は発行できません。仕入税額控除は、ご発注前に貴社の経理担当者へご確認ください。'],
+      '適格請求書は発行できません。経過措置の適用を含め、仕入税額控除は貴社の経理担当者へご確認ください。'],
     ['源泉徴収','法令に基づき源泉徴収が必要な場合は、対象額・税額・振込額を事前に確認します。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
@@ -160,8 +160,16 @@ export async function createEstimatePdf(data, state, options) {
     ]],
     ['PR表記・成果について',[
       'ご提供いただいたサービスの仕様・料金・利用条件は、公開前に当方とお客様の双方で確認します。',
-      '動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。\nYouTubeの「有料プロモーション」設定を有効にします。',
+      '動画もしくは概要欄の冒頭に「PR」「プロモーションを含む」などの表記を入れます。\n概要欄では、折りたたみ前に表示される範囲に記載します。\nYouTubeの「有料プロモーション」設定を有効にします。',
       '動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。',
+    ]],
+    ['税務に関するご案内',[
+      '適格請求書発行事業者には登録しておりません。適格請求書は発行できません。',
+      '免税事業者等からの仕入れに係る経過措置では、要件を満たす場合に仕入税額相当額の一定割合を控除できます。',
+      '控除割合は、2026年9月30日までは80%、2026年10月1日〜2028年9月30日は70%です。\n以降は段階的に縮小します。',
+      '経過措置の適用を含め、仕入税額控除の取り扱いは、ご発注前に貴社の経理担当者へご確認ください。',
+      '法令に基づき源泉徴収が必要な場合は、対象額・税額・振込額を事前に確認します。',
+      '税務手続に必要な住所などの情報は、個別にご案内いたします。',
     ]],
     ['権利・掲載期間・その他',[
       'ご提供素材は、動画での使用・公開に必要な権利・許諾を確認済みのものをご用意ください。',
@@ -181,20 +189,29 @@ export async function createEstimatePdf(data, state, options) {
       '編集完了後：正式に確定したお見積もり総額（税込）の100%',
     ]],
   ];
-  addPage();
-  text('取引条件・作業範囲',left,y,20);y+=31;
-  text('PR動画制作 / Miyabiya Studio',left,y,10);
-  aligned('見積日：'+issued,right,y,9);y+=20;
-  for(const [heading,values] of termSections) {
-    const rows=values.map(value=>wrap(value,right-left-18,9.5));
-    const height=20+rows.reduce((sum,row)=>sum+row.length*14,0);
-    room(height);
-    text(heading,left,y,11);y+=17;
-    for(const row of rows) {
-      text('・',left,y,9.5);
-      for(const value of row) {text(value,left+12,y,9.5);y+=14;}
+  // Separate tax and rights notes so the quote and production terms remain readable.
+  const appendixHeadings=new Set(['税務に関するご案内','権利・掲載期間・その他']);
+  const groups=[
+    ['取引条件・作業範囲',termSections.filter(([heading])=>!appendixHeadings.has(heading))],
+    ['税務・権利に関するご案内',termSections.filter(([heading])=>appendixHeadings.has(heading))],
+  ];
+  for(const [title,sections] of groups) {
+    addPage();
+    text(title,left,y,20);y+=31;
+    text('PR動画制作 / Miyabiya Studio',left,y,10);
+    aligned('見積日：'+issued,right,y,9);y+=20;
+    for(const [heading,values] of sections) {
+      const rows=values.map(value=>wrap(value,right-left-18,9.5));
+      const height=20+rows.reduce((sum,row)=>sum+row.length*14+1,0);
+      room(height);
+      text(heading,left,y,11);y+=17;
+      for(const row of rows) {
+        text('・',left,y,9.5);
+        for(const value of row) {text(value,left+12,y,9.5);y+=14;}
+        y+=1;
+      }
+      y+=7;
     }
-    y+=1;
   }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
