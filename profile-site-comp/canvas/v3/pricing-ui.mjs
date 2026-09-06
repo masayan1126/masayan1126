@@ -34,7 +34,7 @@ function render(announce = true, updateUrl = true) {
     }));
     write('result-total-label', individual ? '金額を算出できる項目の小計（税込）' : '概算合計（税込）');
     write('result-range', compactAmount(r.totalMin, r.totalMax));
-    write('result-tax', '税抜 ' + compactAmount(r.min, r.max));
+    write('result-tax', 'うち消費税相当額（' + Number((data.taxRate * 100).toFixed(2)) + '%） ' + compactAmount(r.taxMin, r.taxMax));
     write('result-tax-rate', '税込表示は消費税' + Number((data.taxRate * 100).toFixed(2)) + '%で計算しています。');
     show('result-custom', individual); show('result-pending-note', individual);
     list('result-custom-list', r.pending.map(item => item.label));

@@ -18,7 +18,7 @@ test('all current selections export as readable A4 PDF documents',async()=>{
     const before=JSON.stringify(data);
     const bytes=await createEstimatePdf(data,{items},{...options,recipient:'株式会社サンプル'});
     const document=await PDFDocument.load(bytes);
-    assert.equal(document.getPageCount(),1);
+    assert.equal(document.getPageCount(),2);
     assert.equal(document.getTitle(),'PR動画制作 概算見積書');
     assert.ok(Math.abs(document.getPage(0).getWidth()-595.28)<.01);
     const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
@@ -33,7 +33,7 @@ test('all current selections export as readable A4 PDF documents',async()=>{
 test('an archived quote with a long recipient remains exportable',async()=>{
   const archived=await loadSharedRates(data,'https://studio.msyn.me/pricing/?items=materials&v=5bf426700870',async version=>JSON.parse(readFileSync(new URL('./pricing-rates/'+version+'.json',import.meta.url))));
   const bytes=await createEstimatePdf(archived,{items:['materials']},{...options,recipient:'株式会社'+ '企業向けサービス事業部'.repeat(5),honorific:'御中'});
-  assert.ok((await PDFDocument.load(bytes)).getPageCount()>=1);
+  assert.equal((await PDFDocument.load(bytes)).getPageCount(),2);
   assert.equal(archived.rateVersion,'5bf426700870');
 });
 

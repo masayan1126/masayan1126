@@ -84,39 +84,88 @@ export async function createEstimatePdf(data, state, options) {
     aligned(amount,cols[3]-10,y+10,9);
     aligned(amount,right-10,y+10,9);y+=height;line(y);
   }
-  y+=10;room(70);
+  y+=10;room(50);
   for(const [label,value,bold] of [
-    ['税抜小計',money(result.min,result.max),false],
-    ['消費税（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false],
-    [result.pending.length?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true]
+    [result.pending.length?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true],
+    ['うち消費税相当額（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false]
   ]) {
-    text(label,320,y,9);aligned(value,right-9,y,bold?12:10);y+=20;
+    text(label,286,y,9);aligned(value,right-9,y,bold?12:10);y+=20;
   }
-  // Keep quotation conditions together, including when a long addressee adds a page.
+  // Keep the price page brief; the attached page records the agreed service terms.
   const conditions=[
-    ['対象動画','YouTube公開用のPR動画（本編1本・10〜20分程度）'],
-    ['公開時期','ご発注の確定から2〜3週間\nお客様に内容をご確認いただく期間を含みます。'],
-    ['支払条件','原則、動画公開月の月末締め・翌月末払い'],
+    ['対象動画','本編1本（10〜20分程度）と、Masaya NishigakiのYouTubeチャンネルへの掲載を含みます。\n掲載料の別途請求はありません。'],
+    ['登録状況','適格請求書発行事業者には登録しておりません。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n有効期限は、正式見積もり時にご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
   const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+5,0);
   y+=3;room(notesHeight);
   page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
-  text('取引条件・備考',left+10,y+8,9);y+=27;
+  text('ご確認事項',left+10,y+8,9);y+=27;
   for(const row of conditions) {
     text(row.label,left+10,y,8.5);
     for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
     y+=5;
   }
+  const included=new Set(result.lines.map(item=>item.id));
+  const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
+  const termSections=[
+    ['公開時期・お支払い',[
+      'お客様に内容をご確認いただく期間を含め、ご発注の確定から公開までは2〜3週間を目安としております。',
+      '原則、お支払いは動画公開月の月末締め・翌月末払いでお願いいたします。',
+    ]],
+    ['修正・追加料金',[
+      '公開前の軽微修正は、2回まで追加料金なしで承ります。テロップの誤字修正・不要な部分のカット・事実関係の訂正が対象です。',
+      '3回目以降の修正は、1回につき'+revisionFee+'（税込）を頂戴いたします。',
+      '30分を超える動画や撮り直しの料金は、要相談とさせていただきます。',
+    ]],
+    ['事前検証・レポート',[
+      'PRするサービスの検証用アカウントをご用意いただくようお願いいたします。',
+      ...(included.has('research')?['サービスの事前検証では、機能や操作手順を確認し、動画で紹介する内容を検証します。']:[]),
+      ...(included.has('publishing')?[
+        '公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。',
+        'お客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。',
+      ]:[]),
+    ]],
+    ['著作権・二次利用',[
+      '動画・資料の著作権は、個別のご契約で取り決めます。',
+      '自社サイト・SNS・広告などでの二次利用については、利用範囲を含めて要相談とさせていただきます。',
+    ]],
+    ['掲載期間',[
+      '公開後の動画は、原則として継続して掲載いたします。ただし、サービスの終了や大幅な仕様変更、YouTubeの規約への対応に伴い、非公開または削除する場合がございます。',
+      '掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。',
+    ]],
+    ['キャンセル料',[
+      '着手後〜撮影前：正式に確定したお見積もり総額（税込）の30%',
+      '撮影後：正式に確定したお見積もり総額（税込）の50%',
+      '編集完了後：正式に確定したお見積もり総額（税込）の100%',
+    ]],
+  ];
+  addPage();
+  text('取引条件・作業範囲',left,y,20);y+=35;
+  text('PR動画制作 / Miyabiya Studio',left,y,10);
+  aligned('見積日：'+issued,right,y,9);y+=32;
+  for(const [heading,values] of termSections) {
+    const rows=values.map(value=>wrap(value,right-left-18,9.5));
+    const height=28+rows.reduce((sum,row)=>sum+row.length*14+5,0);
+    room(height);
+    text(heading,left,y,11);y+=21;
+    for(const row of rows) {
+      text('・',left,y,9.5);
+      for(const value of row) {text(value,left+12,y,9.5);y+=14;}
+      y+=5;
+    }
+    y+=7;
+  }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
   pdfPages.forEach((target,index)=>{
     page=target;line(778);
-    text('選択内容・その他の条件をWebで確認',left,790,8);
+    text('見積内容・ご案内',left,786,8);
+    wrap(url.replace(/%2C/gi,','),right-left,7.5).forEach((value,index)=>text(value,left,800+index*11,7.5));
     aligned((index+1)+' / '+pdfPages.length,right,786,8);
     const link=document.context.register(document.context.obj({
-      Type:'Annot',Subtype:'Link',Rect:[left,H-803,left+180,H-786],Border:[0,0,0],
+      Type:'Annot',Subtype:'Link',Rect:[left,H-823,right,H-784],Border:[0,0,0],
       A:{Type:'Action',S:'URI',URI:PDFString.of(url)},
     }));
     page.node.addAnnot(link);
