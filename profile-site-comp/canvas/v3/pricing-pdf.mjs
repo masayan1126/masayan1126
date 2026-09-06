@@ -53,12 +53,14 @@ export async function createEstimatePdf(data, state, options) {
   aligned('見積日：'+issued,right,88,9);
   const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
   const recipientLines=wrap(addressee,275,12);
-  recipientLines.forEach((value,index)=>text(value,left,111+index*18,12));
+  text('宛先（お客様）',left,111,9);
+  recipientLines.forEach((value,index)=>text(value,left,129+index*18,12));
   const senderX=354;
-  text('Miyabiya Studio',senderX,111,13);
-  text('Masaya Nishigaki',senderX,134,10);
-  text('contact@msyn.me',senderX,152,9);
-  y=Math.max(175,111+recipientLines.length*18+14);
+  text('発行者',senderX,111,9);
+  text('Miyabiya Studio',senderX,129,13);
+  text('Masaya Nishigaki',senderX,152,10);
+  text('contact@msyn.me',senderX,170,9);
+  y=Math.max(197,129+recipientLines.length*18+14);
   text('件名：PR動画制作',left,y,11);y+=26;
   page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.97,.97,.97)});
   text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9);
@@ -93,7 +95,7 @@ export async function createEstimatePdf(data, state, options) {
   }
   // Keep the price page brief; the attached page records the agreed service terms.
   const conditions=[
-    ['対象動画','本編1本（10〜20分程度）と、Masaya NishigakiのYouTubeチャンネルへの掲載を含みます。\n掲載料の別途請求はありません。'],
+    ['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載を見積額に含みます。\n掲載先：https://www.youtube.com/@masayan-ai-hack'],
     ['登録状況','適格請求書発行事業者には登録しておりません。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n有効期限は、正式見積もり時にご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
@@ -111,21 +113,29 @@ export async function createEstimatePdf(data, state, options) {
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
   const termSections=[
     ['公開時期・お支払い',[
+      '正式なお見積もりと取引条件へのご承諾をもって、ご発注の確定といたします。メールでのご承諾も承ります。',
       'お客様に内容をご確認いただく期間を含め、ご発注の確定から公開までは2〜3週間を目安としております。',
+      'アカウントのご提供やご確認が予定より遅れる場合は、公開日を調整いたします。',
       '原則、お支払いは動画公開月の月末締め・翌月末払いでお願いいたします。',
     ]],
     ['修正・追加料金',[
+      '当チャンネルで通常公開している動画と同水準の編集を行います。モーショングラフィックスやアニメーションなどの高度な編集は対象外です。',
       '公開前の軽微修正は、2回まで追加料金なしで承ります。テロップの誤字修正・不要な部分のカット・事実関係の訂正が対象です。',
       '3回目以降の修正は、1回につき'+revisionFee+'（税込）を頂戴いたします。',
       '30分を超える動画や撮り直しの料金は、要相談とさせていただきます。',
     ]],
     ['事前検証・レポート',[
       'PRするサービスの検証用アカウントをご用意いただくようお願いいたします。',
+      '検証用アカウントは本件の制作にのみ使用し、ログイン情報を第三者に開示いたしません。',
       ...(included.has('research')?['サービスの事前検証では、機能や操作手順を確認し、動画で紹介する内容を検証します。']:[]),
       ...(included.has('publishing')?[
         '公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。',
         'お客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。',
       ]:[]),
+    ]],
+    ['PR表記・成果について',[
+      '動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。',
+      '動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。',
     ]],
     ['著作権・二次利用',[
       '動画・資料の著作権は、個別のご契約で取り決めます。',
@@ -147,22 +157,22 @@ export async function createEstimatePdf(data, state, options) {
   aligned('見積日：'+issued,right,y,9);y+=32;
   for(const [heading,values] of termSections) {
     const rows=values.map(value=>wrap(value,right-left-18,9.5));
-    const height=28+rows.reduce((sum,row)=>sum+row.length*14+5,0);
+    const height=22+rows.reduce((sum,row)=>sum+row.length*14+3,0);
     room(height);
-    text(heading,left,y,11);y+=21;
+    text(heading,left,y,11);y+=18;
     for(const row of rows) {
       text('・',left,y,9.5);
       for(const value of row) {text(value,left+12,y,9.5);y+=14;}
-      y+=5;
+      y+=3;
     }
-    y+=7;
+    y+=4;
   }
   const url=estimateUrl(data,state,'https://studio.msyn.me/pricing/');
   const pdfPages=document.getPages();
   pdfPages.forEach((target,index)=>{
     page=target;line(778);
-    text('見積内容・ご案内',left,786,8);
-    wrap(url.replace(/%2C/gi,','),right-left,7.5).forEach((value,index)=>text(value,left,800+index*11,7.5));
+    text('選択した見積内容をWebで確認する',left,786,8);
+    text('https://studio.msyn.me/pricing/',left,800,7.5);
     aligned((index+1)+' / '+pdfPages.length,right,786,8);
     const link=document.context.register(document.context.obj({
       Type:'Annot',Subtype:'Link',Rect:[left,H-823,right,H-784],Border:[0,0,0],

@@ -83,9 +83,15 @@ def content(public_data=None):
           </ul>
           <h3>日程・お支払い</h3>
           <ul>
+            <li>正式なお見積もりと取引条件へのご承諾をもって、ご発注の確定といたします。メールでのご承諾も承ります。</li>
             <li>お客様に内容をご確認いただく期間を含め、ご発注の確定から公開までは2〜3週間を目安としております。</li>
+            <li>アカウントのご提供やご確認が予定より遅れる場合は、公開日を調整いたします。</li>
             <li>原則、お支払いは動画公開月の月末締め・翌月末払いでお願いいたします。</li>
             <li>表示料金には消費税を含んでおります。適格請求書発行事業者には登録しておりません。</li>
+          </ul>
+          <h3>検証用アカウントの取り扱い</h3>
+          <ul>
+            <li>検証用アカウントは本件の制作にのみ使用し、ログイン情報を第三者に開示いたしません。</li>
           </ul>
           <h3>PR表記・評価・効果レポート</h3>
           <ul>
@@ -131,7 +137,7 @@ def content(public_data=None):
     <form id="pdf-form">
       <div class="pdf-dialog-heading"><h2 id="pdf-dialog-title">概算見積書をダウンロード</h2><button id="pdf-close" type="button" aria-label="閉じる">×</button></div>
       <p class="pdf-dialog-lead">ご検討や社内共有に使える概算見積書をダウンロードできます。</p>
-      <label class="pdf-recipient-label" for="pdf-recipient">お客様の会社名・お名前 <span>任意</span></label>
+      <label class="pdf-recipient-label" for="pdf-recipient">宛先（お客様の会社名・お名前） <span>任意</span></label>
       <div class="pdf-recipient-fields"><input id="pdf-recipient" name="recipient" type="text" maxlength="80" autocomplete="organization" placeholder="会社名・お名前" aria-describedby="pdf-recipient-hint"><select id="pdf-honorific" name="honorific" aria-label="宛名の敬称"><option>御中</option><option>様</option></select></div>
       <p id="pdf-recipient-hint" class="estimate-hint">未入力の場合は「お客様」と記載します。</p>
       <p id="pdf-error" class="estimate-error" role="alert" hidden></p>
