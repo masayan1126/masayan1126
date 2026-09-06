@@ -112,24 +112,24 @@ export async function createEstimatePdf(data, state, options) {
   }
   // Keep the price page brief; the attached page records the agreed service terms.
   const conditions=[
-    ['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載を見積額に含みます。\n掲載先：AIギルドch https://www.youtube.com/@masayan-ai-hack'],
+    ['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載が対象です。当チャンネルへの掲載費は、お見積もり総額に含まれます。別途の掲載料は発生しません。\n掲載先：AIギルドch https://www.youtube.com/@masayan-ai-hack'],
     ['納品形態',included.has('editing')
       ?'本編動画はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'
       :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。'],
     ['登録状況','適格請求書発行事業者には登録しておりません。'+
       '適格請求書は発行できません。仕入税額控除は、ご発注前に貴社の経理担当者へご確認ください。'],
     ['源泉徴収','法令に基づき源泉徴収が必要な場合は、対象額・税額・振込額を事前に確認します。'],
-    ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
+    ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
-  const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+4,0);
+  const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*12+3,0);
   y+=3;room(notesHeight);
   page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
   text('ご確認事項',left+10,y+8,9);y+=27;
   for(const row of conditions) {
     text(row.label,left+10,y,8.5);
-    for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
-    y+=4;
+    for(const value of row.lines) {text(value,left+87,y,8.5);y+=12;}
+    y+=3;
   }
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
   const termSections=[
@@ -160,7 +160,7 @@ export async function createEstimatePdf(data, state, options) {
     ]],
     ['PR表記・成果について',[
       'ご提供いただいたサービスの仕様・料金・利用条件は、公開前に当方とお客様の双方で確認します。',
-      '動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。',
+      '動画もしくは概要欄に「PR」「プロモーションを含む」などの表記を入れます。\nYouTubeの「有料プロモーション」設定を有効にします。',
       '動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。',
     ]],
     ['権利・掲載期間・その他',[
@@ -174,6 +174,7 @@ export async function createEstimatePdf(data, state, options) {
       '記載のない事項は、お客様と協議のうえ決定いたします。',
     ]],
     ['お客様のご都合によるキャンセル',[
+      '事前検証の開始前のキャンセルは、費用をいただきません。',
       'サービスの事前検証を開始した時点を「着手」といたします。',
       '着手後〜撮影前：正式に確定したお見積もり総額（税込）の30%',
       '撮影後〜編集完了前：正式に確定したお見積もり総額（税込）の50%',
@@ -186,13 +187,12 @@ export async function createEstimatePdf(data, state, options) {
   aligned('見積日：'+issued,right,y,9);y+=20;
   for(const [heading,values] of termSections) {
     const rows=values.map(value=>wrap(value,right-left-18,9.5));
-    const height=20+rows.reduce((sum,row)=>sum+row.length*14+1,0);
+    const height=20+rows.reduce((sum,row)=>sum+row.length*14,0);
     room(height);
     text(heading,left,y,11);y+=17;
     for(const row of rows) {
       text('・',left,y,9.5);
       for(const value of row) {text(value,left+12,y,9.5);y+=14;}
-      y+=1;
     }
     y+=1;
   }
