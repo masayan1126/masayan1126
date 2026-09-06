@@ -3,18 +3,26 @@ import {quote, taxIncluded, estimateUrl} from './pricing-model.mjs';
 const money = (min, max) => min == null ? '要相談' :
   (min === max ? min.toLocaleString('ja-JP') : min.toLocaleString('ja-JP') + '〜' + max.toLocaleString('ja-JP')) + '円';
 
+// Each exported document gets a reference without a browser-local sequence counter.
+export function createEstimateNumber(date = new Date()) {
+  const stamp = new Intl.DateTimeFormat('sv-SE', {timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(date).replaceAll('-', '');
+  const suffix = globalThis.crypto.randomUUID().replaceAll('-', '').slice(0,12).toUpperCase();
+  return 'MS-' + stamp + '-' + suffix;
+}
+
 // The same quote calculation powers the screen, shared links, and exported PDF.
 export async function createEstimatePdf(data, state, options) {
-  const {PDFDocument, PDFString, rgb, fontkit, fontBytes, recipient = '', honorific = '御中', date = new Date()} = options;
+  const {PDFDocument, PDFString, rgb, fontkit, fontBytes, recipient = '', honorific = '御中', date = new Date(), estimateNumber = createEstimateNumber(date)} = options;
   const result = quote(data, state);
   if (result.status === 'invalid') throw new Error(result.error);
+  if (!/^MS-\d{8}-[0-9A-F]{12}$/.test(estimateNumber)) throw new Error('見積番号の形式が正しくありません。');
   const included=new Set(result.lines.map(item=>item.id));
   const document = await PDFDocument.create();
   document.registerFontkit(fontkit);
   // Keep the Japanese font intact: fontkit subsetting can omit visible glyphs.
   // Localized digit substitutions lack Unicode mappings in this embedded font.
   const font = await document.embedFont(fontBytes, {subset:false,features:{locl:false}});
-  const name = recipient.trim().replace(/\s+/gu, ' ');
+  const name = recipient.trim().replace(/\s+/gu, ' ') || '〇〇会社';
   if ([...name].length > 80) throw new Error('宛名は80文字以内で入力してください。');
   const supported = new Set(font.getCharacterSet());
   if ([...name].some(char => !supported.has(char.codePointAt(0)))) {
@@ -22,8 +30,9 @@ export async function createEstimatePdf(data, state, options) {
   }
   const issued = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo',year:'numeric',month:'long',day:'numeric'}).format(date);
   document.setTitle('PR動画制作 概算見積書');
-  document.setAuthor('Miyabiya Studio / Masaya Nishigaki');
-  document.setSubject('PR動画制作の概算見積もり');
+  document.setAuthor('Miyabiya Studio / 西垣雅矢 (Masaya Nishigaki)');
+  document.setSubject('PR動画制作の概算見積もり / '+estimateNumber);
+  document.setKeywords([estimateNumber]);
   document.setCreationDate(date);
   const W = 595.28, H = 841.89, left = 44, right = W - 44;
   const ink = rgb(0,0,0), border = rgb(.82,.82,.82);
@@ -51,8 +60,9 @@ export async function createEstimatePdf(data, state, options) {
   addPage();
   const title='概算見積書';
   text(title,(W-font.widthOfTextAtSize(title,25))/2,42,25);
+  text('見積番号：'+estimateNumber,left,80,8.5);
   aligned('見積日：'+issued,right,80,9);
-  const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
+  const addressee = name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中'));
   const recipientLines=wrap(addressee,275,12);
   // Keep the Japanese honorific together when it crosses a line boundary.
   if(recipientLines.length>1 && recipientLines.at(-1)==='中' && recipientLines.at(-2).endsWith('御')) {
@@ -64,7 +74,7 @@ export async function createEstimatePdf(data, state, options) {
   const senderX=354;
   text('発行者',senderX,96,9);
   text('Miyabiya Studio',senderX,112,13);
-  text('Masaya Nishigaki',senderX,133,10);
+  text('西垣雅矢（Masaya Nishigaki）',senderX,133,10);
   text('contact@msyn.me',senderX,150,9);
   y=Math.max(173,112+recipientLines.length*17+10);
   text('件名：PR動画制作',left,y,11);y+=26;
@@ -192,6 +202,7 @@ export async function createEstimatePdf(data, state, options) {
     page=target;line(778);
     text('選択した見積内容をWebで確認する',left,786,8);
     text('https://studio.msyn.me/pricing/',left,800,7.5);
+    aligned('見積番号：'+estimateNumber,right,800,7.5);
     aligned((index+1)+' / '+pdfPages.length,right,786,8);
     const link=document.context.register(document.context.obj({
       Type:'Annot',Subtype:'Link',Rect:[left,H-823,right,H-784],Border:[0,0,0],
@@ -213,12 +224,11 @@ export async function downloadEstimatePdf(data,state,recipient,honorific) {
     })
   ]).catch(error=>{resources=undefined;throw error;});
   const [library,fontkit,fontBytes]=await resources;
-  const date=new Date();
-  const bytes=await createEstimatePdf(data,state,{...library,fontkit:fontkit.default,fontBytes,recipient,honorific,date});
+  const date=new Date(),estimateNumber=createEstimateNumber(date);
+  const bytes=await createEstimatePdf(data,state,{...library,fontkit:fontkit.default,fontBytes,recipient,honorific,date,estimateNumber});
   const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
   const anchor=document.createElement('a');
-  const stamp=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
-  anchor.href=url;anchor.download='Miyabiya-Studio_PR動画制作_概算見積書_'+stamp+'.pdf';
+  anchor.href=url;anchor.download='Miyabiya-Studio_PR動画制作_概算見積書_'+estimateNumber+'.pdf';
   document.body.append(anchor);anchor.click();anchor.remove();
   setTimeout(()=>URL.revokeObjectURL(url),60000);
 }

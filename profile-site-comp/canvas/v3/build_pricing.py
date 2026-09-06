@@ -159,8 +159,8 @@ def content(public_data=None):
       <div class="pdf-dialog-heading"><h2 id="pdf-dialog-title">概算見積書をダウンロード</h2><button id="pdf-close" type="button" aria-label="閉じる">×</button></div>
       <p class="pdf-dialog-lead">ご検討や社内共有に使える概算見積書をダウンロードできます。</p>
       <label class="pdf-recipient-label" for="pdf-recipient">宛先（お客様の会社名・お名前） <span>任意</span></label>
-      <div class="pdf-recipient-fields"><input id="pdf-recipient" name="recipient" type="text" maxlength="80" autocomplete="organization" placeholder="会社名・お名前" aria-describedby="pdf-recipient-hint"><select id="pdf-honorific" name="honorific" aria-label="宛名の敬称"><option>御中</option><option>様</option></select></div>
-      <p id="pdf-recipient-hint" class="estimate-hint">未入力の場合は「お客様」と記載します。</p>
+      <div class="pdf-recipient-fields"><input id="pdf-recipient" name="recipient" type="text" value="〇〇会社" maxlength="80" autocomplete="organization" placeholder="会社名・お名前" aria-describedby="pdf-recipient-hint"><select id="pdf-honorific" name="honorific" aria-label="宛名の敬称"><option>御中</option><option>様</option></select></div>
+      <p id="pdf-recipient-hint" class="estimate-hint">宛先は変更できます。空欄の場合は「〇〇会社」と記載します。</p>
       <p id="pdf-error" class="estimate-error" role="alert" hidden></p>
       <button id="pdf-download" class="estimate-button" type="submit">PDFをダウンロード</button>
       <p id="pdf-status" class="estimate-hint" role="status"></p>

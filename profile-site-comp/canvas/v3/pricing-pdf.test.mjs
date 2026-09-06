@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PDFDocument,PDFString,PDFName,rgb} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import {createEstimatePdf} from './pricing-pdf.mjs';
+import {createEstimatePdf,createEstimateNumber} from './pricing-pdf.mjs';
 import {loadSharedRates} from './pricing-model.mjs';
 
 const source=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
@@ -20,6 +20,7 @@ test('all current selections export as readable A4 PDF documents',async()=>{
     const document=await PDFDocument.load(bytes);
     assert.equal(document.getPageCount(),2);
     assert.equal(document.getTitle(),'PR動画制作 概算見積書');
+    assert.equal(document.getAuthor(),'Miyabiya Studio / 西垣雅矢 (Masaya Nishigaki)');
     assert.ok(Math.abs(document.getPage(0).getWidth()-595.28)<.01);
     const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
     const action=annotation.lookup(PDFName.of('A'));
@@ -41,4 +42,23 @@ test('invalid quantities and unsupported recipient text do not produce misleadin
   await assert.rejects(createEstimatePdf(data,{revisions:-1},options),/修正回数/);
   await assert.rejects(createEstimatePdf(data,{}, {...options,recipient:'あ'.repeat(81)}),/80文字/);
   await assert.rejects(createEstimatePdf(data,{}, {...options,recipient:'会社😀'}),/使用できない文字/);
+});
+
+
+test('estimate references use the issue date in Japan and differ between exports',()=>{
+  const date=new Date('2026-09-06T15:00:00Z');
+  const first=createEstimateNumber(date),second=createEstimateNumber(date);
+  assert.match(first,/^MS-20260907-[0-9A-F]{12}$/);
+  assert.match(second,/^MS-20260907-[0-9A-F]{12}$/);
+  assert.notEqual(first,second);
+});
+
+test('a supplied export reference is retained in PDF metadata and malformed references are rejected',async()=>{
+  const estimateNumber='MS-20260906-A1B2C3D4E5F6';
+  const bytes=await createEstimatePdf(data,{items:[]},{...options,estimateNumber});
+  const document=await PDFDocument.load(bytes);
+  assert.equal(document.getSubject(),'PR動画制作の概算見積もり / '+estimateNumber);
+  assert.equal(document.getKeywords(),estimateNumber);
+  assert.equal(document.getPageCount(),2);
+  await assert.rejects(createEstimatePdf(data,{}, {...options,estimateNumber:'bad-reference'}),/見積番号/);
 });
