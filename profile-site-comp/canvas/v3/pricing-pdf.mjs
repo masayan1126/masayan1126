@@ -54,6 +54,11 @@ export async function createEstimatePdf(data, state, options) {
   aligned('見積日：'+issued,right,80,9);
   const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
   const recipientLines=wrap(addressee,275,12);
+  // Keep the Japanese honorific together when it crosses a line boundary.
+  if(recipientLines.length>1 && recipientLines.at(-1)==='中' && recipientLines.at(-2).endsWith('御')) {
+    recipientLines[recipientLines.length-2]=recipientLines.at(-2).slice(0,-1).trimEnd();
+    recipientLines[recipientLines.length-1]='御中';
+  }
   text('宛先（お客様）',left,96,9);
   recipientLines.forEach((value,index)=>text(value,left,112+index*17,12));
   const senderX=354;
