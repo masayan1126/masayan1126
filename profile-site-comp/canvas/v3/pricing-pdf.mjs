@@ -25,10 +25,10 @@ export async function createEstimatePdf(data, state, options) {
   document.setSubject('PR動画制作の概算見積もり');
   document.setCreationDate(date);
   const W = 595.28, H = 841.89, left = 44, right = W - 44;
-  const ink = rgb(.13,.16,.20), muted = rgb(.36,.40,.46), blue = rgb(.075,.247,.561), border = rgb(.82,.85,.89);
+  const ink = rgb(0,0,0), border = rgb(.82,.82,.82);
   let page, y;
-  const text = (value, x, top, size=10, color=ink) => page.drawText(String(value), {x,y:H-top-size,size,font,color});
-  const aligned = (value, end, top, size=10, color=ink) => text(value,end-font.widthOfTextAtSize(value,size),top,size,color);
+  const text = (value, x, top, size=10) => page.drawText(String(value), {x,y:H-top-size,size,font,color:ink});
+  const aligned = (value, end, top, size=10) => text(value,end-font.widthOfTextAtSize(value,size),top,size);
   const line = top => page.drawLine({start:{x:left,y:H-top},end:{x:right,y:H-top},thickness:.6,color:border});
   const wrap = (value, width, size, face=font) => {
     const lines = [];
@@ -44,28 +44,28 @@ export async function createEstimatePdf(data, state, options) {
   };
   const addPage = (continuation=false) => {
     page = document.addPage([W,H]); y=44;
-    if (continuation) {text('PR動画制作 概算見積書（続き）',left,y,12,blue);y+=34;}
+    if (continuation) {text('PR動画制作 概算見積書（続き）',left,y,12);y+=34;}
   };
   const room = height => {if(y+height>758) addPage(true);};
   addPage();
   const title='概算見積書';
-  text(title,(W-font.widthOfTextAtSize(title,25))/2,42,25,blue);
-  aligned('見積日：'+issued,right,88,9,muted);
+  text(title,(W-font.widthOfTextAtSize(title,25))/2,42,25);
+  aligned('見積日：'+issued,right,88,9);
   const addressee = name ? name + (/\s*(御中|様)$/u.test(name) ? '' : ' '+(honorific==='様'?'様':'御中')) : 'お客様';
   const recipientLines=wrap(addressee,275,12);
   recipientLines.forEach((value,index)=>text(value,left,111+index*18,12));
   const senderX=354;
-  text('Miyabiya Studio',senderX,111,13,blue);
+  text('Miyabiya Studio',senderX,111,13);
   text('Masaya Nishigaki',senderX,134,10);
-  text('contact@msyn.me',senderX,152,9,muted);
+  text('contact@msyn.me',senderX,152,9);
   y=Math.max(175,111+recipientLines.length*18+14);
   text('件名：PR動画制作',left,y,11);y+=26;
-  page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.95,.97,.99)});
-  text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9,muted);
-  aligned(money(result.totalMin,result.totalMax),right-14,y+20,21,blue);y+=63;
+  page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.97,.97,.97)});
+  text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9);
+  aligned(money(result.totalMin,result.totalMax),right-14,y+20,21);y+=63;
   const cols=[left,286,325,438,right];
   const tableHeader=()=>{
-    page.drawRectangle({x:left,y:H-y-26,width:right-left,height:26,color:rgb(.94,.95,.97)});
+    page.drawRectangle({x:left,y:H-y-26,width:right-left,height:26,color:rgb(.94,.94,.94)});
     text('品目・作業内容',left+9,y+7,9);
     text('数量',cols[1]+9,y+7,9);
     aligned('単価（税込）',cols[3]-10,y+7,9);
@@ -78,9 +78,9 @@ export async function createEstimatePdf(data, state, options) {
     const height=Math.max(33,labels.length*15+details.length*12+14);
     if(y+height>720) {addPage(true);tableHeader();}
     labels.forEach((value,index)=>text(value,left+9,y+8+index*15,10));
-    details.forEach((value,index)=>text(value,left+9,y+8+labels.length*15+index*12,8,muted));
+    details.forEach((value,index)=>text(value,left+9,y+8+labels.length*15+index*12,8));
     const amount=money(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive));
-    text('1式',cols[1]+9,y+10,9,muted);
+    text('1式',cols[1]+9,y+10,9);
     aligned(amount,cols[3]-10,y+10,9);
     aligned(amount,right-10,y+10,9);y+=height;line(y);
   }
@@ -90,7 +90,7 @@ export async function createEstimatePdf(data, state, options) {
     ['消費税（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false],
     [result.pending.length?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true]
   ]) {
-    text(label,320,y,9,bold?blue:muted);aligned(value,right-9,y,bold?12:10,bold?blue:ink);y+=20;
+    text(label,320,y,9);aligned(value,right-9,y,bold?12:10);y+=20;
   }
   // Keep quotation conditions together, including when a long addressee adds a page.
   const conditions=[
@@ -103,9 +103,9 @@ export async function createEstimatePdf(data, state, options) {
   const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*13+5,0);
   y+=3;room(notesHeight);
   page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
-  text('取引条件・備考',left+10,y+8,9,blue);y+=27;
+  text('取引条件・備考',left+10,y+8,9);y+=27;
   for(const row of conditions) {
-    text(row.label,left+10,y,8.5,muted);
+    text(row.label,left+10,y,8.5);
     for(const value of row.lines) {text(value,left+87,y,8.5);y+=13;}
     y+=5;
   }
@@ -113,8 +113,8 @@ export async function createEstimatePdf(data, state, options) {
   const pdfPages=document.getPages();
   pdfPages.forEach((target,index)=>{
     page=target;line(778);
-    text('選択内容・その他の条件をWebで確認',left,790,8,blue);
-    aligned((index+1)+' / '+pdfPages.length,right,786,8,muted);
+    text('選択内容・その他の条件をWebで確認',left,790,8);
+    aligned((index+1)+' / '+pdfPages.length,right,786,8);
     const link=document.context.register(document.context.obj({
       Type:'Annot',Subtype:'Link',Rect:[left,H-803,left+180,H-786],Border:[0,0,0],
       A:{Type:'Action',S:'URI',URI:PDFString.of(url)},
