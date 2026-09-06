@@ -57,7 +57,7 @@ test('a supplied export reference is retained in PDF metadata and malformed refe
   const estimateNumber='MS-20260906-A1B2C3D4E5F6';
   const bytes=await createEstimatePdf(data,{items:[]},{...options,estimateNumber});
   const document=await PDFDocument.load(bytes);
-  assert.equal(document.getSubject(),'PR動画制作の概算見積もり / '+estimateNumber);
+  assert.equal(document.getSubject(),'PR動画制作（サービス紹介動画1本・AIギルドch掲載） / '+estimateNumber);
   assert.equal(document.getKeywords(),estimateNumber);
   assert.equal(document.getPageCount(),3);
   await assert.rejects(createEstimatePdf(data,{}, {...options,estimateNumber:'bad-reference'}),/見積番号/);

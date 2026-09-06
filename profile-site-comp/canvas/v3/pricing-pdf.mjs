@@ -31,7 +31,7 @@ export async function createEstimatePdf(data, state, options) {
   const issued = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo',year:'numeric',month:'long',day:'numeric'}).format(date);
   document.setTitle('PR動画制作 概算見積書');
   document.setAuthor('Miyabiya Studio / 西垣雅矢 (Masaya Nishigaki)');
-  document.setSubject('PR動画制作の概算見積もり / '+estimateNumber);
+  document.setSubject('PR動画制作（サービス紹介動画1本・AIギルドch掲載） / '+estimateNumber);
   document.setKeywords([estimateNumber]);
   document.setCreationDate(date);
   const W = 595.28, H = 841.89, left = 44, right = W - 44;
@@ -77,7 +77,7 @@ export async function createEstimatePdf(data, state, options) {
   text('西垣雅矢（Masaya Nishigaki）',senderX,133,10);
   text('contact@msyn.me',senderX,150,9);
   y=Math.max(173,112+recipientLines.length*17+10);
-  text('件名：PR動画制作',left,y,11);y+=26;
+  text('件名：PR動画制作（サービス紹介動画1本・AIギルドch掲載）',left,y,11);y+=26;
   page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.97,.97,.97)});
   text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9);
   aligned(money(result.totalMin,result.totalMax),right-14,y+20,21);y+=63;
@@ -116,9 +116,8 @@ export async function createEstimatePdf(data, state, options) {
     ['納品形態',included.has('editing')
       ?'本編動画はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'
       :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。'],
-    ['登録状況','適格請求書発行事業者には登録しておりません。'+
-      '適格請求書は発行できません。経過措置の適用を含め、仕入税額控除は貴社の経理担当者へご確認ください。'],
-    ['源泉徴収','法令に基づき源泉徴収が必要な場合は、対象額・税額・振込額を事前に確認します。'],
+    ['登録状況','適格請求書発行事業者には登録しておりません。適格請求書は発行できません。'],
+    ['税務の確認','経過措置・源泉徴収の取り扱いは、別紙「税務・権利に関するご案内」をご確認ください。'],
     ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
@@ -184,8 +183,8 @@ export async function createEstimatePdf(data, state, options) {
     ['お客様のご都合によるキャンセル',[
       '事前検証の開始前のキャンセルは、費用をいただきません。',
       'サービスの事前検証を開始した時点を「着手」といたします。',
-      '着手後〜撮影前：正式に確定したお見積もり総額（税込）の30%',
-      '撮影後〜編集完了前：正式に確定したお見積もり総額（税込）の50%',
+      '着手後〜撮影開始前：正式に確定したお見積もり総額（税込）の30%',
+      '撮影開始時点〜編集完了前：正式に確定したお見積もり総額（税込）の50%',
       '編集完了後：正式に確定したお見積もり総額（税込）の100%',
     ]],
   ];
