@@ -70,7 +70,7 @@ AI情報収集を2つのフローで自動化。**日次フロー（広く浅く
 見やすく、伝わりやすく、説明しやすいスライドを一貫して作るための[共通プラクティス](slide-creation-knowledge/)を公開しています。AIから参照できるMarkdownとレビューHTMLをまとめています。
 
 ### Google Chrome拡張機能開発
-下部参照
+AI・生産性向上系の拡張機能を Chrome Web Store で5本公開中。合計ユーザー数は **200名弱**（2026/9/20 時点）。一覧は下部参照。
 
 ---
 
@@ -89,10 +89,12 @@ AI情報収集を2つのフローで自動化。**日次フロー（広く浅く
 
 ## OSS / プロダクト（Google Chrome拡張機能）
 
+Chrome Web Store で5本を一般公開。ユーザー数は合計 **197名**（2026/9/20 時点）。
+
 | 拡張名 | 概要 | ユースケース | ユーザー数 |
 |--------|------|------------|------------|
-| [Article Date Detector](https://chromewebstore.google.com/detail/article-date-detector/kcibimkobhbikanlidohhnahodekmaej) | Webページの公開日・更新日をポップアップで視覚表示 | AIが収集した大量記事の鮮度を即座に判断 | 14 |
-| [Markdown Preview](https://chrome-extensions-6cv.pages.dev/rich-markdown-preview/) | Markdownのリアルタイムプレビュー。目次・テーマ・フォント等を柔軟に設定 | ブログ・ドキュメント執筆時のプレビュー | 34 |
-| [Copy Tab Anything](https://chromewebstore.google.com/detail/copy-tab-anything/gafkainbomdnemmdemopmechbmabgfeh) | タブのタイトル/URLをMarkdown・HTML・カスタム形式で一括コピー（タブグループ対応） | AIエージェントやNotebookLMへの複数記事ソース指定 | 12 |
-| [Web Annotator](https://chromewebstore.google.com/detail/web-annotator/gckpllfnimaepbbelfmhcelibclnkena) | Webページにマーカー・付箋を追加しMarkdown出力 | 動画作成時のWebメモ・重要箇所のハイライト | 16 |
-| [Canvas Whiteboard](https://chromewebstore.google.com/detail/canvas-whiteboard/fpekokphickomacboclmogcmjeffhmle) | ブラウザ上で使えるホワイトボード | アイデア整理・図解作成 | 16 |
+| [Article Date Detector](https://chromewebstore.google.com/detail/article-date-detector/kcibimkobhbikanlidohhnahodekmaej) | Webページの公開日・更新日をポップアップで視覚表示 | AIが収集した大量記事の鮮度を即座に判断 | 74 |
+| [Markdown Preview](https://chrome-extensions-6cv.pages.dev/rich-markdown-preview/) | Markdownのリアルタイムプレビュー。目次・テーマ・フォント等を柔軟に設定 | ブログ・ドキュメント執筆時のプレビュー | 59 |
+| [Copy Tab Anything](https://chromewebstore.google.com/detail/copy-tab-anything/gafkainbomdnemmdemopmechbmabgfeh) | タブのタイトル/URLをMarkdown・HTML・カスタム形式で一括コピー（タブグループ対応） | AIエージェントやNotebookLMへの複数記事ソース指定 | 19 |
+| [Web Annotator](https://chromewebstore.google.com/detail/web-annotator/gckpllfnimaepbbelfmhcelibclnkena) | Webページにマーカー・付箋を追加しMarkdown出力 | 動画作成時のWebメモ・重要箇所のハイライト | 28 |
+| [Canvas Whiteboard](https://chromewebstore.google.com/detail/canvas-whiteboard/fpekokphickomacboclmogcmjeffhmle) | ブラウザ上で使えるホワイトボード | アイデア整理・図解作成 | 17 |
