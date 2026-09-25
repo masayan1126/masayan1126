@@ -1,0 +1,11 @@
+# 問い合わせフォームの送信先 (2026-09-25)。studio.msyn.me/api/contact への POST を受け、
+# Cloudflare Email Routing の送信機能で、確認済みの受信アドレスへメールを届ける。
+# 受信アドレスは公開リポジトリに書かないため、シークレット TO に入れる:
+#   npx wrangler secret put TO      (Email Routing で確認済みのアドレスを入力)
+name = "miyabiya-contact"
+main = "src/index.js"
+compatibility_date = "2026-09-04"
+routes = [{ pattern = "studio.msyn.me/api/contact", zone_name = "msyn.me" }]
+
+[[send_email]]
+name = "MAILER"

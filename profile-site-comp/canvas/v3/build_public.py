@@ -18,10 +18,14 @@ paths = {'home':'/', 'profile':'/profile/', 'works':'/works/', 'services':'/serv
          'media':'/media/', 'talks':'/talks/', 'membership':'/membership/', 'contact':'/contact/'}
 titles = design['titles']
 descriptions = {'home':'WebエンジニアのMasaya Nishigakiです。現在はテックリードとしてMCPサーバーやAPI開発に携わり、個人のYouTubeチャンネルで発信しています。', **design['intros']}
+home_builder = runpy.run_path(str(HERE / 'build_home.py'))
+home_page = home_builder['build'](design, OUT)
+site_builder = runpy.run_path(str(HERE / 'build_site_design.py'))
+site_design = site_builder['build'](OUT)
 
 for asset in (HERE / 'preview').glob('*.webp'):
     shutil.copyfile(asset, OUT / asset.name)
-for name in ('favicon.svg', 'apple-touch-icon.png', 'og-pricing.png'):
+for name in ('favicon.svg', 'apple-touch-icon.png', 'og-pricing.png', 'og-profile.png'):
     shutil.copyfile(HERE.parent.parent / 'site' / name, OUT / name)
 
 def public_body(payload):
@@ -31,34 +35,53 @@ def public_body(payload):
     payload = payload.replace('href="https://studio.msyn.me/pricing/"', 'href="/pricing/"')
     payload = payload.replace('</nav><div class="v3-footer-bottom">', '<a href="/pricing/">PR動画制作の見積もり</a></nav><div class="v3-footer-bottom">')
     payload = re.sub(r'src="([^"/]+\.webp)"', r'src="/\1"', payload)
-    payload = re.sub(r'<a\b([^>]*href="https?://[^>]+)>',
+    payload = re.sub(r'<a\b(?![^>]*\btarget=)([^>]*href="https?://[^>]+)>',
         lambda m: '<a'+m.group(1)+' target="_blank" rel="noopener noreferrer">', payload)
     return payload
 
+# Google Analytics 4 (property "Miyabiya Studio (studio.msyn.me)", approved 2026-09-25).
+# Enhanced measurement covers page views, scrolls and outbound links; the events below add
+# the purpose-based entry buttons, the contact form and email links.
+GA4_ID = 'G-0HHRPGZRZB'
+GA4 = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>'
+       f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA4_ID}');"
+       "document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;"
+       "if(a.closest('.entry-actions'))gtag('event','entry_click',{entry:(a.querySelector('b')||a).textContent.trim()});"
+       "else if(a.href.startsWith('mailto:'))gtag('event','email_click',{page:location.pathname});"
+       "else if(/x\\.com|instagram\\.com/.test(a.hostname)&&location.pathname.startsWith('/contact'))gtag('event','dm_click',{service:a.hostname});},true);"
+       "document.addEventListener('submit',e=>{if(e.target.id==='inquiry-form')gtag('event','generate_lead',{kind:new FormData(e.target).get('kind')});},true);</script>")
+
 def document(key, body):
+    body, legacy_styles = site_builder['decorate'](key, body, paths, titles)
     route = paths[key]
     title = 'Masaya Nishigaki | Miyabiya Studio' if key == 'home' else titles[key]+' | Miyabiya Studio'
     desc = descriptions[key]
     person = {'@context':'https://schema.org', '@type':'Person', 'name':'Masaya Nishigaki',
         'url':BASE+'/', 'jobTitle':'Webエンジニア・テックリード', 'image':BASE+'/hero-photo.webp',
-        'sameAs':['https://www.youtube.com/@masayan-ai-hack','https://x.com/masayan_ai_hack','https://github.com/masayan1126']}
+        'sameAs':['https://www.youtube.com/@masayan-ai-hack','https://x.com/masayan_ai_hack','https://github.com/masayan1126',
+                  'https://www.instagram.com/miyabiya1126/','https://zenn.dev/masayan1126','https://substack.com/@masayan1126',
+                  'https://speakerdeck.com/masayan1126'],
+        # Approved 2026-09-25: nickname, expertise and the trade name for search and AI answers.
+        'alternateName':'まさやん', 'brand':{'@type':'Brand','name':'Miyabiya Studio'},
+        'knowsAbout':['Claude Code','Model Context Protocol (MCP)','AI駆動開発','AIエージェント','Python','TypeScript','Django','FastAPI','Vue.js','Google Cloud','動画編集']}
     return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc, quote=True)}">
 <link rel="canonical" href="{BASE}{route}"><meta property="og:type" content="website">
 <meta property="og:site_name" content="Miyabiya Studio"><meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(desc, quote=True)}">
-<meta property="og:url" content="{BASE}{route}"><meta property="og:image" content="{BASE}/hero-photo.webp">
+<meta property="og:url" content="{BASE}{route}"><meta property="og:image" content="{BASE}/og-profile.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Masaya Nishigaki Webエンジニア・テックリード">
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#133F8F">
 <link rel="icon" href="/avatar.webp" type="image/webp"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script type="application/ld+json">{json.dumps(person,ensure_ascii=False)}</script>
+<script type="application/ld+json">{json.dumps(person,ensure_ascii=False)}</script>{GA4}{legacy_styles}{site_design['head']}{home_page['head'] if key == 'home' else ''}
 <style>html{{scroll-behavior:smooth}}[id]{{scroll-margin-top:104px}}@media(max-width:820px){{[id]{{scroll-margin-top:88px}}}}:focus-visible{{outline:3px solid #4164A5;outline-offset:4px}}@media(prefers-reduced-motion:reduce){{html{{scroll-behavior:auto}}}}</style>
-</head><body>{body}
+</head><body class="site-renewal" data-page="{key}">{body}
 <script>(()=>{{const panel=document.getElementById('ratecard');if(!panel)return;const reveal=()=>{{if(location.hash==='#ratecard'){{panel.open=true;panel.scrollIntoView();}}}};window.addEventListener('hashchange',reveal);reveal();}})();</script>
 </body></html>'''
 
 for key, path in paths.items():
-    body = public_body(design['public_payloads'][key])
+    body = public_body(home_page['body'] if key == 'home' else design['public_payloads'][key])
     target = OUT / path.strip('/') / 'index.html'
     target.parent.mkdir(exist_ok=True)
     target.write_text(document(key, body))
@@ -123,5 +146,56 @@ for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf
 (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+p+'</loc></url>' for p in paths.values())+'</urlset>')
 (OUT / '_redirects').write_text('/ratecard /pricing/ 301\n/price /pricing/ 301\n')
 (OUT / '_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/*.webp\n  Cache-Control: public, max-age=604800\n/*.png\n  Cache-Control: public, max-age=604800\n')
+(OUT / '_headers').write_text((OUT / '_headers').read_text() + '/home-assets/*\n  Cache-Control: public, max-age=31536000, immutable\n')
+(OUT / '_headers').write_text((OUT / '_headers').read_text() + '/site-assets/*\n  Cache-Control: public, max-age=31536000, immutable\n')
+# Overlay the latest YouTube figures on the approved snapshot values (set YOUTUBE_STATS_OFFLINE=1 to reuse the cache).
+import os
+import youtube_stats
+youtube = youtube_stats.load(fetch=os.environ.get('YOUTUBE_STATS_OFFLINE') != '1')
+for page_path in paths.values():
+    target = OUT / page_path.strip('/') / 'index.html'
+    target.write_text(youtube_stats.apply(target.read_text(), youtube))
+print('YouTube:', f"{youtube['subs']:,}", 'subscribers as of', youtube['date'])
+latest = youtube_stats.load_latest(fetch=os.environ.get('YOUTUBE_STATS_OFFLINE') != '1')
+for video in latest:
+    shutil.copyfile(HERE / 'latest-thumbs' / (video['id'] + '.webp'), OUT / ('latest-thumb-' + video['id'] + '.webp'))
+home_path = OUT / 'index.html'
+home_anchor = '<section class="career-chapters" data-depth="excerpt" id="career-history">'
+home_html = home_path.read_text()
+assert home_anchor in home_html
+home_path.write_text(home_html.replace(home_anchor, youtube_stats.render_latest(latest) + home_anchor, 1))
 # Sharing the design comparison is on hold; publish only the profile website.
+# Every link to another site opens in a new tab, including sections added after public_body (approved 2026-09-25).
+def external_new_tab(page):
+    return re.sub(r'<a\b(?![^>]*\btarget=)([^>]*\bhref="https?://[^"]+"[^>]*)>', r'<a\1 target="_blank" rel="noopener noreferrer">', page)
+for page_path in paths.values():
+    target = OUT / page_path.strip('/') / 'index.html'
+    # Break the long service heading between its two phrases instead of mid-word (2026-09-25).
+    page = external_new_tab(target.read_text()).replace('<span>AIエージェントの設計・ハーネス構築</span>',
+        '<span><span class="type-phrase">AIエージェントの</span><wbr><span class="type-phrase">設計・ハーネス構築</span></span>')
+    target.write_text(page)
+
+# Page text now changes at build time (video titles, figures), so extend the Japanese font subset
+# with any new characters and rebuild once. Needs the full Noto Sans JP variable font locally.
+import sys
+from fontTools.ttLib import TTFont
+FULL_FONT = HERE.parents[1] / 'docs/pricing/private/pdf-qa/NotoSansJP-variable.ttf'
+SUBSET = HERE / 'site-assets/studio-jp.woff2'
+covered = TTFont(SUBSET).getBestCmap()
+page_text = ''
+for page_path in paths.values():
+    source = (OUT / page_path.strip('/') / 'index.html').read_text()
+    source = re.sub(r'<(script|style)[\s\S]*?</\1>', '', source)
+    page_text += html.unescape(re.sub(r'<[^>]+>', '', source))
+missing = sorted({c for c in page_text if ord(c) > 0x2000 and ord(c) not in covered})
+if missing and os.environ.get('FONT_SUBSET_PASS') != '2' and FULL_FONT.exists():
+    unicodes = ','.join('U+%04X' % c for c in sorted(set(covered) | {ord(c) for c in missing}))
+    subprocess.run([sys.executable, '-m', 'fontTools.subset', str(FULL_FONT), '--unicodes=' + unicodes,
+                    '--layout-features=ccmp,liga,locl,vert,vrt2,halt,kern,palt,vhal,vkrn,vpal', '--flavor=woff2',
+                    '--output-file=' + str(SUBSET)], check=True)
+    print('Font subset extended with', ''.join(missing), '- rebuilding once')
+    subprocess.run([sys.executable, __file__], check=True, env={**os.environ, 'FONT_SUBSET_PASS': '2', 'YOUTUBE_STATS_OFFLINE': '1'})
+    sys.exit(0)
+if missing:
+    print('警告: 日本語フォントに無い文字があります:', ''.join(missing))
 print('Public pages:',len(paths),'in',OUT)

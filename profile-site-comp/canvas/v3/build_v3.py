@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build an additive multi-page design without rewriting earlier versions."""
 import base64
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -13,9 +14,22 @@ SOURCE = HERE.parent / 'Main.dc.html'
 OUT = HERE / 'preview'
 OUT.mkdir(exist_ok=True)
 src = SOURCE.read_text()
+sections = runpy.run_path(str(HERE / 'build_sections.py'))
 # Keep the existing channel identity accurate while using the requested personal name.
 src = src.replace('YouTube「まさやん【AIギルドch】」', 'YouTubeチャンネル').replace('「まさやん【AIギルドch】」', 'YouTubeチャンネル').replace('まさやん', 'Masaya Nishigaki')
-src = src.replace('開発・AI導入', 'プロダクト開発・AI導入支援')
+src = src.replace('開発・AI導入', 'Webサービス開発・AI導入支援')
+import copy_updates  # noqa: E402  final copy fixes (2026-09-25)
+src = copy_updates.apply(src)
+# Approved 2026-09-24: slides for each talk, shown next to the event page link.
+TALK_SLIDES = {
+    'https://aiau.connpass.com/event/394827/': 'https://speakerdeck.com/masayan1126/claude-code-tohui-su-youtubeyun-ying-nopdca-komando1fa-deshi-maruezientookesutoresiyon',
+    'https://aid.connpass.com/event/384254/': 'https://speakerdeck.com/masayan1126/kouiunodeiindayo-kouiunode-jing-shen-desinpuruniaiwoshi-ikonasu',
+}
+# The talk title links to the event page; the arrow link opens the slides (approved 2026-09-24).
+for event_url, slides_url in TALK_SLIDES.items():
+    record = re.search(r'<h3>([^<]*)</h3></div>(\s*)(<a class="lk" href="' + re.escape(event_url) + r'">.*?</a>)', src, re.S)
+    slides_link = record.group(3).replace(event_url, slides_url).replace('イベントページ', 'スライド')
+    src = src.replace(record.group(0), '<h3><a class="talk-title" href="' + event_url + '">' + record.group(1) + '</a></h3></div>' + record.group(2) + slides_link, 1)
 css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
 
 def element(text, ident):
@@ -32,7 +46,7 @@ def element(text, ident):
 files = {'home':'Artboard.dc.html', 'profile':'Artboard2.dc.html', 'works':'Artboard3.dc.html',
          'services':'Artboard4.dc.html', 'media':'Artboard5.dc.html', 'talks':'Artboard6.dc.html',
          'membership':'Artboard7.dc.html', 'contact':'Artboard8.dc.html', 'mobile':'Artboard9.dc.html'}
-titles = {'home':'トップ', 'profile':'プロフィール・経歴', 'works':'実績', 'services':'プロダクト開発・AI導入支援',
+titles = {'home':'トップ', 'profile':'プロフィール・経歴', 'works':'実績・成果', 'services':'事業内容',
           'media':'YouTube・PR・コラボ', 'talks':'技術登壇', 'membership':'メンバーシップ',
           'contact':'お問い合わせ', 'mobile':'トップ・スマホ'}
 anchors = {'top':'home', 'services':'services', 'pr':'media', 'ratecard':'media', 'works':'works',
@@ -43,14 +57,14 @@ def link(key, label, cls=''):
     return f'<a class="{cls}" href="{files[key]}">{label}<span aria-hidden="true"> →</span></a>'
 
 def header(active):
-    return '<header class="v3-head"><div class="v3-wrap">'+link('home','<img class="v3-logo-icon" src="avatar.webp" alt="" width="36" height="36"><b>Miyabiya <em>Studio</em></b>','v3-logo')+'<nav aria-label="メインメニュー">'+''.join(link(k,nav_icon(k)+titles[k], 'current' if k==active else '') for k in ('profile','works','media'))+'</nav>'+link('contact','お問い合わせ','v3-contact-link')+'</div></header>'
+    return '<header class="v3-head"><div class="v3-wrap">'+link('home','<img class="v3-logo-icon" src="avatar.webp" alt="" width="36" height="36"><b>Miyabiya <em>Studio</em></b>','v3-logo')+'<nav aria-label="メインメニュー">'+''.join(link(k,nav_icon(k)+titles[k], 'current' if k==active else '') for k in ('profile','works','services','media','talks'))+'</nav>'+link('contact','お問い合わせ','v3-contact-link')+'</div></header>'
 
 def nav_icon(key):
-    shape = {'profile':'<circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>', 'works':'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18m-9 0v4"/>', 'media':'<rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 8 6 4-6 4Z"/>'}.get(key)
+    shape = {'profile':'<circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>', 'works':'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18m-9 0v4"/>', 'media':'<rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 8 6 4-6 4Z"/>', 'services':'<path d="m8 7-5 5 5 5m8-10 5 5-5 5"/>', 'talks':'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4m-4 0h8M7 12l3-3 3 2 4-4"/>'}.get(key)
     return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+shape+'</svg>' if shape else ''
 
 def footer():
-    return '<footer class="v3-footer"><div class="v3-wrap"><div class="v3-footer-top"><div><b>Miyabiya Studio</b><p>Masaya Nishigaki</p></div><div class="v3-social"><a href="https://www.youtube.com/@masayan-ai-hack">YouTube ↗</a><a href="https://x.com/masayan_ai_hack">X ↗</a><a href="https://github.com/masayan1126">GitHub ↗</a></div></div><nav aria-label="ページ一覧">'+''.join(link(k,nav_icon(k)+titles[k]) for k in ('profile','works','services','media','talks','membership','contact'))+'</nav><div class="v3-footer-bottom"><span>© 2026 Masaya Nishigaki</span><div><a href="https://www.instagram.com/miyabiya1126/">Instagram ↗</a><a href="https://zenn.dev/masayan1126">Zenn ↗</a><a href="https://substack.com/@masayan1126">Substack ↗</a></div></div></div></footer>'
+    return '<footer class="v3-footer"><div class="v3-wrap"><div class="v3-footer-top"><div><b>Miyabiya Studio</b><p>Masaya Nishigaki</p></div><div class="v3-social"><a href="https://www.youtube.com/@masayan-ai-hack">YouTube ↗</a><a href="https://x.com/masayan_ai_hack">X ↗</a><a href="https://github.com/masayan1126">GitHub ↗</a></div></div><nav aria-label="ページ一覧">'+''.join(link(k,nav_icon(k)+titles[k]) for k in ('profile','works','services','media','talks','contact'))+'</nav><div class="v3-footer-bottom"><span>© 2026 Masaya Nishigaki</span><div><a href="https://www.instagram.com/miyabiya1126/">Instagram ↗</a><a href="https://zenn.dev/masayan1126">Zenn ↗</a><a href="https://substack.com/@masayan1126">Substack ↗</a></div></div></div></footer>'
 
 custom = '''
 .v3{font-family:var(--sans);color:#2A2926;background:#fff;font-size:16px;line-height:1.8;overflow-wrap:anywhere}
@@ -74,14 +88,36 @@ career = element(src,'career-history')
 timeline = re.search(r'<ul class="tl">(.*?)</ul>', career, re.S)
 entries = re.findall(r'<li>.*?</li>', timeline.group(1), re.S)
 career = career[:timeline.start(1)]+'\n'+ '\n'.join(reversed(entries))+'\n'+career[timeline.end(1):]
+career = career.replace('<p class="st">Web系企業 (現職)</p>', '<p class="st">Web系企業 (現職) · 3年</p>')
+career = career.replace('<p class="st">Web系企業</p>', '<p class="st">Web系企業 · 2年</p>')
+career = career.replace('<p class="st">SIer</p>', '<p class="st">SIer · 4年</p>')
 # Strengths and recruitment stay on the detail page.
 career_display = career.split('<div class="strengths">', 1)[0]+'</div>'
-home_career = '<div class="v3-detail">'+career_display+'<div class="v3-career-cta">'+link('profile','経歴の詳細を見る','v3-primary v3-secondary')+'</div></div></div></div>'
+home_career = sections['render_career'](files, excerpt=True)
+detail_career = sections['render_career'](files)
+career_details = re.sub(r'<h2.*?</ul>', '<div class="career">', career, count=1, flags=re.S).replace('id="career-history"', 'id="career-details"')
 
 works = element(src,'works')
+works = works.replace('AI駆動開発環境の構築・運用', 'AI駆動開発環境の構築・チーム展開')
+works = works.replace('MCPサーバーの開発とプロジェクト推進', 'MCPサーバーの企画・開発と成果創出')
 services = element(src,'services')
 pr = element(src,'pr')
 services = services.replace(pr,'')
+services = services.replace('<span>AIエージェントの設計・ハーネス構築</span>', '<span><span class="type-phrase">AIエージェントの</span><wbr><span class="type-phrase">設計・ハーネス構築</span></span>')
+services = services.replace('<h3>AI駆動のWebプロダクト開発</h3>', '<h3 id="web-development">AI駆動のWebサービス開発</h3>')
+services = services.replace('<h3>AI導入支援・社内勉強会</h3>', '<h3 id="ai-adoption">AI導入支援・社内勉強会</h3>')
+# Approved 2026-09-24: video editing as a separate service from PR videos.
+video_editing = ('<div class="card"><h3 id="video-editing">動画編集</h3><p>教育系・ビジネス系の動画の編集をお受けします。'
+    'テロップ、効果音、チャンネル名の表示、不要な部分のカット（トリミング）など、一般的な編集に対応します。'
+    '自分のチャンネルでも、AIを組み込んだ編集の流れで動画を仕上げています。モーショングラフィックスなどの高度な演出は対象外です。</p>'
+    '<div class="who"><span class="pill pill-o">テロップ</span><span class="pill pill-o">効果音</span><span class="pill pill-o">チャンネル名の表示</span><span class="pill pill-o">カット編集</span></div></div>')
+video_group = ('\n    <div class="group">\n      <div class="group-h"><h3 class="v3-card-title"><span class="v3-card-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="1.5"/><path d="m10 8.5 4 2.5-4 2.5Z M3 20h18"/></svg></span><span>動画編集</span></h3><span class="ln"></span></div>'
+    '\n      <div class="grid3">' + video_editing + '</div>\n    </div>')
+ai_group_end = '<span class="pill pill-o">定着フォロー</span></div>\n        </div>\n      </div>\n    </div>'
+assert services.count(ai_group_end) == 1
+services = services.replace(ai_group_end, ai_group_end + video_group)
+services = re.sub(r'<h2 class="sec-h">事業内容</h2>\s*', '', services, count=1)  # the page title already says 事業内容
+services = services.replace('Webサービス開発・AI導入支援から、製品PR・登壇まで対応します。', 'Webサービス開発・AI導入支援から、製品PR・登壇・動画編集まで対応します。', 1)
 pricing_builder = runpy.run_path(str(HERE / 'build_pricing.py'))
 pr = pr.replace(element(pr,'ratecard'), pricing_builder['media_summary']())
 pr = pr.replace('企業のタイアップは料金表をご覧ください。', '企業のタイアップは、見積もりシミュレーターで料金をお試しください。')
@@ -89,13 +125,22 @@ videos = element(src,'videos')
 membership = element(src,'membership')
 videos = videos.replace(membership,'<div class="short-route"><h3>メンバーシップについて</h3><p>メンバー限定の特典をご案内しています。</p>'+link('membership','メンバーシップの詳細を見る','v3-text-link')+'</div>')
 membership = re.sub(r'<p class="sub-h">発信で大切にしていること</p>\s*<ul class="promise">.*?</ul>', '', membership, flags=re.S)
-profile = '<section class="sec"><div class="wrap"><p class="hero-lead">'+re.search(r'<p class="hero-lead">(.*?)</p>',src,re.S).group(1)+'</p></div></section>'+career
+membership = membership.replace('<h3>', '<h2 class="v3-card-title">').replace('</h3>', '</h2>')
+# Approved 2026-09-24: how the trade name, real name, channel name and handles relate.
+NAME_NOTE = ('<p class="name-note">Miyabiya Studio は、Masaya Nishigaki の屋号です。YouTube では「まさやん【AIギルドch】」として発信しています。</p>'
+    '<ul class="name-handles">' + ''.join('<li><a href="' + url + '"><b>' + service + '</b>' + handle + '</a></li>' for service, handle, url in (
+        ('YouTube', '@masayan-ai-hack', 'https://www.youtube.com/@masayan-ai-hack'),
+        ('X', '@masayan_ai_hack', 'https://x.com/masayan_ai_hack'),
+        ('Instagram', '@miyabiya1126', 'https://www.instagram.com/miyabiya1126/'))) + '</ul>')
+profile = ('<section class="sec"><div class="wrap profile-intro"><div class="photo-frame"><img src="hero-photo.webp" alt="Masaya Nishigakiの写真" width="800" height="1000"></div>'
+    '<div><p class="profile-name">Masaya Nishigaki</p><p class="profile-role">Webエンジニア・テックリード</p>'+NAME_NOTE+'<p class="hero-lead">'
+    +re.search(r'<p class="hero-lead">(.*?)</p>',src,re.S).group(1)+'</p></div></div></section>'+detail_career+sections['render_tech_stack']()+career_details)
 
 # Home uses the same information groups and components as the detail pages.
 # Detailed evidence, rates and request conditions stay on those pages.
 work_titles = [
-    'AI駆動開発環境の構築・運用',
-    'MCPサーバーの開発とプロジェクト推進',
+    'AI駆動開発環境の構築・チーム展開',
+    'MCPサーバーの企画・開発と成果創出',
     'YouTubeチャンネルの運営',
     '技術登壇',
 ]
@@ -104,27 +149,28 @@ for old,new in zip(re.findall(r'<h3>(.*?)</h3>',works,re.S),work_titles):
 work_descriptions = [
     'AIエージェントを使う開発フローを構築し、大幅な開発工数の削減を実現しています',
     'MCPサーバーを社外クライアントと社内の運用チームに導入し、両者の業務工数を削減しました。',
-    '登録者3,350人、メンバー30人以上のYouTubeチャンネルを一人で運営しています。収益化もしています。',
+    '登録者3,462人、メンバー37人のYouTubeチャンネルを一人で運営しています。収益化もしています。',
     'ClaudeCodeMeetupOsakaとAI駆動開発勉強会 神戸支部で、AI活用の実践例を発表しました。',
 ]
-works_intro = '実務・個人でのAI活用、YouTube運営、技術登壇の実績をご紹介します。'
-home_works = '<section class="sec home-overview"><div class="wrap"><h2 class="sec-h">実績</h2><p class="sec-lead">'+works_intro+'</p><div class="grid3 home-work-grid">'+''.join(
-    '<a class="card work home-summary-card" href="'+files['works']+('#talks' if i==3 else '')+'"><p class="lbl">'+('個人' if i>=2 else '本業')+'</p><h3>'+title+'</h3><p>'+desc+'</p><span class="home-detail-cta">詳細を見る →</span></a>'
-    for i,(title,desc) in enumerate(zip(work_titles,work_descriptions))
-)+'</div></div></section>'
+works_intro = '実務・個人でのAI活用、YouTube運営、技術登壇、個人開発の実績をご紹介します。'
+home_works = sections['render_works'](files, excerpt=True)
 # Reuse the original talk records so dates, titles and event links stay identical.
 talks = element(src,'talks')
 works_talks = talks.split('<div class="talk-more">',1)[0].replace('class="sec alt"','class="sec"',1)
-works += works_talks+'<div class="section-cta">'+link('talks','登壇テーマ・ご依頼について','v3-text-link')+'</div></div></div>'
+works = '<div id="works">'+sections['render_works'](files)+'</div>'+works_talks+'<div class="section-cta">'+link('talks','登壇テーマ・ご依頼について','v3-text-link')+'</div></div></div>'
 service_summaries = [
-    ('services','プロダクト開発・AI導入支援','Webサービスの開発から、AIの導入・定着まで支援します。','プロダクト開発・AI導入支援の詳細を見る'),
+    ('services','Webサービス開発','要件整理から設計・実装・運用まで、一貫して対応します。','Webサービス開発の詳細を見る'),
+    ('services','AI導入支援','ツールの導入から現場への定着までを支援します。','AI導入支援の詳細を見る'),
     ('media','YouTubeでの製品PR・コラボ','AIツールや開発者向けサービスを、動画で紹介します。対談や共同企画もご相談ください。','PR・コラボの詳細を見る'),
     ('talks','技術登壇','実務でのAI活用を、勉強会や社内向けの講演でお話しします。','登壇の詳細を見る'),
+    ('services','動画編集','教育系・ビジネス系の動画に、テロップや効果音を入れて仕上げます。','動画編集の詳細を見る'),
 ]
-home_services = '<section class="sec alt home-overview"><div class="wrap"><h2 class="sec-h">事業内容</h2><p class="sec-lead">プロダクト開発・AI導入支援、製品PR、技術登壇のご相談をお受けします。</p><div class="grid3">'+''.join(
-    '<a class="card work home-summary-card" href="'+files[key]+'"><h3>'+title+'</h3><p>'+desc+'</p><span class="home-detail-cta">'+cta+' →</span></a>'
-    for key,title,desc,cta in service_summaries
+business_art = json.loads((HERE / 'business-gallery.json').read_text())
+home_services = '<section class="sec alt home-overview business-gallery" id="business-gallery"><div class="wrap"><div class="business-heading"><h2 class="sec-h">事業内容</h2><p class="sec-lead">Webサービス開発、AI導入支援、製品PR、技術登壇、動画編集のご相談をお受けします。</p></div><div class="grid3">'+''.join(
+    '<a class="card work home-summary-card" href="'+files[key]+({0:'#web-development',1:'#ai-adoption',4:'#video-editing'}.get(i,''))+'"><div class="business-art" aria-hidden="true"><svg viewBox="0 0 360 230" fill="none">'+business_art[i]+'</svg></div><div class="business-copy"><h3 class="business-title">'+title+'</h3><p>'+desc+'</p><span class="home-detail-cta">'+cta+' →</span></div></a>'
+    for i,(key,title,desc,cta) in enumerate(service_summaries)
 )+'</div></div></section>'
+
 home = home_hero+'<div class="v3-detail">'+home_services+home_works+'</div>'+home_career+home_contact
 custom += '.v3-home .career{display:block;max-width:880px}.v3-hero>.v3-wrap{grid-template-areas:"copy portrait" "actions portrait";column-gap:64px;row-gap:24px}.v3-hero-copy{grid-area:copy}.v3-hero-media{grid-area:portrait}.v3-hero-ctas{grid-area:actions}.v3-hero-copy .v3-intro{margin-bottom:0}@media(max-width:820px){.v3-hero>.v3-wrap{grid-template-areas:"copy" "portrait" "actions";gap:26px}}'
 custom += '.v3-hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}.v3-hero-ctas .v3-primary{width:auto;justify-content:center;gap:12px;padding:13px 20px;font-size:14px;white-space:nowrap;border:1px solid #133F8F}.v3-hero-ctas .v3-primary>span{flex:none}.v3-secondary{background:white;color:#133F8F}.v3-secondary:hover{background:#F6F7FB;color:#133F8F}.v3-home #career-history{border-top:1px solid #DDE2E6}.v3-logo{display:inline-flex;align-items:center;gap:10px}.v3-logo-icon{display:block;width:36px;height:36px;flex:none;border-radius:50%;object-fit:cover;background:#E8EEF8;border:1px solid #DDE2E6}@media(max-width:820px){.v3-hero-ctas{flex-direction:column;align-items:stretch}.v3-hero-ctas .v3-primary{width:100%}.v3-logo{gap:8px}.v3-logo-icon{width:28px;height:28px}}'
@@ -132,8 +178,22 @@ custom += '.home-summary-card{color:#2A2926;text-decoration:none}.home-summary-c
 custom += '.home-work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:820px){.home-work-grid{grid-template-columns:1fr}}'
 custom += '.v3-career-cta{display:flex;justify-content:flex-start;margin-top:36px;padding-left:28px}.v3-career-cta .v3-primary{border:1px solid #B1BFDA;gap:12px;padding:13px 20px}.v3-contact .v3-primary{border:1px solid white;gap:12px;padding:13px 20px;transition:background-color .18s,color .18s,box-shadow .18s}.v3-contact .v3-primary:hover,.v3-contact .v3-primary:focus-visible{background:#ECEFF6;color:#133F8F;box-shadow:0 0 0 4px rgba(255,255,255,.24)}@media(max-width:820px){.v3-career-cta{margin-top:28px;padding-left:0}.v3-career-cta .v3-primary,.v3-contact .v3-primary{justify-content:center}}'
 
-contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':videos+'<section class="sec"><div class="wrap">'+pr+'</div></section>', 'talks':element(src,'talks'),'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':element(src,'flow')+element(src,'contact')}
-intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'Webサービスの開発から、AIの導入・定着まで支援します。','media':'代表動画と、製品PR・コラボのご案内です。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご依頼の流れと、メール・SNSの連絡先をご案内します。'}
+# Approved 2026-09-24: embed each talk's slides on the talks page (Speaker Deck player).
+TALK_DECKS = {
+    'https://aiau.connpass.com/event/394827/': ('d0300cb144814f1d99f5ae83d98c8000', 'Claude Code と回す、YouTube運営のPDCA'),
+    'https://aid.connpass.com/event/384254/': ('6f4586416df24ff08347f9d1a8ac526f', '「こういうのでいいんだよ。こういうので」精神でシンプルにAIを使いこなす'),
+}
+talks_with_decks = element(src,'talks')
+for event_url, (deck_id, deck_title) in TALK_DECKS.items():
+    # The embedded player replaces the slides link on the talks page.
+    slides_link = re.search(r'<a class="lk" href="' + re.escape(TALK_SLIDES[event_url]) + r'">.*?</a>', talks_with_decks, re.S).group()
+    talks_with_decks = talks_with_decks.replace(slides_link, '<div class="deck"><iframe src="https://speakerdeck.com/player/' + deck_id
+        + '" title="スライド：' + html.escape(deck_title) + '" loading="lazy" allowfullscreen allow="web-share"></iframe></div>', 1)
+# Approved 2026-09-25: state the usual reply time next to the contact channels.
+contact_with_reply = element(src,'contact').replace('メールのいずれかでお送りください。</p>', 'メールのいずれかでお送りください。通常2営業日以内に返信します。</p>', 1)
+assert '通常2営業日以内' in contact_with_reply
+contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':sections['render_works'](files, single=2)+videos+'<section class="sec"><div class="wrap">'+sections['render_mediakit']()+pr+'</div></section>', 'talks':sections['render_works'](files, single=3)+talks_with_decks,'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':element(src,'flow')+contact_with_reply+sections['render_contact_form']()}
+intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'ご依頼いただける内容と、それぞれの対応範囲をご紹介します。','media':'代表動画と、製品PR・コラボのご案内です。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご依頼の流れと、メール・SNSの連絡先をご案内します。'}
 
 custom += '.v3-photo img{object-fit:contain;object-position:center bottom;padding:8px 12px 0}'
 icon_paths = {
@@ -148,10 +208,10 @@ icon_paths = {
     'screen':'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 22h8m-4-5v5M6 8h12M6 12h8"/>',
 }
 card_icons = {
-    'プロダクト開発・AI導入支援':'code','YouTubeでの製品PR・コラボ':'play','技術登壇':'presentation',
-    'AI駆動開発環境の構築・運用':'code','MCPサーバーの開発とプロジェクト推進':'workflow','YouTubeチャンネルの運営':'play',
+    'Webサービス開発・AI導入支援':'code','YouTubeでの製品PR・コラボ':'play','技術登壇':'presentation',
+    'AI駆動開発環境の構築・チーム展開':'code','MCPサーバーの企画・開発と成果創出':'workflow','YouTubeチャンネルの運営':'play',
     '保守性の高い開発':'shield','AI・MCPによる成果創出':'workflow','採用・業務委託のご相談':'briefcase',
-    'AI駆動のWebプロダクト開発':'code','AIエージェントの設計・ハーネス構築':'workflow','AI導入支援・社内勉強会':'users',
+    'AI駆動のWebサービス開発':'code','AIエージェントの設計・ハーネス構築':'workflow','AI導入支援・社内勉強会':'users',
     'メンバーシップについて':'users','お話しできるテーマ':'chat','対応できる形式':'screen',
 }
 for video_title in re.findall(r'<h3>(.*?)</h3>',videos,re.S):
@@ -176,7 +236,10 @@ for key,content in contents.items():
     if key=='services':
         content += '<div class="v3-wrap section-cta">'+link('contact','ご依頼の流れ・連絡先を見る','v3-primary')+'</div>'
     pre = '' if key in ('home','mobile') else '<section class="v3-page-head"><div class="v3-wrap"><a class="v3-breadcrumb" href="'+files['home']+'">← トップに戻る</a><h1>'+titles[key]+'</h1><p>'+intros[key]+'</p></div></section>'
-    payload = '<div class="v3 '+('v3-detail' if pre else 'v3-home')+'"><style>'+css+custom+'</style>'+header(key)+pre+'<main>'+content+'</main>'+footer()+'</div>'
+    if key == 'services':
+        pre = pre.replace('<div class="v3-wrap">', '<div class="v3-wrap detail-page-intro">', 1)
+        pre = pre.replace('</div></section>', '<div class="detail-page-art" aria-hidden="true"><svg viewBox="0 0 360 230" fill="none">'+business_art[0]+'</svg></div></div></section>')
+    payload = '<div class="v3 '+('v3-detail' if pre else 'v3-home')+'"><style>'+css+custom+'</style>'+header(key)+'<main>'+pre+content+'</main>'+footer()+'</div>'
     payloads[key]=payload
     # Standard HTML preview and editable design source share the exact body.
     (OUT/files[key]).write_text('<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+titles[key]+' | Miyabiya Studio</title></head><body>'+payload+'</body></html>')

@@ -1,0 +1,54 @@
+/* Selected palette: white cards on neutral gray, approved 2026-09-22. Icons and images retain their colors. */
+:root{--site-paper:#ffffff;--site-ink:#282828;--site-muted:#5b5b5b;--site-rule:#d9d9d9;--site-blue:#133f8f}
+body.site-renewal,.site-renewal .v3{background:#ffffff;color:#282828}
+.site-renewal .v3-detail .business-gallery,.site-renewal .works-story,.site-renewal .career-chapters,.site-renewal .v3-contact,.site-renewal .v3-footer{background:#ffffff;color:#282828;border-color:#d9d9d9}
+.site-renewal .business-gallery .sec-lead,.site-renewal .career-chapters .lead,.site-renewal .career-chapters .section-foot{color:#5b5b5b}
+.site-renewal .business-gallery .home-summary-card,.site-renewal .works-story .case,.site-renewal .career-chapters .chapter-panel{background:#ffffff;color:#282828;--site-ink:#282828;--site-muted:#5b5b5b;--site-blue:#133f8f;--site-rule:#d9d9d9;border-color:#d9d9d9}
+.site-renewal .works-story .case-description p,.site-renewal .career-chapters .body-copy,.site-renewal .business-gallery .business-copy p{color:#5b5b5b}
+.site-renewal .career-chapters .chapter-nav button{color:#5b5b5b}
+.site-renewal .career-chapters .chapter-nav b{background:#ffffff;color:#282828;border-color:#d9d9d9}
+.site-renewal .career-chapters .chapter-nav [aria-selected=true]{color:#133f8f}
+.site-renewal .career-chapters .chapter-nav [aria-selected=true] b{background:#133f8f;color:#fff;border-color:#133f8f;box-shadow:0 0 0 6px #f2f2f2}
+.site-renewal .career-chapters .section-foot a{color:#133f8f}
+.site-renewal .works-story .works-choices button[aria-selected=true],.site-renewal .works-story .works-choices button:hover{background:#ffffff;color:#133f8f;border-left-color:#133f8f}
+.site-renewal .v3-footer a,.site-renewal .v3-footer p{color:#5b5b5b}
+.site-renewal .v3-head{--site-ink:#282828;--site-blue:#133f8f}.site-renewal .v3-head,.site-renewal .v3-head a{color:#282828}.site-renewal .career-chapters .chapter-progress{color:#5b5b5b}
+/* Keep foreground and surface together when changing a section palette. */
+.site-renewal .v3-contact p{color:#5b5b5b}
+.site-renewal .v3-contact .v3-primary{background:#133f8f;color:#fff;border:1px solid #133f8f}
+.site-renewal .v3-contact .v3-primary:hover,.site-renewal .v3-contact .v3-primary:focus-visible{background:#0f3373;color:#fff;border-color:#0f3373}
+.site-renewal .career-chapters .chapter-visual b{color:#707070}
+
+/* Neutral surfaces; blue remains for actions, key terms and original artwork. */
+.site-renewal .v3-detail .business-gallery,.site-renewal .works-story,.site-renewal .career-chapters,.site-renewal .v3-detail .sec:has(.card){background:#f2f2f2}
+.site-renewal .business-gallery .home-summary-card,.site-renewal .works-story .case,.site-renewal .career-chapters .chapter-panel{border:1px solid #e1e1e1;border-radius:0;background:#fff;box-shadow:0 12px 30px #00000008}
+.site-renewal .business-gallery .home-summary-card{overflow:hidden}
+.site-renewal .v3-detail .business-gallery .home-summary-card .business-art{margin:12px 12px 0;border:0;border-radius:0;background:#f7f7f7;height:190px}
+.site-renewal .business-gallery .home-summary-card:hover{background:#fff;border-color:#133f8f;box-shadow:0 8px 24px #0000000a}
+.site-renewal .works-story .result{color:var(--site-ink)}
+.site-renewal .accent-key,.site-renewal .works-story .result strong,.site-renewal .works-story .support b{color:var(--site-blue);font-weight:650}
+.site-renewal .accent-key{font-size:inherit}
+.site-renewal .works-story .works-choices button[aria-selected=true]{background:#fff;border-radius:0}
+.site-renewal .career-chapters .chapter-nav b{background:#f2f2f2}
+.site-renewal .career-chapters .chapter-nav [aria-selected=true] b{background:#133f8f}
+.site-renewal .career-chapters .chapter-nav:before{background:#d9d9d9}
+.site-renewal .career-chapters .chapter-visual{border-color:#d9d9d9}
+.site-renewal .business-gallery{padding-top:48px}
+.site-renewal .business-gallery .business-copy h3{min-height:0}
+.site-renewal .business-gallery .business-heading{margin-bottom:28px}
+@media(max-width:640px){.site-renewal .v3-detail .business-gallery .home-summary-card .business-art{height:160px}.site-renewal .business-gallery{padding-top:32px}}
+
+/* Card headings stay neutral, including previously emphasized key terms. */
+.site-renewal :is(.card h2,.card h3,.works-story .story-title,.career-chapters .career-title){color:#282828}
+.site-renewal :is(.card h2,.card h3,.works-story .story-title,.career-chapters .career-title) :is(.accent-key,strong,b,a){color:inherit}
+
+/* Four independent business cards, with room for readable titles. */
+.site-renewal .business-gallery .grid3{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.site-renewal .business-gallery .business-copy{padding:24px}
+.site-renewal .business-gallery h3.business-title{font-size:22px;line-height:1.55;word-break:normal;overflow-wrap:break-word}
+#web-development,#ai-adoption{scroll-margin-top:110px}
+@media(max-width:1199px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.site-renewal .business-gallery .grid3{grid-template-columns:1fr}.site-renewal .business-gallery .business-copy{padding:24px}}
+
+/* Square card surfaces across the overview and detail pages. */
+.site-renewal .v3-detail .short-route,.site-renewal :is(.short-route,.estimate-result,.estimate-additional,.estimate-term-grid article,.estimate-pdf-dialog),.site-renewal .career-chapters .chapter-nav button{border-radius:0}

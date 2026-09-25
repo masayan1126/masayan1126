@@ -1,0 +1,13 @@
+<div class="v3-hero-media"><div class="v3-studio">
+ <div class="studio-frame">
+  <div class="scene-wrap"><canvas id="scene" aria-hidden="true" data-environment="%%ENVIRONMENT%%"></canvas><div class="scene-fallback"><img src="/hero-photo.webp" width="800" height="1000" alt="Masaya Nishigakiのプロフィール写真" fetchpriority="high"></div><div class="tour-line"><span class="tour-progress"></span></div></div>
+  <div class="scene-caption"><span id="scene-status">作業場を巡る</span></div>
+  <button id="mode-toggle" class="mode-toggle" aria-pressed="true" disabled>3D ON</button>
+ </div>
+ <div class="scene-controls">
+  <div class="shot-controls" role="group" aria-label="作業場の視点"><button data-shot="tour" data-camera-control aria-pressed="true" disabled>全景</button><button data-shot="develop" data-camera-control aria-pressed="false" disabled>開発</button><button data-shot="create" data-camera-control aria-pressed="false" disabled>発信</button></div>
+  <div class="motion-controls"><button id="motion-toggle" aria-pressed="true" disabled>動きを停止</button><button id="view-detail" data-camera-control aria-pressed="false" disabled>中へ入る <span aria-hidden="true">↗</span></button></div>
+ </div>
+ <p class="sr-only" id="render-state" role="status" aria-live="polite"></p>
+ <noscript><style>.v3-studio .scene-controls,.v3-studio .mode-toggle,.v3-studio .scene-caption{display:none}</style></noscript>
+</div></div>

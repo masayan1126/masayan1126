@@ -1,0 +1,14 @@
+/* Approved hero, isolated from the content-page styles. */
+.immersive-hero{position:relative;font-family:'Studio Sans','Studio JP',sans-serif;font-synthesis:none;overflow-wrap:normal;line-height:1.5}
+.immersive-hero *{box-sizing:border-box}.immersive-hero a{color:inherit;text-decoration:none}.immersive-hero button{font:inherit;cursor:pointer;color:inherit}
+.immersive-hero a:focus-visible,.immersive-hero button:focus-visible,.immersive-hero summary:focus-visible{outline:3px solid #a8c6ff;outline-offset:3px}
+.immersive-hero .hero{position:relative;height:100svh;min-height:0;padding:0;overflow:hidden;isolation:isolate}
+.immersive-hero .world{position:absolute;inset:0;z-index:-3}.immersive-hero .world canvas{display:block;width:100%;height:100%}.immersive-hero.ready .loading{display:none}.immersive-hero .loading{position:absolute}.immersive-hero .veil{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.immersive-hero .masthead{position:absolute;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;z-index:3}.immersive-hero .brand{display:flex;align-items:center;text-decoration:none;white-space:nowrap}.immersive-hero .brand img{border-radius:50%}.immersive-hero .masthead nav{display:flex;align-items:center;margin-left:auto}.immersive-hero .masthead nav a{display:flex;align-items:center;white-space:nowrap}.immersive-hero .masthead nav a:last-child{border-bottom:1px solid}
+.immersive-hero .copy{position:absolute}.immersive-hero h1{margin:0;text-wrap:initial;color:inherit}.immersive-hero h1 span{white-space:nowrap}.immersive-hero .actions a{display:flex;align-items:center}.immersive-hero .hero-footer{z-index:2}
+.immersive-hero .site-menu{flex:none}.immersive-hero .site-menu>summary{color:#f5f6f3}.immersive-hero .site-menu nav{margin:0}.immersive-hero .site-menu nav a{color:#2a2926;border-bottom:1px solid #dde2e6!important}
+@media(max-width:700px){.immersive-hero .masthead nav a{display:none}.immersive-hero .masthead nav a:last-child{display:flex}.immersive-hero .site-menu .menu-links a{display:flex}}
+@media(max-width:360px){.immersive-hero .masthead>nav{display:none}}
+@media(prefers-reduced-motion:reduce){.immersive-hero *{transition:none!important;animation:none!important}}
+.immersive-hero.in-studio .masthead .site-menu{opacity:0;pointer-events:none}
+@media(min-width:701px){.immersive-hero.in-studio .footer-explore{justify-self:end;width:max-content;max-width:100%;padding:10px 20px 12px;background:#101923d9;border:1px solid #ffffff24}}
