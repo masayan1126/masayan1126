@@ -67,3 +67,22 @@
 .works-story .ext-list a{font-weight:700;color:#133f8f;text-decoration:none}
 .works-story .ext-list p{grid-column:2/-1;margin:0;color:#5b5b5b;font-size:14px;line-height:1.7}
 .works-story .ext-list .users{color:#282828;font-size:13px;white-space:nowrap}
+
+.works-story .support .result-basis{display:block;margin-top:.2em;font-size:.8em;color:#5b5b5b;font-weight:500}
+
+.works-story .tb-headline{margin:16px 0 4px;font-size:16px;font-weight:700;color:#282828}
+.works-story .tb-headline b{color:#133f8f;font-size:1.25em;margin-left:.2em}
+.works-story .tb-headline small{display:inline-block;margin-left:.3em;font-size:13px;font-weight:500;color:#5b5b5b}
+.works-story .tb-detail{margin-top:20px;padding:18px 20px;background:#f6f7f9;border-left:3px solid #133f8f}
+.works-story .tb-detail h5,.works-story .tb-detail h4{margin:0;font-size:15px;font-weight:700;color:#282828}
+.works-story .case-topic .tb-detail .tb-note{margin:2px 0 0;font-size:13px;color:#5b5b5b}
+.works-story .time-breakdown{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid #dcdfe4}
+.works-story .time-breakdown li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:10px 0;border-bottom:1px solid #dcdfe4}
+.works-story .case-topic .time-breakdown p{margin:0;font-size:14px;line-height:1.7}
+.works-story .case-topic .time-breakdown .tb-step{font-weight:700;color:#282828}
+.works-story .case-topic .time-breakdown .tb-time{color:#5b5b5b;white-space:nowrap;text-align:right}
+.works-story .time-breakdown .tb-time b,.works-story .tb-total b{color:#133f8f}
+.works-story .case-topic .time-breakdown .tb-how{grid-column:1/-1;color:#5b5b5b}
+.works-story .case-topic .tb-detail .tb-total{margin:12px 0 0;font-size:14px;font-weight:700;color:#282828}
+@media(max-width:640px){.works-story .tb-detail{padding:14px}.works-story .time-breakdown li{grid-template-columns:1fr}.works-story .case-topic .time-breakdown .tb-time{text-align:left}}
+.site-renewal .works-story .case-description .time-breakdown p{margin:0;line-height:1.7}.site-renewal .works-story .case-description .time-breakdown .tb-how{margin-top:2px}.site-renewal .works-story .case-description .tb-detail .tb-note{margin-top:2px}.site-renewal .works-story .case-description .tb-detail .tb-total{margin-top:12px}

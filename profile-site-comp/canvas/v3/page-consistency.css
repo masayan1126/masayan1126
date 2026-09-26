@@ -67,8 +67,8 @@
 @media(max-width:640px){.site-renewal .profile-intro{grid-template-columns:1fr}.site-renewal .profile-intro .photo-frame{width:min(220px,70%);aspect-ratio:1/1}}
 
 /* Five business cards once video editing was added, approved 2026-09-24. */
-@media(min-width:1200px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}}
-@media(min-width:821px) and (max-width:1199px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}}
+@media(min-width:821px) and (max-width:1199px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(6,minmax(0,1fr))}}
 
 /* Career highlights and technology stack on the profile page, approved 2026-09-24. */
 .site-renewal .career-chapters .career-points{margin:14px 0 0;padding:0 0 0 1.2em;display:grid;gap:6px;color:#3a3a3a;font-size:14.5px;line-height:1.7}

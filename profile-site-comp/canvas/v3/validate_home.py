@@ -175,6 +175,10 @@ for key in ROUTES:
             original = re.sub(r'<h2 class="sec-h">事業内容</h2>', '', original, count=1)
         # YouTube figures are refreshed at build time from the approved snapshot values.
         original = youtube_stats.apply(original, YOUTUBE)
+        # Approved 2026-09-26: business cards rewritten as pain → offer → proof → action (checked below).
+        if key == '':
+            original = re.sub(r'<section class="sec alt home-overview">.*?</section>', '', original, count=1, flags=re.S)
+            comparable = comparable.replace(element(comparable, 'business-gallery'), '')
         preserved = content(original) == content(comparable)
         assert preserved, ('Content changed', key)
     pages['/' + key + ('/' if key else '')] = {'singleH1AndMain': True, 'uniqueIds': True, 'validReferences': len(page.refs), 'expectedContentPreserved': preserved, 'approvedChange': ['works-story', 'career-chapters'] if key == '' else None}
@@ -196,18 +200,21 @@ if BASELINE.exists():
     for old in rate_files:
         assert old.read_bytes() == (SITE / 'pricing-rates' / old.name).read_bytes(), old.name
 hero = (ROOT / 'home-3d/immersive/hero.html').read_text()
-assert re.sub('<[^>]+>', '', re.search(r'<h1.*?</h1>', hero, re.S).group()).replace('\n', '').strip() == '開発・クリエイティブ・発信をAI駆動で仕組み化・自動化'
+assert re.sub('<[^>]+>', '', re.search(r'<h1.*?</h1>', hero, re.S).group()).replace('\n', '').strip() == 'AIで「ちゃんと」生産性を上げる'
 assert 'enter-studio' not in hero and '作業場に入る' not in hero
 runtime = (ROOT / 'home-3d/diorama/video-hero.js').read_text()
 assert 'setImmersed' not in runtime and 'enter-studio' not in runtime
 home = (SITE / 'index.html').read_text()
 business = element(home, 'business-gallery')
 assert business.count('class="card work home-summary-card"') == 5
+for kind in ('web', 'ai', 'talk', 'video'):
+    assert f'href="/contact/?type={kind}#contact-form"' in business
+assert 'href="/pricing/"' in business
 assert 'href="/services/#video-editing"' in business
 assert 'href="/services/#web-development"' in business
 assert 'href="/services/#ai-adoption"' in business
 
-report = {'pages': pages, 'pricingSourcePreserved': pricing, 'assetReferencesValid': True, 'heroHeadline': '開発・クリエイティブ・発信をAI駆動で仕組み化・自動化', 'scope': 'Local generated site; not deployed'}
+report = {'pages': pages, 'pricingSourcePreserved': pricing, 'assetReferencesValid': True, 'heroHeadline': 'AIで「ちゃんと」生産性を上げる', 'scope': 'Local generated site; not deployed'}
 out = PROJECT / 'output/site-renewal-validation.json'
 out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(report, ensure_ascii=False))

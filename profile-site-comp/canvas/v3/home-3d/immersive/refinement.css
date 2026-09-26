@@ -114,3 +114,6 @@ html{font-size:100%}
 .site-renewal .immersive-hero .hero .footer-content:has(.entry-actions){grid-column:1/-1;width:100%;max-width:none}
 /* The extra top links fit only on wide screens; the menu button lists every page (approved 2026-09-25). */
 @media(max-width:1199px){.immersive-hero .masthead nav a[href="/services/"],.immersive-hero .masthead nav a[href="/media/"],.immersive-hero .masthead nav a[href="/talks/"]{display:none}}
+
+.immersive-hero .hero-stats .stat-basis{display:block;max-width:15em;margin-top:-.2rem;color:#aab6c6;font-size:11px;line-height:1.45}
+@media(max-width:640px){.immersive-hero .hero-stats .stat-basis{font-size:10px}}

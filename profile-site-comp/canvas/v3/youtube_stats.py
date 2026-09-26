@@ -123,7 +123,8 @@ def _fetch_latest(count=3):
             ids = ','.join(item['contentDetails']['videoId'] for item in page['items'])
             videos = get('https://www.googleapis.com/youtube/v3/videos', {'part': 'snippet,contentDetails,status', 'id': ids})
             for video in videos['items']:
-                if video['status']['privacyStatus'] == 'public' and _iso_duration(video['contentDetails']['duration']) > 180:
+                # The uploads playlist can list the same video twice; keep one card per video.
+                if video['status']['privacyStatus'] == 'public' and _iso_duration(video['contentDetails']['duration']) > 180 and all(v['id'] != video['id'] for v in found):
                     found.append({'id': video['id'], 'title': video['snippet']['title'], 'published': video['snippet']['publishedAt'][:10]})
             page_token = page.get('nextPageToken')
             if len(found) >= count or not page_token:

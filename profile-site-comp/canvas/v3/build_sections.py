@@ -15,6 +15,20 @@ CHROME_EXTENSIONS = [
 ]
 
 
+# Time per video (10-15 min 4K main video + about 15 Shorts, excluding filming), approved 2026-09-25.
+# (step, manual, after automation: the owner's remaining time, how it was reduced)
+VIDEO_TIME_BREAKDOWN = [
+    ('企画・骨子（章立て）', '1.5〜3時間', '30〜40分', 'AIが企画の意図から章立て案まで作成。並べ替えと修正だけを行う'),
+    ('スライド20〜30枚と読み上げ台本', '6〜12時間', '0分', '骨子からAIがスライドと台本を作成'),
+    ('レビュー', '1〜1.5時間', '30〜60分', 'トーン・伝わりやすさ・デザイン・企画との整合をAIが先に確認。最後の承認だけを行う'),
+    ('撮影後の仕上げ（文字起こし・チャプター・概要欄・再生リストなど）', '4〜6.5時間', '5分', '取り込みからメタデータの検証までを自動化。挿入位置と公開日を決めるだけ'),
+    ('タイトルとサムネイル', '1.5〜2.25時間', '20分', 'AIが競合とキーワードを調べて案を作成。採用する案と画像を選ぶだけ'),
+    ('公開と告知（予約・カレンダー登録・コミュニティ告知・Studioの設定）', '1.5〜2時間', '15分', '予約から設定・記録までを自動化。最終承認と結果の確認だけ'),
+    ('Shorts 15本（区間選定・縦長への変換・テロップ・予約）', '8〜11時間', '20〜30分', '区間選定から予約までを自動化。タイトルの採用だけを行う'),
+]
+VIDEO_TIME_TOTAL = ('約25〜37時間', '約2〜3時間')
+
+
 def extension_icon(name):
     # Store icons (128px JPEG, a few KB each) are inlined so no extra asset files are needed.
     import base64
@@ -33,7 +47,7 @@ def render_works(files, *, excerpt=False, single=None):
     detail_headings = [
         ('課題', '担当したこと', '成果', '使った技術'),
         ('背景', '担当したこと', '成果', '使った技術'),
-        ('チャンネルの運営', '動画制作と製品紹介'),
+        ('チャンネルの運営', '動画制作の自動化・仕組み化'),
         ('登壇で紹介したこと', 'お話しできること'),
         ('作ったもの',),
     ]
@@ -59,6 +73,18 @@ def render_works(files, *, excerpt=False, single=None):
                 items = ''.join('<li>' + extension_icon(name) + '<a href="' + url + '">' + name + '</a><span class="users">' + str(users) + '人</span><p>' + desc + '</p></li>'
                                 for name, desc, users, url in CHROME_EXTENSIONS)
                 revised = revised.replace('</div></div><a class="detail-link"', '</div><div class="case-topic"><h4>公開中の拡張機能</h4><ul class="ext-list">' + items + '</ul></div></div><a class="detail-link"', 1)
+            if index == 2:
+                # Where the production time went and how it was reduced, nested under the
+                # automation topic so the channel overview and the breakdown are not peers (approved 2026-09-25).
+                rows = ''.join('<li><p class="tb-step">' + step + '</p><p class="tb-time">手作業 ' + manual + ' → <b>' + after + '</b></p><p class="tb-how">' + how + '</p></li>'
+                               for step, manual, after, how in VIDEO_TIME_BREAKDOWN)
+                manual, after = VIDEO_TIME_TOTAL
+                detail = ('<p class="tb-headline">動画1本あたりの作業時間 <b>' + manual + ' → ' + after + '</b><small>（約90%削減・撮影を除く）</small></p>'
+                          '<p>大きく減ったのはShortsとスライド・台本で、削減分の7割ほどを占めます。週1本のペースなら、毎週3〜4日分の作業時間が空きます。残る2〜3時間は、骨子・タイトル・サムネイル・Shortsのタイトルを選ぶ時間と、スライドを承認する時間です。この判断はあえて人が行っています。</p>'
+                          '<div class="tb-detail"><h5>工程ごとの内訳</h5><p class="tb-note">本編（10〜15分）1本とShorts 15本を作る場合</p>'
+                          '<ol class="time-breakdown">' + rows + '</ol>'
+                          '<p class="tb-total">合計 手作業 ' + manual + ' → <b>' + after + '</b>（1本あたり約23〜34時間の削減）</p></div>')
+                revised = revised.replace('</p></div></div><a class="detail-link"', '</p>' + detail + '</div></div><a class="detail-link"', 1)
             destinations = [('services', '開発・AI導入支援について'), ('services', '開発・AI導入支援について'),
                             ('media', '代表動画・PR・コラボについて'), ('talks', '登壇記録・ご依頼について'), (None, 'ソースコードを見る（GitHub）')]
             dest, label = destinations[index]
@@ -69,7 +95,7 @@ def render_works(files, *, excerpt=False, single=None):
     if single is not None:
         case = re.sub(r'<a class="detail-link".*?</a>', '', cases[single], flags=re.S)
         case = case.replace('<h3 class="story-title"', '<h2 class="story-title"').replace('</h3>', '</h2>')
-        case = case.replace('<h4>', '<h3>').replace('</h4>', '</h3>')
+        case = case.replace('<h4>', '<h3>').replace('</h4>', '</h3>').replace('<h5>', '<h4>').replace('</h5>', '</h4>')
         return '<section class="works-story detail-feature" id="' + ('channel-story' if single == 2 else 'talk-story') + '"><div class="works-wrap">' + case + '</div></section>'
     source = source.replace('class="works-story"', 'class="works-story" data-depth="' + ('excerpt' if excerpt else 'detail') + '"', 1)
     if not excerpt:
@@ -94,7 +120,7 @@ CAREER_POINTS = [
 
 # Technologies and approximate years of experience, from the resume (approved 2026-09-24).
 TECH_STACK = [
-    ('言語', [('Python', '7年以上'), ('TypeScript', '5年'), ('PHP', '2年')]),
+    ('言語', [('Python', '5年'), ('TypeScript', '5年'), ('PHP', '2年')]),
     ('バックエンド', [('Django / Django REST Framework', '3年'), ('FastAPI', '2年'), ('Laravel', '2年'), ('FastMCP', '1年')]),
     ('フロントエンド', [('Vue.js', '5年'), ('React / Next.js', '2年')]),
     ('データベース・分析', [('PostgreSQL', '3年'), ('BigQuery', '3年'), ('MySQL', '2年')]),
@@ -151,6 +177,8 @@ def render_contact_form():
     """
     options = ''.join('<option>' + kind + '</option>' for kind in INQUIRY_KINDS)
     script = """<script>(()=>{const f=document.getElementById('inquiry-form');if(!f)return;const s=f.querySelector('.form-status'),b=f.querySelector('button');
+const K={web:['開発・AI導入のご依頼','Webサービス開発について。作りたいもの・時期・ご予算の目安など、分かる範囲でお書きください。'],ai:['開発・AI導入のご依頼','AI導入支援について。使っているツール・チームの人数・困っていることなど、分かる範囲でお書きください。'],pr:['PR・タイアップのご依頼','紹介したい製品・公開の時期・ご予算の目安など、分かる範囲でお書きください。'],talk:['登壇のご依頼','イベント名・日時・形式（オンライン／会場）・持ち時間など、分かる範囲でお書きください。'],video:['動画編集のご依頼','動画の内容・長さ・本数・納期など、分かる範囲でお書きください。'],recruit:['採用・業務委託のご相談','募集内容・働き方（正社員／業務委託／技術顧問）など、分かる範囲でお書きください。']};
+const k=K[new URLSearchParams(location.search).get('type')];if(k){f.elements.kind.value=k[0];f.elements.body.placeholder=k[1];}
 f.addEventListener('submit',async e=>{e.preventDefault();b.disabled=true;s.className='form-status';s.textContent='送信しています…';
 try{const r=await fetch('https://studio.msyn.me/api/contact',{method:'POST',body:new FormData(f)});const j=await r.json().catch(()=>({}));
 if(r.ok&&j.ok){f.reset();s.className='form-status ok';s.textContent='送信しました。ありがとうございます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。';}

@@ -52,6 +52,9 @@ GA4 = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}
        "document.addEventListener('submit',e=>{if(e.target.id==='inquiry-form')gtag('event','generate_lead',{kind:new FormData(e.target).get('kind')});},true);</script>")
 
 def document(key, body):
+    # 見出しの装飾 (decorate) で文字が分割される前に、文言の置き換えを済ませる。
+    import copy_updates
+    body = copy_updates.apply(body)
     body, legacy_styles = site_builder['decorate'](key, body, paths, titles)
     route = paths[key]
     title = 'Masaya Nishigaki | Miyabiya Studio' if key == 'home' else titles[key]+' | Miyabiya Studio'
@@ -151,10 +154,11 @@ for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf
 # Overlay the latest YouTube figures on the approved snapshot values (set YOUTUBE_STATS_OFFLINE=1 to reuse the cache).
 import os
 import youtube_stats
+import copy_updates
 youtube = youtube_stats.load(fetch=os.environ.get('YOUTUBE_STATS_OFFLINE') != '1')
 for page_path in paths.values():
     target = OUT / page_path.strip('/') / 'index.html'
-    target.write_text(youtube_stats.apply(target.read_text(), youtube))
+    target.write_text(copy_updates.apply(youtube_stats.apply(target.read_text(), youtube)))
 print('YouTube:', f"{youtube['subs']:,}", 'subscribers as of', youtube['date'])
 latest = youtube_stats.load_latest(fetch=os.environ.get('YOUTUBE_STATS_OFFLINE') != '1')
 for video in latest:

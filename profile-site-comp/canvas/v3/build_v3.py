@@ -158,17 +158,19 @@ home_works = sections['render_works'](files, excerpt=True)
 talks = element(src,'talks')
 works_talks = talks.split('<div class="talk-more">',1)[0].replace('class="sec alt"','class="sec"',1)
 works = '<div id="works">'+sections['render_works'](files)+'</div>'+works_talks+'<div class="section-cta">'+link('talks','登壇テーマ・ご依頼について','v3-text-link')+'</div></div></div>'
+# Approved 2026-09-26: each business card reads pain → what we do → proof → action,
+# and the action opens the contact form with the matching inquiry kind selected.
 service_summaries = [
-    ('services','Webサービス開発','要件整理から設計・実装・運用まで、一貫して対応します。','Webサービス開発の詳細を見る'),
-    ('services','AI導入支援','ツールの導入から現場への定着までを支援します。','AI導入支援の詳細を見る'),
-    ('media','YouTubeでの製品PR・コラボ','AIツールや開発者向けサービスを、動画で紹介します。対談や共同企画もご相談ください。','PR・コラボの詳細を見る'),
-    ('talks','技術登壇','実務でのAI活用を、勉強会や社内向けの講演でお話しします。','登壇の詳細を見る'),
-    ('services','動画編集','教育系・ビジネス系の動画に、テロップや効果音を入れて仕上げます。','動画編集の詳細を見る'),
+    ('Webサービス開発','少人数でも、Webサービスを早く形にしたい方へ','要件整理から設計・実装・運用まで一貫して担当します。生成と評価を分担するAIエージェントを組み込んだ開発フローで進めます。','本業で、設計・実装・コードレビューの工数を約50〜75%削減（AI導入前の実績工数と比較）','開発を相談する','/contact/?type=web#contact-form','/services/#web-development','詳細を見る'),
+    ('AI導入支援','AIツールを入れたのに、現場で使われていない方へ','ツールの導入から社内勉強会、業務フローへの組み込み、導入後のフォローまで支援します。','本業で、勉強会2回で約20名に展開し、約10名が実務で活用','AI導入を相談する','/contact/?type=ai#contact-form','/services/#ai-adoption','詳細を見る'),
+    ('YouTubeでの製品PR・コラボ','AIツールや開発者向けサービスを、エンジニアに届けたい方へ','製品を実際に使ったうえで、YouTubeの動画で紹介します。対談や共同企画もご相談ください。','チャンネル登録者3,462人。視聴者の中心は、AI駆動開発に関心のあるエンジニア','料金を試算する','/pricing/','/media/','視聴者データを見る'),
+    ('技術登壇','勉強会や社内研修で、AI活用の実例を話せる人をお探しの方へ','実務のAI駆動開発と、YouTube運営で使っている仕組みを、LTから社内講演までお話しします。','2026年6月 ClaudeCodeMeetupOsaka、3月 AI駆動開発勉強会 神戸支部で登壇','登壇を依頼する','/contact/?type=talk#contact-form','/talks/','過去の登壇を見る'),
+    ('動画編集','撮影はできても、編集まで手が回らない方へ','教育系・ビジネス系の動画に、テロップ・効果音・カット編集を入れて仕上げます。','自分のチャンネルでも、AIを組み込んだ編集の流れで本編とShortsを継続して公開','編集を相談する','/contact/?type=video#contact-form','/services/#video-editing','詳細を見る'),
 ]
 business_art = json.loads((HERE / 'business-gallery.json').read_text())
 home_services = '<section class="sec alt home-overview business-gallery" id="business-gallery"><div class="wrap"><div class="business-heading"><h2 class="sec-h">事業内容</h2><p class="sec-lead">Webサービス開発、AI導入支援、製品PR、技術登壇、動画編集のご相談をお受けします。</p></div><div class="grid3">'+''.join(
-    '<a class="card work home-summary-card" href="'+files[key]+({0:'#web-development',1:'#ai-adoption',4:'#video-editing'}.get(i,''))+'"><div class="business-art" aria-hidden="true"><svg viewBox="0 0 360 230" fill="none">'+business_art[i]+'</svg></div><div class="business-copy"><h3 class="business-title">'+title+'</h3><p>'+desc+'</p><span class="home-detail-cta">'+cta+' →</span></div></a>'
-    for i,(key,title,desc,cta) in enumerate(service_summaries)
+    '<article class="card work home-summary-card"><div class="business-art" aria-hidden="true"><svg viewBox="0 0 360 230" fill="none">'+business_art[i]+'</svg></div><div class="business-copy"><h3 class="business-title">'+title+'</h3><p class="business-pain">'+pain+'</p><p>'+desc+'</p><p class="business-proof">'+proof+'</p><div class="business-actions"><a class="business-cta" href="'+cta_href+'">'+cta+' →</a><a class="home-detail-cta" href="'+detail_href+'">'+detail+'</a></div></div></article>'
+    for i,(title,pain,desc,proof,cta,cta_href,detail_href,detail) in enumerate(service_summaries)
 )+'</div></div></section>'
 
 home = home_hero+'<div class="v3-detail">'+home_services+home_works+'</div>'+home_career+home_contact

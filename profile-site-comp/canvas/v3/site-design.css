@@ -106,3 +106,14 @@ body.site-renewal{font-family:var(--sans);font-synthesis:none;-webkit-font-smoot
 @media(max-width:1000px) and (min-width:821px){.site-renewal .business-gallery .business-copy{padding:20px}.site-renewal .business-gallery h3.business-title{font-size:20px;min-height:96px}}
 @media(max-width:820px){.site-renewal .v3-detail .business-gallery{padding-block:56px}.site-renewal .business-gallery .business-heading{display:block;margin-bottom:28px}.site-renewal .business-gallery .sec-h{font-size:32px}.site-renewal .business-gallery .sec-lead{margin-top:18px;max-width:560px}.site-renewal .business-gallery .grid3{grid-template-columns:1fr;gap:22px}.site-renewal .business-gallery .business-art{height:210px}.site-renewal .business-gallery h3.business-title{min-height:0}.site-renewal .business-gallery .business-copy{padding:24px}}
 @media(prefers-reduced-motion:reduce){.site-renewal .business-gallery .home-summary-card:hover,.site-renewal .business-gallery .home-summary-card:hover .business-art svg{transform:none}}
+
+/* 事業内容カード: 悩み → 内容 → 根拠 → 行動 (2026-09-26)。開発の2枚を上段、残り3枚を下段に並べる。 */
+.site-renewal .business-gallery .business-copy p.business-pain{font-size:14px;line-height:1.75;color:#133f8f;font-weight:650;margin:0 0 12px}
+.site-renewal .business-gallery .business-copy p.business-proof{font-size:13px;line-height:1.8;color:#3d3c38;background:#f4f6fa;border-left:3px solid #133f8f;padding:10px 12px;margin:0 0 22px}
+.site-renewal .business-gallery .business-actions{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding-top:18px;border-top:1px solid #dde2e6}
+.site-renewal .business-gallery .business-cta{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:#133f8f;color:#fff;font-size:14px;font-weight:700;text-decoration:none;border:1px solid #133f8f}
+.site-renewal .business-gallery .business-cta:hover,.site-renewal .business-gallery .business-cta:focus-visible{background:#fff;color:#133f8f}
+.site-renewal .business-gallery .business-actions .home-detail-cta{margin:0;padding:0;border:0;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.site-renewal .business-gallery .business-art{height:180px}
+.site-renewal .business-gallery h3.business-title{min-height:0}
+@media(min-width:821px){.site-renewal .business-gallery .grid3{grid-template-columns:repeat(6,minmax(0,1fr))}.site-renewal .business-gallery .home-summary-card{grid-column:span 2}.site-renewal .business-gallery .home-summary-card:nth-child(-n+2){grid-column:span 3}}
