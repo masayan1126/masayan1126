@@ -101,3 +101,9 @@
  .site-renewal .immersive-hero .hero .actions.entry-actions a:nth-child(-n+2){grid-column:span 3}
 }
 @media(max-width:820px){.site-renewal .immersive-hero .copy .byline .byline-recruit{margin-left:0;flex-basis:100%}}
+
+/* 広い画面 (1600px〜) で書斎が右へ離れすぎないよう、左端を入口ボタンの右端に合わせて置く (2026-09-29)。
+   幅は右の切れが1割強に収まる大きさまで、高さはヘッダーの下に収まる大きさまで。 */
+@media(min-width:1600px){
+ .site-renewal .immersive-hero .hero .world{--world-left:calc(var(--gutter) + min(50vw,760px) + 32px);left:var(--world-left);right:auto;width:min(1400px,calc((100vw - var(--world-left)) * 1.12),calc((100svh - 150px) * 1189 / 905))}
+}
