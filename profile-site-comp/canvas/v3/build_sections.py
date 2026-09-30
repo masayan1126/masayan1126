@@ -152,7 +152,10 @@ def render_mediakit():
     """PRを検討する企業向けの視聴者データ (mediakit.json、approved 2026-09-24)。"""
     import json
     data = json.loads((HERE / 'mediakit.json').read_text())
-    tiles = [(f"{data['channel_views'] // 1000 / 10:.1f}<small>万回</small>", 'チャンネルの累計再生数'),
+    import youtube_stats
+    tiles = [(youtube_stats.SNAPSHOT['subs'] + '<small>人</small>', 'チャンネル登録者'),
+             (f"{youtube_stats.MEMBERS}<small>人</small>", 'メンバーシップのメンバー'),
+             (f"{data['channel_views'] // 1000 / 10:.1f}<small>万回</small>", 'チャンネルの累計再生数'),
              (f"{data['views90'] // 1000 / 10:.1f}<small>万回</small>", '直近90日の再生数'),
              (f"{data['long_mean']:,}<small>回</small>", '本編1本あたりの平均再生数'),
              (f"{data['long_count']}<small>本</small>", '直近90日に公開した本編')]
@@ -160,10 +163,54 @@ def render_mediakit():
             ('45〜54歳', data['age']['45-54']), ('55歳以上', data['age']['55+'])]
     bars = ''.join(f'<div class="mk-bar"><span>{label}</span><i style="width:{value / 40 * 100:.0f}%"></i><em>{value:.0f}%</em></div>' for label, value in ages)
     return ('<div class="mediakit" id="mediakit"><h3>視聴者データ</h3>'
-            f'<p class="note">{data["as_of"]}時点。再生数・年齢層は直近90日（YouTube アナリティクス）。</p>'
+            f'<p class="note">登録者・メンバーは{youtube_stats.SNAPSHOT["date"]}。再生数・本数・年齢層は{data["as_of"]}時点の直近90日（YouTube アナリティクス）。</p>'
             '<div class="mk-tiles">' + ''.join(f'<div><b>{n}</b><span>{l}</span></div>' for n, l in tiles) + '</div>'
             f'<div class="mk-aud"><div><h4>年齢層</h4>{bars}</div><div><h4>主なテーマ</h4>'
             '<p class="mk-theme">Claude Code を中心としたAI駆動開発。視聴者の中心は、AIを開発に取り入れたいエンジニアです。</p></div></div></div>')
+
+
+# PR video work shown to PR clients on the media page (added 2026-09-30).
+# Only public facts: the fee and contract terms are confidential and never shown.
+# (video id, sponsor, title, published, length, summary, scope)
+PR_WORKS = [
+    ('FsA8gaup0w4', 'Notta', 'Notta Memo Pro 9/28 予約販売開始!!｜録音して終わりにしないAIボイスレコーダー 文字起こしとAI要約が次の仕事へ',
+     '2026年9月28日', '8分24秒',
+     'AIボイスレコーダーの予約販売開始に合わせたタイアップ動画です。実機で録音からAI要約までの流れを見せ、議事録を作ってGoogleカレンダーへ登録するところまで実演しました。概要欄には購入リンクとクーポンを掲載しています。',
+     ['機能の事前検証', '構成・スライド', '撮影・編集', 'サムネイル', 'Xでの告知']),
+]
+
+
+def render_pr_works():
+    items = ''.join(
+        f'<a class="pr-work" href="https://youtu.be/{vid}"><img src="thumb-{vid}.webp" width="640" height="360" alt="" loading="lazy">'
+        f'<div><p class="pr-sponsor">{sponsor} 様のタイアップ</p><h3>{title}</h3><p class="pr-meta">{date}公開 ／ {length}</p>'
+        f'<p class="pr-summary">{summary}</p><div class="pr-scope">' + ''.join(f'<span>{s}</span>' for s in scope) + '</div></div></a>'
+        for vid, sponsor, title, date, length, summary, scope in PR_WORKS)
+    return ('<div class="sec alt" id="pr-works"><div class="wrap"><h2 class="sec-h">PR動画の制作実績</h2>'
+            '<p class="sec-lead">企業様からご依頼いただき、制作・公開した動画です。</p>' + items + '</div></div>')
+
+
+# YouTube・PR・コラボ page, reorganised 2026-09-30 for companies considering a PR video:
+# channel (who watches, sample videos) → PR work → what can be ordered and the price → how videos are made.
+PR_OFFERS = [
+    ('タイアップ動画', '製品を実際に使ったうえで、YouTubeの本編動画で紹介します。機能の事前検証から構成・撮影・編集・サムネイルまで一人で担当します。'),
+    ('Xでの紹介', 'X（@masayan_ai_hack）で、製品の機能や使いどころを紹介する投稿を作成します。'),
+    ('対談・コラボ企画', '個人の方との対談や共同企画もお受けしています。内容に応じてお見積もりします。'),
+]
+
+
+def render_media(videos, ratecard, channel_story, membership_route):
+    grid = re.search(r'<div class="videos">.*?</a>\s*</div>', videos, re.S).group()
+    channel = ('<div class="sec" id="videos"><div class="wrap"><h2 class="sec-h">チャンネルについて</h2>'
+               '<p class="sec-lead">Claude Code を中心に、AI駆動開発を扱うチャンネルです。視聴者の数と年齢層、話し方が分かる代表的な動画をご覧いただけます。</p>'
+               + render_mediakit() + '<h3 class="media-sub">代表的な動画</h3>' + grid + '</div></div>')
+    offers = ('<div class="sec" id="pr"><div class="wrap"><h2 class="sec-h">ご依頼いただける内容と料金</h2>'
+              '<p class="sec-lead">AIツールや開発者向けサービスを、エンジニアに届けたい企業様・個人の方からのご依頼をお受けしています。</p>'
+              '<div class="grid3 pr-offers">' + ''.join(f'<div class="card"><h3>{t}</h3><p>{d}</p></div>' for t, d in PR_OFFERS) + '</div>'
+              + ratecard.replace('</a></div>', '</a> <a class="v3-secondary" href="/contact/?type=pr#contact-form">PR・タイアップを相談する <span aria-hidden="true">→</span></a></div>', 1)
+              + '</div></div>')
+    return (channel + render_pr_works() + offers + channel_story
+            + '<section class="sec"><div class="wrap">' + membership_route + '</div></section>')
 
 
 INQUIRY_KINDS = ['開発・AI導入のご依頼', 'PR・タイアップのご依頼', '登壇のご依頼', '動画編集のご依頼', '採用・業務委託のご相談', 'その他']

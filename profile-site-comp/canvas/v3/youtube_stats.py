@@ -7,7 +7,7 @@
 取得には、リポジトリの SessionStart フック (.claude/hooks/fetch_subscribers.py) と
 同じ OAuth トークンを使う。取得できないとき (オフライン・トークン切れ) は、
 前回の取得結果 youtube-stats.json を使ってビルドを続ける。
-メンバー数は API で取れないため対象外 (本文の手入力のまま)。
+メンバー数は API で取れないため、Studio で確認した値を MEMBERS に手入力する。
 """
 from datetime import datetime, timedelta, timezone
 import json
@@ -28,6 +28,9 @@ SNAPSHOT = {
     'subs_floor': '3,500<small>人+</small>',
     'videos': {'Kggm_W0w0lw': '15,495', 'BxQ2nutD-_o': '4,706', 'D1gsaCoJelw': '4,446'},
 }
+
+# メンバー数 (Studio の収益化 > メンバーシップ「すべてのメンバー」)。元データの承認値は 37人。
+MEMBERS = 41
 
 
 def _fetch():
@@ -78,6 +81,7 @@ def apply(html, stats):
     html = html.replace(SNAPSHOT['subs_floor'], f'{floor:,}<small>人+</small>')
     html = html.replace(SNAPSHOT['subs'], f'{stats["subs"]:,}')
     html = html.replace(SNAPSHOT['date'], f'{year}年{month}月{day}日時点')
+    html = html.replace('メンバー <b>37人</b>', f'メンバー <b>{MEMBERS}人</b>').replace('メンバー37人', f'メンバー{MEMBERS}人')
     for video_id, old in SNAPSHOT['videos'].items():
         html = html.replace(f'{old}回再生', f'{stats["videos"][video_id]:,}回再生')
     return html

@@ -173,6 +173,34 @@ home_services = '<section class="sec alt home-overview business-gallery" id="bus
     for i,(title,pain,desc,proof,cta,cta_href,detail_href,detail) in enumerate(service_summaries)
 )+'</div></div></section>'
 
+# Approved 2026-09-30: the services page shows every business card from the top page, in the same
+# pain → what we do → proof → action form, plus the detail only this page carries (scope, tags).
+# The top page is an excerpt of this page, so the top card text must also appear here verbatim.
+service_details = {
+    'Webサービス開発': ('web-development', 'フロントエンド、バックエンド、クラウドまで対応できます。少人数でもスピードを落とさずに進められます。', ['新規開発', 'MCPサーバー', 'Python / TypeScript'],
+        ('AIエージェントの設計・ハーネス構築', '「AIを導入したが品質が安定しない」「何を任せればよいか分からない」といった課題に、アーキテクチャと実行基盤 (ハーネス) の設計で対応します。開発・動画制作・SNS発信で毎日運用している構成をもとにご提案します。', ['技術顧問', 'Claude Code', 'マルチエージェント'])),
+    'AI導入支援': ('ai-adoption', '導入して終わりにせず、現場で使われ続ける状態をつくるところまでを支援します。', ['導入支援', '社内勉強会', '定着フォロー'], None),
+    'YouTubeでの製品PR・コラボ': ('product-pr', '視聴者データ、PR動画の制作実績、料金は「YouTube・PR・コラボ」のページでご案内しています。料金は見積もりシミュレーターで試算できます。', ['タイアップ動画', 'Xでの紹介', '対談・コラボ企画'], None),
+    '技術登壇': ('tech-talks', 'Claude Code、MCP (Model Context Protocol)、エージェントオーケストレーションをテーマに、実務とYouTube運営で実際に運用している事例をお話しします。LTから講演まで対応します。', ['勉強会LT', 'カンファレンス', '社内向け講演'], None),
+    '動画編集': ('video-editing', 'テロップ、効果音、チャンネル名の表示、不要な部分のカット（トリミング）など、一般的な編集に対応します。モーショングラフィックスなどの高度な演出は対象外です。', ['テロップ', '効果音', 'チャンネル名の表示', 'カット編集'], None),
+}
+assert set(service_details) == {row[0] for row in service_summaries}, 'Every top-page business card needs a services-page entry'
+def service_tags(tags):
+    return '<div class="who">'+''.join('<span class="pill pill-o">'+t+'</span>' for t in tags)+'</div>'
+services = '<section class="sec alt business-gallery service-detail" id="services"><div class="wrap"><div class="business-heading"><p class="sec-lead">Webサービス開発、AI導入支援、製品PR、技術登壇、動画編集のご相談をお受けします。料金は内容に応じてお見積もりします。お見積もりは無料です。</p></div><div class="service-list">'+''.join(
+    '<article class="card work home-summary-card" id="'+service_details[title][0]+'"><div class="business-art" aria-hidden="true"><svg viewBox="0 0 360 230" fill="none">'+business_art[i]+'</svg></div><div class="business-copy"><h2 class="business-title">'+title+'</h2><p class="business-pain">'+pain+'</p><p>'+desc+'</p><p class="business-more">'+service_details[title][1]+'</p>'+service_tags(service_details[title][2])
+    +(('<div class="business-sub"><h3>'+service_details[title][3][0]+'</h3><p>'+service_details[title][3][1]+'</p>'+service_tags(service_details[title][3][2])+'</div>') if service_details[title][3] else '')
+    +'<p class="business-proof">'+proof+'</p><div class="business-actions"><a class="business-cta" href="'+cta_href+'">'+cta+' →</a>'+('' if detail_href.startswith('/services/') else '<a class="home-detail-cta" href="'+detail_href+'">'+detail+'</a>')+'</div></div></article>'
+    for i,(title,pain,desc,proof,cta,cta_href,detail_href,detail) in enumerate(service_summaries)
+)+'</div></div></section>'
+custom += ('.service-detail .service-list{display:grid;gap:24px}.service-detail .home-summary-card{display:grid!important;grid-template-columns:minmax(0,340px) minmax(0,1fr)}'
+    '.service-detail .business-art{height:auto!important;min-height:220px;border-bottom:0!important;border-right:1px solid #dde2e6;border-radius:3px 0 0 3px!important}'
+    '.service-detail .business-copy{padding:30px 34px!important}.service-detail h2.business-title{font-size:24px;line-height:1.5;margin:0 0 12px;font-weight:650}'
+    '.service-detail .home-summary-card{grid-column:auto!important;padding:0!important;overflow:hidden}.service-detail .business-copy p{margin:0 0 10px!important}.service-detail .business-copy p.business-pain{margin-bottom:10px!important}.service-detail .business-copy p.business-more{color:#3d3c38;margin:0 0 16px!important}.service-detail .business-copy p.business-proof{margin:0 0 22px!important}.service-detail .who{margin:0 0 22px}'
+    '.service-detail .business-sub{border-top:1px solid #dde2e6;padding-top:18px;margin:0 0 22px}.service-detail .business-sub h3{font-size:16px;margin:0 0 6px}.service-detail .business-sub p{margin:0 0 12px!important}'
+    '.service-detail .business-heading{margin-bottom:28px!important}'
+    '@media(max-width:820px){.service-detail .home-summary-card{grid-template-columns:1fr}.service-detail .business-art{min-height:170px;border-right:0;border-bottom:1px solid #dde2e6!important;border-radius:3px 3px 0 0!important}.service-detail .business-copy{padding:22px!important}}')
+
 home = home_hero+'<div class="v3-detail">'+home_services+home_works+'</div>'+home_career+home_contact
 custom += '.v3-home .career{display:block;max-width:880px}.v3-hero>.v3-wrap{grid-template-areas:"copy portrait" "actions portrait";column-gap:64px;row-gap:24px}.v3-hero-copy{grid-area:copy}.v3-hero-media{grid-area:portrait}.v3-hero-ctas{grid-area:actions}.v3-hero-copy .v3-intro{margin-bottom:0}@media(max-width:820px){.v3-hero>.v3-wrap{grid-template-areas:"copy" "portrait" "actions";gap:26px}}'
 custom += '.v3-hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}.v3-hero-ctas .v3-primary{width:auto;justify-content:center;gap:12px;padding:13px 20px;font-size:14px;white-space:nowrap;border:1px solid #133F8F}.v3-hero-ctas .v3-primary>span{flex:none}.v3-secondary{background:white;color:#133F8F}.v3-secondary:hover{background:#F6F7FB;color:#133F8F}.v3-home #career-history{border-top:1px solid #DDE2E6}.v3-logo{display:inline-flex;align-items:center;gap:10px}.v3-logo-icon{display:block;width:36px;height:36px;flex:none;border-radius:50%;object-fit:cover;background:#E8EEF8;border:1px solid #DDE2E6}@media(max-width:820px){.v3-hero-ctas{flex-direction:column;align-items:stretch}.v3-hero-ctas .v3-primary{width:100%}.v3-logo{gap:8px}.v3-logo-icon{width:28px;height:28px}}'
@@ -194,8 +222,8 @@ for event_url, (deck_id, deck_title) in TALK_DECKS.items():
 # Approved 2026-09-25: state the usual reply time next to the contact channels.
 contact_with_reply = element(src,'contact').replace('メールのいずれかでお送りください。</p>', 'メールのいずれかでお送りください。通常2営業日以内に返信します。</p>', 1)
 assert '通常2営業日以内' in contact_with_reply
-contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':sections['render_works'](files, single=2)+videos+'<section class="sec"><div class="wrap">'+sections['render_mediakit']()+pr+'</div></section>', 'talks':sections['render_works'](files, single=3)+talks_with_decks,'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':element(src,'flow')+contact_with_reply+sections['render_contact_form']()}
-intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'ご依頼いただける内容と、それぞれの対応範囲をご紹介します。','media':'代表動画と、製品PR・コラボのご案内です。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご依頼の流れと、メール・SNSの連絡先をご案内します。'}
+contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':sections['render_media'](videos, pricing_builder['media_summary'](), sections['render_works'](files, single=2), re.search(r'<div class="short-route">.*?</div>', videos, re.S).group()), 'talks':sections['render_works'](files, single=3)+talks_with_decks,'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':element(src,'flow')+contact_with_reply+sections['render_contact_form']()}
+intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'ご依頼いただける内容と、それぞれの対応範囲をご紹介します。','media':'製品PR・タイアップ・コラボをご検討中の方へ、チャンネルの視聴者、制作実績、ご依頼内容と料金をご案内します。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご依頼の流れと、メール・SNSの連絡先をご案内します。'}
 
 custom += '.v3-photo img{object-fit:contain;object-position:center bottom;padding:8px 12px 0}'
 icon_paths = {

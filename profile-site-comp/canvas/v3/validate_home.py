@@ -64,6 +64,23 @@ def target(ref, current):
     if item.is_dir(): item /= 'index.html'
     return item
 
+# Pages rebuilt after the baseline: (facts the page must carry, links it must have, headings in order).
+RESTRUCTURED = {
+    # 2026-09-30: channel → PR work → offers and price → production → membership.
+    'media': (['チャンネルについて', '視聴者データ', '代表的な動画', '最新の動画', 'PR動画の制作実績', 'Notta Memo Pro',
+               'ご依頼いただける内容と料金', 'タイアップ動画', 'Xでの紹介', '対談・コラボ企画', 'PR動画の料金・見積もり',
+               '公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。', 'メンバーシップについて',
+               f"{YOUTUBE['subs']:,}", f'{youtube_stats.MEMBERS}人'],
+              ['/pricing/', '/contact/?type=pr#contact-form', '/membership/', 'https://youtu.be/FsA8gaup0w4'],
+              ['チャンネルについて', 'PR動画の制作実績', 'ご依頼いただける内容と料金', 'AIチャンネルを一人で運営し', 'メンバーシップについて']),
+    # 2026-09-30: every business card from the top page, with the scope and tags only this page carries.
+    'services': (['AIエージェントの設計・ハーネス構築', 'Python / TypeScript', 'モーショングラフィックスなどの高度な演出は対象外です。',
+                  'お見積もりは無料です。'],
+                 ['/contact/?type=web#contact-form', '/contact/?type=ai#contact-form', '/pricing/', '/contact/?type=talk#contact-form',
+                  '/contact/?type=video#contact-form', '/media/', '/talks/'],
+                 ['id="web-development"', 'id="ai-adoption"', 'id="product-pr"', 'id="tech-talks"', 'id="video-editing"']),
+}
+
 pages = {}
 for key in ROUTES:
     path = SITE / key / 'index.html'
@@ -83,7 +100,7 @@ for key in ROUTES:
     assert not re.search(r'<(?:p|span) class="(?:lbl|tag|eyebrow)">(?:本業|個人|[0-9]{2} / (?:本業|個人)|SELECTED WORKS|CAREER JOURNEY)</', source), key
     assert 'data-label="' not in source and 'MIYABIYA STUDIO / 01' not in source, key
     preserved = None
-    if BASELINE.exists():
+    if BASELINE.exists() and key not in RESTRUCTURED:
         original = (BASELINE / 'site' / key / 'index.html').read_text()
         if key == '':
             approved = (ROOT / 'test-fixtures/approved-works-story.html').read_text().strip()
@@ -181,7 +198,34 @@ for key in ROUTES:
             comparable = comparable.replace(element(comparable, 'business-gallery'), '')
         preserved = content(original) == content(comparable)
         assert preserved, ('Content changed', key)
+    if key in RESTRUCTURED:
+        # Approved 2026-09-30: these pages were rebuilt, so check their order and required facts instead of the baseline text.
+        text = content(source)
+        required, links, order = RESTRUCTURED[key]
+        missing = [item for item in required if item not in text]
+        assert not missing, ('Missing on', key, missing)
+        for ref in links:
+            assert 'href="' + ref + '"' in source, ('Missing link on', key, ref)
+        positions = [source.index(h) for h in order]
+        assert positions == sorted(positions), ('Section order', key, order)
+        preserved = True
     pages['/' + key + ('/' if key else '')] = {'singleH1AndMain': True, 'uniqueIds': True, 'validReferences': len(page.refs), 'expectedContentPreserved': preserved, 'approvedChange': ['works-story', 'career-chapters'] if key == '' else None}
+
+# The top page is an excerpt of the detail pages: every piece of text in a top-page section must also
+# appear on its detail page. Link labels (「詳細を見る」など) are navigation and are not compared.
+TOP_TO_DETAIL = {'business-gallery': 'services', 'works-story': 'works', 'latest': 'media', 'career-history': 'profile'}
+def text_pieces(html):
+    html = re.sub(r'<(script|style|svg)\b.*?</\1>', '', html, flags=re.S)
+    html = re.sub(r'<a\b[^>]*>.*?</a>', '', html, flags=re.S)
+    html = re.sub(r'<div class="section-foot">.*?</div>', '', html, flags=re.S)
+    return [piece for piece in (re.sub(r'\s+', '', part) for part in re.split(r'<[^>]+>', html)) if len(piece) >= 4]
+def flat(html):
+    return re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', re.sub(r'<(script|style|svg)\b.*?</\1>', '', html, flags=re.S)))
+top_page = (SITE / 'index.html').read_text()
+for section, detail_key in TOP_TO_DETAIL.items():
+    detail = flat((SITE / detail_key / 'index.html').read_text())
+    extra = [piece for piece in text_pieces(element(top_page, section)) if piece not in detail]
+    assert not extra, ('Top page has content missing from its detail page', section, '/' + detail_key + '/', extra)
 
 for css in [*SITE.glob('site-assets/*.css'), *SITE.glob('home-assets/*.css')]:
     for ref in re.findall(r'url\([\'\"]?([^\)\'\"]+)', css.read_text()):

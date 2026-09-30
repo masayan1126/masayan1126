@@ -168,6 +168,12 @@ home_anchor = '<section class="career-chapters" data-depth="excerpt" id="career-
 home_html = home_path.read_text()
 assert home_anchor in home_html
 home_path.write_text(home_html.replace(home_anchor, youtube_stats.render_latest(latest) + home_anchor, 1))
+# The top page is an excerpt of the detail pages, so the latest videos also appear on the YouTube page (2026-09-30).
+media_path = OUT / 'media/index.html'
+media_html = media_path.read_text()
+media_anchor = '<div class="sec alt" id="pr-works">'
+assert media_anchor in media_html
+media_path.write_text(media_html.replace(media_anchor, youtube_stats.render_latest(latest) + media_anchor, 1))
 # Sharing the design comparison is on hold; publish only the profile website.
 # Every link to another site opens in a new tab, including sections added after public_body (approved 2026-09-25).
 def external_new_tab(page):
