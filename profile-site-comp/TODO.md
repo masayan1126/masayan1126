@@ -1,6 +1,7 @@
 # Miyabiya Studio の進捗
 
 ## 現在地
+- 2026-10-02（未公開）：OGP画像を、どの比率で切り抜かれても欠けない配置に作り直しました。名刺型（左が青地の写真、右が白地の文字）のまま分割線を中央に寄せ、文字をすべて中央の630×630に収めています。1.5:1や正方形のカードで右側の数字や名前が切れていたため、切り抜かれると読めない3項目の数字は外しました。生成は `canvas/v3/build_og.py`（文字のはみ出しを検査、比率別の見本は `output/og-profile-crops.png`）。公開時は `og-profile.<ハッシュ>.png` を指すので、各サービスのキャッシュも切り替わります。25テスト、9ページの検査を確認済み。`npm run deploy` で公開が必要です。
 - 2026-09-25：白基調ヒーローと背景透過の3D書斎、Cloudflare Worker 経由の問い合わせフォーム、GA4、最新動画、名称統一、最終レイアウト点検の修正（プロフィールの余白・幅揃え、1024pxヘッダー、語中改行、タブレットの動画列、登壇カード、外部リンクの別タブ）をまとめて公開しました。両ドメインで全ページ200、映像・GA4・フォームの反映を確認済み。レイアウト点検は `output/hero-copy-directions/proposals/_lc.html` で再実行できます。残り：iPhone Safari での透過映像の実機確認。
 - 2026-09-25（未公開）：ヒーローを白基調にし、Blender の書斎を背景透過・台座なし・寄りの構図で描き直して右側に配置（48秒の昼夜ループ。Chrome等は `study-alpha.webm`、Safari/iPhone は `study-alpha.hevc.mp4`、モニター位置は `track-alpha.json`）。作り直し手順は `home-3d/diorama/blender/render_transparent.sh` → `encode_alpha.sh`。問い合わせフォームは Cloudflare Worker（`contact-worker/`、公開済み・テスト送信成功）へ送信する形にし、必須/任意バッジを追加。
 - 2026-09-25（未公開・まとめて公開予定）：/services/ を「事業内容」に改名し「Webサービス開発」に統一／メンバーシップを全体メニューとフッターから削除／問い合わせに種別フォーム（メール作成方式）と「通常2営業日以内に返信」／PCヘッダーに事業内容・技術登壇／実績画像を800px WebP化／JSON-LD拡充／GA4（G-0HHRPGZRZB）とイベント計測／トップに最新の本編3本（ビルド時に自動取得、`latest-videos.json`・`latest-thumbs/`）／ビルド時に日本語フォントの不足文字を自動で追加して再ビルド。ヒーローの白基調化は案の選択待ち（`output/white-hero-directions/`）。

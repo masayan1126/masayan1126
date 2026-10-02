@@ -27,6 +27,13 @@ for asset in (HERE / 'preview').glob('*.webp'):
     shutil.copyfile(asset, OUT / asset.name)
 for name in ('favicon.svg', 'apple-touch-icon.png', 'og-pricing.png', 'og-profile.png'):
     shutil.copyfile(HERE.parent.parent / 'site' / name, OUT / name)
+# Link previews cache the image by its URL, so a redrawn og-profile.png (build_og.py) gets a new address.
+# og-profile.png itself stays published for previews that already point at it.
+for stale in OUT.glob('og-profile.*.png'):
+    stale.unlink()
+og_bytes = (OUT / 'og-profile.png').read_bytes()
+OG_IMAGE = 'og-profile.' + hashlib.sha256(og_bytes).hexdigest()[:12] + '.png'
+(OUT / OG_IMAGE).write_bytes(og_bytes)
 
 def public_body(payload):
     for key, filename in design['files'].items():
@@ -73,7 +80,7 @@ def document(key, body):
 <link rel="canonical" href="{BASE}{route}"><meta property="og:type" content="website">
 <meta property="og:site_name" content="Miyabiya Studio"><meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(desc, quote=True)}">
-<meta property="og:url" content="{BASE}{route}"><meta property="og:image" content="{BASE}/og-profile.png">
+<meta property="og:url" content="{BASE}{route}"><meta property="og:image" content="{BASE}/{OG_IMAGE}">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Masaya Nishigaki Webエンジニア・テックリード">
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#133F8F">
 <link rel="icon" href="/avatar.webp" type="image/webp"><link rel="apple-touch-icon" href="/apple-touch-icon.png">

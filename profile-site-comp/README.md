@@ -21,6 +21,7 @@
 | 公開ページの生成・メタ情報・配信設定 | `canvas/v3/build_public.py`、`wrangler.toml` |
 | YouTubeの登録者数・代表動画の再生数 (ビルド時に自動取得) | `canvas/v3/youtube_stats.py`、前回の取得結果は `canvas/v3/youtube-stats.json` |
 | 画像素材 | `canvas/assets/`、`site/` 内の画像 |
+| リンクを共有したときのプレビュー画像 (OGP) | `canvas/v3/build_og.py` で `site/og-profile.png` を生成 |
 
 料金の根拠は[料金設定の根拠](docs/pricing/price-basis.md)にまとめています。元の料金表は `canvas/v3/pricing-proposal.json` に保存しています。
 
@@ -49,6 +50,16 @@ npm run preview
 全ページのレビューは `python3 canvas/v3/build_review.py` で生成します。`python3 canvas/v3/preview_review.py` でサーバーを起動し、`http://127.0.0.1:8776/review.html` で確認できます。更新後は同じタブを再読み込みしてください。
 
 `python3 canvas/v3/validate_home.py` は、全ページのリンクと見出し、元の本文と料金の維持を検査します。レビュー用HTMLは公開用の生成先に含まれません。
+
+## OGP画像 (リンクのプレビュー画像)
+
+プレビュー画像は、表示先の枠に合わせて中央から切り抜かれます (X・Facebook は 1.91:1、細いカードは 1.5:1 前後、小さいカードは正方形)。そのため、文字は中央の 630×630 に収め、左右の端には背景だけを置きます。文言や配置を変えたら、次のコマンドで作り直します。
+
+```sh
+python3 canvas/v3/build_og.py
+```
+
+文字が中央の範囲からはみ出すと、生成を止めます。比率ごとの見え方は `output/og-profile-crops.png` で確認できます。Google Chrome が必要です (見つからないときは `CHROME` にパスを指定)。ビルド時は画像の内容から `og-profile.<ハッシュ>.png` を作って `og:image` に指定するため、画像を変えると各サービスのキャッシュも新しい画像に切り替わります。
 
 ## 公開
 
