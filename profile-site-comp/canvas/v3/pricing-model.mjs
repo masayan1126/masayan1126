@@ -179,6 +179,28 @@ function mediaQuote(data,state) {
     quotedTotal:status==='estimate'?totalMin:null,preparation,scope,revisionNotes};
 }
 
+// Explain optional requests using the same result as the finished estimate.
+export function extrasPresentation(data,state,result=quote(data,state)) {
+  if (['invalid','empty'].includes(result.status)) return {status:result.status,error:result.error};
+  const media=result.media??['main'];
+  const baseline=quote(data,{...state,custom:[],revisions:2});
+  const revision=result.lines.find(line=>line.id==='revisions');
+  const pending=new Set(result.pending.map(item=>item.id));
+  const revisionEffects=[
+    ...(media.includes('main')?[{id:'main',label:'本編の軽微修正',effect:revision
+      ?'＋'+amountText(taxIncluded(revision.min,data.taxRate,revision.taxInclusive),taxIncluded(revision.max,data.taxRate,revision.taxInclusive))+'（'+result.extraRounds+'回分・税込）'
+      :'2回まで料金内'}]:[]),
+    ...['short','x'].filter(id=>media.includes(id)).map(id=>({id,label:(id==='short'?'ショート':'X投稿')+'の軽微修正',effect:pending.has(id==='short'?'shortRevisions':'xRevisions')?'料金・無料回数は要相談':'料金内'})),
+  ];
+  return {status:result.status,baselineLabel:baseline.pending.length?'追加条件を含める前の小計（税込）':'追加条件を含める前（税込）',baselineText:amountText(baseline.totalMin,baseline.totalMax),
+    totalLabel:result.pending.length?'現在の小計（税込）':'現在の概算合計（税込）',
+    totalText:amountText(result.totalMin,result.totalMax),revisionEffects,
+    consultations:result.custom.map(item=>({id:item.id,label:item.label})),
+    note:result.totalMin==null?'制作内容や修正条件を確認し、正式な料金をご案内します。':
+      result.pending.length?'個別見積もり・要相談の項目の料金は、この小計に含みません。正式見積もりで総額をご案内します。':'選択した内容の概算金額です。',
+  };
+}
+
 export function quotePresentation(data,state,result=quote(data,state)) {
   const modern = Array.isArray(result.media);
   const mediaLabel = modern ? result.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:result.media.length===1?'X製品PR投稿1回':'X告知シェア1回'})[id]).join('＋') : 'サービス紹介動画1本・AIギルドch掲載';
