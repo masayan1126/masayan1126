@@ -8,8 +8,12 @@ dialog{max-width:700px;width:calc(100% - 32px);max-height:calc(100dvh - 48px);pa
 }
 
 /* Show priced revisions separately from requests quoted after consultation. */
-#pricing-wizard .extras-choices .choice{min-height:126px;padding-right:40px}
-#pricing-wizard .extras-choices .choice-price{font-size:11px;margin-top:8px}
+#pricing-wizard .request-field label{display:block;font-size:14px;margin-bottom:8px}
+#pricing-wizard .request-field textarea{display:block;box-sizing:border-box;width:100%;min-height:144px;padding:12px;font:inherit;font-size:14px;line-height:1.8;color:var(--ink);background:#fff;border:1px solid #afbbcc;resize:vertical}
+#pricing-wizard .request-field textarea::placeholder{color:var(--muted);opacity:1}
+#pricing-wizard .request-field textarea:focus-visible{outline:3px solid #4164a5;outline-offset:3px}
+#pricing-wizard :is(.extras-consultations li,.pending-box li){white-space:pre-wrap;overflow-wrap:anywhere}
+#pricing-wizard .answer-value{overflow-wrap:anywhere;white-space:pre-wrap}
 #pricing-wizard .extras-impact{margin-top:24px;padding:22px;background:#f6f8fb;border:1px solid #ccd8e8;border-top:2px solid #133f8f}
 #pricing-wizard .extras-impact h3{font-size:15px;margin:0 0 18px}
 #pricing-wizard .extras-amounts{margin:0;font-size:12px}
