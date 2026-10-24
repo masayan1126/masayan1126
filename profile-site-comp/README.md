@@ -17,6 +17,8 @@
 | 見積もりの計算・問い合わせ本文・共有URL | `canvas/v3/pricing-model.mjs` |
 | 見積書PDFのレイアウト・保存処理 | `canvas/v3/pricing-pdf.mjs` |
 | 選択操作・表示更新・コピー | `canvas/v3/pricing-ui.mjs` |
+| 質問形式の見積もり操作・依頼者向けの文言 | `canvas/v3/pricing-wizard.mjs`、`canvas/v3/pricing-wizard.css` |
+| 旧共有URLの見積もり操作 | `canvas/v3/pricing-legacy.mjs` |
 | 見積もりページの見た目 | `canvas/v3/pricing.css` |
 | 公開ページの生成・メタ情報・配信設定 | `canvas/v3/build_public.py`、`wrangler.toml` |
 | YouTubeの登録者数・代表動画の再生数 (ビルド時に自動取得) | `canvas/v3/youtube_stats.py`、前回の取得結果は `canvas/v3/youtube-stats.json` |
@@ -68,6 +70,8 @@ npm run preview
 全ページのレビューは `python3 canvas/v3/build_review.py` で生成します。`python3 canvas/v3/preview_review.py` でサーバーを起動し、`http://127.0.0.1:8776/review.html` で確認できます。更新後は同じタブを再読み込みしてください。
 
 見積もりの操作3案も、このレビュー内で切り替えて試せます。生成元は `pricing-flows.html`・`pricing-flows.css`・`pricing-flows.mjs`、生成処理は `build_pricing_flows.mjs` です（いずれも `canvas/v3/` 内）。公開用の料金と共通の計算処理を使い、最後に概算見積書を表示します。回答の変更とPDF保存にも対応します。レビューの生成前に通常のサイトビルドを実行してください。3案は本人確認用で、公開ビルドには含まれません。
+
+2026年10月24日にA案を採用しました。公開ページは、ご依頼内容・本編の資料とサムネイル・追加の希望を1問ずつ確認し、最後に概算見積書を表示します。共有URLは見積書を開き、各回答から選び直せます。媒体を指定しない旧URLは、従来の画面と共有時の料金で開きます。
 
 `python3 canvas/v3/validate_home.py` は、全ページのリンクと見出し、元の本文と料金の維持を検査します。レビュー用HTMLは公開用の生成先に含まれません。
 

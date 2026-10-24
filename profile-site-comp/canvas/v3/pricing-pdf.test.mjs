@@ -95,6 +95,8 @@ test('all seven media offers have matching PDF amounts, conditions and restoring
     assert.ok(text.includes(compact(view.subject)));
     assert.ok(text.includes(compact(view.totalLabel)));
     assert.ok(text.includes(compact(view.totalText).replaceAll('円〜','〜')));
+    assert.ok(text.includes('小計（税抜）'));
+    assert.ok(text.includes(compact(amountText(r.min,r.max)).replaceAll('円〜','〜')));
     for(const item of r.pending)assert.ok(text.includes(compact(item.label)),item.label);
     for(const line of r.lines){
       assert.ok(text.includes(compact(line.label)),line.label);

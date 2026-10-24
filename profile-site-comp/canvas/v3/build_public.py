@@ -118,7 +118,7 @@ shutil.copytree(archive, OUT / 'pricing-rates', dirs_exist_ok=True)
 # Content-addressed assets prevent an older cached stylesheet or model from mixing
 # with the updated estimate form.
 for stale in OUT.iterdir():
-    if re.fullmatch(r'pricing(?:-model|-ui|-pdf)?\.[a-f0-9]{12}\.(?:css|mjs)', stale.name):
+    if re.fullmatch(r'pricing(?:-model|-ui|-pdf|-wizard|-legacy)?\.[a-f0-9]{12}\.(?:css|mjs)', stale.name):
         stale.unlink()
 def pricing_asset(stem, suffix, content):
     digest = hashlib.sha256(content.encode()).hexdigest()[:12]
@@ -128,7 +128,11 @@ def pricing_asset(stem, suffix, content):
 model_name = pricing_asset('pricing-model', 'mjs', (HERE / 'pricing-model.mjs').read_text())
 pdf_source = (HERE / 'pricing-pdf.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'")
 pdf_name = pricing_asset('pricing-pdf', 'mjs', pdf_source)
-ui_source = (HERE / 'pricing-ui.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'").replace("'./pricing-pdf.mjs'", "'./"+pdf_name+"'")
+wizard_source = (HERE / 'pricing-wizard.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'").replace("'./pricing-pdf.mjs'", "'./"+pdf_name+"'")
+wizard_name = pricing_asset('pricing-wizard', 'mjs', wizard_source)
+legacy_source = (HERE / 'pricing-legacy.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'").replace("'./pricing-pdf.mjs'", "'./"+pdf_name+"'")
+legacy_name = pricing_asset('pricing-legacy', 'mjs', legacy_source)
+ui_source = (HERE / 'pricing-ui.mjs').read_text().replace("'./pricing-model.mjs'", "'./"+model_name+"'").replace("'./pricing-wizard.mjs'", "'./"+wizard_name+"'").replace("'./pricing-legacy.mjs'", "'./"+legacy_name+"'")
 ui_name = pricing_asset('pricing-ui', 'mjs', ui_source)
 shutil.copytree(HERE / 'pdf-assets', OUT / 'pdf-assets', dirs_exist_ok=True)
 vendor = OUT / 'pdf-vendor'
@@ -145,12 +149,16 @@ subprocess.run([
     '--outfile='+str(vendor / 'fontkit-1.1.1.mjs'), '--log-level=warning',
 ], check=True)
 css_name = pricing_asset('pricing', 'css', (HERE / 'pricing.css').read_text())
-pricing_body = pricing_builder['content'](rate_data).replace('/pricing.css', '/'+css_name).replace('/pricing-ui.mjs', '/'+ui_name)
+wizard_css = (HERE / 'pricing-wizard.css').read_text()
+compiled_css = subprocess.run([str(modules / 'esbuild/bin/esbuild'), '--loader=css', '--target=safari15', '--log-level=warning'],input=wizard_css,text=True,capture_output=True,check=True).stdout
+wizard_css_name = pricing_asset('pricing-wizard', 'css', compiled_css)
+(OUT / 'pricing-wizard.css').write_text(compiled_css)
+pricing_body = pricing_builder['content'](rate_data).replace('/pricing.css', '/'+css_name).replace('/pricing-wizard.css', '/'+wizard_css_name).replace('/pricing-ui.mjs', '/'+ui_name)
 pricing = '<div class="v3 v3-detail">'+style+header+pricing_body+footer+'</div>'
 (OUT / 'pricing').mkdir(exist_ok=True)
 (OUT / 'pricing/index.html').write_text(document('pricing',pricing))
 # Keep the existing asset URLs available for previously opened pages.
-for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf.mjs'):
+for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf.mjs', 'pricing-wizard.mjs', 'pricing-legacy.mjs'):
     shutil.copyfile(HERE / asset, OUT / asset)
 (OUT / 'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+BASE+'/sitemap.xml\n')
 (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+p+'</loc></url>' for p in paths.values())+'</urlset>')
