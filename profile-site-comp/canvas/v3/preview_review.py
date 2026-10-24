@@ -9,6 +9,7 @@ class Handler(SimpleHTTPRequestHandler):
     def translate_path(self,path):
         clean=unquote(urlsplit(path).path)
         if clean=='/review.html':return str(REVIEW)
+        if clean=='/pricing-flows/':return str(REVIEW.parent/'pricing-flows.html')
         if clean=='/pricing-review/':return str(REVIEW.parent/'pricing-review.html')
         resolved=(SITE/clean.lstrip('/')).resolve()
         return str(resolved if resolved.is_relative_to(SITE.resolve()) else SITE/'404.html')

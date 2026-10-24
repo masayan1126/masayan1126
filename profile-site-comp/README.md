@@ -67,6 +67,8 @@ npm run preview
 
 全ページのレビューは `python3 canvas/v3/build_review.py` で生成します。`python3 canvas/v3/preview_review.py` でサーバーを起動し、`http://127.0.0.1:8776/review.html` で確認できます。更新後は同じタブを再読み込みしてください。
 
+見積もりの操作3案も、このレビュー内で切り替えて試せます。生成元は `pricing-flows.html`・`pricing-flows.css`・`pricing-flows.mjs`、生成処理は `build_pricing_flows.mjs` です（いずれも `canvas/v3/` 内）。公開用の料金と共通の計算処理を使い、最後に概算見積書を表示します。回答の変更とPDF保存にも対応します。レビューの生成前に通常のサイトビルドを実行してください。3案は本人確認用で、公開ビルドには含まれません。
+
 `python3 canvas/v3/validate_home.py` は、全ページのリンクと見出し、元の本文と料金の維持を検査します。レビュー用HTMLは公開用の生成先に含まれません。
 
 ## OGP画像 (リンクのプレビュー画像)
