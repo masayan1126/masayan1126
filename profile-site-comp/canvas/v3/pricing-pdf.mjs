@@ -133,13 +133,25 @@ export async function createEstimatePdf(data, state, options) {
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。要相談の金額は小計に含みません。正式見積もりで総額を確定します。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
   const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*12+3,0);
-  y+=3;room(notesHeight);
-  page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
-  text('ご確認事項',left+10,y+8,9);y+=27;
-  for(const row of conditions) {
-    text(row.label,left+10,y,8.5);
-    for(const value of row.lines) {text(value,left+87,y,8.5);y+=12;}
-    y+=3;
+  y+=3;
+  if(notesHeight<=714) {
+    room(notesHeight);
+    page.drawRectangle({x:left,y:H-y-notesHeight,width:right-left,height:notesHeight,borderWidth:.6,borderColor:border});
+    text('ご確認事項',left+10,y+8,9);y+=27;
+    for(const row of conditions) {
+      text(row.label,left+10,y,8.5);
+      for(const value of row.lines) {text(value,left+87,y,8.5);y+=12;}
+      y+=3;
+    }
+  } else {
+    // Free-form requests may contain many lines. Continue on the next page
+    // instead of letting a single oversized confirmation box run off the page.
+    room(32);text('ご確認事項',left,y,11);y+=24;
+    for(const row of conditions) {
+      room(16);text(row.label,left+10,y,8.5);
+      for(const value of row.lines) {room(12);text(value,left+87,y,8.5);y+=12;}
+      y+=3;
+    }
   }
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
   let termSections=[

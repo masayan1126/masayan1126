@@ -84,7 +84,7 @@ test('item names and descriptions remain together in extracted PDF text',async()
 
 test('all seven media offers have matching PDF amounts, conditions and restoring links',async()=>{
   for(const media of [['x'],['short'],['short','x'],['main'],['main','x'],['main','short'],['main','short','x']]) {
-    const state={media,items:['materials','thumbnail'],revisions:2,custom:['reuse']};
+    const state={media,items:['materials','thumbnail'],revisions:2,custom:['reuse'],notes:'準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい'};
     const r=quote(data,state),view=quotePresentation(data,state,r);
     const bytes=await createEstimatePdf(data,state,options);
     const document=await PDFDocument.load(bytes);
@@ -113,4 +113,18 @@ test('all seven media offers have matching PDF amounts, conditions and restoring
     assert.deepEqual(quote(data,stateFromUrl(data,link)),r);
   }
   await assert.rejects(createEstimatePdf(data,{media:[]},options),/制作物/);
+});
+
+test('long multiline requests continue onto new PDF pages and retain their restoring link',async()=>{
+  const notes='確認事項\n'.repeat(190)+'最後の希望';
+  const state={media:['main'],items:['materials','thumbnail'],revisions:3,notes};
+  const bytes=await createEstimatePdf(data,state,options),document=await PDFDocument.load(bytes);
+  assert.ok(document.getPageCount()>3);
+  const extracted=spawnSync('pdftotext',['-bbox','-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+  assert.equal(extracted.status,0,extracted.stderr);
+  assert.ok(extracted.stdout.includes('最後の希望'));
+  for(const match of extracted.stdout.matchAll(/yMax="([\d.]+)"/g))assert.ok(Number(match[1])<824,'Text must stay within the PDF page');
+  const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
+  const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
+  assert.equal(stateFromUrl(data,link).notes,notes);
 });

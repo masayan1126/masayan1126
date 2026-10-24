@@ -1,5 +1,6 @@
 export const yen = number => number.toLocaleString('ja-JP') + '円';
 export const taxIncluded = (amount, taxRate, alreadyIncluded = false) => amount == null ? null : alreadyIncluded ? amount : amount + Math.round(amount * taxRate);
+export const normalizeNotes = value => typeof value === 'string' ? value.replace(/\r\n?/g,'\n').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'').slice(0,1000).trim() : '';
 export function amountText(min, max) {
   if (min == null || max == null) return '要相談';
   return min === max ? yen(min) : yen(min) + '〜' + yen(max);
@@ -26,6 +27,8 @@ export function estimateUrl(data, state = {}, base = 'https://studio.msyn.me/pri
     const custom = data.custom.filter(item => state.custom?.includes(item.id)).map(item => item.id);
     if (custom.length) url.searchParams.set('custom',custom.join(','));
   }
+  const notes=normalizeNotes(state.notes);
+  if(notes)url.searchParams.set('notes',notes);
   return url.href;
 }
 
@@ -33,6 +36,7 @@ export const MEDIA = ['main','short','x'];
 export function stateFromUrl(data, url) {
   const params = new URL(url).searchParams;
   const state = {items:selectedFromUrl(data,url)};
+  if(params.has('notes'))state.notes=normalizeNotes(params.get('notes'));
   if (params.has('revisions')) state.revisions = params.get('revisions');
   if (params.has('custom')) {
     const custom = params.getAll('custom').flatMap(value => value.split(','));
@@ -67,6 +71,8 @@ export function quote(data, state = {}) {
   if (data.mediaSchema && Array.isArray(state.media)) return mediaQuote(data,state);
   const selected = new Set(Array.isArray(state.items) ? state.items : []);
   const custom = data.custom.filter(item => (Array.isArray(state.custom) ? state.custom : []).includes(item.id));
+  const notes=normalizeNotes(state.notes);
+  if(notes)custom.push({id:'notes',label:'追加のご希望：'+notes});
   const chosen = data.checklistItems.filter(item => item.fixed || selected.has(item.id));
   const optional = chosen.filter(item => !item.fixed).map(item => item.id);
   const raw = state.revisions ?? 2, revisions = Number(raw);
@@ -129,7 +135,7 @@ function mediaQuote(data,state) {
   const main = media.includes('main'), short = media.includes('short'), x = media.includes('x');
   const items = main ? (state.items ?? []).filter(id => ['materials','thumbnail'].includes(id)) : [];
   const rates = data.mediaRates;
-  const base = quote(data,{items:main?items:[], revisions:main?state.revisions:2,custom:state.custom});
+  const base = quote(data,{items:main?items:[], revisions:main?state.revisions:2,custom:state.custom,notes:state.notes});
   if (base.status === 'invalid') return {...base,media};
   const revisionsRaw = state.revisions ?? 2, revisions = Number(revisionsRaw);
   if (!/^\d+$/.test(String(revisionsRaw)) || !Number.isSafeInteger(revisions) || !Number.isSafeInteger(revisions * data.revisionFee)) {
@@ -183,7 +189,7 @@ function mediaQuote(data,state) {
 export function extrasPresentation(data,state,result=quote(data,state)) {
   if (['invalid','empty'].includes(result.status)) return {status:result.status,error:result.error};
   const media=result.media??['main'];
-  const baseline=quote(data,{...state,custom:[],revisions:2});
+  const baseline=quote(data,{...state,custom:[],notes:'',revisions:2});
   const revision=result.lines.find(line=>line.id==='revisions');
   const pending=new Set(result.pending.map(item=>item.id));
   const revisionEffects=[

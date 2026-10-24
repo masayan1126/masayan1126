@@ -1,9 +1,9 @@
-import {quote,quotePresentation,extrasPresentation,summary,mailto,estimateUrl,amountText,taxIncluded} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,summary,mailto,estimateUrl,amountText,taxIncluded,normalizeNotes} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
 const root = document.querySelector('#pricing-wizard');
-const state = {media:restored.media,items:restored.media.includes('main')&&new URL(location.href).searchParams.has('items')?restored.items:['materials','thumbnail'],custom:restored.custom??[],revisions:restored.revisions??2};
+const state = {media:restored.media,items:restored.media.includes('main')&&new URL(location.href).searchParams.has('items')?restored.items:['materials','thumbnail'],custom:[],notes:normalizeNotes([...data.custom.filter(item=>restored.custom?.includes(item.id)).map(item=>item.label),restored.notes??''].filter(Boolean).join('\n')),revisions:restored.revisions??2};
 let question = 'media', complete = state.media.length>0, everCompleted = complete;
 let revisionError = '', recipient = '', honorific='御中', lastPdfButton,copyVersion=0;
 const terms = document.querySelector('#main-terms').cloneNode(true);
@@ -26,8 +26,7 @@ const selectChoice = ({group,id,title,description='',note='',price='',icon=''}) 
 function answerText(key) {
   if(key==='media') return state.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR'})[id]).join('・') || 'まだ選択していません';
   if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');
-  const list=data.custom.filter(item=>state.custom.includes(item.id)).map(item=>item.label);
-  return [`軽微修正${state.revisions}回をご希望`,...list].join('・');
+  return [`軽微修正${state.revisions}回をご希望`,normalizeNotes(state.notes)].filter(Boolean).join('\n');
 }
 function questionContent(key) {
   const idx=questions().indexOf(key);
@@ -49,10 +48,8 @@ function questionContent(key) {
       price:'＋'+amountText(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive))+'（税込）',
     })).join('')+'</div><p class="mini-note">製品マニュアルなどをもとに動画用の説明資料の作成を依頼される場合は、「動画用の説明資料も依頼する」をご選択ください。</p>';
   } else {
-    hint='二次利用などの料金は、ご希望の内容を確認して個別にお見積もりします。選択した項目の料金は、表示中の小計には含まれません。';
-    const descriptions={preparation:'準備物と作業の分担を確認します。',reuse:'利用先・期間・広告利用の有無を確認します。',reshoot:'撮り直しの内容と範囲を確認します。',long:'動画の長さと必要な作業を確認します。',multiple:'本数・制作内容・契約期間を確認します。',period:'ご希望の掲載期間と条件を確認します。'};
-    const choices='<div class="choices extras-choices">'+data.custom.map(item=>selectChoice({group:'custom',id:item.id,title:item.label,description:descriptions[item.id]??'',price:state.custom.includes(item.id)?'別途お見積もり（小計に含みません）':'料金は個別見積もり'})).join('')+'</div>';
-    body=choices
+    hint='ご希望の内容を自由にご記入ください。追加費用は個別にお見積もりし、表示中の小計には含みません。';
+    body=`<div class="request-field"><label for="wizard-notes">ご希望の内容（任意）</label><textarea id="wizard-notes" data-key="notes" rows="4" maxlength="1000" aria-describedby="request-note" placeholder="準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい">${esc(state.notes)}</textarea><p class="sheet-note" id="request-note">1,000文字まで入力できます。入力した内容は、概算見積書・共有URL・PDF・問い合わせ文に引き継がれます。</p></div>`
       +`<div class="revisions"><label for="wizard-revisions">公開前の軽微修正の希望回数</label><input id="wizard-revisions" data-key="revisions" type="number" inputmode="numeric" min="0" step="1" value="${esc(state.revisions)}" aria-describedby="revision-note"><span>回</span></div>`
       +`<p class="rev-note" id="revision-note">${hasMain()?'本編は2回まで料金内、3回目以降は1回'+amountText(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate))+'（税込）です。':'希望回数をもとに正式見積もりで確認します。'}${state.media.some(id=>id==='short'||id==='x')?' ショート・Xの無料回数と追加料金は要相談です。':''}</p>`
       +extrasImpact();
@@ -63,10 +60,10 @@ function extrasImpact() {
   const view=extrasPresentation(data,state);
   if(view.status==='invalid')return `<section id="extras-impact" class="extras-impact"><p class="error">${esc(view.error)}</p></section>`;
   if(view.status==='empty')return '<div id="extras-impact"></div>';
-  return `<section id="extras-impact" class="extras-impact" aria-labelledby="extras-impact-title"><h3 id="extras-impact-title">選択による金額の変化</h3>
+  return `<section id="extras-impact" class="extras-impact" aria-labelledby="extras-impact-title"><h3 id="extras-impact-title">追加のご希望と金額</h3>
     <dl class="extras-amounts"><div><dt>${esc(view.baselineLabel)}</dt><dd id="extras-before">${esc(view.baselineText)}</dd></div></dl>
     <ul class="extras-revision-effects">${view.revisionEffects.map(item=>`<li><span>${esc(item.label)}</span><strong>${esc(item.effect)}</strong></li>`).join('')}</ul>
-    ${view.consultations.length?`<div class="extras-consultations"><h4>選択した個別見積もりの項目</h4><ul>${view.consultations.map(item=>`<li>${esc(item.label)}<small>この料金は小計に含みません。</small></li>`).join('')}</ul></div>`:'<p class="extras-no-consultation">個別見積もりのご希望は選択されていません。</p>'}
+    ${view.consultations.length?`<div class="extras-consultations"><h4>個別見積もりのご希望</h4><ul>${view.consultations.map(item=>`<li>${esc(item.label)}<small>この料金は小計に含みません。</small></li>`).join('')}</ul></div>`:'<p class="extras-no-consultation">追加のご希望は未入力です。</p>'}
     <dl class="extras-amounts extras-current"><div><dt id="extras-total-label">${esc(view.totalLabel)}</dt><dd id="extras-after">${esc(view.totalText)}</dd></div></dl><p class="extras-explanation">${esc(view.note)}</p>
   </section>`;
 }
@@ -74,6 +71,7 @@ function refreshExtras(announce=false) {
   const panel=workspace.querySelector('#extras-impact');if(!panel)return;
   panel.outerHTML=extrasImpact();
   const result=quote(data,state),view=quotePresentation(data,state,result),asideNode=workspace.querySelector('.flow-aside');
+  if(result.status!=='invalid')history.replaceState(null,'',estimateUrl(data,state,location.href));
   if(asideNode)asideNode.outerHTML=aside(result,view);
   if(announce){const impact=extrasPresentation(data,state,result);document.querySelector('#wizard-live').textContent=impact.status==='invalid'?impact.error:impact.status==='empty'?'ご希望のPRを選択してください。':impact.totalLabel+'、'+impact.totalText+'。'+(impact.consultations.length?'個別見積もりの'+impact.consultations.length+'項目の料金は含みません。':'');}
 }
@@ -138,7 +136,8 @@ workspace.addEventListener('change',event=>{
     state[target.dataset.group]=[...values];answered.add(target.dataset.group==='media'?'media':target.dataset.group==='items'?'assets':'extras');
     render(target.dataset.key);
     if(question==='extras')refreshExtras(true);
-  } else if(target.id==='wizard-revisions') {
+  } else if(target.id==='wizard-notes'||target.id==='wizard-revisions') {
+    if(target.id==='wizard-notes'){state.notes=target.value;refreshExtras();return;}
     state.revisions=target.value;revisionError='';
     // Keep the field and the clicked button in place while focus moves away.
     const result=quote(data,state),node=workspace.querySelector('.flow-aside');
@@ -147,6 +146,7 @@ workspace.addEventListener('change',event=>{
 });
 workspace.addEventListener('input',event=>{
   if(event.target.id==='wizard-recipient')recipient=event.target.value;
+  if(event.target.id==='wizard-notes'){state.notes=event.target.value;refreshExtras();}
   if(event.target.id==='wizard-revisions')state.revisions=event.target.value;
   if(event.target.id==='wizard-revisions')refreshExtras(true);
 });
@@ -158,7 +158,7 @@ workspace.addEventListener('click',async event=>{
   if(button.hasAttribute('data-prev'))return goTo(qs[idx-1]);
   if(button.hasAttribute('data-complete'))return finish();
   if(button.id==='restart') {
-    Object.assign(state,{media:[],items:['materials','thumbnail'],custom:[],revisions:2});document.querySelector('#wizard-live').textContent='選択内容をリセットしました。';
+    Object.assign(state,{media:[],items:['materials','thumbnail'],custom:[],notes:'',revisions:2});document.querySelector('#wizard-live').textContent='選択内容をリセットしました。';
     answered.clear();everCompleted=false;recipient='';return goTo('media');
   }
   if(button.id==='wizard-copy-url') {
