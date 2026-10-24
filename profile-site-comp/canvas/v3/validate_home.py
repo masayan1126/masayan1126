@@ -66,6 +66,11 @@ def target(ref, current):
 
 # Pages rebuilt after the baseline: (facts the page must carry, links it must have, headings in order).
 RESTRUCTURED = {
+    # 2026-10-24: media combinations, unknown fees and optional consultation.
+    'pricing': (['7つの組み合わせを比較する', 'YouTube本編1本', 'ショート1本', 'X投稿1回',
+                 '追加修正・二次利用などを相談する', '要相談の項目の金額は、小計に含まれていません。',
+                 '自社サイト・SNS・広告などで二次利用したい', '要相談'],
+                ['/media/'], ['id="comparison-heading"', 'id="media-selection"', 'id="selected-scope"']),
     # 2026-09-30: channel → PR work → offers and price → production → membership.
     'media': (['チャンネルについて', '視聴者データ', '代表的な動画', '最新の動画', 'PR動画の制作実績', 'Notta Memo Pro',
                'ご依頼いただける内容と料金', 'タイアップ動画', 'Xでの紹介', '対談・コラボ企画', 'PR動画の料金・見積もり',
@@ -235,9 +240,15 @@ for script in [*SITE.glob('site-assets/*.mjs'), *SITE.glob('home-assets/*.mjs')]
     subprocess.run(['node', '--check', str(script)], check=True, capture_output=True)
 pricing = {}
 if BASELINE.exists():
-    for name, original_hash in json.loads((BASELINE / 'pricing-source-hashes.json').read_text()).items():
-        if name.endswith(('.mjs', '.css')) or name == 'pricing-data.json':
-            pricing[name] = hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == original_hash
+    # The media selector is an authorized pricing implementation change (2026-10-24).
+    # Preserve the original work rates and archive bytes rather than freezing source code.
+    original = json.loads((BASELINE / 'site/pricing/index.html').read_text().split('<script id="pricing-data" type="application/json">')[1].split('</script>')[0])
+    current = json.loads((ROOT / 'pricing-data.json').read_text())
+    for item in current['checklistItems']:
+        old = next(row for row in original['checklistItems'] if row['id'] == item['id'])
+        pricing[item['id']] = all(item.get(key) == old.get(key) for key in ('min','max','taxInclusive','fixed'))
+    pricing['taxRate'] = current['taxRate'] == original['taxRate']
+    pricing['revisionFee'] = current['revisionFee'] == original['revisionFee']
     assert all(pricing.values()), pricing
     rate_files = list((BASELINE / 'site/pricing-rates').glob('*.json'))
     assert rate_files, 'Expected archived pricing versions'

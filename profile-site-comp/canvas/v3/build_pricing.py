@@ -24,7 +24,7 @@ def amount(item):
     return f'{low:,}〜{high:,}円'
 
 def media_summary():
-    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>資料作成・サムネイル制作・ショート動画など、追加で依頼したい作業を選んで概算料金をご確認いただけます。本編1本の制作と、YouTubeでの掲載が対象です。</p><p>公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。二次利用や撮り直しの料金は、要相談とさせていただきます。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
+    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>YouTube本編・ショート・X投稿を組み合わせて、制作範囲と概算料金をご確認いただけます。未確定の料金・条件は要相談です。</p><p>本編では、公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。ショート・Xの修正条件、二次利用や撮り直しの料金は要相談です。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
 
 def groups():
     result=[]
@@ -44,7 +44,7 @@ def groups():
     return ''.join(result)
 
 def public_rates():
-    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom')}
+    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates')}
 
 def content(public_data=None):
     if public_data is None: public_data=public_rates()
@@ -53,17 +53,41 @@ def content(public_data=None):
   <section class="estimate-intro"><div class="v3-wrap">
     <a class="v3-breadcrumb" href="/media/">← YouTube・PR・コラボ</a>
     <h1>PR動画制作の見積もり</h1>
+    <p class="estimate-lead">本編・ショート・X投稿を選び、制作範囲と概算料金を確認できます。料金や条件が未確定の項目は「要相談」と表示します。</p>
     <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
     <div id="share-load-error" class="estimate-error" role="alert" hidden><p>共有された見積もりを読み込めませんでした。URLをご確認ください。</p><a href="/pricing/">新しく見積もる</a></div>
   </div></section>
+  <section class="v3-wrap estimate-comparison" aria-labelledby="comparison-heading">
+    <h2 id="comparison-heading">7つの組み合わせを比較する</h2>
+    <p class="estimate-hint">本編10〜20分程度・ショート60秒程度を各1本、X投稿を1回とした比較です。本編は資料作成とサムネイル制作を含みます。金額が分かる構成から低い順に表示し、料金・条件が未確定の構成は要相談とします。</p>
+    <div class="comparison-scroll"><table class="quote-table"><thead><tr><th scope="col">制作物</th><th scope="col">概算料金（税込）</th></tr></thead><tbody id="comparison-lines"></tbody></table></div>
+  </section>
   <div class="v3-wrap estimate-layout">
     <form id="estimate-form" aria-label="PR動画制作の見積もり条件">
+      <fieldset id="media-selection" class="estimate-group"><legend>1. 依頼する制作物を選ぶ</legend>
+        <div class="media-options">
+          <label class="media-option"><input type="checkbox" name="media" value="main"><span><b>YouTube本編1本</b><small>10〜20分程度・AIギルドchで公開</small></span></label>
+          <label class="media-option"><input type="checkbox" name="media" value="short"><span><b>ショート1本</b><small id="short-selection-help">60秒程度・単独制作は要相談</small></span></label>
+          <label class="media-option"><input type="checkbox" name="media" value="x"><span><b>X投稿1回</b><small id="x-selection-help">Xのみなら製品PR、動画と組み合わせると公開動画の告知シェア</small></span></label>
+        </div>
+      </fieldset>
+      <p id="legacy-selection-note" class="estimate-hint" hidden>従来の本編見積もりです。共有時の作業選択と料金を表示しています。<a href="/pricing/">新しい媒体選択で見積もる</a></p>
+      <p id="media-rate-note" class="estimate-hint"></p>
       <div class="sheet-hint">
-        <p class="estimate-hint">PRするサービスの検証用アカウントをご用意いただくようお願いいたします。</p>
+        <p class="estimate-hint" id="preparation-hint"></p>
       </div>
-      <div id="estimate-groups">{groups()}</div>
+      <div id="estimate-groups" hidden>{groups()}</div>
+      <details class="estimate-additional" id="additional-options"><summary>追加修正・二次利用などを相談する</summary><div class="estimate-additional-content">
+        <label class="estimate-revisions-label" for="revisions">公開前に希望する軽微修正の回数</label>
+        <div class="estimate-revisions"><input id="revisions" name="revisions" type="number" min="0" step="1" value="2" inputmode="numeric" aria-describedby="revision-hint"><span>回</span></div>
+        <p id="revision-hint" class="estimate-hint">本編は2回まで料金内です。ショート・Xの無料回数と追加料金は要相談です。</p>
+        <fieldset class="estimate-custom-options"><legend>個別に相談する項目</legend>{''.join('<label class="estimate-check"><input type="checkbox" name="custom" value="'+item['id']+'"><span>'+html.escape(item['label'])+'</span><small>要相談</small></label>' for item in public_data['custom'])}</fieldset>
+      </div></details>
+      <section class="estimate-notes" id="selected-scope" aria-labelledby="selected-scope-heading"><h2 id="selected-scope-heading">選択した制作・公開の範囲</h2><ul id="scope-list"></ul><ul id="revision-list"></ul><h3>ご用意いただくもの</h3><ul id="preparation-list"></ul></section>
+      <div id="other-media-terms" class="estimate-notes" hidden><h2>ご依頼前の確認事項</h2><p>制作範囲・修正回数・公開日・お支払い・キャンセル条件は、正式見積もりで確認します。製品の仕様・料金・使用素材の権利は、公開前に双方で確認します。PRであることが分かる表記を入れます。二次利用・掲載期間・ファイル納品・レポートは要相談です。</p></div>
+      <div id="main-terms" hidden>
       <section class="estimate-notes" aria-labelledby="estimate-notes-heading">
-        <h2 id="estimate-notes-heading">{icon('info')} 注意事項</h2>
+        <h2 id="estimate-notes-heading">{icon('info')} 本編の注意事項</h2>
         <div class="estimate-notes-copy">
           <h3>修正回数</h3>
           <ul>
@@ -147,12 +171,15 @@ def content(public_data=None):
           </ul>
         </div>
       </section>
+      </div>
     </form>
     <aside id="estimate-result" class="estimate-result" aria-labelledby="result-heading" tabindex="-1">
       <div class="quote-heading"><h2 id="result-heading">{icon()} 概算見積書</h2><p id="rate-updated" class="quote-updated">料金表の更新日：{html.escape(public_data['updated'])}</p><p class="estimate-hint result-disclaimer">※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。</p></div>
       <p id="shared-rate-note" class="estimate-hint" hidden>共有時の料金表で表示しています。</p>
       <p id="result-error" class="estimate-error" role="alert" hidden></p>
+      <p id="result-empty" class="estimate-hint">本編・ショート・X投稿から、依頼する制作物を選択してください。</p>
       <div id="result-filled">
+        <p id="result-media" class="result-media"></p>
         <table class="quote-table"><thead><tr><th scope="col">項目</th><th scope="col">金額（税込）</th></tr></thead><tbody id="result-lines"></tbody></table>
         <div id="result-custom" class="result-custom" hidden><p>以下の項目は、相談後に料金が決まります。</p><ul id="result-custom-list"></ul></div>
         <div class="quote-total" id="result-amount">

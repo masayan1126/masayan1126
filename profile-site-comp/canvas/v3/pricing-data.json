@@ -1,5 +1,5 @@
 {
-  "updated": "2026年9月6日",
+  "updated": "2026年10月24日",
   "taxRate": 0.1,
   "revisionFee": 5000,
   "plans": [
@@ -280,5 +280,31 @@
       "min": 5000,
       "max": 5000
     }
-  ]
+  ],
+  "mediaSchema": 1,
+  "mediaRates": {
+    "standaloneShort": {
+      "min": null,
+      "max": null,
+      "taxInclusive": false
+    },
+    "xPr": {
+      "min": null,
+      "max": null,
+      "taxInclusive": true
+    },
+    "videoAnnouncement": {
+      "min": null,
+      "max": null,
+      "taxInclusive": true
+    },
+    "additionalShortWithoutX": {
+      "min": null,
+      "max": null,
+      "taxInclusive": false
+    },
+    "additionalShortCount": null,
+    "shortIncludedRevisions": null,
+    "xIncludedRevisions": null
+  }
 }
