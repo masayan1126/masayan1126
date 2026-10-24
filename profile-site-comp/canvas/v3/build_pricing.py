@@ -48,15 +48,22 @@ def public_rates():
 
 def content(public_data=None):
     if public_data is None: public_data=public_rates()
-    return f'''<link rel="stylesheet" href="/pricing.css">
+    return f'''<link rel="stylesheet" href="/pricing.css"><link rel="stylesheet" href="/pricing-wizard.css">
 <main id="main-content" class="estimate-page">
   <section class="estimate-intro"><div class="v3-wrap">
     <a class="v3-breadcrumb" href="/media/">← YouTube・PR・コラボ</a>
     <h1>PR動画制作の見積もり</h1>
-    <p class="estimate-lead">本編・ショート・X投稿を選び、制作範囲と概算料金を確認できます。料金や条件が未確定の項目は「要相談」と表示します。</p>
+    <p class="estimate-lead">YouTubeやXでの製品・サービスのPRをご検討中の方へ。ご希望の内容を選ぶと、概算金額と明細をご確認いただけます。</p>
     <p id="base-scope-hint" class="estimate-hint">{html.escape(public_data['baseDescription'])}</p>
     <div id="share-load-error" class="estimate-error" role="alert" hidden><p>共有された見積もりを読み込めませんでした。URLをご確認ください。</p><a href="/pricing/">新しく見積もる</a></div>
   </div></section>
+  <section id="pricing-wizard" class="pricing-wizard v3-wrap" aria-label="PRのご依頼内容を選ぶ">
+    <div id="wizard-workspace"><p>見積もりの選択項目を読み込んでいます。</p></div>
+    <p class="wizard-contact-note">どの内容が合うか迷われる場合は、<a href="/contact/?type=pr#contact-form">PRについて相談する</a>から、お気軽にお問い合わせください。</p>
+    <noscript><p>見積もりの自動計算にはJavaScriptが必要です。ご希望の内容は、お問い合わせからもご相談いただけます。</p></noscript>
+    <div id="wizard-live" class="estimate-sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  </section>
+  <div id="legacy-estimate" hidden>
   <section class="v3-wrap estimate-comparison" aria-labelledby="comparison-heading">
     <h2 id="comparison-heading">7つの組み合わせを比較する</h2>
     <p class="estimate-hint">本編10〜20分程度・ショート60秒程度を各1本、X投稿を1回とした比較です。本編は資料作成とサムネイル制作を含みます。金額が分かる構成から低い順に表示し、料金・条件が未確定の構成は要相談とします。</p>
@@ -212,4 +219,5 @@ def content(public_data=None):
   </dialog>
   <a id="estimate-mobile-total" class="estimate-mobile-total" href="#estimate-result" aria-controls="estimate-result" hidden><span id="mobile-amount"></span><span>明細を見る ↓</span></a>
   <div id="estimate-live" role="status" aria-live="polite" aria-atomic="true" class="estimate-sr-only"></div>
+  </div>
 </main><script id="pricing-data" type="application/json">{json.dumps(public_data,ensure_ascii=False)}</script><script type="module" src="/pricing-ui.mjs"></script>'''

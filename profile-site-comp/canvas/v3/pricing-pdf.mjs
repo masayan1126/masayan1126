@@ -109,8 +109,9 @@ export async function createEstimatePdf(data, state, options) {
     aligned(amount,cols[3]-10,y+10,9);
     aligned(amount,right-10,y+10,9);y+=height;line(y);
   }
-  y+=10;room(50);
+  y+=10;room(modern?70:50);
   for(const [label,value,bold] of [
+    ...(modern ? [['小計（税抜）',money(result.min,result.max),false]] : []),
     [result.pending.length && result.totalMin!=null?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true],
     ...(result.totalMin==null?[]:[['うち消費税相当額（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false]])
   ]) {
