@@ -1,176 +1,132 @@
-import {quote,quotePresentation,summary,estimateUrl,amountText,taxIncluded} from './pricing-model.mjs';
+import {quote,quotePresentation,amountText,taxIncluded,normalizeNotes} from './pricing-model.mjs';
+import {fixedReviewRates,relatedQuotes,reviewSummary,combinations} from './pricing-flows-model.mjs';
 
-const data = REVIEW_PRICING_DATA;
-const workspace = document.querySelector('#workspace');
-const demo = document.querySelector('#demo');
-const state = {media:[],items:['materials','thumbnail'],custom:[],revisions:2};
-let pattern = 'a', question = 'media', complete = false, everCompleted = false;
-let revisionError = '', recipient = '', lastPdfButton;
-const answered = new Set();
-const titles = {media:'何をつくりますか？',assets:'本編の資料・サムネイルもお任せしますか？',extras:'ほかに希望はありますか？'};
-const captions = {
-  a:'A：1問に集中して答え、最後に見積書をつくります。初めて依頼する方におすすめです。',
-  b:'B：答えた質問を閉じて、次の質問を開きます。回答を見返しながら進められます。',
-  c:'C：必要な質問を一覧で答えます。全体を見渡し、好きな順番で選べます。',
-};
-const esc = text => String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-const hasMain = () => state.media.includes('main');
-const questions = () => hasMain()?['media','assets','extras']:['media','extras'];
-const icons = {
-  main:'<rect x="2" y="5" width="23" height="17"/><path d="m11 10 6 4-6 4z"/>',
-  short:'<rect x="7" y="1" width="13" height="25"/><path d="m12 10 5 4-5 3z"/>',
-  x:'<path d="m5 3 17 22H17L1 3h5Zm16 0L4 25"/>',
-};
-const selectChoice = ({group,id,title,description='',price='',icon=''}) => {
-  const checked = state[group].includes(id);
-  return `<label class="choice${icon?'':' compact'}"><input type="checkbox" data-group="${group}" data-key="${group}-${id}" value="${id}" ${checked?'checked':''}><span class="choice-icon" ${icon?'':'hidden'}><svg aria-hidden="true" viewBox="0 0 28 28">${icons[icon]??''}</svg></span><span class="choice-title">${esc(title)}</span>${description?`<span class="choice-description">${esc(description)}</span>`:''}${price?`<span class="choice-price">${esc(price)}</span>`:''}</label>`;
-};
-function answerText(key) {
-  if(key==='media') return state.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR'})[id]).join('・') || 'まだ選択していません';
-  if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'自分で用意')).join('\n');
-  const list=data.custom.filter(item=>state.custom.includes(item.id)).map(item=>item.label);
-  return list.length ? list.join('・') : `軽微修正${state.revisions}回を希望・その他の希望なし`;
+const source=REVIEW_PRICING_DATA, data=fixedReviewRates(source);
+const workspace=document.querySelector('#workspace'), dialog=document.querySelector('#simulator');
+const state={media:[],items:['materials','thumbnail'],revisions:2,custom:[],notes:''};
+let pattern='a', question='media', complete=false, error='';
+const names={a:'1問ずつ選ぶ',b:'選択と見積もりを並べる',c:'7プランから選ぶ'};
+const captions={a:'A：大きな画面で1問ずつ選びます。最後に見積書と別の組み合わせを比べられます。',b:'B：左で条件を選ぶと、右の見積もりがすぐに変わります。全体を見ながら調整できます。',c:'C：7つの組み合わせを先に比較し、プランを選んでから制作の詳細を決めます。'};
+const titles={media:'どのPRをご希望ですか？',assets:'資料・サムネイル制作も依頼しますか？',extras:'追加のご希望はありますか？'};
+const esc=text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const main=()=>state.media.includes('main');
+const questions=()=>main()?['media','assets','extras']:['media','extras'];
+const money=line=>amountText(taxIncluded(line.min,data.taxRate,line.taxInclusive),taxIncluded(line.max,data.taxRate,line.taxInclusive));
+function choice(group,id,title,description,price='') {
+  return '<label class="choice"><input type="checkbox" data-group="'+group+'" data-key="'+group+'-'+id+'" value="'+id+'" '+(state[group].includes(id)?'checked':'')+'><strong>'+esc(title)+'</strong><small>'+esc(description)+'</small>'+(price?'<span class="choice-price">'+esc(price)+'</span>':'')+'</label>';
 }
-function questionContent(key) {
-  const idx=questions().indexOf(key);
-  let hint='', body='';
+function mediaText() {return quotePresentation(data,state).mediaLabel||'まだ選択していません';}
+function assetText() {return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');}
+function extraText() {return ['軽微修正'+state.revisions+'回をご希望',normalizeNotes(state.notes)].filter(Boolean).join('\n');}
+function fieldContent(key) {
+  let hint='',body='';
   if(key==='media') {
-    hint='複数選べます。YouTube本編は10〜20分、ショートは60秒程度を想定しています。';
-    body='<div class="choices">'+[
-      {group:'media',id:'main',title:'YouTube本編',description:'10〜20分程度・1本を制作し、YouTubeで公開',icon:'main'},
-      {group:'media',id:'short',title:'ショート動画',description:hasMain()?'本編の内容・撮影素材から60秒程度を1本':'60秒程度・1本を単独で制作',icon:'short'},
-      {group:'media',id:'x',title:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR',description:state.media.some(id=>id!=='x')?'公開した動画を紹介する告知シェア・1回':'製品・サービスを紹介するPR投稿・1回',icon:'x'},
-    ].map(selectChoice).join('')+'</div><p class="hint">Xのみの場合は製品PR、動画と組み合わせる場合は公開動画の告知です。</p>';
+    hint='ご希望の制作・掲載先をお選びください。複数選択できます。';
+    body='<div class="choices">'+choice('media','main','YouTube本編で紹介','10分から20分程度・1本を制作し、AIギルドchで公開')+choice('media','short','ショート動画で紹介',main()?'本編の内容・撮影素材から60秒程度を1本（詳細は要相談）':'60秒程度・1本を単独制作（料金・条件は要相談）')+choice('media','x',state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR',state.media.some(id=>id!=='x')?'公開動画の告知シェア・1回（料金・条件は要相談）':'製品・サービスのPR投稿・1回（料金・条件は要相談）')+'</div><p class="mini-note">Xのみの場合は製品PR、動画と組み合わせる場合は公開動画の告知です。</p>';
   } else if(key==='assets') {
-    hint='制作を依頼するものを選んでください。選択を外したものは、お客様にご用意いただきます。';
-    const items=data.checklistItems.filter(item=>['materials','thumbnail'].includes(item.id));
-    body='<div class="choices">'+items.map(item=>selectChoice({group:'items',id:item.id,
-      title:item.id==='materials'?'動画用の説明資料を依頼':'サムネイル制作を依頼',
-      description:item.id==='materials'?'動画で説明する内容と順番をまとめた資料を作成':'動画に使用するサムネイルを制作',
-      price:'＋'+amountText(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive))+'（税込）',
-    })).join('')+'</div><p class="mini-note">事前検証・撮影・編集・YouTubeでの公開は本編の料金に含まれます。資料とサムネイルは、初期状態では制作を依頼する設定です。</p>';
+    hint='こちらで制作するものをお選びください。選択を外したものは、お客様にご用意をお願いします。';
+    body='<div class="choices">'+data.checklistItems.filter(item=>['materials','thumbnail'].includes(item.id)).map(item=>choice('items',item.id,item.id==='materials'?'動画用の説明資料も依頼する':'サムネイル制作も依頼する',item.id==='materials'?'※動画で紹介する項目をまとめた台本や構成案などをご用意いただける場合は、この項目の選択を外せます。':'YouTubeで表示するサムネイルを制作します。','＋'+money(item)+'（税込・仮設定）')).join('')+'</div><p class="mini-note">製品マニュアルなどをもとに動画用の説明資料の作成を依頼される場合は、資料制作をご選択ください。</p>';
   } else {
-    hint='必要なものだけ選んでください。追加の希望がなければ、そのまま見積書をつくれます。';
-    const choices='<div class="choices">'+data.custom.map(item=>selectChoice({group:'custom',id:item.id,title:item.label})).join('')+'</div>';
-    body=(pattern==='c'?'<details class="optional-details"><summary>二次利用・複数本などの希望を選ぶ</summary>'+choices+'</details>':choices)
-      +`<div class="revisions"><label for="revisions">公開前の軽微修正の希望回数</label><input id="revisions" data-key="revisions" type="number" inputmode="numeric" min="0" step="1" value="${esc(state.revisions)}" aria-describedby="revision-note"><span>回</span></div>`
-      +`<p class="rev-note" id="revision-note">${hasMain()?'本編は2回まで料金内、3回目以降は1回5,500円（税込）です。':'希望回数をもとに正式見積もりで確認します。'}${state.media.some(id=>id==='short'||id==='x')?' ショート・Xの無料回数と追加料金は要相談です。':''}</p>`;
+    hint='追加費用は個別にお見積もりし、表示中の小計には含みません。';
+    body='<label class="request-label" for="notes">ご希望の内容（任意）</label><textarea class="request-input" id="notes" data-key="notes" maxlength="1000" rows="4" placeholder="準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい">'+esc(state.notes)+'</textarea><p class="small-note">1,000文字まで入力できます。</p><div class="revisions"><label for="revisions">公開前の軽微修正の希望回数</label><input id="revisions" data-key="revisions" type="number" min="0" step="1" inputmode="numeric" value="'+esc(state.revisions)+'" aria-describedby="revision-note"><span>回</span></div><p class="revision-note" id="revision-note">'+(main()?'本編は2回まで料金内、3回目以降は1回5,500円（税込）です。':'希望回数をもとに正式見積もりで確認します。')+(state.media.some(id=>id!=='main')?' ショート・Xの無料回数と追加料金は要相談です。':'')+'</p>';
   }
-  return `<section class="question" aria-labelledby="question-${key}"><p class="question-kicker">QUESTION ${String(idx+1).padStart(2,'0')}${key==='extras'?' ・ 任意':''}</p><h2 id="question-${key}" tabindex="-1">${titles[key]}</h2><p class="question-hint">${hint}</p>${body}</section>`;
+  return '<section class="question" aria-labelledby="question-'+key+'"><h3 id="question-'+key+'" tabindex="-1">'+titles[key]+'</h3><p class="question-hint">'+hint+'</p>'+body+'</section>';
 }
-function answers(completed=false) {
-  return questions().map(key=>`<${completed?'div':'li'}><small>${{media:'制作物',assets:'本編の追加制作',extras:'その他の希望'}[key]}</small><div class="answer-row"><p class="answer-value">${esc(answerText(key))}</p><button type="button" class="text-button" data-edit="${key}">${completed?'変更する':'選び直す'}</button></div></${completed?'div':'li'}>`).join('');
+function amountPanel(result,view) {
+  if(result.status==='invalid')return '<div class="summary-total"><p class="error">'+esc(result.error)+'</p></div>';
+  return '<div class="summary-total"><small>'+esc(view.totalLabel)+'</small><strong>'+esc(view.totalText)+'</strong><p>'+(result.pending?.length?'要相談の料金は含みません。':'税込の固定料金案です。')+'</p></div>';
 }
-function aside(result,view) {
-  return `<aside class="flow-aside" aria-label="回答の確認"><h2>ここまでの回答</h2><ul class="answer-list">${answers()}</ul>${everCompleted&&state.media.length?`<p class="aside-price-label">${result.pending?.length?'変更後の小計（税込）':'変更後の概算（税込）'}</p><p class="aside-price">${esc(view.totalText)}</p>`:''}<p class="aside-foot">回答はあとから変更できます。最後に明細と金額をまとめて確認します。</p></aside>`;
+function lineTable(result) {
+  return '<table class="estimate-lines"><thead><tr><th scope="col">制作・作業内容</th><td>金額（税込）</td></tr></thead><tbody>'+result.lines.map(item=>'<tr><th scope="row">'+esc(item.label)+'</th><td>'+esc(money(item))+'</td></tr>').join('')+'</tbody></table>';
 }
-function navigation(key) {
-  const qs=questions(),index=qs.indexOf(key),last=index===qs.length-1;
-  return `<div class="navigation">${index>0?'<button type="button" class="text-button" data-prev>← 前の質問へ</button>':''}${everCompleted&&!last?'<button type="button" class="button secondary" data-complete>見積書を更新</button>':''}<button type="button" class="button primary" ${last?'data-complete':'data-next'} ${!state.media.length?'disabled':''}>${last?(everCompleted?'見積書を更新する':'概算見積書をつくる'):'次へ'}<span class="button-arrow" aria-hidden="true">→</span></button></div>`;
+function pendingBox(result) {
+  return result.pending?.length?'<section class="pending-box" aria-label="要相談の内容"><strong>正式見積もりで確認する内容</strong><ul>'+result.pending.map(item=>'<li>'+esc(item.label)+'</li>').join('')+'</ul><p>要相談の料金は小計に含みません。正式な総額は、ご希望を確認してご案内します。</p></section>':'';
 }
-function renderForm(result,view) {
-  const qs=questions();if(!qs.includes(question)) question='media';
-  let content='';
-  if(pattern==='a') content=`<ol class="progress" aria-label="${qs.indexOf(question)+1}問目／全${qs.length}問">${qs.map((key,index)=>`<li class="${index<qs.indexOf(question)?'done':key===question?'current':''}" ${key===question?'aria-current="step"':''}><span class="sr-only">${titles[key]}</span></li>`).join('')}</ol>${questionContent(question)}${navigation(question)}`;
-  if(pattern==='b') content=qs.map((key,index)=>`<section class="accordion-question"><button type="button" id="accordion-${key}" class="accordion-heading" data-open="${key}" aria-expanded="${question===key}" aria-controls="body-${key}"><span class="question-number">${answered.has(key)?'✓':String(index+1).padStart(2,'0')}</span><span class="heading-copy"><b>${titles[key]}</b>${question!==key?`<small>${esc(answerText(key))}</small>`:''}</span><span class="accordion-toggle" aria-hidden="true">${question===key?'−':'＋'}</span></button><div class="accordion-body" id="body-${key}" ${question===key?'':'hidden'}>${questionContent(key)}${navigation(key)}</div></section>`).join('');
-  if(pattern==='c') content=qs.map(key=>`<div class="inline-question" id="inline-${key}">${questionContent(key)}</div>`).join('')+`<div class="complete-actions"><button type="button" class="button primary" data-complete ${!state.media.length?'disabled':''}>${everCompleted?'見積書を更新する':'概算見積書をつくる'}<span aria-hidden="true"> →</span></button></div>`;
-  return `<div class="flow-layout"><div class="flow-main">${revisionError?`<p class="error" role="alert">${esc(revisionError)}</p>`:''}${content}</div>${aside(result,view)}</div>`;
+function liveSummary(result,view) {
+  return '<aside class="live-summary" aria-label="選択中の見積もり"><h3>選択中の見積もり</h3><div class="summary-line"><small>制作・掲載先</small><p>'+esc(mediaText())+'</p></div>'+(main()?'<div class="summary-line"><small>資料・サムネイル</small><p>'+esc(assetText())+'</p></div>':'')+'<div class="summary-line"><small>その他の希望</small><p>'+esc(extraText())+'</p></div>'+amountPanel(result,view)+(pattern==='b'&&result.status!=='invalid'&&result.status!=='empty'?'<div class="preview-lines">'+result.lines.map(item=>'<div><span>'+esc(item.label)+'</span><span>'+esc(money(item))+'</span></div>').join('')+'</div>':'')+'</aside>';
 }
-function renderEstimate(result,view) {
-  const amount=line=>amountText(taxIncluded(line.min,data.taxRate,line.taxInclusive),taxIncluded(line.max,data.taxRate,line.taxInclusive));
-  return `<section class="estimate-complete"><div class="completion-heading"><span class="complete-mark" aria-hidden="true">✓</span><div><h2 id="complete-title" tabindex="-1">概算見積書ができました</h2><p>内容を確認し、PDFで保存できます。回答を変えると、見積書も更新できます。</p></div></div><div class="completed-answers" aria-label="回答を変更する">${answers(true)}</div>
-  <article class="estimate-paper" aria-labelledby="document-title"><header class="paper-heading"><div><h2 id="document-title">概算見積書</h2><p>${esc(new Intl.DateTimeFormat('ja-JP',{dateStyle:'long'}).format(new Date()))}</p></div><div class="paper-sender"><b>Miyabiya Studio</b>PR制作・掲載</div></header><p class="paper-subject">${esc(view.mediaLabel)}</p>
-  <table class="estimate-lines"><thead><tr><th scope="col">制作・作業内容</th><th scope="col">金額（税込）</th></tr></thead><tbody>${result.lines.map(line=>`<tr><th scope="row">${esc(line.label)}${line.description?`<small>${esc(line.description)}</small>`:''}</th><td>${esc(amount(line))}</td></tr>`).join('')}</tbody></table>
-  <div class="totals"><div class="total-row"><span>${result.pending.length?'金額が分かる項目の小計（税抜）':'小計（税抜）'}</span><span id="document-subtotal">${esc(amountText(result.min,result.max))}</span></div><div class="total-row"><span>消費税相当額（10%）</span><span>${esc(amountText(result.taxMin,result.taxMax))}</span></div><div class="grand-total"><span id="document-total-label">${esc(view.totalLabel)}</span><strong id="document-total">${esc(view.totalText)}</strong></div></div>
-  ${result.pending.length?`<section class="pending-box" aria-label="要相談の内容"><strong>正式見積もりで確認する項目があります</strong><ul>${result.pending.map(item=>'<li>'+esc(item.label)+'</li>').join('')}</ul><p>表示した小計に、未確定の料金は含みません。制作範囲と条件を確認して、正式な総額をお伝えします。</p></section>`:''}
-  <details class="document-details"><summary>制作範囲・準備するもの・修正条件を見る</summary><h3>制作・公開の範囲</h3><ul>${view.scope.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>お客様にご用意いただくもの</h3><ul>${view.preparation.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>修正条件</h3><ul>${view.revisionNotes.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul></details>
-  <p class="document-foot">${esc(view.disclaimer)}</p></article>
-  <div class="pdf-recipient"><label for="recipient">見積書の宛名 <small>任意・「御中」を付けて出力</small></label><input id="recipient" data-key="recipient" type="text" maxlength="80" placeholder="会社名・お名前" value="${esc(recipient)}" autocomplete="organization"></div>
-  <div class="document-actions"><button type="button" class="button primary" id="save-pdf">概算見積書をPDFで保存 <span aria-hidden="true">↓</span></button><button type="button" class="button secondary" id="preview-inquiry">相談内容を確認する</button><button type="button" class="text-button" data-edit="media">回答を選び直す</button></div><p class="pdf-message" id="pdf-message" role="status"></p>
-  <p class="sheet-note">宛名はPDFの作成にだけ使い、外部に送信しません。</p>
-  <details class="document-details"><summary>同じ見積もりを開く共有URL</summary><p class="sheet-note">現在の公開サイトで、同じ選択内容と料金を確認できるURLです。</p><textarea class="estimate-url" aria-label="見積もりの共有URL" readonly>${esc(estimateUrl(data,state))}</textarea></details>
-  <div class="restart-row"><button type="button" class="text-button" data-edit="media">← 制作物の選択へ戻る</button><button type="button" class="text-button" id="restart">すべての回答をリセット</button></div></section>`;
+function navigation() {
+  const qs=questions(),idx=qs.indexOf(question),last=idx===qs.length-1;
+  return '<div class="navigation">'+(idx?'<button class="text-button" type="button" data-prev>前の質問へ</button>':'')+'<button class="button primary" type="button" '+(last?'data-complete':'data-next')+' '+(!state.media.length?'disabled':'')+'>'+(last?'見積書と別のプランを確認':'次へ')+'</button></div>';
+}
+function plans() {
+  return '<section class="question"><h3 id="question-media" tabindex="-1">ご希望のプランをお選びください</h3><p class="question-hint">7つの組み合わせから選べます。金額が分かるプランを先に表示しています。</p><div class="plan-grid">'+combinations.map(media=>{const next={...state,media},result=quote(data,next),view=quotePresentation(data,next,result);return {media,result,view};}).sort((a,b)=>(a.result.totalMin??Infinity)-(b.result.totalMin??Infinity)||a.media.length-b.media.length).map(({media,result,view})=>'<button type="button" class="plan-choice" data-plan="'+media.join(',')+'" data-key="plan-'+media.join('-')+'" aria-pressed="'+(media.length===state.media.length&&media.every(id=>state.media.includes(id)))+'"><strong>'+esc(view.mediaLabel)+'</strong><small>'+esc(view.totalLabel)+'</small><b>'+esc(view.totalText)+'</b><small>'+(result.status==='invalid'?'修正回数を確認してください。':result.pending?.length?'要相談の料金は含みません。':'選択中の制作範囲で計算しています。')+'</small></button>').join('')+'</div></section>';
+}
+function form(result,view) {
+  const qs=questions();if(!qs.includes(question))question='media';
+  let body='';
+  if(pattern==='a')body='<ol class="progress" aria-label="質問の進み具合">'+qs.map((key,idx)=>'<li class="'+(key===question?'current':'')+'" '+(key===question?'aria-current="step"':'')+'>'+String(idx+1)+'. '+({media:'制作・掲載先',assets:'資料・サムネイル',extras:'追加のご希望'})[key]+'</li>').join('')+'</ol>'+fieldContent(question)+navigation();
+  else body=(pattern==='c'?plans():'<div class="inline-question">'+fieldContent('media')+'</div>')+(main()?'<div class="inline-question">'+fieldContent('assets')+'</div>':'')+'<div class="inline-question">'+fieldContent('extras')+'</div><div class="navigation"><button class="button primary" type="button" data-complete '+(!state.media.length?'disabled':'')+'>見積書と別のプランを確認</button></div>';
+  return '<div class="editor"><div class="editor-main">'+(error?'<p class="error" role="alert">'+esc(error)+'</p>':'')+body+'</div>'+liveSummary(result,view)+'</div>';
+}
+function answerControls() {
+  return '<aside class="result-controls"><h4>ご依頼内容を変更する</h4>'+questions().map(key=>'<div class="answer-row"><small>'+({media:'制作・掲載先',assets:'資料・サムネイル',extras:'その他の希望'})[key]+'</small><p>'+esc(key==='media'?mediaText():key==='assets'?assetText():extraText())+'</p><button class="text-button" type="button" data-edit="'+key+'">変更する</button></div>').join('')+'</aside>';
+}
+function relatedCard(item) {
+  const delta=item.knownDelta==null?'差額は、要相談の内容を確認してご案内します。':item.knownDelta===0?'現在の案と同額です。':(item.knownDelta>0?'現在の案から＋':'現在の案から−')+Math.abs(item.knownDelta).toLocaleString('ja-JP')+'円（税込）';
+  return '<article class="related-card"><p class="related-label">'+esc(item.label)+'</p><h4>'+esc(item.view.mediaLabel)+'</h4><p class="related-total-label">'+esc(item.view.totalLabel)+'</p><strong>'+esc(item.view.totalText)+'</strong><p class="related-delta">'+esc(delta)+'</p><details class="alt-breakdown"><summary>この案の見積もり明細を見る</summary>'+lineTable(item.result)+pendingBox(item.result)+'</details><button type="button" class="button secondary" data-alt="'+item.state.media.join(',')+'">この案で見積書を作る</button></article>';
+}
+function results(result,view) {
+  const alternatives=relatedQuotes(data,state);
+  return '<section class="results"><div class="result-heading"><div><h3 id="complete-title" tabindex="-1">見積書ができました</h3><p>選んだ内容と、別の組み合わせの見積もりを比べられます。</p></div><button class="text-button" type="button" data-edit="media">回答を選び直す</button></div><div class="result-grid"><article class="estimate-paper" aria-label="選択した見積書"><header class="paper-header"><div><h4>概算見積書</h4><p>固定料金の確認用・未承認</p></div><span>Miyabiya Studio</span></header><p class="paper-subject">'+esc(view.mediaLabel)+'</p>'+lineTable(result)+'<div class="totals"><div class="total-row"><span>小計（税抜）</span><span>'+esc(amountText(result.min,result.max))+'</span></div><div class="total-row"><span>消費税相当額（10%）</span><span>'+esc(amountText(result.taxMin,result.taxMax))+'</span></div><div class="grand-total"><span>'+esc(view.totalLabel)+'</span><strong id="document-total">'+esc(view.totalText)+'</strong></div></div>'+pendingBox(result)+'<p class="document-note">この見積書は画面確認用です。現行の上限額を固定料金にした仮設定で、正式見積もりではありません。</p></article>'+answerControls()+'</div><div class="result-actions"><button type="button" id="print-estimate" class="button primary">見積書を印刷・PDF保存</button><button type="button" id="copy-estimate" class="button secondary">見積内容をコピー</button><button type="button" id="reset" class="text-button">最初から選び直す</button></div><p class="copy-status" role="status" id="copy-status"></p><details class="inquiry-preview"><summary>この内容の相談文を見る</summary><p class="small-note">確認用の文章です。この画面からメールは送信されません。</p><textarea readonly aria-label="相談文のプレビュー">'+esc(reviewSummary(data,state))+'</textarea></details><section class="related-section" aria-labelledby="related-title"><h3 id="related-title">ほかの組み合わせもご検討いただけます</h3><p>ご希望の内容と修正回数を引き継いで計算しています。選ぶまでは、現在の見積書は変わりません。</p><div class="related-grid">'+alternatives.slice(0,2).map(relatedCard).join('')+'</div><details class="all-patterns"><summary>残り4パターンの見積もりも見る</summary><div class="related-grid">'+alternatives.slice(2).map(relatedCard).join('')+'</div></details></section></section>';
 }
 function render(focusKey) {
   const result=quote(data,state),view=quotePresentation(data,state,result);
-  workspace.innerHTML=complete?renderEstimate(result,view):renderForm(result,view);
-  if(focusKey) workspace.querySelector(`[data-key="${CSS.escape(focusKey)}"]`)?.focus({preventScroll:true});
+  workspace.innerHTML=complete?results(result,view):form(result,view);
+  updateLanding();
+  if(focusKey)workspace.querySelector('[data-key="'+CSS.escape(focusKey)+'"]')?.focus({preventScroll:true});
+}
+function updateLanding() {
+  const sample=state.media.length?state:{media:['main'],items:['materials','thumbnail'],revisions:2};
+  const result=quote(data,sample),view=quotePresentation(data,sample,result);
+  document.querySelector('#landing-price').innerHTML='<small>'+(state.media.length?'選択中の内容':'料金の例・固定料金の仮設定')+'</small><h2>'+esc(view.mediaLabel)+'</h2><small>'+esc(view.totalLabel)+'</small><strong>'+esc(view.totalText)+'</strong><p>'+(result.status==='invalid'?'修正回数をご確認ください。':result.pending?.length?'要相談の料金は含みません。':state.media.length?'選択した内容の固定料金案です。':'説明資料・サムネイル込みの例です。')+'</p>';
+}
+function refreshSummary() {
+  const result=quote(data,state),view=quotePresentation(data,state,result),summary=workspace.querySelector('.live-summary');
+  if(summary)summary.outerHTML=liveSummary(result,view);
+  if(pattern==='c') {
+    const grid=workspace.querySelector('.plan-grid');
+    if(grid){const template=document.createElement('template');template.innerHTML=plans();grid.replaceWith(template.content.querySelector('.plan-grid'));}
+  }
+  updateLanding();
 }
 function goTo(key) {
-  complete=false;question=key;revisionError='';render();
-  const target=pattern==='b'?document.querySelector(`#accordion-${key}`):document.querySelector(`#question-${key}`);
-  target?.focus({preventScroll:true});target?.scrollIntoView({block:'center',behavior:'auto'});
+  complete=false;question=key;error='';render();
+  const target=document.querySelector('#question-'+key);target?.focus({preventScroll:true});target?.scrollIntoView({block:'start'});
 }
 function finish() {
   const result=quote(data,state);
-  if(result.status==='empty') return goTo('media');
-  if(result.status==='invalid') {revisionError=result.error;question='extras';render();document.querySelector('#revisions')?.focus();return;}
-  questions().forEach(key=>answered.add(key));complete=true;everCompleted=true;revisionError='';render();
-  document.querySelector('#complete-title').focus({preventScroll:true});workspace.scrollIntoView({block:'start',behavior:'auto'});
-  document.querySelector('#announcement').textContent='概算見積書を更新しました。'+quotePresentation(data,state,result).totalText;
+  if(result.status==='empty')return goTo('media');
+  if(result.status==='invalid'){error=result.error;question='extras';render();document.querySelector('#revisions')?.focus();return;}
+  complete=true;error='';render();document.querySelector('#dialog-scroll').scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});
+  document.querySelector('#announcement').textContent='見積書と別パターンの見積もりを作成しました。';
 }
 function selectPattern(id,focus=false) {
-  pattern=id;demo.dataset.pattern=id;complete=false;question='media';revisionError='';
-  for(const tab of document.querySelectorAll('[data-pattern][role=tab]')) {
-    const on=tab.dataset.pattern===id;tab.setAttribute('aria-selected',on);tab.tabIndex=on?0:-1;
-    if(on&&focus)tab.focus();
-  }
-  demo.setAttribute('aria-labelledby','tab-'+id);
-  document.querySelector('#pattern-note').textContent=captions[id];render();
+  pattern=id;complete=false;question='media';error='';
+  document.querySelector('#demo').dataset.pattern=id;document.querySelector('#demo').setAttribute('aria-labelledby','tab-'+id);dialog.dataset.pattern=id;
+  for(const tab of document.querySelectorAll('.pattern-tabs [role=tab]')){const on=tab.dataset.pattern===id;tab.setAttribute('aria-selected',on);tab.tabIndex=on?0:-1;if(on&&focus)tab.focus();}
+  for(const tab of document.querySelectorAll('[data-variant]'))tab.setAttribute('aria-pressed',String(tab.dataset.variant===id));
+  document.querySelector('#pattern-note').textContent=captions[id];document.querySelector('#dialog-pattern').textContent=id.toUpperCase()+' / '+names[id];render();document.querySelector('#dialog-scroll').scrollTop=0;
 }
-document.querySelector('.pattern-tabs').addEventListener('click',event=>{
-  const tab=event.target.closest('[role=tab]');if(tab)selectPattern(tab.dataset.pattern);
-});
-document.querySelector('.pattern-tabs').addEventListener('keydown',event=>{
-  const tab=event.target.closest('[role=tab]');if(!tab)return;
-  const ids=['a','b','c'],index=ids.indexOf(tab.dataset.pattern);
-  const next=event.key==='ArrowRight'?(index+1)%3:event.key==='ArrowLeft'?(index+2)%3:event.key==='Home'?0:event.key==='End'?2:null;
-  if(next!==null){event.preventDefault();selectPattern(ids[next],true);}
-});
-workspace.addEventListener('change',event=>{
-  const target=event.target;
-  if(target.matches('[data-group]')) {
-    const values=new Set(state[target.dataset.group]);target.checked?values.add(target.value):values.delete(target.value);
-    state[target.dataset.group]=[...values];answered.add(target.dataset.group==='media'?'media':target.dataset.group==='items'?'assets':'extras');
-    render(target.dataset.key);
-  } else if(target.id==='revisions') {
-    state.revisions=target.value;revisionError='';
-    // Keep the field and the clicked button in place while focus moves away.
-    const result=quote(data,state),node=workspace.querySelector('.flow-aside');
-    if(node)node.outerHTML=aside(result,quotePresentation(data,state,result));
-  }
-});
-workspace.addEventListener('input',event=>{
-  if(event.target.id==='recipient')recipient=event.target.value;
-  if(event.target.id==='revisions')state.revisions=event.target.value;
-});
+document.querySelector('.pattern-tabs').addEventListener('click',event=>{const tab=event.target.closest('[role=tab]');if(tab)selectPattern(tab.dataset.pattern);});
+document.querySelector('.pattern-tabs').addEventListener('keydown',event=>{const ids=['a','b','c'],tab=event.target.closest('[role=tab]');if(!tab)return;const index=ids.indexOf(tab.dataset.pattern),next=event.key==='ArrowRight'?(index+1)%3:event.key==='ArrowLeft'?(index+2)%3:event.key==='Home'?0:event.key==='End'?2:null;if(next!==null){event.preventDefault();selectPattern(ids[next],true);}});
+document.querySelector('.dialog-variants').addEventListener('click',event=>{const tab=event.target.closest('[data-variant]');if(tab)selectPattern(tab.dataset.variant);});
+document.querySelector('#open-simulator').addEventListener('click',()=>{render();dialog.showModal();document.body.style.overflow='hidden';document.querySelector('#dialog-title').focus?.({preventScroll:true});});
+document.querySelector('#close-simulator').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('close',()=>{document.body.style.overflow='';document.querySelector('#open-simulator').focus();});
+workspace.addEventListener('change',event=>{const target=event.target;if(target.matches('[data-group]')){const values=new Set(state[target.dataset.group]);target.checked?values.add(target.value):values.delete(target.value);state[target.dataset.group]=[...values];render(target.dataset.key);}else if(target.id==='notes'||target.id==='revisions')refreshSummary();});
+workspace.addEventListener('input',event=>{if(event.target.id==='notes')state.notes=event.target.value;if(event.target.id==='revisions')state.revisions=event.target.value;refreshSummary();});
 workspace.addEventListener('click',async event=>{
   const button=event.target.closest('button');if(!button)return;
   if(button.dataset.edit)return goTo(button.dataset.edit);
-  if(button.dataset.open)return goTo(button.dataset.open);
-  const qs=questions(),idx=qs.indexOf(question);
-  if(button.hasAttribute('data-next')){answered.add(question);return goTo(qs[idx+1]);}
-  if(button.hasAttribute('data-prev'))return goTo(qs[idx-1]);
+  if(button.hasAttribute('data-plan')){state.media=button.dataset.plan.split(',');render(button.dataset.key);return;}
+  if(button.hasAttribute('data-alt')){state.media=button.dataset.alt.split(',');return finish();}
+  if(button.hasAttribute('data-next'))return goTo(questions()[questions().indexOf(question)+1]);
+  if(button.hasAttribute('data-prev'))return goTo(questions()[questions().indexOf(question)-1]);
   if(button.hasAttribute('data-complete'))return finish();
-  if(button.id==='restart') {
-    Object.assign(state,{media:[],items:['materials','thumbnail'],custom:[],revisions:2});
-    answered.clear();everCompleted=false;recipient='';return goTo('media');
-  }
-  if(button.id==='preview-inquiry') {
-    document.querySelector('#inquiry-text').value=summary(data,state);
-    document.querySelector('#inquiry-dialog').showModal();return;
-  }
-  if(button.id==='save-pdf') {
-    const message=document.querySelector('#pdf-message');button.disabled=true;lastPdfButton=button;
-    message.textContent='PDFを作成しています。';
-    try {
-      const {downloadEstimatePdf}=await import('/pricing-pdf.mjs');
-      await downloadEstimatePdf(data,structuredClone(state),recipient,'御中');
-      message.textContent='概算見積書をPDFで保存しました。';
-    } catch(error) {message.textContent=/^宛名/.test(error.message)?error.message:'PDFを作成できませんでした。もう一度お試しください。';}
-    finally {if(lastPdfButton?.isConnected)lastPdfButton.disabled=false;}
-  }
+  if(button.id==='reset'){Object.assign(state,{media:[],items:['materials','thumbnail'],revisions:2,custom:[],notes:''});return goTo('media');}
+  if(button.id==='print-estimate')return window.print();
+  if(button.id==='copy-estimate'){try{await navigator.clipboard.writeText(reviewSummary(data,state));document.querySelector('#copy-status').textContent='確認用の見積内容をコピーしました。';}catch{document.querySelector('#copy-status').textContent='下の相談文を開いてコピーしてください。';workspace.querySelector('.inquiry-preview').open=true;}return;}
 });
-document.querySelectorAll('[data-close-dialog]').forEach(button=>button.addEventListener('click',()=>document.querySelector('#inquiry-dialog').close()));
-document.querySelector('#inquiry-dialog').addEventListener('close',()=>document.querySelector('#preview-inquiry')?.focus());
+document.querySelector('#rate-details').innerHTML='<div class="rate-grid">'+data.checklistItems.map(item=>'<div><span>'+esc(item.label)+'</span><b>'+esc(money(item))+'</b></div>').join('')+'</div>';
 selectPattern('a');
