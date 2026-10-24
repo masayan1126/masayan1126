@@ -1,4 +1,4 @@
-import {quote, taxIncluded, estimateUrl} from './pricing-model.mjs';
+import {quote, taxIncluded, estimateUrl, quotePresentation} from './pricing-model.mjs';
 
 const money = (min, max) => min == null ? '要相談' :
   (min === max ? min.toLocaleString('ja-JP') : min.toLocaleString('ja-JP') + '〜' + max.toLocaleString('ja-JP')) + '円';
@@ -15,6 +15,10 @@ export async function createEstimatePdf(data, state, options) {
   const {PDFDocument, PDFString, rgb, fontkit, fontBytes, recipient = '', honorific = '御中', date = new Date(), estimateNumber = createEstimateNumber(date)} = options;
   const result = quote(data, state);
   if (result.status === 'invalid') throw new Error(result.error);
+  if (result.status === 'empty') throw new Error('制作物を選択してください。');
+  const modern = Array.isArray(result.media), main = !modern || result.media.includes('main');
+  const view = quotePresentation(data,state,result);
+  const subject = modern ? view.subject : 'PR動画制作（サービス紹介動画1本・AIギルドch掲載）';
   if (!/^MS-\d{8}-[0-9A-F]{12}$/.test(estimateNumber)) throw new Error('見積番号の形式が正しくありません。');
   const included=new Set(result.lines.map(item=>item.id));
   const document = await PDFDocument.create();
@@ -31,7 +35,7 @@ export async function createEstimatePdf(data, state, options) {
   const issued = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo',year:'numeric',month:'long',day:'numeric'}).format(date);
   document.setTitle('PR動画制作 概算見積書');
   document.setAuthor('Miyabiya Studio / 西垣雅矢 (Masaya Nishigaki)');
-  document.setSubject('PR動画制作（サービス紹介動画1本・AIギルドch掲載） / '+estimateNumber);
+  document.setSubject(subject+' / '+estimateNumber);
   document.setKeywords([estimateNumber]);
   document.setCreationDate(date);
   const W = 595.28, H = 841.89, left = 44, right = W - 44;
@@ -77,9 +81,9 @@ export async function createEstimatePdf(data, state, options) {
   text('西垣雅矢（Masaya Nishigaki）',senderX,133,10);
   text('contact@msyn.me',senderX,150,9);
   y=Math.max(173,112+recipientLines.length*17+10);
-  text('件名：PR動画制作（サービス紹介動画1本・AIギルドch掲載）',left,y,11);y+=26;
+  for (const value of wrap('件名：'+subject,right-left,11)) {text(value,left,y,11);y+=16;}y+=10;
   page.drawRectangle({x:left,y:H-y-52,width:right-left,height:52,color:rgb(.97,.97,.97)});
-  text(result.pending.length?'金額を算出できる項目の小計（税込）':'概算合計（税込）',left+14,y+9,9);
+  text(view.totalLabel,left+14,y+9,9);
   aligned(money(result.totalMin,result.totalMax),right-14,y+20,21);y+=63;
   const cols=[left,286,325,438,right];
   const tableHeader=()=>{
@@ -107,21 +111,25 @@ export async function createEstimatePdf(data, state, options) {
   }
   y+=10;room(50);
   for(const [label,value,bold] of [
-    [result.pending.length?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true],
-    ['うち消費税相当額（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false]
+    [result.pending.length && result.totalMin!=null?'小計（税込）':'概算合計（税込）',money(result.totalMin,result.totalMax),true],
+    ...(result.totalMin==null?[]:[['うち消費税相当額（'+Number((data.taxRate*100).toFixed(2))+'%）',money(result.taxMin,result.taxMax),false]])
   ]) {
     text(label,286,y,9);aligned(value,right-9,y,bold?12:10);y+=20;
   }
   // Keep the price page brief; the attached page records the agreed service terms.
   const conditions=[
-    ['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載が対象です。当チャンネルへの掲載費は、お見積もり総額に含まれます。別途の掲載料は発生しません。\n掲載先：AIギルドch https://www.youtube.com/@masayan-ai-hack'],
+    ...(modern ? [
+      ['制作・公開の範囲',view.scope.join('\n')],
+      ['修正回数',view.revisionNotes.join('\n')],
+      ['準備物',view.preparation.join('、')],
+    ] : [['対象動画','本編1本（10〜20分程度）の制作と、当チャンネルへの掲載が対象です。当チャンネルへの掲載費は、お見積もり総額に含まれます。別途の掲載料は発生しません。\n掲載先：AIギルドch https://www.youtube.com/@masayan-ai-hack'],
     ['納品形態',included.has('editing')
       ?'本編動画はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'
-      :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。'],
+      :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。']]),
     ['登録状況','適格請求書発行事業者には登録しておりません。適格請求書は発行できません。'],
     ['税務の確認','経過措置・源泉徴収の取り扱いは、別紙「税務・権利に関するご案内」をご確認ください。'],
-    ['備考','※こちらの金額はあくまで概算になります。正式な料金は動画内容や尺により変動します。\n料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n正式見積もりで金額を確定し、有効期限もご提示いたします。'],
-    ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。上記の小計には含まれません。']] : []),
+    ['備考',view.disclaimer+'\n'+(main?'料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n':'')+'正式見積もりで金額を確定し、有効期限もご提示いたします。'],
+    ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。要相談の金額は小計に含みません。正式見積もりで総額を確定します。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
   const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*12+3,0);
   y+=3;room(notesHeight);
@@ -133,7 +141,7 @@ export async function createEstimatePdf(data, state, options) {
     y+=3;
   }
   const revisionFee=money(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate));
-  const termSections=[
+  let termSections=[
     ['公開時期・お支払い',[
       '正式なお見積もりと取引条件へのご承諾をもって、ご発注の確定といたします。メールでのご承諾も承ります。',
       'お客様に内容をご確認いただく期間を含め、ご発注の確定から公開までは2〜3週間を目安としております。',
@@ -198,6 +206,23 @@ export async function createEstimatePdf(data, state, options) {
       '編集完了後：正式に確定したお見積もり総額（税込）の100%',
     ]],
   ];
+  if (modern) {
+    // Video-only promises do not become terms for a standalone Short or X post.
+    const common = termSections.filter(([heading])=>['税務に関するご案内','権利・掲載期間・その他'].includes(heading));
+    if (!main) common.find(([heading])=>heading==='権利・掲載期間・その他')[1] = [
+      'ご提供素材は、使用・公開に必要な権利・許諾を確認済みのものをご用意ください。',
+      '制作物の著作権は個別契約で取り決めます。自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含め要相談です。',
+      '掲載期間・公開後の非公開や削除・複数本の制作・継続契約は、正式見積もりで確認します。',
+    ];
+    const mainSections = main ? termSections.filter(([heading])=>!['税務に関するご案内','権利・掲載期間・その他','修正・追加料金'].includes(heading)) : [
+      ['制作・公開の条件',['制作範囲・公開日・お支払い・キャンセル条件・レポートの有無は、正式見積もりで確認します。','製品の仕様・料金・利用条件と素材の権利を公開前に双方で確認し、PRであることが分かる表記を入れます。','未公開情報は制作にのみ使用し、許可なく公開・第三者へ開示しません。']]
+    ];
+    termSections = [
+      ['選択した制作物と準備物',[...view.scope,...view.preparation.map(value=>'ご用意いただくもの：'+value)]],
+      ['修正・追加料金',view.revisionNotes],
+      ...mainSections,...common,
+    ];
+  }
   // Separate tax and rights notes so the quote and production terms remain readable.
   const appendixHeadings=new Set(['税務に関するご案内','権利・掲載期間・その他']);
   const groups=[

@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 import {PDFDocument,PDFString,PDFName,rgb} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import {createEstimatePdf,createEstimateNumber} from './pricing-pdf.mjs';
-import {loadSharedRates} from './pricing-model.mjs';
+import {loadSharedRates,quote,quotePresentation,amountText,taxIncluded,stateFromUrl} from './pricing-model.mjs';
 
 const source=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
 const data={...source,rateVersion:createHash('sha256').update(JSON.stringify(source)).digest('hex').slice(0,12)};
@@ -80,4 +80,35 @@ test('item names and descriptions remain together in extracted PDF text',async()
     assert.ok(offset>last,'Item reading order: '+label);
     last=offset;
   }
+});
+
+test('all seven media offers have matching PDF amounts, conditions and restoring links',async()=>{
+  for(const media of [['x'],['short'],['short','x'],['main'],['main','x'],['main','short'],['main','short','x']]) {
+    const state={media,items:['materials','thumbnail'],revisions:2,custom:['reuse']};
+    const r=quote(data,state),view=quotePresentation(data,state,r);
+    const bytes=await createEstimatePdf(data,state,options);
+    const document=await PDFDocument.load(bytes);
+    const extracted=spawnSync('pdftotext',['-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+    assert.equal(extracted.status,0,extracted.stderr);
+    const text=extracted.stdout.replace(/\s+/gu,'');
+    const compact=value=>value.replace(/\s+/gu,'');
+    assert.ok(text.includes(compact(view.subject)));
+    assert.ok(text.includes(compact(view.totalLabel)));
+    assert.ok(text.includes(compact(view.totalText).replaceAll('円〜','〜')));
+    for(const item of r.pending)assert.ok(text.includes(compact(item.label)),item.label);
+    for(const line of r.lines){
+      assert.ok(text.includes(compact(line.label)),line.label);
+      assert.ok(text.includes(compact(amountText(taxIncluded(line.min,data.taxRate,line.taxInclusive),taxIncluded(line.max,data.taxRate,line.taxInclusive))).replaceAll('円〜','〜')));
+    }
+    if (!media.includes('main')){
+      assert.ok(!text.includes('サービス紹介動画1本'));
+      assert.ok(!text.includes('本編動画はYouTube'));
+      assert.ok(!text.includes('撮影開始時点'));
+      assert.ok(!text.includes('0円'));
+    }
+    const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
+    const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
+    assert.deepEqual(quote(data,stateFromUrl(data,link)),r);
+  }
+  await assert.rejects(createEstimatePdf(data,{media:[]},options),/制作物/);
 });

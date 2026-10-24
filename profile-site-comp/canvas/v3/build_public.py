@@ -103,7 +103,7 @@ header = re.search(r'<header.*?</header>', media, re.S).group()
 footer = re.search(r'<footer.*?</footer>', media, re.S).group()
 paths['pricing'] = '/pricing/'
 titles['pricing'] = 'PR動画制作の見積もり'
-descriptions['pricing'] = '依頼したい作業を選んで、PR動画の制作・YouTube公開の概算料金を確認できます。選択内容と見積もりをURLで共有できます。'
+descriptions['pricing'] = 'YouTube本編・ショート・X投稿を組み合わせて、制作範囲と概算料金を確認できます。選択内容をURLで共有し、PDFに保存できます。未確定の料金は要相談です。'
 pricing_builder = runpy.run_path(str(HERE / 'build_pricing.py'))
 # Shared links keep their original rates, even after the main price list changes.
 rate_data = pricing_builder['public_rates']()
