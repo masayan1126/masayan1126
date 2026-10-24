@@ -19,9 +19,9 @@ const icons = {
   short:'<rect x="7" y="1" width="13" height="25"/><path d="m12 10 5 4-5 3z"/>',
   x:'<path d="m5 3 17 22H17L1 3h5Zm16 0L4 25"/>',
 };
-const selectChoice = ({group,id,title,description='',price='',icon=''}) => {
+const selectChoice = ({group,id,title,description='',note='',price='',icon=''}) => {
   const checked = state[group].includes(id);
-  return `<label class="choice${icon?'':' compact'}"><input type="checkbox" data-group="${group}" data-key="${group}-${id}" value="${id}" ${checked?'checked':''}><span class="choice-icon" ${icon?'':'hidden'}><svg aria-hidden="true" viewBox="0 0 28 28">${icons[icon]??''}</svg></span><span class="choice-title">${esc(title)}</span>${description?`<span class="choice-description">${esc(description)}</span>`:''}${price?`<span class="choice-price">${esc(price)}</span>`:''}</label>`;
+  return `<label class="choice${icon?'':' compact'}"><input type="checkbox" data-group="${group}" data-key="${group}-${id}" value="${id}" ${checked?'checked':''}><span class="choice-icon" ${icon?'':'hidden'}><svg aria-hidden="true" viewBox="0 0 28 28">${icons[icon]??''}</svg></span><span class="choice-title">${esc(title)}</span>${description?`<span class="choice-description">${esc(description)}</span>`:''}${note?`<span class="choice-description">${esc(note)}</span>`:''}${price?`<span class="choice-price">${esc(price)}</span>`:''}</label>`;
 };
 function answerText(key) {
   if(key==='media') return state.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR'})[id]).join('・') || 'まだ選択していません';
@@ -45,8 +45,9 @@ function questionContent(key) {
     body='<div class="choices">'+items.map(item=>selectChoice({group:'items',id:item.id,
       title:item.id==='materials'?'動画用の説明資料も依頼する':'サムネイル制作も依頼する',
       description:item.id==='materials'?'動画で紹介する内容と順番をまとめます。':'YouTubeで表示するサムネイルを制作します。',
+      note:item.id==='materials'?'※動画で紹介する項目をまとめた台本や構成案などをご用意いただける場合は、この項目の選択を外せます。':'',
       price:'＋'+amountText(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive))+'（税込）',
-    })).join('')+'</div><p class="mini-note">動画用の構成や説明資料をご用意いただける場合は、資料作成の選択を外せます。製品マニュアルなどをもとに動画用の資料を作成する場合は、ご選択ください。</p>';
+    })).join('')+'</div><p class="mini-note">製品マニュアルなどをもとに動画用の説明資料の作成を依頼される場合は、「動画用の説明資料も依頼する」をご選択ください。</p>';
   } else {
     hint='二次利用などの料金は、ご希望の内容を確認して個別にお見積もりします。選択した項目の料金は、表示中の小計には含まれません。';
     const descriptions={preparation:'準備物と作業の分担を確認します。',reuse:'利用先・期間・広告利用の有無を確認します。',reshoot:'撮り直しの内容と範囲を確認します。',long:'動画の長さと必要な作業を確認します。',multiple:'本数・制作内容・契約期間を確認します。',period:'ご希望の掲載期間と条件を確認します。'};
