@@ -1,12 +1,14 @@
 import {quote,quotePresentation,amountText,taxIncluded,normalizeNotes} from './pricing-model.mjs';
-import {fixedReviewRates,relatedQuotes,reviewSummary,combinations} from './pricing-flows-model.mjs';
+import {fixedReviewRates,relatedQuotes,reviewSummary} from './pricing-flows-model.mjs';
 
 const source=REVIEW_PRICING_DATA, data=fixedReviewRates(source);
 const workspace=document.querySelector('#workspace'), dialog=document.querySelector('#simulator');
+let dialogOpener=document.querySelector('#open-simulator');
 const state={media:[],items:['materials','thumbnail'],revisions:2,custom:[],notes:''};
-let pattern='a', question='media', complete=false, error='';
-const names={a:'1問ずつ選ぶ',b:'選択と見積もりを並べる',c:'7プランから選ぶ'};
-const captions={a:'A：大きな画面で1問ずつ選びます。最後に見積書と別の組み合わせを比べられます。',b:'B：左で条件を選ぶと、右の見積もりがすぐに変わります。全体を見ながら調整できます。',c:'C：7つの組み合わせを先に比較し、プランを選んでから制作の詳細を決めます。'};
+let pattern='a', question='media', complete=false, error='', comparisonOpen=false;
+const names={a:'完成直後に並べる',b:'固定バーで案内する',c:'比較画面へ切り替える'};
+const captions={a:'案1：完成画面の最初に、選んだ見積もりと別の2案を表示します。スクロールする前に比較に気づけます。',b:'案2：見積書を読み進めている間も、画面下の固定バーから別の6案を確認できます。',c:'案3：「選んだ見積書」と「ほかの6案」を切り替えて比較します。見積書の上にも比較ボタンを置きます。'};
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const titles={media:'どのPRをご希望ですか？',assets:'資料・サムネイル制作も依頼しますか？',extras:'追加のご希望はありますか？'};
 const esc=text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const main=()=>state.media.includes('main');
@@ -43,20 +45,15 @@ function pendingBox(result) {
   return result.pending?.length?'<section class="pending-box" aria-label="要相談の内容"><strong>正式見積もりで確認する内容</strong><ul>'+result.pending.map(item=>'<li>'+esc(item.label)+'</li>').join('')+'</ul><p>要相談の料金は小計に含みません。正式な総額は、ご希望を確認してご案内します。</p></section>':'';
 }
 function liveSummary(result,view) {
-  return '<aside class="live-summary" aria-label="選択中の見積もり"><h3>選択中の見積もり</h3><div class="summary-line"><small>制作・掲載先</small><p>'+esc(mediaText())+'</p></div>'+(main()?'<div class="summary-line"><small>資料・サムネイル</small><p>'+esc(assetText())+'</p></div>':'')+'<div class="summary-line"><small>その他の希望</small><p>'+esc(extraText())+'</p></div>'+amountPanel(result,view)+(pattern==='b'&&result.status!=='invalid'&&result.status!=='empty'?'<div class="preview-lines">'+result.lines.map(item=>'<div><span>'+esc(item.label)+'</span><span>'+esc(money(item))+'</span></div>').join('')+'</div>':'')+'</aside>';
+  return '<aside class="live-summary" aria-label="選択中の見積もり"><h3>選択中の見積もり</h3><div class="summary-line"><small>制作・掲載先</small><p>'+esc(mediaText())+'</p></div>'+(main()?'<div class="summary-line"><small>資料・サムネイル</small><p>'+esc(assetText())+'</p></div>':'')+'<div class="summary-line"><small>その他の希望</small><p>'+esc(extraText())+'</p></div>'+amountPanel(result,view)+'</aside>';
 }
 function navigation() {
   const qs=questions(),idx=qs.indexOf(question),last=idx===qs.length-1;
   return '<div class="navigation">'+(idx?'<button class="text-button" type="button" data-prev>前の質問へ</button>':'')+'<button class="button primary" type="button" '+(last?'data-complete':'data-next')+' '+(!state.media.length?'disabled':'')+'>'+(last?'見積書と別のプランを確認':'次へ')+'</button></div>';
 }
-function plans() {
-  return '<section class="question"><h3 id="question-media" tabindex="-1">ご希望のプランをお選びください</h3><p class="question-hint">7つの組み合わせから選べます。金額が分かるプランを先に表示しています。</p><div class="plan-grid">'+combinations.map(media=>{const next={...state,media},result=quote(data,next),view=quotePresentation(data,next,result);return {media,result,view};}).sort((a,b)=>(a.result.totalMin??Infinity)-(b.result.totalMin??Infinity)||a.media.length-b.media.length).map(({media,result,view})=>'<button type="button" class="plan-choice" data-plan="'+media.join(',')+'" data-key="plan-'+media.join('-')+'" aria-pressed="'+(media.length===state.media.length&&media.every(id=>state.media.includes(id)))+'"><strong>'+esc(view.mediaLabel)+'</strong><small>'+esc(view.totalLabel)+'</small><b>'+esc(view.totalText)+'</b><small>'+(result.status==='invalid'?'修正回数を確認してください。':result.pending?.length?'要相談の料金は含みません。':'選択中の制作範囲で計算しています。')+'</small></button>').join('')+'</div></section>';
-}
 function form(result,view) {
   const qs=questions();if(!qs.includes(question))question='media';
-  let body='';
-  if(pattern==='a')body='<ol class="progress" aria-label="質問の進み具合">'+qs.map((key,idx)=>'<li class="'+(key===question?'current':'')+'" '+(key===question?'aria-current="step"':'')+'>'+String(idx+1)+'. '+({media:'制作・掲載先',assets:'資料・サムネイル',extras:'追加のご希望'})[key]+'</li>').join('')+'</ol>'+fieldContent(question)+navigation();
-  else body=(pattern==='c'?plans():'<div class="inline-question">'+fieldContent('media')+'</div>')+(main()?'<div class="inline-question">'+fieldContent('assets')+'</div>':'')+'<div class="inline-question">'+fieldContent('extras')+'</div><div class="navigation"><button class="button primary" type="button" data-complete '+(!state.media.length?'disabled':'')+'>見積書と別のプランを確認</button></div>';
+  const body='<ol class="progress" aria-label="質問の進み具合">'+qs.map((key,idx)=>'<li class="'+(key===question?'current':'')+'" '+(key===question?'aria-current="step"':'')+'>'+String(idx+1)+'. '+({media:'制作・掲載先',assets:'資料・サムネイル',extras:'追加のご希望'})[key]+'</li>').join('')+'</ol>'+fieldContent(question)+navigation();
   return '<div class="editor"><div class="editor-main">'+(error?'<p class="error" role="alert">'+esc(error)+'</p>':'')+body+'</div>'+liveSummary(result,view)+'</div>';
 }
 function answerControls() {
@@ -66,15 +63,48 @@ function relatedCard(item) {
   const delta=item.knownDelta==null?'差額は、要相談の内容を確認してご案内します。':item.knownDelta===0?'現在の案と同額です。':(item.knownDelta>0?'現在の案から＋':'現在の案から−')+Math.abs(item.knownDelta).toLocaleString('ja-JP')+'円（税込）';
   return '<article class="related-card"><p class="related-label">'+esc(item.label)+'</p><h4>'+esc(item.view.mediaLabel)+'</h4><p class="related-total-label">'+esc(item.view.totalLabel)+'</p><strong>'+esc(item.view.totalText)+'</strong><p class="related-delta">'+esc(delta)+'</p><details class="alt-breakdown"><summary>この案の見積もり明細を見る</summary>'+lineTable(item.result)+pendingBox(item.result)+'</details><button type="button" class="button secondary" data-alt="'+item.state.media.join(',')+'">この案で見積書を作る</button></article>';
 }
-function results(result,view) {
-  const alternatives=relatedQuotes(data,state);
-  return '<section class="results"><div class="result-heading"><div><h3 id="complete-title" tabindex="-1">見積書ができました</h3><p>選んだ内容と、別の組み合わせの見積もりを比べられます。</p></div><button class="text-button" type="button" data-edit="media">回答を選び直す</button></div><div class="result-grid"><article class="estimate-paper" aria-label="選択した見積書"><header class="paper-header"><div><h4>概算見積書</h4><p>固定料金の確認用・未承認</p></div><span>Miyabiya Studio</span></header><p class="paper-subject">'+esc(view.mediaLabel)+'</p>'+lineTable(result)+'<div class="totals"><div class="total-row"><span>小計（税抜）</span><span>'+esc(amountText(result.min,result.max))+'</span></div><div class="total-row"><span>消費税相当額（10%）</span><span>'+esc(amountText(result.taxMin,result.taxMax))+'</span></div><div class="grand-total"><span>'+esc(view.totalLabel)+'</span><strong id="document-total">'+esc(view.totalText)+'</strong></div></div>'+pendingBox(result)+'<p class="document-note">この見積書は画面確認用です。現行の上限額を固定料金にした仮設定で、正式見積もりではありません。</p></article>'+answerControls()+'</div><div class="result-actions"><button type="button" id="print-estimate" class="button primary">見積書を印刷・PDF保存</button><button type="button" id="copy-estimate" class="button secondary">見積内容をコピー</button><button type="button" id="reset" class="text-button">最初から選び直す</button></div><p class="copy-status" role="status" id="copy-status"></p><details class="inquiry-preview"><summary>この内容の相談文を見る</summary><p class="small-note">確認用の文章です。この画面からメールは送信されません。</p><textarea readonly aria-label="相談文のプレビュー">'+esc(reviewSummary(data,state))+'</textarea></details><section class="related-section" aria-labelledby="related-title"><h3 id="related-title">ほかの組み合わせもご検討いただけます</h3><p>ご希望の内容と修正回数を引き継いで計算しています。選ぶまでは、現在の見積書は変わりません。</p><div class="related-grid">'+alternatives.slice(0,2).map(relatedCard).join('')+'</div><details class="all-patterns"><summary>残り4パターンの見積もりも見る</summary><div class="related-grid">'+alternatives.slice(2).map(relatedCard).join('')+'</div></details></section></section>';
+function selectedOverview(view) {
+  return '<div class="selected-overview"><div><p class="eyebrow">選んだ内容の見積もり</p><h4>'+esc(view.mediaLabel)+'</h4></div><div><small>'+esc(view.totalLabel)+'</small><strong>'+esc(view.totalText)+'</strong></div></div>';
 }
-function render(focusKey) {
+function comparisonSection(alternatives,all=false) {
+  return '<section class="related-section" aria-labelledby="related-title"><div class="comparison-heading"><div><p class="eyebrow">別の組み合わせも自動でお見積もりしました</p><h3 id="related-title" tabindex="-1">ほかの組み合わせもご検討いただけます</h3></div><span class="count-badge">6案</span></div><p>資料・サムネイルの選択、修正回数、ご希望の内容を引き継いでいます。案を選ぶまで、現在の見積書は変わりません。</p><div class="related-grid">'+alternatives.slice(0,all?6:2).map(relatedCard).join('')+'</div>'+(all?'':'<details class="all-patterns"><summary>残り4パターンの見積もりも見る</summary><div class="related-grid">'+alternatives.slice(2).map(relatedCard).join('')+'</div></details>')+'</section>';
+}
+function resultNavigation() {
+  return '<div class="result-tabs" role="tablist" aria-label="見積書とほかの案を切り替える"><button id="result-selected" type="button" role="tab" aria-controls="result-panel" aria-selected="'+!comparisonOpen+'" tabindex="'+(comparisonOpen?-1:0)+'" data-view="selected">選んだ見積書</button><button id="result-compare" type="button" role="tab" aria-controls="result-panel" aria-selected="'+comparisonOpen+'" tabindex="'+(comparisonOpen?0:-1)+'" data-view="compare">ほかの組み合わせ<span>6案</span></button></div>';
+}
+function results(result,view) {
+  const alternatives=relatedQuotes(data,state),spotlight=alternatives[0];
+  const heading='<div class="result-heading"><div><p class="completion-mark"><span aria-hidden="true">✓</span> ご希望の内容で計算しました</p><h3 id="complete-title" tabindex="-1">見積書ができました</h3></div><button class="text-button" type="button" data-edit="media">回答を選び直す</button></div>';
+  const paper='<div class="result-grid"><article class="estimate-paper" aria-label="選択した見積書"><header class="paper-header"><div><h4>概算見積書</h4><p>固定料金の確認用・未承認</p></div><span>Miyabiya Studio</span></header><p class="paper-subject">'+esc(view.mediaLabel)+'</p>'+lineTable(result)+'<div class="totals"><div class="total-row"><span>小計（税抜）</span><span>'+esc(amountText(result.min,result.max))+'</span></div><div class="total-row"><span>消費税相当額（10%）</span><span>'+esc(amountText(result.taxMin,result.taxMax))+'</span></div><div class="grand-total"><span>'+esc(view.totalLabel)+'</span><strong id="document-total">'+esc(view.totalText)+'</strong></div></div>'+pendingBox(result)+'<p class="document-note">この見積書は画面確認用です。現行の上限額を固定料金にした仮設定で、正式見積もりではありません。</p></article>'+answerControls()+'</div><div class="result-actions"><button type="button" id="print-estimate" class="button primary">見積書を印刷・PDF保存</button><button type="button" id="copy-estimate" class="button secondary">見積内容をコピー</button><button type="button" id="reset" class="text-button">最初から選び直す</button></div><p class="copy-status" role="status" id="copy-status"></p><details class="inquiry-preview"><summary>この内容の相談文を見る</summary><p class="small-note">確認用の文章です。この画面からメールは送信されません。</p><textarea readonly aria-label="相談文のプレビュー">'+esc(reviewSummary(data,state))+'</textarea></details>';
+  const compareLead='<div class="compare-invitation"><div><p class="eyebrow">ほかの6案もできています</p><h4>'+esc(spotlight.label)+'</h4><p>選んだ内容はそのままで、別の組み合わせと比べられます。</p></div><button type="button" class="button primary" data-compare>6案を比べる <span aria-hidden="true">→</span></button></div>';
+  let body='';
+  if(pattern==='a')body='<div class="comparison-first">'+selectedOverview(view)+comparisonSection(alternatives)+'</div><h3 class="document-divider">選んだ内容の見積書・明細</h3>'+paper;
+  if(pattern==='b')body=selectedOverview(view)+paper+comparisonSection(alternatives,true);
+  if(pattern==='c')body=resultNavigation()+'<div id="result-panel" role="tabpanel" aria-labelledby="'+(comparisonOpen?'result-compare':'result-selected')+'">'+(comparisonOpen?selectedOverview(view)+comparisonSection(alternatives,true)+'<button class="button secondary back-to-estimate" type="button" data-view="selected">選んだ見積書に戻る</button>':compareLead+paper)+'</div>';
+  return '<section class="results">'+heading+body+'</section>';
+}
+function animateEntry(mode) {
+  if(reducedMotion.matches)return;
+  const target=workspace.querySelector(complete?'.results':'.question');
+  target?.animate([{opacity:0,transform:'translate'+(complete?'Y(14px)':'X('+(mode==='back'?'-':'')+'18px)')},{opacity:1,transform:'translate(0)'}],{duration:280,easing:'cubic-bezier(.2,.7,.2,1)'});
+  if(complete)workspace.querySelectorAll('.related-card').forEach((card,index)=>card.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:300,delay:70+Math.min(index,3)*55,fill:'backwards',easing:'ease-out'}));
+}
+function render(focusKey,motion) {
   const result=quote(data,state),view=quotePresentation(data,state,result);
   workspace.innerHTML=complete?results(result,view):form(result,view);
+  dialog.querySelector('.comparison-dock')?.remove();
+  if(complete&&pattern==='b') {
+    const first=relatedQuotes(data,state)[0],dock=document.createElement('footer');
+    dock.className='comparison-dock';dock.setAttribute('aria-label','別の組み合わせのご案内');
+    dock.innerHTML='<div><p>ほかの6案もできています</p><strong>'+esc(first.label)+'</strong></div><button type="button" class="button primary" data-compare>6案を比べる <span aria-hidden="true">↑</span></button>';
+    dialog.append(dock);
+  }
   updateLanding();
-  if(focusKey)workspace.querySelector('[data-key="'+CSS.escape(focusKey)+'"]')?.focus({preventScroll:true});
+  if(focusKey) {
+    const input=workspace.querySelector('[data-key="'+CSS.escape(focusKey)+'"]');input?.focus({preventScroll:true});
+    if(input?.checked&&!reducedMotion.matches)input.closest('.choice')?.animate([{transform:'scale(.985)'},{transform:'scale(1)'}],{duration:180,easing:'ease-out'});
+  }
+  if(motion)animateEntry(motion);
 }
 function updateLanding() {
   const sample=state.media.length?state:{media:['main'],items:['materials','thumbnail'],revisions:2};
@@ -84,42 +114,55 @@ function updateLanding() {
 function refreshSummary() {
   const result=quote(data,state),view=quotePresentation(data,state,result),summary=workspace.querySelector('.live-summary');
   if(summary)summary.outerHTML=liveSummary(result,view);
-  if(pattern==='c') {
-    const grid=workspace.querySelector('.plan-grid');
-    if(grid){const template=document.createElement('template');template.innerHTML=plans();grid.replaceWith(template.content.querySelector('.plan-grid'));}
-  }
   updateLanding();
 }
 function goTo(key) {
-  complete=false;question=key;error='';render();
+  const back=questions().indexOf(key)<questions().indexOf(question);
+  complete=false;comparisonOpen=false;question=key;error='';render(null,back?'back':'forward');
   const target=document.querySelector('#question-'+key);target?.focus({preventScroll:true});target?.scrollIntoView({block:'start'});
 }
 function finish() {
   const result=quote(data,state);
   if(result.status==='empty')return goTo('media');
   if(result.status==='invalid'){error=result.error;question='extras';render();document.querySelector('#revisions')?.focus();return;}
-  complete=true;error='';render();document.querySelector('#dialog-scroll').scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});
+  complete=true;comparisonOpen=false;error='';render(null,'complete');document.querySelector('#dialog-scroll').scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});
   document.querySelector('#announcement').textContent='見積書と別パターンの見積もりを作成しました。';
 }
 function selectPattern(id,focus=false) {
-  pattern=id;complete=false;question='media';error='';
+  pattern=id;comparisonOpen=false;error='';
   document.querySelector('#demo').dataset.pattern=id;document.querySelector('#demo').setAttribute('aria-labelledby','tab-'+id);dialog.dataset.pattern=id;
   for(const tab of document.querySelectorAll('.pattern-tabs [role=tab]')){const on=tab.dataset.pattern===id;tab.setAttribute('aria-selected',on);tab.tabIndex=on?0:-1;if(on&&focus)tab.focus();}
   for(const tab of document.querySelectorAll('[data-variant]'))tab.setAttribute('aria-pressed',String(tab.dataset.variant===id));
-  document.querySelector('#pattern-note').textContent=captions[id];document.querySelector('#dialog-pattern').textContent=id.toUpperCase()+' / '+names[id];render();document.querySelector('#dialog-scroll').scrollTop=0;
+  document.querySelector('#pattern-note').textContent=captions[id];document.querySelector('#dialog-pattern').textContent='A案の操作 / 案'+({a:1,b:2,c:3})[id]+'：'+names[id];render(null,'forward');document.querySelector('#dialog-scroll').scrollTop=0;
 }
 document.querySelector('.pattern-tabs').addEventListener('click',event=>{const tab=event.target.closest('[role=tab]');if(tab)selectPattern(tab.dataset.pattern);});
 document.querySelector('.pattern-tabs').addEventListener('keydown',event=>{const ids=['a','b','c'],tab=event.target.closest('[role=tab]');if(!tab)return;const index=ids.indexOf(tab.dataset.pattern),next=event.key==='ArrowRight'?(index+1)%3:event.key==='ArrowLeft'?(index+2)%3:event.key==='Home'?0:event.key==='End'?2:null;if(next!==null){event.preventDefault();selectPattern(ids[next],true);}});
 document.querySelector('.dialog-variants').addEventListener('click',event=>{const tab=event.target.closest('[data-variant]');if(tab)selectPattern(tab.dataset.variant);});
-document.querySelector('#open-simulator').addEventListener('click',()=>{render();dialog.showModal();document.body.style.overflow='hidden';document.querySelector('#dialog-title').focus?.({preventScroll:true});});
+function openSimulator(event) {
+  dialogOpener=event?.currentTarget||document.querySelector('#open-simulator');
+  render();dialog.showModal();document.body.style.overflow='hidden';document.querySelector('#dialog-title').focus({preventScroll:true});animateEntry('forward');
+}
+document.querySelector('#open-simulator').addEventListener('click',openSimulator);
+document.querySelector('#preview-result').addEventListener('click',event=>{if(!state.media.length)state.media=['main'];openSimulator(event);finish();});
+function showComparison() {
+  if(pattern==='c') {comparisonOpen=true;render(null,'forward');document.querySelector('#dialog-scroll').scrollTop=0;}
+  document.querySelector('#related-title')?.focus({preventScroll:true});
+  document.querySelector('#related-title')?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+}
+dialog.addEventListener('click',event=>{if(event.target.closest('[data-compare]'))showComparison();});
+workspace.addEventListener('keydown',event=>{
+  const tab=event.target.closest('.result-tabs [role="tab"]');if(!tab||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  event.preventDefault();comparisonOpen=event.key==='Home'?false:event.key==='End'?true:!comparisonOpen;
+  render(null,'forward');document.querySelector(comparisonOpen?'#result-compare':'#result-selected').focus({preventScroll:true});
+});
 document.querySelector('#close-simulator').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('close',()=>{document.body.style.overflow='';document.querySelector('#open-simulator').focus();});
+dialog.addEventListener('close',()=>{document.body.style.overflow='';dialogOpener.focus();});
 workspace.addEventListener('change',event=>{const target=event.target;if(target.matches('[data-group]')){const values=new Set(state[target.dataset.group]);target.checked?values.add(target.value):values.delete(target.value);state[target.dataset.group]=[...values];render(target.dataset.key);}else if(target.id==='notes'||target.id==='revisions')refreshSummary();});
 workspace.addEventListener('input',event=>{if(event.target.id==='notes')state.notes=event.target.value;if(event.target.id==='revisions')state.revisions=event.target.value;refreshSummary();});
 workspace.addEventListener('click',async event=>{
   const button=event.target.closest('button');if(!button)return;
   if(button.dataset.edit)return goTo(button.dataset.edit);
-  if(button.hasAttribute('data-plan')){state.media=button.dataset.plan.split(',');render(button.dataset.key);return;}
+  if(button.hasAttribute('data-view')){comparisonOpen=button.dataset.view==='compare';render(null,'forward');document.querySelector('#dialog-scroll').scrollTop=0;document.querySelector(comparisonOpen?'#result-compare':'#result-selected').focus({preventScroll:true});return;}
   if(button.hasAttribute('data-alt')){state.media=button.dataset.alt.split(',');return finish();}
   if(button.hasAttribute('data-next'))return goTo(questions()[questions().indexOf(question)+1]);
   if(button.hasAttribute('data-prev'))return goTo(questions()[questions().indexOf(question)-1]);
