@@ -192,7 +192,7 @@ home_path.write_text(home_html.replace(home_anchor, youtube_stats.render_latest(
 # The top page is an excerpt of the detail pages, so the latest videos also appear on the YouTube page (2026-09-30).
 media_path = OUT / 'media/index.html'
 media_html = media_path.read_text()
-media_anchor = '<div class="sec alt" id="pr-works">'
+media_anchor = '<section class="works-story detail-feature" id="channel-story">'
 assert media_anchor in media_html
 media_path.write_text(media_html.replace(media_anchor, youtube_stats.render_latest(latest) + media_anchor, 1))
 # Sharing the design comparison is on hold; publish only the profile website.

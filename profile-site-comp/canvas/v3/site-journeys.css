@@ -1,0 +1,159 @@
+/* Actions, evidence and supporting detail have distinct roles. */
+.site-renewal{--site-ink:#202833;--site-muted:#4c5866;--site-blue:#133f8f;--site-paper:#f3f5f7;color-scheme:light}
+.site-renewal .v3{color:var(--site-ink)}
+.site-renewal .site-action{display:inline-flex;align-items:center;justify-content:center;gap:20px;min-height:48px;padding:13px 22px;font-size:15px;font-weight:650;line-height:1.6;text-decoration:none;white-space:normal}
+.site-renewal .site-action-primary,.site-renewal .v3-head .site-action-primary,.site-renewal .immersive-hero .masthead .site-action-primary{background:#133f8f;color:#fff;border:0}
+.site-renewal .site-action-primary:hover{background:#0b306e;color:#fff}
+.site-renewal .site-action-secondary{color:#133f8f;background:#e9eef6;border:0}
+.site-renewal .site-action-secondary:hover{background:#dce5f2;color:#0b306e}
+.site-renewal .site-action>span{flex:none}
+.site-renewal :is(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid #133f8f;outline-offset:4px;box-shadow:0 0 0 3px #fff}
+.site-renewal :is(a,button,summary){touch-action:manipulation}
+.site-renewal .v3-head>.v3-wrap{gap:24px}
+.site-renewal .v3-head nav{gap:24px}
+.site-renewal .v3-contact-link{padding:11px 18px;font-size:14px;min-height:48px}
+.site-renewal .v3-head nav a[aria-current=page]{font-weight:700;text-decoration:underline;text-underline-offset:8px}
+.site-renewal .site-menu .menu-panel{padding:28px;box-shadow:0 16px 50px #17273b1a;border:0;background:#fff}
+.site-renewal .menu-group+.menu-group{margin-top:28px}
+.site-renewal .menu-group>p{margin:0 0 8px;color:#4c5866;font-size:14px;font-weight:650}
+.site-renewal .menu-group .menu-links{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+.site-renewal .menu-group .menu-links a{min-height:44px;padding:8px 0;border:0;font-size:16px;line-height:1.7;color:#202833}
+.site-renewal .menu-group .menu-links a[aria-current=page]{color:#133f8f;font-weight:700}
+.site-renewal .v3-page-head{padding-block:56px 40px;background:#fff;border:0}
+.site-renewal .v3-page-head p{color:#4c5866;font-size:16px;max-width:44em}
+.site-renewal .v3-breadcrumb{min-height:44px;font-size:14px;margin-bottom:20px;color:#4c5866}
+.site-renewal .page-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.site-renewal .page-index{display:flex;flex-wrap:wrap;gap:4px 28px;margin-top:28px;max-width:100%}
+.site-renewal .page-index a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:#37485e;text-decoration:underline;text-underline-offset:5px}
+.site-renewal .page-index a{min-width:44px;justify-content:center}
+.site-renewal .detail-page-intro :is(.page-actions,.page-index){grid-column:1}
+
+/* Whitespace and quiet surfaces group content; decorative card rules are absent. */
+.site-renewal .sec.alt,.site-renewal .v3-detail .business-gallery,.site-renewal .works-story,.site-renewal .career-chapters,.site-renewal .v3-contact,.site-renewal .v3-footer{border:0}
+.site-renewal :is(.card,.v3-card,.home-summary-card,.works-story .case,.career-chapters .chapter-panel,.stack-grid section,.short-route){border:0!important;box-shadow:none}
+.site-renewal .business-gallery{background:#f3f5f7;padding-block:64px}
+.site-renewal .business-gallery .grid3{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.site-renewal .business-gallery .home-summary-card{grid-column:auto!important;background:#fff;box-shadow:none}
+.site-renewal .business-gallery .business-art{height:130px!important;min-height:0!important;background:transparent!important;border:0!important;margin:24px 24px 0!important}
+.site-renewal .business-gallery .business-art svg{max-height:130px}
+.site-renewal .business-gallery .business-copy{padding:28px 32px}
+.site-renewal .business-gallery .business-copy p{font-size:16px;line-height:1.9;color:#4c5866}
+.site-renewal .business-gallery .business-copy .business-pain{font-size:14px;color:#4c5866;font-weight:450}
+.site-renewal .business-gallery .business-copy .business-proof{font-size:15px;font-weight:550;color:#243b5c;background:#f1f4f8;border:0;padding:16px 18px;margin-top:20px}
+.site-renewal .business-actions{gap:12px 20px;flex-wrap:wrap}
+.site-renewal .business-actions a{min-height:44px;font-size:15px}
+.site-renewal .business-actions .business-cta{background:#133f8f;color:#fff;border:0;padding:11px 18px}
+.site-renewal .business-actions .home-detail-cta{background:none;color:#133f8f;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:5px}
+.site-renewal .service-detail .home-summary-card{grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:24px;padding:12px!important}
+.site-renewal .service-detail .business-art{align-self:start;margin:28px 0 0!important}
+.site-renewal .works-story{background:#fff}
+.site-renewal .works-story .case{background:#f3f5f7;padding:36px}
+.site-renewal .works-story .works-choices button{border:0!important;padding:18px 20px;color:#4c5866;min-height:48px}
+.site-renewal .works-story .works-choices button[aria-selected=true]{background:#e9eef6;color:#133f8f;font-weight:700}
+.site-renewal .works-story .case-topic+.case-topic{border:0;margin-top:32px;padding-top:0}
+.site-renewal .works-story .case-description p{font-size:16px;color:#4c5866}
+.site-renewal .case-request{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.site-renewal .career-chapters{background:#f3f5f7}
+.site-renewal .career-chapters .chapter-panel{background:#fff}
+.site-renewal .career-chapters .chapter-visual{background:#f3f5f7;border:0}
+.site-renewal .career-chapters .chapter-visual>b{font-size:48px;color:#4c5866}
+.site-renewal .career-chapters .body-copy,.site-renewal .career-chapters .career-points{font-size:16px;color:#4c5866}
+.site-renewal .career-chapters :is(.chapter-nav small,.chapter-nav strong,.tags span,.chapter-progress){font-size:14px;color:#4c5866}
+.site-renewal .career-chapters .chapter-nav:before{display:none}
+.site-renewal .career-chapters .chapter-nav b{box-shadow:none;border:0}
+.site-renewal .tech-stack{border:0}
+.site-renewal .stack-grid{gap:28px}
+.site-renewal .stack-grid section{background:#f3f5f7;padding:24px}
+.site-renewal :is(.mk-tiles>div,.pr-work,.talk,.step){border:0;box-shadow:none}
+.site-renewal .mk-tiles{gap:28px;background:#f3f5f7;padding:28px}
+.site-renewal .pr-work{background:#f3f5f7;padding:28px;gap:32px}
+.site-renewal .pr-work :is(.pr-meta,.pr-summary),.site-renewal .mk-theme{color:#4c5866;font-size:16px}
+.site-renewal .pr-scope span,.site-renewal .pr-meta,.site-renewal .mediakit .note{font-size:14px;color:#4c5866}
+.site-renewal .talk{padding-block:28px;margin-block:20px}
+.site-renewal .talk .deck{margin-top:24px}
+.site-renewal #talk-request .card h2{font-size:22px;line-height:1.6;margin-bottom:18px}
+.site-renewal .v3-footer{background:#f3f5f7;padding-top:48px}
+.site-renewal .v3-footer nav{gap:8px 28px}
+.site-renewal .v3-footer nav a{min-height:44px;align-items:center;font-size:14px}
+.site-renewal .v3-footer-bottom{border:0;margin-top:20px}
+.site-renewal .v3-footer a{color:#344252}
+.site-renewal .sec-h,.site-renewal .v3-detail .sec-h,.site-renewal .works-story h2,.site-renewal .career-chapters h2,.site-renewal .latest h2,.site-renewal .v3-contact h2{font-size:clamp(28px,3vw,38px);line-height:1.45}
+.site-renewal .works-story .result .result-basis,.site-renewal .works-story .support .result-basis{font-size:14px;white-space:normal}
+.site-renewal .works-story .foot,.site-renewal .career-chapters .section-foot,.site-renewal .career-chapters .section-foot span{font-size:14px}
+.site-renewal :is(.works-story .foot span,.works-story .tech li,.name-handles a,.tb-note,.talk .ev,.talk .dt){font-size:14px}
+.site-renewal .works-story .case-topic .tb-detail .tb-note,.site-renewal .works-story .case .tech li{font-size:14px}
+.site-renewal .works-story .works-wrap>.foot span{font-size:14px}
+.site-renewal .v3-contact p,.site-renewal .flow-note,.site-renewal .fine{font-size:14px;color:#4c5866}
+.site-renewal .contact-form-sec{padding-top:20px}
+.site-renewal .contact-form-card{border:0;background:#f3f5f7;padding:36px;box-shadow:none}
+.site-renewal .contact-form-card :is(.lead,.field,label){font-size:16px;color:#202833}
+.site-renewal .contact-form-card :is(.req,.opt){font-size:14px}
+.site-renewal #contact.msg{background:#fff;color:#202833;border:0;text-align:left}
+.site-renewal #contact.msg h2{font-size:28px}
+.site-renewal #contact.msg p{color:#4c5866;font-size:16px}
+.site-renewal #contact.msg .bubble{display:none}
+.site-renewal #contact.msg .btns{justify-content:flex-start}
+.site-renewal #contact.msg .btn-w{background:#e9eef6;color:#133f8f;border:0}
+.site-renewal :is(input:not([type=checkbox]):not([type=radio]),textarea,select),.site-renewal .estimate-page :is(input:not([type=checkbox]),textarea,select){border:1px solid #697889;background:#fff;color:#202833;min-height:48px;font-size:16px}
+.site-renewal :is(input[type=checkbox],input[type=radio]){accent-color:#133f8f;min-width:20px;min-height:20px}
+
+/* Price decisions stay legible inside the dialog; inputs retain functional outlines. */
+.site-renewal #pricing-wizard{--ink:#202833;--muted:#4c5866;--paper:#f3f5f7;--blue-light:#e9eef6;font-size:16px}
+.site-renewal #pricing-wizard :is(.flow-aside,.estimate-paper,.pending-box,.extras-impact,.launch-summary,.chosen-estimate,.completed-controls,.historical-rate-note,.extras-consultations,.comparison-dock,.alternative-card,.choice){border:0;box-shadow:none}
+.site-renewal #pricing-wizard :is(.flow-aside,.extras-impact,.launch-summary,.completed-controls){background:#f3f5f7;padding:26px}
+.site-renewal #pricing-wizard .choice{background:#f3f5f7;padding:22px;gap:8px}
+.site-renewal #pricing-wizard .choice:has(input:checked){background:#e9eef6}
+.site-renewal #pricing-wizard .alternative-card{background:#f3f5f7;padding:24px}
+.site-renewal #pricing-wizard :is(.question-hint,.choice-description,.choice-price,.hint,.sheet-note,.rev-note,.answer-value,.aside-foot,.aside-price-label,.answer-list small,.question-kicker,.mini-note,.wizard-contact-note,.launch-summary small,.launch-summary p,.simulator-header p,.comparison-dock p,.alternatives-hint,.alternative-label,.alternative-total-label,.alternative-pending,.alternative-difference,.document-foot,.pending-box p,.pdf-recipient label,.pdf-recipient small,.extras-amounts,.extras-revision-effects,.extras-explanation,.extras-no-consultation){font-size:14px;line-height:1.85}
+.site-renewal #pricing-wizard :is(.choice-title,.simulator-launch p,.revisions,.document-details,.document-details summary,.alternative-details,.alternative-details summary,.alternative-details .estimate-lines,.alternative-details .estimate-lines td,.estimate-lines,.estimate-lines td,.estimate-lines th,.paper-heading p,.paper-subject,.paper-sender,.pdf-message,.pending-box li){font-size:16px;line-height:1.85}
+.site-renewal #pricing-wizard :is(.estimate-lines th small,.alternative-details h4,.extras-revision-effects strong,.extras-consultations h4,.extras-consultations ul,.extras-consultations small){font-size:14px}
+.site-renewal #pricing-wizard .choice.compact .choice-title{font-size:16px}
+.site-renewal #pricing-wizard .choice.compact .choice-description{font-size:14px}
+.site-renewal #pricing-wizard .choice.compact{padding-right:54px}
+.site-renewal #pricing-wizard :is(.button,.text-button,.answer-row button,.simulator-close,.alternative-card>.button){font-size:14px;min-height:44px}
+.site-renewal #pricing-wizard :is(.navigation,.answer-list li,.aside-foot,.revisions,.wizard-contact-note,.extras-current,.extras-revision-effects li,.estimate-alternatives,.document-details,.restart-row){border:0}
+.site-renewal #pricing-wizard .answer-list{display:grid;gap:16px}
+.site-renewal #pricing-wizard .answer-list li{padding:0}
+.site-renewal #pricing-wizard .comparison-dock{background:#e9eef6;padding-block:18px}
+.site-renewal #pricing-wizard .pending-box,.site-renewal #pricing-wizard .extras-consultations{background:#fff0d8;color:#594017;padding:22px}
+.site-renewal #pricing-wizard .pricing-simulator{border:0}
+.site-renewal #pricing-wizard .simulator-header{border:0;background:#f3f5f7}
+.site-renewal #pricing-wizard .document-details{margin-top:24px;background:#f3f5f7;padding:16px 20px}
+.site-renewal #pricing-wizard .media-revision-field{border:0;padding-block:12px}
+.site-renewal #pricing-wizard .media-revisions{border:0;margin-bottom:32px}
+.site-renewal #pricing-wizard input[aria-invalid=true]{border-color:#a52d20;outline:2px solid #a52d20;outline-offset:2px}
+.site-renewal #pricing-wizard .revision-field-error{color:#912418;font-size:14px}
+.site-renewal #pricing-wizard .completion-heading p{font-size:14px;line-height:1.85;color:#4c5866}
+.site-renewal #pricing-wizard .mini-note{border:0;background:#f3f5f7;padding:18px}
+.site-renewal .estimate-page :is(.estimate-result,.estimate-term-grid article,.estimate-additional,.estimate-selected-scope,.sheet-hint){border:0;box-shadow:none}
+.site-renewal #legacy-estimate :is(.work-help,.quote-line-detail,.quote-updated,.result-tax-rate,.pdf-recipient-label span,.estimate-additional>summary>span,.check-price,.sheet-hint,.quote-table,.estimate-hint,.estimate-result-note,.estimate-terms,.estimate-term-grid li){font-size:14px;line-height:1.85}
+.site-renewal #legacy-estimate :is(.work-label,.estimate-lines,.estimate-lines td,.estimate-lines th,.estimate-result p){font-size:16px;line-height:1.85}
+.site-renewal #legacy-estimate .estimate-result{background:#f3f5f7;padding:28px}
+.site-renewal .estimate-page .estimate-hint,.site-renewal #legacy-estimate :is(p,li,label,small,span){font-size:14px;line-height:1.85}
+
+@media(max-width:1100px){.site-renewal .v3-head nav{display:none}}
+@media(max-width:820px){
+ .site-renewal .v3-head>.v3-wrap{gap:12px}.site-renewal .v3-head .v3-logo{font-size:17px}
+ .site-renewal .v3-head .site-action{padding:10px 12px;font-size:13px;gap:10px}
+ .site-renewal .v3-page-head{padding-block:32px 28px}.site-renewal .page-actions{gap:10px}
+ .site-renewal .page-actions .site-action{width:100%}.site-renewal .page-index{gap:4px 22px}
+ .site-renewal .business-gallery .business-copy{padding:24px}.site-renewal .service-detail .home-summary-card{display:block!important;padding:0!important}
+ .site-renewal .pr-work{padding:20px;gap:24px}.site-renewal .contact-form-card{padding:24px 20px}
+ .site-renewal #pricing-wizard :is(.flow-aside,.extras-impact,.launch-summary,.completed-controls){padding:22px}
+ .site-renewal #pricing-wizard .document-actions{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+ .site-renewal #pricing-wizard .comparison-dock{padding:14px 20px;gap:12px;flex-wrap:wrap}
+ .site-renewal #pricing-wizard .comparison-dock .button{width:100%}
+ .site-renewal #pricing-wizard .estimate-lines th{width:62%}.site-renewal #pricing-wizard .estimate-lines td{white-space:normal}
+}
+@media(max-width:640px){
+ .site-renewal .business-gallery .grid3{grid-template-columns:1fr;gap:24px}
+ .site-renewal .works-story .case{padding:24px 20px}
+ .site-renewal .site-menu .menu-panel{padding:22px}.site-renewal .menu-group .menu-links{grid-template-columns:1fr}
+ .site-renewal #pricing-wizard .choices{grid-template-columns:1fr}
+ .site-renewal #pricing-wizard .choice:has(.choice-icon){padding-left:64px}
+ .site-renewal #pricing-wizard .simulator-scroll{padding:22px 16px 32px}
+ .site-renewal #pricing-wizard .simulator-header{padding:14px 16px;gap:12px}
+ .site-renewal #pricing-wizard .pricing-simulator{width:100%;height:100dvh}
+ .site-renewal #pricing-wizard .pdf-recipient{flex-wrap:wrap}
+}
+@media(forced-colors:active){.site-renewal :is(.site-action,.business-cta,#pricing-wizard .choice){border:1px solid ButtonText!important}.site-renewal #pricing-wizard .choice:has(input:checked){outline:2px solid Highlight}}

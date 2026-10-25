@@ -11,6 +11,8 @@ class Handler(SimpleHTTPRequestHandler):
         if clean=='/review.html':return str(REVIEW)
         if clean=='/pricing-flows/':return str(REVIEW.parent/'pricing-flows.html')
         if clean=='/pricing-review/':return str(REVIEW.parent/'pricing-review.html')
+        if clean=='/site-review/':return str(REVIEW.parent/'site-improvements.html')
+        if clean=='/site-audit/':return str(REVIEW.parents[1]/'site-action-hierarchy/ai-audit/report.html')
         resolved=(SITE/clean.lstrip('/')).resolve()
         return str(resolved if resolved.is_relative_to(SITE.resolve()) else SITE/'404.html')
     def end_headers(self):

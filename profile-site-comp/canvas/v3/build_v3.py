@@ -132,6 +132,7 @@ NAME_NOTE = ('<p class="name-note">Miyabiya Studio は、Masaya Nishigaki の屋
         ('YouTube', '@masayan-ai-hack', 'https://www.youtube.com/@masayan-ai-hack'),
         ('X', '@masayan_ai_hack', 'https://x.com/masayan_ai_hack'),
         ('Instagram', '@miyabiya1126', 'https://www.instagram.com/miyabiya1126/'))) + '</ul>')
+career_details = career_details.replace('href="#contact"', 'href="/contact/?type=recruit#contact-form"')
 profile = ('<section class="sec"><div class="wrap profile-intro"><div class="photo-frame"><img src="hero-photo.webp" alt="Masaya Nishigakiの写真" width="800" height="1000"></div>'
     '<div><p class="profile-name">Masaya Nishigaki</p><p class="profile-role">Webエンジニア・テックリード</p>'+NAME_NOTE+'<p class="hero-lead">'
     +re.search(r'<p class="hero-lead">(.*?)</p>',src,re.S).group(1)+'</p></div></div></section>'+detail_career+sections['render_tech_stack']()+career_details)
@@ -222,8 +223,15 @@ for event_url, (deck_id, deck_title) in TALK_DECKS.items():
 # Approved 2026-09-25: state the usual reply time next to the contact channels.
 contact_with_reply = element(src,'contact').replace('メールのいずれかでお送りください。</p>', 'メールのいずれかでお送りください。通常2営業日以内に返信します。</p>', 1)
 assert '通常2営業日以内' in contact_with_reply
-contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':sections['render_media'](videos, pricing_builder['media_summary'](), sections['render_works'](files, single=2), re.search(r'<div class="short-route">.*?</div>', videos, re.S).group()), 'talks':sections['render_works'](files, single=3)+talks_with_decks,'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':element(src,'flow')+contact_with_reply+sections['render_contact_form']()}
-intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'ご依頼いただける内容と、それぞれの対応範囲をご紹介します。','media':'製品PR・タイアップ・コラボをご検討中の方へ、チャンネルの視聴者、制作実績、ご依頼内容と料金をご案内します。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご依頼の流れと、メール・SNSの連絡先をご案内します。'}
+contact_with_reply = contact_with_reply.replace('まずはお気軽にご相談ください', 'メール・SNSからもご相談いただけます')
+talks_with_decks = talks_with_decks.replace('class="talk-more"', 'class="talk-more" id="talk-request-content"')
+request = element(talks_with_decks, 'talk-request-content')
+talks_with_decks = talks_with_decks.replace(request, '').replace('href="#contact"', 'href="/contact/?type=talk#contact-form"')
+request = request.replace('<h3>', '<h2>').replace('</h3>', '</h2>')
+request = '<section class="sec" id="talk-request"><div class="wrap">' + request.replace('href="#contact"', 'href="/contact/?type=talk#contact-form"') + '</div></section>'
+flow = element(src,'flow').replace('XのDMかメールで、相談したい内容をお送りください。', 'フォーム・メール・SNSのいずれかで、相談したい内容をお送りください。')
+contents = {'home':home,'mobile':home,'profile':profile,'works':works,'services':services,'media':sections['render_media'](videos, pricing_builder['media_summary'](), sections['render_works'](files, single=2), re.search(r'<div class="short-route">.*?</div>', videos, re.S).group()), 'talks':request+sections['render_works'](files, single=3)+talks_with_decks,'membership':'<section class="sec"><div class="wrap">'+membership+'</div></section>', 'contact':sections['render_contact_form']()+contact_with_reply+flow}
+intros = {'profile':'これまでの経歴と、開発の経験をご紹介します。採用・業務委託のご相談もこちらでご案内します。','works':works_intro,'services':'ご依頼いただける内容と、それぞれの対応範囲をご紹介します。','media':'製品PR・タイアップ・コラボをご検討中の方へ、チャンネルの視聴者、制作実績、ご依頼内容と料金をご案内します。','talks':'過去の登壇と、お話しできるテーマ・形式をご紹介します。','membership':'メンバー限定の特典と、加入方法をご案内します。','contact':'ご相談内容をフォームからお送りいただけます。通常2営業日以内に返信します。メール・SNSの連絡先と、ご依頼の流れもご案内しています。'}
 
 custom += '.v3-photo img{object-fit:contain;object-position:center bottom;padding:8px 12px 0}'
 icon_paths = {

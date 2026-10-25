@@ -103,11 +103,25 @@ function refreshExtras(announce=false) {
   const panel=workspace.querySelector('#extras-impact');if(!panel)return;
   panel.outerHTML=extrasImpact();
   const result=quote(data,state),view=quotePresentation(data,state,result),asideNode=workspace.querySelector('.flow-aside');
+  syncRevisionValidity();
   if(result.status!=='invalid'){revisionError='';workspace.querySelector('.flow-main > .error')?.remove();}
   updateLaunch(result,view);
   if(result.status!=='invalid')history.replaceState(null,'',estimateUrl(data,state,location.href));
   if(asideNode)asideNode.outerHTML=aside(result,view);
   if(announce){const impact=extrasPresentation(data,state,result);document.querySelector('#wizard-live').textContent=impact.status==='invalid'?impact.error:impact.status==='empty'?'ご希望のPRを選択してください。':impact.totalLabel+'、'+impact.totalText+'。'+(impact.consultations.length?'個別見積もりの'+impact.consultations.length+'項目の料金は含みません。':'');}
+}
+function syncRevisionValidity() {
+  if(!data.mediaRevisionRates)return;
+  for(const row of mediaRevisionDetails(data,state)) {
+    const input=workspace.querySelector('#wizard-revisions-'+row.id);if(!input)return;
+    const errorId='revision-error-'+row.id;
+    let error=workspace.querySelector('#'+errorId);
+    if(!error){error=document.createElement('p');error.id=errorId;error.className='revision-field-error';input.closest('.media-revision-field').append(error);}
+    input.setAttribute('aria-invalid',String(!row.valid));
+    input.setAttribute('aria-describedby','revision-note-'+row.id+(row.valid?'':' '+errorId));
+    error.hidden=row.valid;
+    error.textContent=row.valid?'':row.label+'の修正回数を0以上の整数で入力してください。';
+  }
 }
 function answers(completed=false) {
   return questions().map(key=>`<${completed?'div':'li'}><small>${{media:'制作物',short:'ショートの制作方法',assets:productionOptions?'制作・公開のオプション':'資料・サムネイル',extras:'その他の希望'}[key]}</small><div class="answer-row"><p class="answer-value">${esc(answerText(key))}</p><button type="button" class="text-button" data-edit="${key}">${completed?'変更する':'選び直す'}</button></div></${completed?'div':'li'}>`).join('');
@@ -135,7 +149,7 @@ function renderEstimate(result,view) {
   <details class="document-details"><summary>制作範囲・準備するもの・修正条件を見る</summary><h3>制作・公開の範囲</h3><ul>${view.scope.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>お客様にご用意いただくもの</h3><ul>${view.preparation.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>修正条件</h3><ul>${view.revisionNotes.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul></details>
   <p class="document-foot">${esc(view.disclaimer)}</p><p class="document-foot">料金表の更新日：${esc(data.updated)}${data!==currentData?'（共有時の料金で表示しています）':''}</p></article><aside class="completed-controls"><h3>ご依頼内容を変更する</h3><div class="completed-answers" aria-label="回答を変更する">${answers(true)}</div></aside></div>
   <div class="pdf-recipient"><label for="wizard-recipient">見積書の宛名 <small>任意</small></label><input id="wizard-recipient" data-key="recipient" type="text" maxlength="80" placeholder="会社名・お名前" value="${esc(recipient)}" autocomplete="organization"><select id="wizard-honorific" aria-label="宛名の敬称"><option ${honorific==='御中'?'selected':''}>御中</option><option ${honorific==='様'?'selected':''}>様</option></select></div>
-  <div class="document-actions"><button type="button" class="button primary" id="save-pdf">概算見積書をPDFで保存 <span aria-hidden="true">↓</span></button><a class="button secondary" id="estimate-inquiry" href="${esc(mailto(summary(data,state)))}">この内容でPRを相談する</a><button type="button" class="text-button" data-edit="media">回答を選び直す</button></div><p class="pdf-message" id="pdf-message" role="status"></p>
+  <div class="document-actions"><a class="button primary" id="estimate-inquiry" href="${esc(mailto(summary(data,state)))}">この内容でPRを相談する</a><button type="button" class="button secondary" id="save-pdf">概算見積書をPDFで保存 <span aria-hidden="true">↓</span></button><button type="button" class="text-button" data-edit="media">回答を選び直す</button></div><p class="pdf-message" id="pdf-message" role="status"></p>
   <p class="sheet-note">宛名はPDFの作成にだけ使い、外部に送信しません。</p>
   <details class="document-details"><summary>同じ見積もりを開く共有URL</summary><p class="sheet-note">同じご依頼内容と概算金額を開くURLです。社内でのご相談にもご利用いただけます。</p><button class="button secondary" type="button" id="wizard-copy-url">見積もりURLをコピー</button><p id="wizard-share-status" role="status"></p><textarea class="estimate-url" aria-label="見積もりの共有URL" readonly>${esc(estimateUrl(data,state,'https://studio.msyn.me/pricing/#estimate-result'))}</textarea></details>
   <details class="document-details" id="wizard-full-terms"><summary>ご依頼前の確認事項・取引条件を見る</summary><div id="wizard-terms-content"></div></details><div class="restart-row"><button type="button" class="text-button" data-edit="media">← 制作物の選択へ戻る</button><button type="button" class="text-button" id="restart">すべての回答をリセット</button></div></section>`;
@@ -183,6 +197,7 @@ function render(focusKey,motion) {
   const currentUrl=oldRates?latestEstimateUrl(data,currentData,state,new URL('/pricing/#production-options',location.href).href):'';
   const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、同じサービス・製品のPR依頼歴と、制作物ごとの修正回数から料金を計算します。</p><p>切り替えると、現在の料金・条件で再計算します。選択内容をご確認ください。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">現在の料金・条件で見積もりを選び直す</a></section>`:'';
   workspace.innerHTML=notice+(complete?renderEstimate(result,view)+renderAlternatives():renderForm(result,view));
+  syncRevisionValidity();
   updateDock();updateLaunch(result,view);
   if(complete){
     const host=document.querySelector('#wizard-terms-content');
