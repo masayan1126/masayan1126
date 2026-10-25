@@ -1,6 +1,6 @@
 /* UI surfaces stay white or neutral grey; blue is reserved for actions and diagrams. */
 /* Actions, evidence and supporting detail have distinct roles. */
-.site-renewal{--site-ink:#202d40;--site-muted:#4b596b;--site-blue:#133f8f;--site-paper:#f2f2f2;--surface:#fff;--surface-soft:#f2f2f2;--surface-heading:#ededed;--surface-action:#153455;color-scheme:light}
+.site-renewal{--site-ink:#202d40;--site-muted:#4b596b;--site-blue:#133f8f;--site-paper:#f2f2f2;--surface:#fff;--surface-soft:#f2f2f2;--surface-heading:#fff;--surface-action:#153455;color-scheme:light}
 .site-renewal .v3{color:var(--site-ink)}
 .site-renewal .site-action{display:inline-flex;align-items:center;justify-content:center;gap:20px;min-height:52px;padding:14px 22px;font:650 15px/1.6 var(--sans);text-decoration:none;white-space:normal;cursor:pointer;vertical-align:middle;max-width:100%;box-sizing:border-box;transition:background-color .18s,color .18s,transform .18s}
 .site-renewal .site-action-primary,.site-renewal .v3-head .site-action-primary,.site-renewal .immersive-hero .masthead .site-action-primary{background:#133f8f;color:#fff;border:0}
