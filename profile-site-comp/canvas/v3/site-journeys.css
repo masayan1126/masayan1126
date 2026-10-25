@@ -23,7 +23,7 @@
 .site-renewal .menu-group .menu-links{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
 .site-renewal .menu-group .menu-links a{min-height:44px;padding:8px 0;border:0;font-size:16px;line-height:1.7;color:#202833}
 .site-renewal .menu-group .menu-links a[aria-current=page]{color:#133f8f;font-weight:700}
-.site-renewal .v3-page-head{padding-block:56px 48px;background:var(--surface-heading);border:0}
+.site-renewal .v3-page-head{padding-block:56px 24px;background:var(--surface-heading);border:0}
 .site-renewal .v3-page-head p{color:#4c5866;font-size:16px;max-width:44em}
 .site-renewal .v3-breadcrumb{min-height:44px;font-size:14px;margin-bottom:20px;color:#4c5866}
 .site-renewal .page-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
@@ -199,7 +199,7 @@
 .site-renewal[data-page=contact] .v3-breadcrumb{margin-bottom:8px;min-height:32px}
 .site-renewal[data-page=contact] .v3-page-head p{margin-top:12px}
 .site-renewal[data-page=contact] .page-index{margin-top:12px}
-.site-renewal .contact-form-sec{padding-block:32px 64px!important}
+.site-renewal .contact-form-sec{padding-block:16px 64px!important}
 .site-renewal #membership{max-width:960px;padding:0;background:transparent}
 .site-renewal #membership .membership-summary{max-width:44em;margin-bottom:32px}
 .site-renewal .membership-summary>span{display:block;margin-top:20px}
@@ -212,7 +212,7 @@
 .site-renewal[data-page=talks] #talks .talks{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
 .site-renewal[data-page=talks] #talks .talk{background:#fff;padding:32px}
 .site-renewal[data-page=talks] #talks .talk h3{font-size:20px;line-height:1.7}
-.site-renewal .estimate-intro{background:var(--surface-heading);padding-bottom:36px}
+.site-renewal .estimate-intro{background:var(--surface-heading);padding-bottom:24px}
 .site-renewal #pricing-wizard .simulator-launch h2{font-size:28px;line-height:1.6}
 .site-renewal #pricing-wizard .simulator-launch>div>p{font-size:16px;line-height:1.9}
 .site-renewal .pr-scope{gap:8px 20px;margin-top:20px}
@@ -264,7 +264,7 @@
  .site-renewal .form-submit{display:block}.site-renewal .form-submit .site-action{width:100%;margin-bottom:16px}
  .site-renewal .v3-head>.v3-wrap{gap:12px}.site-renewal .v3-head .v3-logo{font-size:17px}
  .site-renewal .v3-head .site-action{padding:10px 12px;font-size:13px;gap:10px}
- .site-renewal .v3-page-head{padding-block:32px 28px}.site-renewal .page-actions{gap:10px}
+ .site-renewal .v3-page-head{padding-block:32px 16px}.site-renewal .page-actions{gap:10px}
  .site-renewal .page-actions .site-action{width:100%}.site-renewal .page-index{gap:4px 22px}
  .site-renewal .business-gallery .business-copy{padding:24px}.site-renewal .service-detail .home-summary-card{display:block!important;padding:0!important}
  .site-renewal .pr-work{padding:20px;gap:24px}.site-renewal .contact-form-card{padding:24px 20px}
@@ -292,3 +292,18 @@
  .site-renewal #pricing-wizard .pdf-recipient{flex-wrap:wrap}
 }
 @media(forced-colors:active){.site-renewal :is(.site-action,.business-cta,#pricing-wizard .choice){border:1px solid ButtonText!important}.site-renewal #pricing-wizard .choice:has(input:checked){outline:2px solid Highlight}}
+
+/* Compact the handoff from the page introduction to its first content section. */
+.site-renewal .v3-detail main>.v3-page-head+.sec{padding-top:40px}
+.site-renewal[data-page=works] .v3-page-head+#works>.works-story>.works-wrap{padding-top:40px}
+.site-renewal .v3-page-head+#talk-request #talk-request-content{margin-top:0}
+.site-renewal .estimate-intro+#pricing-wizard{padding-top:0}
+.site-renewal .estimate-intro+#pricing-wizard .simulator-launch{padding-top:16px}
+.site-renewal .immersive-hero+.v3-detail>.business-gallery:first-child{padding-top:48px}
+@media(max-width:820px){
+ .site-renewal .v3-detail main>.v3-page-head+.sec,
+ .site-renewal[data-page=works] .v3-page-head+#works>.works-story>.works-wrap{padding-top:24px}
+ .site-renewal .estimate-intro{padding-bottom:16px}
+ .site-renewal .estimate-intro+#pricing-wizard .simulator-launch{padding-top:12px}
+ .site-renewal .immersive-hero+.v3-detail>.business-gallery:first-child{padding-top:32px}
+}
