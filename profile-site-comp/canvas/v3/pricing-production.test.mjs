@@ -14,6 +14,7 @@ test('the public build retains the policy used to show PR-history answers',()=>{
   const state={media:['main'],items:['materials','thumbnail']};
   assert.deepEqual(prHistoryPresentation(publicData,state),prHistoryPresentation(data,state));
   assert.equal(publicData.researchPolicy,'prior-pr-request');
+  assert.deepEqual(publicData.mediaRevisionRates,data.mediaRevisionRates);
 });
 
 test('prior PR requests determine research fees consistently in shared quotes and inquiry/PDF presentation',()=>{
@@ -56,8 +57,8 @@ test('switching explicitly from an old quote preserves answers and opens optiona
   assert.deepEqual(restored.items,['research','materials','thumbnail']);
   assert.deepEqual(restored.media,state.media);
   assert.equal(restored.notes,state.notes);assert.equal(restored.revisions,'3');
-  assert.equal(quote(data,restored).totalMin,60000);
-  assert.equal(quote(data,{...restored,items:restored.items.filter(id=>id!=='research')}).totalMin,51200);
+  assert.equal(quote(data,restored).totalMin,64300);
+  assert.equal(quote(data,{...restored,items:restored.items.filter(id=>id!=='research')}).totalMin,55500);
   assert.deepEqual(quote(old,state),oldQuote);assert.deepEqual(state,original);
   const currentState={...state,items:[]};
   assert.deepEqual(stateFromUrl(data,latestEstimateUrl(data,data,currentState)).items,[]);

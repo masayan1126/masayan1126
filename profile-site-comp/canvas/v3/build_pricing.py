@@ -24,7 +24,8 @@ def amount(item):
     return f'{low:,}〜{high:,}円'
 
 def media_summary():
-    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>YouTube本編・ショート・X投稿を組み合わせて、制作範囲と概算料金をご確認いただけます。未確定の料金・条件は要相談です。</p><p>本編では、公開前の軽微修正は2回まで料金に含まれます。3回目以降は1回5,500円（税込）です。ショート・Xの修正条件、二次利用や撮り直しの料金は要相談です。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
+    revisions=''.join('<li>'+label+'：'+str(DATA['mediaRevisionRates'][key]['included'])+'回まで料金内。'+str(DATA['mediaRevisionRates'][key]['included']+1)+'回目以降は1回'+amount(DATA['mediaRevisionRates'][key]['fee'])+'（税込）です。</li>' for key,label in [('main','YouTube横動画（本編動画）'),('short','ショート動画'),('x','X')])
+    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>YouTube本編・ショート・X投稿を組み合わせて、制作範囲と概算料金をご確認いただけます。未確定の料金・条件は要相談です。</p><p>公開前の軽微修正は、制作物ごとに回数をご指定いただけます。</p><ul>'+revisions+'</ul><p>二次利用や撮り直しは個別にお見積もりします。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
 
 def groups():
     result=[]
@@ -44,7 +45,7 @@ def groups():
     return ''.join(result)
 
 def public_rates():
-    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates','legacyUnversionedRateVersion','researchPolicy')}
+    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates','legacyUnversionedRateVersion','researchPolicy','mediaRevisionRates')}
 
 def content(public_data=None):
     if public_data is None: public_data=public_rates()
@@ -108,7 +109,7 @@ def content(public_data=None):
           <ul>
             <li>公開前の軽微修正は、2回まで追加料金なしで承ります。<span class="note-example">軽微修正の例</span><ul class="note-examples"><li>テロップの誤字修正</li><li>不要な部分のカット</li><li>事実関係の訂正</li></ul></li>
             <li>1回のご連絡でまとめていただいた修正内容への対応を、1回と数えます。</li>
-            <li>3回目以降の軽微修正は、1回につき5,500円（税込）を頂戴いたします。</li>
+            <li data-term-revisions>3回目以降の軽微修正は、1回につき5,500円（税込）を頂戴いたします。</li>
             <li>構成・尺の変更を伴う修正は、要相談とさせていただきます。</li>
           </ul>
           <h3>お客様のご都合によるキャンセル</h3>

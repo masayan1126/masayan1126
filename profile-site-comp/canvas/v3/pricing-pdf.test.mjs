@@ -160,3 +160,20 @@ test('long multiline requests continue onto new PDF pages and retain their resto
   const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
   assert.equal(stateFromUrl(data,link).notes,notes);
 });
+
+test('independent revision counts and each medium fee match the PDF and its restoring link',async()=>{
+  const state={media:['main','short','x'],items:['research','materials','thumbnail'],revisionCounts:{main:3,short:4,x:5}};
+  const result=quote(data,state),view=quotePresentation(data,state,result);
+  const bytes=await createEstimatePdf(data,state,options),doc=await PDFDocument.load(bytes);
+  const extracted=spawnSync('pdftotext',['-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+  assert.equal(extracted.status,0,extracted.stderr);
+  const text=extracted.stdout.replace(/\s+/gu,'');
+  assert.equal(result.totalMin,69600);assert.ok(text.includes('69,600円'));
+  for(const note of view.revisionNotes)assert.ok(text.includes(note.replace(/\s+/gu,'')),note);
+  for(const line of result.lines)assert.ok(text.includes(line.label.replace(/\s+/gu,'')),line.label);
+  assert.ok(!text.includes('ショートの修正回数・追加料金'));
+  assert.ok(!text.includes('X投稿の修正回数・追加料金'));
+  const annotation=doc.context.lookup(doc.getPage(0).node.Annots().get(0));
+  const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
+  assert.deepEqual(quote(data,stateFromUrl(data,link)),result);
+});

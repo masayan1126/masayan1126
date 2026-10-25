@@ -3,6 +3,19 @@ export const taxIncluded = (amount, taxRate, alreadyIncluded = false) => amount 
 export const normalizeNotes = value => typeof value === 'string' ? value.replace(/\r\n?/g,'\n').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'').slice(0,1000).trim() : '';
 export const defaultItems = data => data.mediaSchema >= 2 ? ['research','materials','thumbnail'] : ['materials','thumbnail'];
 export const shortMode = state => state.shortMode === 'dedicated' ? 'dedicated' : 'clip';
+export const revisionCount = (state,medium) => state.revisionCounts?.[medium] ?? state.revisions ?? 2;
+export const revisionLabel = medium => ({main:'YouTube横動画（本編動画）',short:'ショート動画',x:'X'})[medium];
+export function mediaRevisionDetails(data,state) {
+  if(!data.mediaRevisionRates)return null;
+  return MEDIA.filter(id=>state.media?.includes(id)).map(id=>{
+    const raw=revisionCount(state,id),count=Number(raw),config=data.mediaRevisionRates[id];
+    const fee=config.fee,extraRounds=Math.max(0,count-config.included);
+    const valid=/^\d+$/.test(String(raw))&&Number.isSafeInteger(count)&&Number.isSafeInteger(count*(fee.max??1));
+    const unitText=amountText(taxIncluded(fee.min,data.taxRate,fee.taxInclusive),taxIncluded(fee.max,data.taxRate,fee.taxInclusive));
+    return {id,label:revisionLabel(id),count,included:config.included,extraRounds,fee,valid,unitText,
+      condition:config.included+'回まで料金内。'+(config.included+1)+'回目以降は'+(unitText==='要相談'?'追加料金を個別にお見積もりします。':'1回'+unitText+'（税込）です。')};
+  });
+}
 export function amountText(min, max) {
   if (min == null || max == null) return '要相談';
   return min === max ? yen(min) : yen(min) + '〜' + yen(max);
@@ -33,6 +46,7 @@ export function estimateUrl(data, state = {}, base = 'https://studio.msyn.me/pri
   if (modern) {
     url.searchParams.set('media', MEDIA.filter(id => state.media.includes(id)).join(','));
     url.searchParams.set('revisions', state.revisions ?? 2);
+    if(data.mediaRevisionRates)for(const medium of MEDIA)url.searchParams.set(medium+'Revisions',revisionCount(state,medium));
     url.searchParams.set('custom', data.custom.filter(item => state.custom?.includes(item.id)).map(item => item.id).join(','));
     if(data.mediaSchema >= 2) {
       url.searchParams.set('shortMode',shortMode(state));
@@ -76,6 +90,7 @@ export function stateFromUrl(data, url) {
   } else if (data.mediaSchema && !params.has('items') && !params.has('v')) state.media = [];
   if(data.mediaSchema>=2 && Array.isArray(state.media)) {
     state.shortMode=shortMode({shortMode:params.get('shortMode')});
+    if(data.mediaRevisionRates)state.revisionCounts=Object.fromEntries(MEDIA.map(id=>[id,params.get(id+'Revisions')??state.revisions??2]));
   }
   return state;
 }
@@ -165,10 +180,14 @@ function mediaQuote(data,state) {
   const productionOptions=data.mediaSchema>=2;
   const items = main ? (state.items ?? []).filter(id => (productionOptions?['research','materials','thumbnail']:['materials','thumbnail']).includes(id)) : [];
   const rates = data.mediaRates;
-  const base = quote(data,{items:main?items:[], revisions:main?state.revisions:2,custom:state.custom,notes:state.notes});
+  const separateRevisions=!!data.mediaRevisionRates;
+  const revisionDetails=mediaRevisionDetails(data,state);
+  const invalidRevision=revisionDetails?.find(row=>!row.valid);
+  if(invalidRevision)return {status:'invalid',error:invalidRevision.label+'の修正回数を0以上の整数で入力してください。',invalidRevisionMedia:invalidRevision.id,lines:[],media};
+  const base = quote(data,{items:main?items:[], revisions:main&&!separateRevisions?state.revisions:2,custom:state.custom,notes:state.notes});
   if (base.status === 'invalid') return {...base,media};
-  const revisionsRaw = state.revisions ?? 2, revisions = Number(revisionsRaw);
-  if (!/^\d+$/.test(String(revisionsRaw)) || !Number.isSafeInteger(revisions) || !Number.isSafeInteger(revisions * data.revisionFee)) {
+  const revisionsRaw = state.revisions ?? 2, revisions = separateRevisions?(main?Number(revisionCount(state,'main')):2):Number(revisionsRaw);
+  if (!separateRevisions&&(!/^\d+$/.test(String(revisionsRaw)) || !Number.isSafeInteger(revisions) || !Number.isSafeInteger(revisions * data.revisionFee))) {
     return {status:'invalid',error:'修正回数を0以上の整数で入力してください。',lines:[],media};
   }
   const lines = main ? [...base.lines] : [];
@@ -187,12 +206,16 @@ function mediaQuote(data,state) {
       }
       if (rates.additionalShortCount !== 1) pending.push({id:'shortCount',label:'追加ショート1本・60秒程度の制作範囲'});
     } else addRate('standaloneShort','ショート単独制作（1本・60秒程度）',rates.standaloneShort,'検証・構成・撮影・編集・公開の範囲は個別に確認します。');
-    if (rates.shortIncludedRevisions == null || revisions > rates.shortIncludedRevisions) pending.push({id:'shortRevisions',label:'ショートの修正回数・追加料金'});
+    if (!separateRevisions&&(rates.shortIncludedRevisions == null || revisions > rates.shortIncludedRevisions)) pending.push({id:'shortRevisions',label:'ショートの修正回数・追加料金'});
   }
   if (x) {
     if (!main && !short) addRate('xPr','X製品PR投稿（1回）',rates.xPr,'製品・サービスを紹介するPR投稿です。');
     else if (productionOptions || !(main && short)) addRate('videoAnnouncement','Xでの公開動画の告知シェア（1回）',rates.videoAnnouncement,'公開動画を紹介します。製品PR投稿の料金は重ねて加算しません。');
-    if (rates.xIncludedRevisions == null || revisions > rates.xIncludedRevisions) pending.push({id:'xRevisions',label:'X投稿の修正回数・追加料金'});
+    if (!separateRevisions&&(rates.xIncludedRevisions == null || revisions > rates.xIncludedRevisions)) pending.push({id:'xRevisions',label:'X投稿の修正回数・追加料金'});
+  }
+  for(const row of revisionDetails??[])if(row.extraRounds) {
+    addRate(row.id==='main'?'revisions':row.id+'Revisions',row.label+'の追加修正（'+row.extraRounds+'回）',
+      {...row.fee,min:row.fee.min==null?null:row.fee.min*row.extraRounds,max:row.fee.max==null?null:row.fee.max*row.extraRounds},row.condition);
   }
   pending.push(...lines.filter(line => line.min == null || line.max == null).map(({id,label})=>({id,label})));
   const knownLines = lines.filter(line => line.min != null && line.max != null);
@@ -216,13 +239,14 @@ function mediaQuote(data,state) {
     ...(x ? [main||short ? 'X投稿1回は、公開動画の告知シェアです。' : 'X投稿1回は、製品・サービスを紹介するPR投稿です。', 'Xの公開先：@masayan_ai_hack。掲載内容・画像・リンクは公開前に確認します。'] : []),
     ...(productionOptions && main ? [prHistoryPresentation(data,state)?.description??(items.includes('research')?'サービスの事前検証を行い、今回紹介する機能と操作手順を確認します。':'同じサービスへの再依頼など、今回は事前検証を省くご希望です。前回からの仕様変更を確認し、再検証が必要な場合は作業前にご相談します。'),...(!items.includes('research')?['事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。']:[])] : []),
   ];
-  const revisionNotes = [
+  const revisionNotes = revisionDetails?revisionDetails.map(row=>row.label+'の軽微修正：'+row.count+'回。'+row.condition):[
     ...(main ? ['本編の公開前の軽微修正：'+revisions+'回（2回まで料金内・3回目以降は1回'+yen(taxIncluded(data.revisionFee,data.taxRate))+'・税込）'] : []),
     ...(short ? ['ショートの軽微修正：'+revisions+'回を希望'+(rates.shortIncludedRevisions==null?'（無料回数・追加料金は要相談）':'（'+rates.shortIncludedRevisions+'回まで料金内・超過分は要相談）')] : []),
     ...(x ? ['X投稿の軽微修正：'+revisions+'回を希望'+(rates.xIncludedRevisions==null?'（無料回数・追加料金は要相談）':'（'+rates.xIncludedRevisions+'回まで料金内・超過分は要相談）')] : []),
   ];
   return {status,media,lines:media.length?lines:[],pending:media.length?pending:[],custom:base.custom,selected:items,
-    revisions,extraRounds:main?base.extraRounds:0,extra:main?base.extra:0,min,max,
+    revisions,extraRounds:separateRevisions?(revisionDetails.find(row=>row.id==='main')?.extraRounds??0):main?base.extraRounds:0,extra:separateRevisions?(lines.find(row=>row.id==='revisions')?.min??0):main?base.extra:0,min,max,
+    ...(separateRevisions?{revisionDetails}:{}),
     taxMin:totalMin==null?null:totalMin-min,taxMax:totalMax==null?null:totalMax-max,totalMin,totalMax,
     quotedTotal:status==='estimate'?totalMin:null,preparation,scope,revisionNotes};
 }
@@ -231,10 +255,13 @@ function mediaQuote(data,state) {
 export function extrasPresentation(data,state,result=quote(data,state)) {
   if (['invalid','empty'].includes(result.status)) return {status:result.status,error:result.error};
   const media=result.media??['main'];
-  const baseline=quote(data,{...state,custom:[],notes:'',revisions:2});
+  const baseline=quote(data,{...state,custom:[],notes:'',revisions:2,...(data.mediaRevisionRates?{revisionCounts:{main:2,short:2,x:2}}:{})});
   const revision=result.lines.find(line=>line.id==='revisions');
   const pending=new Set(result.pending.map(item=>item.id));
-  const revisionEffects=[
+  const revisionEffects=result.revisionDetails?result.revisionDetails.map(row=>{
+    const line=result.lines.find(line=>line.id===(row.id==='main'?'revisions':row.id+'Revisions'));
+    return {id:row.id,label:row.label+'の軽微修正',effect:!line?row.included+'回まで料金内':line.min==null||line.max==null?'追加'+row.extraRounds+'回分は要相談':'＋'+amountText(taxIncluded(line.min,data.taxRate,line.taxInclusive),taxIncluded(line.max,data.taxRate,line.taxInclusive))+'（'+row.extraRounds+'回分・税込）'};
+  }):[
     ...(media.includes('main')?[{id:'main',label:'本編の軽微修正',effect:revision
       ?'＋'+amountText(taxIncluded(revision.min,data.taxRate,revision.taxInclusive),taxIncluded(revision.max,data.taxRate,revision.taxInclusive))+'（'+result.extraRounds+'回分・税込）'
       :'2回まで料金内'}]:[]),
@@ -295,8 +322,10 @@ export function comparisonQuotes(data) {
 export function alternativeQuotes(data,state) {
   const current=quote(data,state);
   if(!Array.isArray(current.media)||['invalid','empty'].includes(current.status))return [];
+  // An unfinished count on an unselected medium must not break the other quotes.
+  const revisionCounts=data.mediaRevisionRates?Object.fromEntries(mediaRevisionDetails(data,{...state,media:MEDIA}).map(row=>[row.id,!current.media.includes(row.id)&&!row.valid?2:revisionCount(state,row.id)])):null;
   return comparisonQuotes(data).filter(row=>!(row.state.media.length===current.media.length&&row.state.media.every(id=>current.media.includes(id)))).map(row=>{
-    const next={...state,media:[...row.state.media]},result=quote(data,next),view=quotePresentation(data,next,result);
+    const next={...state,media:[...row.state.media],...(revisionCounts?{revisionCounts}:{})},result=quote(data,next),view=quotePresentation(data,next,result);
     const added=next.media.filter(id=>!current.media.includes(id)),removed=current.media.filter(id=>!next.media.includes(id));
     const label=added.length===1&&!removed.length
       ? added[0]==='x'?'公開動画をXでも告知する場合':added[0]==='short'?'ショート動画でも紹介する場合':'本編でも詳しく紹介する場合'

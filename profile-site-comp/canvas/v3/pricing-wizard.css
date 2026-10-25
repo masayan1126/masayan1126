@@ -111,6 +111,12 @@ dialog{max-width:700px;width:calc(100% - 32px);max-height:calc(100dvh - 48px);pa
 @media(max-width:680px){#pricing-wizard .chosen-estimate{display:block;padding:16px}#pricing-wizard .chosen-estimate>div:last-child{text-align:left;margin-top:11px}#pricing-wizard .chosen-estimate h3{font-size:14px}#pricing-wizard .chosen-estimate strong{font-size:25px}#pricing-wizard .complete-grid{grid-template-columns:1fr;gap:24px}#pricing-wizard .complete-grid .estimate-paper{padding:23px 16px}#pricing-wizard .completed-controls .completed-answers>div{display:block}#pricing-wizard .completed-controls .completed-answers .answer-row{display:block}}
 
 .short-method{border:0;padding:0;margin:0;min-width:0}
+#pricing-wizard .media-revisions{border:0;padding:0;margin:24px 0;min-width:0}
+#pricing-wizard .media-revisions legend{font-size:17px;font-weight:700;margin-bottom:12px}
+#pricing-wizard .media-revision-field{padding:12px 0;border-bottom:1px solid var(--line)}
+#pricing-wizard .media-revision-field .revisions{margin:0;display:grid;grid-template-columns:minmax(0,1fr) 80px 1em;gap:10px}
+#pricing-wizard .media-revision-field .revisions input{min-height:48px;height:48px;padding:10px 12px}
+#pricing-wizard .media-revision-field .rev-note{margin:8px 0 0}
 .pr-history{border:0;padding:0;margin:0 0 28px;min-width:0}
 .pr-history legend,.asset-options-title{font-size:17px;font-weight:700;line-height:1.7;margin:0 0 12px;padding:0}
 .pr-history .question-hint{margin:0 0 16px}
