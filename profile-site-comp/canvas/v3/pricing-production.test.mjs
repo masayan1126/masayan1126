@@ -1,9 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {quote,quotePresentation,summary,estimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems} from './pricing-model.mjs';
+import {quote,quotePresentation,summary,estimateUrl,latestEstimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems} from './pricing-model.mjs';
 const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'123456abcdef'};
 const items=defaultItems(data);
+
+test('switching explicitly from an old quote preserves answers and opens optional research without rewriting the original',()=>{
+  const old=JSON.parse(readFileSync(new URL('./pricing-rates/04da1a7ceffd.json',import.meta.url)));
+  const state={media:['main','short','x'],items:['materials','thumbnail'],revisions:3,notes:'同じサービスへの再依頼です'};
+  const original=structuredClone(state),oldQuote=quote(old,state);
+  const url=latestEstimateUrl(old,data,state),restored=stateFromUrl(data,url);
+  assert.equal(new URL(url).hash,'#production-options');
+  assert.equal(new URL(url).searchParams.get('v'),data.rateVersion);
+  assert.deepEqual(restored.items,['research','materials','thumbnail']);
+  assert.deepEqual(restored.media,state.media);
+  assert.equal(restored.notes,state.notes);assert.equal(restored.revisions,'3');
+  assert.equal(quote(data,restored).totalMin,60000);
+  assert.equal(quote(data,{...restored,items:restored.items.filter(id=>id!=='research')}).totalMin,51200);
+  assert.deepEqual(quote(old,state),oldQuote);assert.deepEqual(state,original);
+  const currentState={...state,items:[]};
+  assert.deepEqual(stateFromUrl(data,latestEstimateUrl(data,data,currentState)).items,[]);
+});
 
 test('repeat PR requests may omit research while keeping every other work rate and tax rule',()=>{
   const previous=JSON.parse(readFileSync(new URL('./pricing-rates/04da1a7ceffd.json',import.meta.url)));
