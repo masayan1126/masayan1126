@@ -109,3 +109,5 @@ dialog{max-width:700px;width:calc(100% - 32px);max-height:calc(100dvh - 48px);pa
 #pricing-wizard .completed-controls .completed-answers button{min-height:44px}
 @media(max-width:960px){#pricing-wizard .complete-grid{grid-template-columns:minmax(0,1fr) 240px;gap:22px}#pricing-wizard .complete-grid .estimate-paper{padding:22px}#pricing-wizard .chosen-estimate strong{font-size:25px}}
 @media(max-width:680px){#pricing-wizard .chosen-estimate{display:block;padding:16px}#pricing-wizard .chosen-estimate>div:last-child{text-align:left;margin-top:11px}#pricing-wizard .chosen-estimate h3{font-size:14px}#pricing-wizard .chosen-estimate strong{font-size:25px}#pricing-wizard .complete-grid{grid-template-columns:1fr;gap:24px}#pricing-wizard .complete-grid .estimate-paper{padding:23px 16px}#pricing-wizard .completed-controls .completed-answers>div{display:block}#pricing-wizard .completed-controls .completed-answers .answer-row{display:block}}
+
+.short-method{border:0;padding:0;margin:0;min-width:0}

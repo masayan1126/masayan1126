@@ -17,6 +17,7 @@ export async function createEstimatePdf(data, state, options) {
   if (result.status === 'invalid') throw new Error(result.error);
   if (result.status === 'empty') throw new Error('制作物を選択してください。');
   const modern = Array.isArray(result.media), main = !modern || result.media.includes('main');
+  const productionOptions=data.mediaSchema>=2;
   const view = quotePresentation(data,state,result);
   const subject = modern ? view.subject : 'PR動画制作（サービス紹介動画1本・AIギルドch掲載）';
   if (!/^MS-\d{8}-[0-9A-F]{12}$/.test(estimateNumber)) throw new Error('見積番号の形式が正しくありません。');
@@ -96,7 +97,7 @@ export async function createEstimatePdf(data, state, options) {
   tableHeader();
   for(const item of result.lines) {
     const labels=wrap(item.label,cols[1]-left-20,10);
-    const description=item.id==='materials'?'説明内容と順番をまとめた動画用資料':item.description;
+    const description=item.id==='materials'&&!productionOptions?'説明内容と順番をまとめた動画用資料':item.description;
     const details=description?wrap(description,cols[1]-left-20,10):[];
     const height=Math.max(31,(labels.length+details.length)*14+12);
     if(y+height>720) {addPage(true);tableHeader();}
@@ -169,14 +170,14 @@ export async function createEstimatePdf(data, state, options) {
       '10分未満や20分を超え30分以内の動画は、内容と尺を確認して正式料金をご提示します。',
       '30分を超える動画・撮り直し・構成や尺の変更を伴う修正は、要相談とさせていただきます。',
     ]],
-    ['事前検証・秘密保持・レポート',[
-      '事前検証の結果、当方の判断で制作を見送る場合は、検証費を含め費用を請求いたしません。',
+    [productionOptions?'事前検証・秘密保持':'事前検証・秘密保持・レポート',[
+      ...(!productionOptions||included.has('research')?['事前検証の結果、当方の判断で制作を見送る場合は、検証費を含め費用を請求いたしません。']:[]),
       'PRするサービスの検証用アカウントをご用意ください。有料プランなどの利用料が発生する場合は、制作前に費用負担を確認いたします。',
       '検証用アカウントは本件の制作にのみ使用し、ログイン情報を第三者に開示いたしません。',
       '未公開情報は本件の制作にのみ使用し、お客様の許可なく公開・第三者への開示はいたしません。',
       '公開または制作中止後は検証用アカウントを使用せず、保管したログイン情報を削除いたします。',
       ...(included.has('research')?['サービスの事前検証では、機能や操作手順を確認し、動画で紹介する内容を検証します。']:[]),
-      ...(included.has('publishing')?[
+      ...(included.has('publishing')&&!productionOptions?[
         '公開30日後に再生数・視聴維持率のレポートをお渡しします。ご用意いただいた計測用リンクは概要欄へ掲載し、クリック数はお客様側で計測をお願いいたします。',
       ]:[]),
     ]],
@@ -210,7 +211,9 @@ export async function createEstimatePdf(data, state, options) {
       '掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。',
       '記載のない事項は、お客様と協議のうえ決定いたします。',
     ]],
-    ['お客様のご都合によるキャンセル',[
+    ['お客様のご都合によるキャンセル',productionOptions&&!included.has('research')?[
+      '事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。',
+    ]:[
       '事前検証の開始前のキャンセルは、費用をいただきません。',
       '正式なお見積もりと取引条件にご承諾いただいた後に、サービスの事前検証を開始します。',
       'サービスの事前検証を開始した時点を「着手」といたします。',
@@ -228,7 +231,7 @@ export async function createEstimatePdf(data, state, options) {
       '掲載期間・公開後の非公開や削除・複数本の制作・継続契約は、正式見積もりで確認します。',
     ];
     const mainSections = main ? termSections.filter(([heading])=>!['税務に関するご案内','権利・掲載期間・その他','修正・追加料金'].includes(heading)) : [
-      ['制作・公開の条件',['制作範囲・公開日・お支払い・キャンセル条件・レポートの有無は、正式見積もりで確認します。','製品の仕様・料金・利用条件と素材の権利を公開前に双方で確認し、PRであることが分かる表記を入れます。','未公開情報は制作にのみ使用し、許可なく公開・第三者へ開示しません。']]
+      ['制作・公開の条件',[productionOptions?'制作範囲・公開日・お支払い・キャンセル条件は、正式見積もりで確認します。':'制作範囲・公開日・お支払い・キャンセル条件・レポートの有無は、正式見積もりで確認します。','製品の仕様・料金・利用条件と素材の権利を公開前に双方で確認し、PRであることが分かる表記を入れます。','未公開情報は制作にのみ使用し、許可なく公開・第三者へ開示しません。']]
     ];
     termSections = [
       ['選択した制作物と準備物',[...view.scope,...view.preparation.map(value=>'ご用意いただくもの：'+value)]],

@@ -6,7 +6,9 @@ const out = new URL('../../output/3d-mode/', here);
 const page = readFileSync(new URL('site/pricing/index.html', here), 'utf8');
 const match = page.match(/<script id="pricing-data" type="application\/json">([\s\S]*?)<\/script>/);
 if (!match) throw new Error('Run the existing site build before building the review.');
-const data = JSON.parse(match[1]);
+// Keep the adopted interaction prototypes as a historical design reference.
+// The live production-options calculator is shown in the main review tab.
+const data = JSON.parse(readFileSync(new URL('pricing-rates/04da1a7ceffd.json',here),'utf8'));
 const script = await build({entryPoints:[new URL('pricing-flows.mjs', here).pathname], bundle:true,
   write:false, format:'iife', target:'es2022', external:['/pricing-pdf.mjs'],
   define:{REVIEW_PRICING_DATA:JSON.stringify(data)}, logLevel:'silent'});

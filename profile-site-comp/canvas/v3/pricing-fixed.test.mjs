@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote,summary,quotePresentation,comparisonQuotes,alternativeQuotes,estimateUrl,stateFromUrl,loadSharedRates} from './pricing-model.mjs';
-const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'abcdef123456'};
+// Preserve the published fixed-price rules before production options were introduced.
+const data={...JSON.parse(readFileSync(new URL('./pricing-rates/04da1a7ceffd.json',import.meta.url))),rateVersion:'abcdef123456'};
 const previous=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
 
 test('approved fixed work uses the previous upper amounts and preserves tax treatment and pending media conditions',()=>{

@@ -208,6 +208,8 @@ FULL_FONT = HERE.parents[1] / 'docs/pricing/private/pdf-qa/NotoSansJP-variable.t
 SUBSET = HERE / 'site-assets/studio-jp.woff2'
 covered = TTFont(SUBSET).getBestCmap()
 page_text = ''
+# Include labels rendered by the simulator after the initial HTML is loaded.
+page_text += (HERE / 'pricing-wizard.mjs').read_text() + (HERE / 'pricing-model.mjs').read_text()
 for page_path in paths.values():
     source = (OUT / page_path.strip('/') / 'index.html').read_text()
     source = re.sub(r'<(script|style)[\s\S]*?</\1>', '', source)
