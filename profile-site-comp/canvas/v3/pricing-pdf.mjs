@@ -129,7 +129,7 @@ export async function createEstimatePdf(data, state, options) {
       :'撮影素材をお渡しし、お客様に編集いただいた完成動画を当チャンネルで公開して、本編の納品完了とします。']]),
     ['登録状況','適格請求書発行事業者には登録しておりません。適格請求書は発行できません。'],
     ['税務の確認','経過措置・源泉徴収の取り扱いは、別紙「税務・権利に関するご案内」をご確認ください。'],
-    ['備考',view.disclaimer+'\n'+(main?'料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n':'')+'正式見積もりで金額を確定し、有効期限もご提示いたします。'],
+    ['備考',view.disclaimer+'\n'+(result.lines.some(line=>line.min!=null&&line.max!=null&&line.min!==line.max)?'料金に幅がある項目は、検証する機能の数・範囲や、資料の分量・撮影時間により金額が変わります。\n':'')+'正式見積もりで金額を確定し、有効期限もご提示いたします。'],
     ...(result.pending.length ? [['要相談',result.pending.map(item=>item.label).join('、')+'。要相談の金額は小計に含みません。正式見積もりで総額を確定します。']] : []),
   ].map(([label,value])=>({label,lines:wrap(value,right-left-102,8.5)}));
   const notesHeight=28+conditions.reduce((height,row)=>height+row.lines.length*12+3,0);

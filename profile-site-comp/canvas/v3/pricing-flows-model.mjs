@@ -26,10 +26,10 @@ export function relatedQuotes(data,state) {
 export function reviewSummary(data,state) {
   const result=quote(data,state),view=quotePresentation(data,state,result);
   if(['invalid','empty'].includes(result.status))return '';
-  return ['確認用の固定料金案（未承認）',view.subject,
+  return ['画面比較用の見積もり',view.subject,
     ...result.lines.map(item=>item.label+'：'+amountText(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive))),
     view.totalLabel+'：'+view.totalText,
     ...view.revisionNotes,
     ...(result.pending.length?['要相談：',...result.pending.map(item=>item.label),'要相談の料金は小計に含みません。']:[]),
-    'この金額は画面確認用の仮設定です。正式見積もりではありません。'].join('\n');
+    'この見積書は操作画面の比較用です。正式見積もりではありません。'].join('\n');
 }

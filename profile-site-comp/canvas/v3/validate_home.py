@@ -241,12 +241,13 @@ for script in [*SITE.glob('site-assets/*.mjs'), *SITE.glob('home-assets/*.mjs')]
 pricing = {}
 if BASELINE.exists():
     # The media selector is an authorized pricing implementation change (2026-10-24).
-    # Preserve the original work rates and archive bytes rather than freezing source code.
+    # The owner adopted the existing upper amounts as fixed prices (2026-10-25).
+    # Preserve those amounts, tax treatment, inclusion rules, and all archive bytes.
     original = json.loads((BASELINE / 'site/pricing/index.html').read_text().split('<script id="pricing-data" type="application/json">')[1].split('</script>')[0])
     current = json.loads((ROOT / 'pricing-data.json').read_text())
     for item in current['checklistItems']:
         old = next(row for row in original['checklistItems'] if row['id'] == item['id'])
-        pricing[item['id']] = all(item.get(key) == old.get(key) for key in ('min','max','taxInclusive','fixed'))
+        pricing[item['id']] = item['min'] == old['max'] and all(item.get(key) == old.get(key) for key in ('max','taxInclusive','fixed'))
     pricing['taxRate'] = current['taxRate'] == original['taxRate']
     pricing['revisionFee'] = current['revisionFee'] == original['revisionFee']
     assert all(pricing.values()), pricing
