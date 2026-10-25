@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="ja">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="light"><title>固定料金とダイアログの3案 | PR見積もり</title><link rel="icon" href="data:,"><style>%%STYLE%%</style></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="light"><title>別の見積もりに気づきやすくする3案 | PR見積もり</title><link rel="icon" href="data:,"><style>%%STYLE%%</style></head>
 <body>
-<header class="review-header"><div class="review-title"><p>見積もり画面の提案</p><span class="review-badge">確認用・公開前</span></div>
-<nav class="pattern-tabs" role="tablist" aria-label="3つの操作案">
-<button role="tab" id="tab-a" data-pattern="a" aria-selected="true" aria-controls="demo" tabindex="0"><b>A</b><span>1問ずつ選ぶ<small>おすすめ</small></span></button>
-<button role="tab" id="tab-b" data-pattern="b" aria-selected="false" aria-controls="demo" tabindex="-1"><b>B</b><span>選択と見積もりを並べる</span></button>
-<button role="tab" id="tab-c" data-pattern="c" aria-selected="false" aria-controls="demo" tabindex="-1"><b>C</b><span>7プランから選ぶ</span></button>
-</nav><p id="pattern-note" class="pattern-note"></p>
+<header class="review-header"><div class="review-title"><p>A案の操作＋比較の見せ方3案</p><span class="review-badge">確認用・公開前</span></div>
+<nav class="pattern-tabs" role="tablist" aria-label="比較の見せ方3案">
+<button role="tab" id="tab-a" data-pattern="a" aria-selected="true" aria-controls="demo" tabindex="0"><b>1</b><span>完成直後に並べる<small>おすすめ</small></span></button>
+<button role="tab" id="tab-b" data-pattern="b" aria-selected="false" aria-controls="demo" tabindex="-1"><b>2</b><span>固定バーで案内する</span></button>
+<button role="tab" id="tab-c" data-pattern="c" aria-selected="false" aria-controls="demo" tabindex="-1"><b>3</b><span>比較画面へ切り替える</span></button>
+</nav><p id="pattern-note" class="pattern-note"></p><div class="review-actions"><button id="preview-result" class="button secondary" type="button" aria-haspopup="dialog">完成画面から3案を比べる <span aria-hidden="true">→</span></button><p>A案の1問ずつ選ぶ操作は共通です。ダイアログ内の1・2・3で比較できます。</p></div>
 <details class="review-rates"><summary>今回の固定料金の仮設定を確認する</summary><p>現行で金額幅のある作業は、現行の上限額にそろえた案です。本編1本・資料とサムネイル込みは<strong>53,000円（税込）</strong>になります。採用前のため、公開料金は変更していません。</p><div id="rate-details"></div><p>単独ショート・X投稿・動画のX告知など、まだ料金が未設定の項目は「要相談」です。Xのみの個別契約の金額は使っていません。</p></details>
 </header>
 <main id="demo" role="tabpanel" aria-labelledby="tab-a" data-pattern="a">
@@ -16,6 +16,6 @@
 <section class="landing-guide"><div><span>01</span><h2>ご希望のPRを選ぶ</h2><p>本編・ショート・Xは複数選択できます。</p></div><div><span>02</span><h2>制作する範囲を決める</h2><p>説明資料・サムネイル・修正回数を選べます。</p></div><div><span>03</span><h2>ほかの案とも比べる</h2><p>選んだ見積もりに加え、別の組み合わせも確認できます。</p></div></section>
 <p class="proposal-note">このHTMLは本人確認用の試作です。固定金額は仮設定で、正式見積もりではありません。</p>
 </main>
-<dialog id="simulator" aria-labelledby="dialog-title"><header class="dialog-header"><div><p id="dialog-pattern">A / 1問ずつ選ぶ</p><h2 id="dialog-title" tabindex="-1">PRの料金シミュレーター</h2></div><nav class="dialog-variants" aria-label="操作案を切り替える"><button type="button" data-variant="a" aria-label="A案：1問ずつ選ぶ" aria-pressed="true">A</button><button type="button" data-variant="b" aria-label="B案：選択と見積もりを並べる" aria-pressed="false">B</button><button type="button" data-variant="c" aria-label="C案：7プランから選ぶ" aria-pressed="false">C</button></nav><button type="button" id="close-simulator" class="close-button" aria-label="シミュレーターを閉じる">閉じる <span aria-hidden="true">×</span></button></header><div class="dialog-scroll" id="dialog-scroll"><p class="dialog-proposal">確認用の固定料金案です。金額は税込表示です。要相談の料金は小計に含みません。</p><div id="workspace"></div></div></dialog>
+<dialog id="simulator" aria-labelledby="dialog-title"><header class="dialog-header"><div><p id="dialog-pattern">A案の操作 / 案1：完成直後に並べる</p><h2 id="dialog-title" tabindex="-1">PRの料金シミュレーター</h2></div><nav class="dialog-variants" aria-label="比較の見せ方を切り替える"><button type="button" data-variant="a" aria-label="案1：完成直後に並べる" aria-pressed="true">1</button><button type="button" data-variant="b" aria-label="案2：固定バーで案内する" aria-pressed="false">2</button><button type="button" data-variant="c" aria-label="案3：比較画面へ切り替える" aria-pressed="false">3</button></nav><button type="button" id="close-simulator" class="close-button" aria-label="シミュレーターを閉じる">閉じる <span aria-hidden="true">×</span></button></header><div class="dialog-scroll" id="dialog-scroll"><p class="dialog-proposal">確認用の固定料金案です。金額は税込表示です。要相談の料金は小計に含みません。</p><div id="workspace"></div></div></dialog>
 <div id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 <script>%%SCRIPT%%</script></body></html>
