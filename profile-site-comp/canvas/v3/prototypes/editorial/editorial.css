@@ -23,6 +23,8 @@ body.site-renewal.editorial .editorial-intro h1{font-size:clamp(32px,3.35vw,46px
 .editorial-actions{display:flex;align-items:center;gap:18px 24px;flex-wrap:wrap;margin-top:26px}
 body.site-renewal.editorial .editorial-button{display:inline-flex;align-items:center;justify-content:space-between;gap:32px;min-height:48px;background:#232323;color:#ffffff;font-size:14px;font-weight:550;padding:12px 22px;text-decoration:none;transition:background .2s}
 body.site-renewal.editorial .editorial-button:hover{background:#444444;color:#ffffff}
+body.site-renewal.editorial .editorial-button-secondary{background:#fff;color:#202020;box-shadow:inset 0 0 0 1px #777}
+body.site-renewal.editorial .editorial-button-secondary:hover{background:#f3f3f3;color:#202020}
 .editorial-text-link{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
 .editorial-section-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:26px}
 body.site-renewal.editorial .editorial-section-heading h2{font-size:21px;margin:0;line-height:1.6}
