@@ -92,8 +92,12 @@ test('click handoff finishes storage synchronously; copy has a manual fallback',
 test('analytics count successful inquiries only and do not include input text or URL queries',()=>{
   const source=execFileSync('python3',['-c',"import ast,json,pathlib; p=ast.parse(pathlib.Path('canvas/v3/build_public.py').read_text()); a=next(n for n in p.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='GA4' for t in n.targets)); print(json.dumps(eval(compile(ast.Expression(a.value),'<ga>','eval'),{'GA4_ID':'test'})))"],{cwd:new URL('../..',import.meta.url),encoding:'utf8'});
   const html=JSON.parse(source),script=html.match(/<script>([\s\S]*)<\/script>/)[1],handlers=new Map();
-  const context={window:{},document:{addEventListener:(name,fn)=>handlers.set(name,fn)},location:new URL(origin+'/contact/?notes=PRIVATE&total=1'),URL,WeakSet};
+  const context={window:{},document:{referrer:origin+'/pricing/?notes=PRIVATE#estimate',addEventListener:(name,fn)=>handlers.set(name,fn)},location:new URL(origin+'/contact/?notes=PRIVATE&total=1'),URL,WeakSet};
   context.window=context;context.dataLayer=[];vm.runInNewContext(script,context);
+  const config=Array.from(context.dataLayer.find(args=>args[0]==='config'))[2];
+  assert.equal(config.send_page_view,false);
+  assert.equal(config.page_location,origin+'/contact/');
+  assert.equal(config.page_referrer,origin+'/pricing/');
   const events=()=>context.dataLayer.map(args=>Array.from(args)).filter(row=>row[0]==='event');
   assert.equal(handlers.has('submit'),false);
   const body={name:'body',closest:()=>form};
@@ -111,6 +115,6 @@ test('analytics count successful inquiries only and do not include input text or
   assert.equal(events().find(row=>row[1]==='cta_click')[2].action,'contact');
   action.id='wizard-open';handlers.get('click')({target:{closest:()=>action}});
   assert.equal(events().filter(row=>row[1]==='pricing_start').length,1);
-  const encoded=JSON.stringify(events());
+  const encoded=JSON.stringify(context.dataLayer);
   assert.equal(encoded.includes('PRIVATE'),false);assert.equal(encoded.includes('total=1'),false);
 });

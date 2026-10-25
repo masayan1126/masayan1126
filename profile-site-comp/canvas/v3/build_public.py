@@ -47,11 +47,14 @@ def public_body(payload):
     return payload
 
 # Google Analytics 4 (property "Miyabiya Studio (studio.msyn.me)", approved 2026-09-25).
-# Enhanced measurement covers page views, scrolls and outbound links; the events below add
-# the purpose-based entry buttons, the contact form and email links.
+# Page views and purpose-based events use clean URLs. Keep the stream enhanced
+# measurement disabled so its automatic history/link events cannot send quote text.
 GA4_ID = 'G-0HHRPGZRZB'
 GA4 = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>'
-       f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA4_ID}');"
+       "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());"
+       "const cleanAddress=value=>{try{const u=new URL(value);return /^https?:$/.test(u.protocol)?u.origin+u.pathname:'';}catch{return '';}};"
+       f"gtag('config','{GA4_ID}',{{page_location:location.origin+location.pathname,page_referrer:cleanAddress(document.referrer),send_page_view:false}});"
+       "gtag('event','page_view',{page_location:location.origin+location.pathname,page_referrer:cleanAddress(document.referrer)});"
        "const inquiryKinds={'開発・AI導入のご依頼':'development','PR・タイアップのご依頼':'pr','登壇のご依頼':'talk','動画編集のご依頼':'video','採用・業務委託のご相談':'recruit','その他':'other'};"
        "const inquiryKind=value=>Object.prototype.hasOwnProperty.call(inquiryKinds,value)?inquiryKinds[value]:'unselected';"
        "const track=(name,detail={})=>gtag('event',name,{page:location.pathname,...detail});"
@@ -201,7 +204,7 @@ home_path.write_text(home_html.replace(home_anchor, youtube_stats.render_latest(
 # The top page is an excerpt of the detail pages, so the latest videos also appear on the YouTube page (2026-09-30).
 media_path = OUT / 'media/index.html'
 media_html = media_path.read_text()
-media_anchor = '<section class="works-story detail-feature" id="channel-story">'
+media_anchor = '<div class="production-disclosure-wrap">'
 assert media_anchor in media_html
 media_path.write_text(media_html.replace(media_anchor, youtube_stats.render_latest(latest) + media_anchor, 1))
 # Sharing the design comparison is on hold; publish only the profile website.

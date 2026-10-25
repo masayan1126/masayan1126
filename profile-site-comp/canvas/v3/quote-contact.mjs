@@ -83,7 +83,10 @@ export function installQuoteContact(doc, win) {
       try { saveHandoff(win.sessionStorage, win.location.origin, field.value); }
       catch {
         event.preventDefault();
-        status.textContent = '見積もり内容を引き継げませんでした。「相談文をコピー」から内容をコピーし、PRの相談フォームへ貼り付けてください。';
+        status.textContent = '見積もり内容を引き継げませんでした。表示した相談文をコピーし、PRの相談フォームへ貼り付けてください。';
+        field.hidden = false;
+        field.focus();
+        field.select();
         const fallback = host.querySelector('[data-quote-fallback]');
         if (fallback) fallback.hidden = false;
       }

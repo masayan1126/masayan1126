@@ -126,6 +126,7 @@ membership = element(src,'membership')
 videos = videos.replace(membership,'<div class="short-route"><h3>メンバーシップについて</h3><p>メンバー限定の特典をご案内しています。</p>'+link('membership','メンバーシップの詳細を見る','v3-text-link')+'</div>')
 membership = re.sub(r'<p class="sub-h">発信で大切にしていること</p>\s*<ul class="promise">.*?</ul>', '', membership, flags=re.S)
 membership = membership.replace('<h3>', '<h2 class="v3-card-title">').replace('</h3>', '</h2>')
+membership = membership.replace('<p>3つのランク (月額390円から) で運営しています。特典はメンバー限定の投稿・動画・Shortsで、上位ランクではAI活用のドキュメントやソースコードも配布します。解約はいつでもできます。</p>', '<p class="membership-summary"><span>3つのランク (月額390円から) で運営しています。</span><span>特典はメンバー限定の投稿・動画・Shortsで、上位ランクではAI活用のドキュメントやソースコードも配布します。</span><span>解約はいつでもできます。</span></p>')
 # Approved 2026-09-24: how the trade name, real name, channel name and handles relate.
 NAME_NOTE = ('<p class="name-note">Miyabiya Studio は、Masaya Nishigaki の屋号です。YouTube では「まさやん【AIギルドch】」として発信しています。</p>'
     '<ul class="name-handles">' + ''.join('<li><a href="' + url + '"><b>' + service + '</b>' + handle + '</a></li>' for service, handle, url in (

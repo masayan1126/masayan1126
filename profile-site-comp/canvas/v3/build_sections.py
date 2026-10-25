@@ -201,6 +201,7 @@ def render_pr_works():
 # channel (who watches, sample videos) → PR work → what can be ordered and the price → how videos are made.
 PR_OFFERS = [
     ('タイアップ動画', '製品を実際に使ったうえで、YouTubeの本編動画で紹介します。機能の事前検証から構成・撮影・編集・サムネイルまで一人で担当します。'),
+    ('ショート動画', '60秒程度の縦型動画で、製品の使いどころを紹介します。本編とあわせた切り抜き型、ショート向けに別撮影する制作にも対応します。'),
     ('Xでの紹介', 'X（@masayan_ai_hack）で、製品の機能や使いどころを紹介する投稿を作成します。'),
     ('対談・コラボ企画', '個人の方との対談や共同企画もお受けしています。内容に応じてお見積もりします。'),
 ]
@@ -213,11 +214,13 @@ def render_media(videos, ratecard, channel_story, membership_route):
                + render_mediakit() + '<h3 class="media-sub">代表的な動画</h3>' + grid + '</div></div>')
     offers = ('<div class="sec" id="pr"><div class="wrap"><h2 class="sec-h">ご依頼いただける内容と料金</h2>'
               '<p class="sec-lead">AIツールや開発者向けサービスを、エンジニアに届けたい企業様・個人の方からのご依頼をお受けしています。</p>'
-              '<div class="grid3 pr-offers">' + ''.join(f'<div class="card"><h3>{t}</h3><p>{d}</p></div>' for t, d in PR_OFFERS) + '</div>'
-              + ratecard.replace('</a></div>', '</a> <a class="v3-secondary" href="/contact/?type=pr#contact-form">PR・タイアップを相談する <span aria-hidden="true">→</span></a></div>', 1)
+              '<div class="grid2 pr-offers">' + ''.join(f'<div class="pr-offer"><h3>{t}</h3><p>{d}</p></div>' for t, d in PR_OFFERS) + '</div>'
+              + ratecard
               + '</div></div>')
-    return (offers + render_pr_works() + channel + channel_story
-            + '<section class="sec"><div class="wrap">' + membership_route + '</div></section>')
+    from site_journeys import action
+    next_step = '<section class="sec media-next"><div class="wrap"><div class="section-invitation"><div><h2>製品に合う紹介方法から、ご相談いただけます。</h2><p>紹介したい製品・公開時期・ご予算など、決まっている範囲でお知らせください。</p></div>' + action('PR・タイアップを相談する','/contact/?type=pr#contact-form') + '</div><div class="viewer-route"><p class="section-eyebrow">動画をご覧の方へ</p>' + membership_route + '</div></div></section>'
+    production = '<div class="production-disclosure-wrap"><details class="production-disclosure" id="production-method"><summary>制作の進め方・作業時間の内訳を見る</summary>' + channel_story + '</details></div>'
+    return offers + render_pr_works() + channel + production + next_step
 
 
 INQUIRY_KINDS = ['開発・AI導入のご依頼', 'PR・タイアップのご依頼', '登壇のご依頼', '動画編集のご依頼', '採用・業務委託のご相談', 'その他']
@@ -235,16 +238,16 @@ const K={web:['開発・AI導入のご依頼','Webサービス開発について
 const k=K[new URLSearchParams(location.search).get('type')];if(k){f.elements.kind.value=k[0];f.elements.body.placeholder=k[1];}
 f.addEventListener('submit',async e=>{e.preventDefault();if(!f.reportValidity())return;b.disabled=true;s.className='form-status';s.textContent='送信しています…';
 try{const r=await fetch('https://studio.msyn.me/api/contact',{method:'POST',body:new FormData(f)});const j=await r.json().catch(()=>({}));
-if(r.ok&&j.ok){f.reset();s.className='form-status ok';s.textContent='送信しました。ありがとうございます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。';}
+if(r.ok&&j.ok){document.dispatchEvent(new CustomEvent('site:inquiry-sent',{detail:{kind:f.elements.kind.value}}));f.reset();s.className='form-status ok';s.textContent='送信しました。ありがとうございます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。';}
 else{s.className='form-status ng';s.textContent=(j.error||'送信できませんでした。')+' 急ぎの場合は contact@msyn.me へメールでお送りください。';}}
 catch(_){s.className='form-status ng';s.textContent='送信できませんでした。通信状況をご確認のうえ、もう一度お試しいただくか、contact@msyn.me へメールでお送りください。';}
 finally{b.disabled=false;}});})();</script>"""
     return ('<section class="sec contact-form-sec" id="contact-form"><div class="wrap"><div class="contact-form-card">'
-            '<h2>フォームから送る</h2><p class="lead">入力して「送信する」を押すと、この場で送信されます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。</p>'
+            '<h2>お仕事の相談を送る</h2><p class="lead">ご依頼内容・時期・ご予算など、分かる範囲でお知らせください。通常2営業日以内に返信します。</p><p id="quote-handoff-status" role="status" aria-live="polite"></p>'
             '<form id="inquiry-form"><label><span class="field">ご相談の種類<span class="req">必須</span></span><select name="kind" required><option value="">選んでください</option>' + options + '</select></label>'
             '<label><span class="field">お名前<span class="req">必須</span></span><input name="name" required maxlength="100" autocomplete="name"></label>'
             '<label><span class="field">会社名・団体名<span class="opt">任意</span></span><input name="org" maxlength="150" autocomplete="organization"></label>'
             '<label><span class="field">メールアドレス<span class="req">必須</span></span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>'
             '<label><span class="field">ご相談内容<span class="req">必須</span></span><textarea name="body" rows="6" required maxlength="5000"></textarea></label>'
             '<label class="hp" aria-hidden="true">ウェブサイト<input name="website" tabindex="-1" autocomplete="off"></label>'
-            '<button type="submit">送信する</button><p class="form-status" role="status" aria-live="polite"></p></form></div></div></section>' + script)
+            '<div class="form-submit"><button class="site-action site-action-primary" data-site-action="primary" type="submit">相談内容を送信する<span aria-hidden="true">→</span></button><p>送信後、入力いただいたメールアドレスへ返信します。</p></div><p class="form-status" role="status" aria-live="polite"></p></form></div></div></section>' + script)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Build the owner-facing site review, kept outside the public export."""
 from pathlib import Path
 import json
@@ -27,12 +28,13 @@ def build():
 <article class="item"><h3>短い動きで反応を伝える</h3><p>見出しや要約の出現、実績・経歴の切り替え、ボタンへの反応に短い動きを加えました。動きを減らす設定では停止し、背景映像も画面から止められます。</p></article>
 <article class="item"><h3>文字・背景・入力欄を見分けやすく</h3><p>本文と背景の明暗差、補足文字、入力欄の輪郭を見直しました。キーボードの現在位置を示し、入力の誤りを対象の欄で確認できるようにしています。</p></article>
 </div></section><section><h2>各ページで判断できること</h2><div class="table-scroll"><table><thead><tr><th>ページ</th><th>主な行動</th><th>情報の並び</th></tr></thead><tbody>''' + rows + '''</tbody></table></div></section>
-<section><h2>変更前の点検</h2><p>「変更前の監査」タブには、実画面と30項目の診断をまとめています。変更前のAIっぽさは3/10で、主な問題は配色よりも、強調の優先順位・色線の反復・小さな文字でした。制作方法や著者を判定する点数ではありません。</p></section>
+<section><h2>ご指摘を受けて直したこと</h2><div class="grid"><article class="item"><h3>背景を重ねず、役割を分ける</h3><p>カードがあるだけで節全体を灰色にする指定を外しました。白い本文、薄い背景のまとまり、濃色の料金案内を使い分け、親子で似た面が重なる箇所を整理しています。</p></article><article class="item"><h3>下層のボタンも同じ部品へ</h3><p>PRページの相談リンクを含め、旧ボタンを共通部品へ移行しました。文字の後ろだけに背景が付く状態を防ぎ、余白・高さ・選択状態・キーボードの位置をそろえています。</p></article><article class="item"><h3>計算の前に代表価格を確認</h3><p>本編53,000円・ショート10,000円の例を公開用の共通計算から生成します。比較条件を添え、修正回数と追加料金は見出しから確認できる形にしました。</p></article><article class="item"><h3>見積もりを相談フォームへ</h3><p>完成した見積もりの内容を、サイト内のフォームへ引き継ぎます。PDF・メール・本文コピーも選べます。送信が成功した場合だけ、問い合わせ獲得として計測します。</p></article></div></section>
+<section><h2>参考にした知見と、適用した場所</h2><div class="grid"><article class="item"><h3>視覚の階層と余白</h3><p><a href="https://www.nngroup.com/articles/visual-hierarchy-ux-definition/">NN/gの視覚的な階層</a>を参考に、重要な行動と補足の大きさ・配置・背景を分けました。細かな枠線の反復を使わず、関連情報を近づけています。</p></article><article class="item"><h3>主操作と副操作</h3><p><a href="https://design-system.service.gov.uk/components/button/">GOV.UKのボタン指針</a>を参考に、相談・次へを主操作、保存・比較を副操作にしました。共通の部品を使い、ページ末尾も点検しています。</p></article><article class="item"><h3>価格と詳細情報の出し方</h3><p><a href="https://www.nngroup.com/articles/show-prices-for-common-scenarios/">代表条件の価格</a>と<a href="https://www.nngroup.com/articles/progressive-disclosure/">段階的開示</a>を参考に、まず料金例と次の操作を提示し、詳しい修正条件は必要時に確認できるようにしました。</p></article><article class="item"><h3>読みやすさと動き</h3><p><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">W3Cのコントラスト</a>と<a href="https://carbondesignsystem.com/building-blocks/foundations/motion/overview/">Carbonの動き</a>を参考に、文字・操作輪郭の明暗差と短い反応、動きを止める設定を確認しています。</p></article></div><p class="note">設計の根拠と全適用項目はプロジェクト内の docs/site-design-practices.md に保存しています。成約率の改善は、公開後の計測で評価します。</p></section>
 <section><h2>確認状況</h2><p id="verification-status">ビルド・料金テスト・既存本文の保持を確認しています。PC・スマホ・キーボードと公開画面の最終確認を続けています。</p><p><a href="/pricing/?items=materials%2Cthumbnail&amp;v=17268bfca1d6">以前の本編見積もりを確認する</a></p><p class="note">Gmailの下書きは変更していません。</p></section></main></body></html>'''
-    verification = HERE.parents[1] / 'output/site-action-hierarchy/completion.json'
+    verification = HERE.parents[1] / 'output/site-design-quality/completion.json'
     if verification.exists() and json.loads(verification.read_text()).get('status') == 'production verified':
         page = page.replace('ビルド・料金テスト・既存本文の保持を確認しています。PC・スマホ・キーボードと公開画面の最終確認を続けています。',
-                            '公開サイトへ反映しました。67テスト・9ページの本文とリンク、PC・390px・320pxの27画面、キーボード、旧見積もりURLを確認済みです。公開9ページと関連ファイルも生成元と一致しています。')
+                            '公開サイトへ反映しました。自動テスト・全9ページの本文とリンク、ページ下部と展開後を含むPC・スマホ、キーボード、旧見積もりURLを確認済みです。公開ファイルも生成元と照合しています。詳しい結果は output/site-design-quality/ に保存しました。')
     page = page.replace('<p class="note">Gmailの下書き', '<p><a href="https://studio.msyn.me/">公開サイトを確認する</a></p><p class="note">Gmailの下書き')
     target = HERE.parents[1] / 'output/3d-mode/site-improvements.html'
     target.write_text(page)

@@ -1,6 +1,7 @@
 """Public-only pricing content; confidential source notes are never exported."""
 import html
 import json
+import subprocess
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DATA = json.loads((HERE/'pricing-data.json').read_text())
@@ -24,8 +25,18 @@ def amount(item):
     return f'{low:,}〜{high:,}円'
 
 def media_summary():
+    from site_journeys import action
     revisions=''.join('<li>'+label+'：'+str(DATA['mediaRevisionRates'][key]['included'])+'回まで料金内。'+str(DATA['mediaRevisionRates'][key]['included']+1)+'回目以降は1回'+amount(DATA['mediaRevisionRates'][key]['fee'])+'（税込）です。</li>' for key,label in [('main','YouTube横動画（本編動画）'),('short','ショート動画'),('x','X')])
-    return '<div id="ratecard" class="short-route"><h3>'+icon()+' PR動画の料金・見積もり</h3><p>YouTube本編・ショート・X投稿を組み合わせて、制作範囲と概算料金をご確認いただけます。未確定の料金・条件は要相談です。</p><p>公開前の軽微修正は、制作物ごとに回数をご指定いただけます。</p><ul>'+revisions+'</ul><p>二次利用や撮り直しは個別にお見積もりします。</p><a class="v3-primary" href="https://studio.msyn.me/pricing/">料金をシミュレーションする <span aria-hidden="true">→</span></a></div>'
+    examples = json.loads(subprocess.check_output(['node', str(HERE/'build_pricing_examples.mjs')], text=True))
+    prices = ''.join('<div><dt>'+html.escape(row['label'])+'</dt><dd>'+html.escape(row['totalText'])+'</dd></div>' for row in examples)
+    return ('<section id="ratecard" class="ratecard" aria-labelledby="ratecard-title"><div class="ratecard-main">'
+            '<div class="ratecard-copy"><p class="section-eyebrow">PR動画の料金</p><h3 id="ratecard-title">ご希望の組み合わせで、<br>制作費を確認できます。</h3>'
+            '<p>本編・ショート・X投稿を選ぶと、明細つきの概算見積書ができます。PDFでの保存や、内容を引き継いだご相談も可能です。</p>'
+            '<dl class="price-examples">'+prices+'</dl><p class="ratecard-basis">税込・各1本。本編10〜20分程度、ショート60秒程度。初回のご依頼・軽微修正2回まで。本編は企画・台本、サムネイル制作を含みます。</p></div>'
+            '<div class="ratecard-next"><h4>制作内容を選んでお見積もり</h4><p>条件を変えて比較できます。<br>この操作で依頼は確定しません。</p><div class="ratecard-actions">'
+            +action('料金をシミュレーションする', '/pricing/')+action('PR・タイアップを相談する', '/contact/?type=pr#contact-form', 'secondary')
+            +'</div><p class="ratecard-basis">Xのみの製品PRや、二次利用・撮り直しは個別にお見積もりします。</p></div></div>'
+            '<details class="ratecard-terms"><summary>公開前の修正・追加料金について</summary><div><p>公開前の軽微修正は、制作物ごとに回数をご指定いただけます。</p><ul>'+revisions+'</ul><p>未確定の料金・条件は要相談です。二次利用や撮り直しは個別にお見積もりします。</p></div></details></section>')
 
 def groups():
     result=[]
