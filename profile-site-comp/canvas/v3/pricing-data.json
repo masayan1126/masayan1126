@@ -264,7 +264,7 @@
     },
     {
       "id": "publishing",
-      "label": "YouTubeへの公開作業",
+      "label": "YouTubeへの公開作業（タイトル、概要欄、公開予約作業等）",
       "helpText": "動画の公開設定と概要欄の作成を行います。",
       "sourceLabel": "公開作業",
       "group": "publication",
