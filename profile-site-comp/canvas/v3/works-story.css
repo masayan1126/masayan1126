@@ -9,8 +9,8 @@
 .site-renewal .works-story .works-exhibition.is-interactive{display:grid;grid-template-columns:280px minmax(0,1fr);gap:48px;align-items:start}
 .site-renewal .works-story .works-choices{display:flex;flex-direction:column;border:0}
 .site-renewal .works-story .works-choices button{font:inherit;font-size:16px;line-height:1.8;text-align:left;text-wrap:balance;padding:24px 18px;background:transparent;color:var(--site-muted);border:0;cursor:pointer;min-height:52px}
-.site-renewal .works-story .works-choices button[aria-selected=true]{background:#eceff6;color:var(--site-blue);font-weight:650}
-.site-renewal .works-story .works-choices button:hover{background:#eceff6;color:var(--site-blue)}
+.site-renewal .works-story .works-choices button[aria-selected=true]{background:#efefef;color:var(--site-blue);font-weight:650}
+.site-renewal .works-story .works-choices button:hover{background:#efefef;color:var(--site-blue)}
 .site-renewal .works-story :focus-visible{outline:3px solid var(--site-blue);outline-offset:4px}
 .site-renewal .works-story .case-list{min-width:0;display:grid;gap:32px}
 .site-renewal .works-story .case{display:block;min-width:0;background:transparent;padding:36px 40px}
@@ -76,8 +76,8 @@
 .works-story .tb-detail{margin-top:28px;padding:0;background:transparent;border:0}
 .works-story .tb-detail h5,.works-story .tb-detail h4{margin:0;font-size:15px;font-weight:700;color:#282828}
 .works-story .case-topic .tb-detail .tb-note{margin:2px 0 0;font-size:13px;color:#5b5b5b}
-.works-story .time-breakdown{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid #dcdfe4}
-.works-story .time-breakdown li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:10px 0;border-bottom:1px solid #dcdfe4}
+.works-story .time-breakdown{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid #dfdfdf}
+.works-story .time-breakdown li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:10px 0;border-bottom:1px solid #dfdfdf}
 .works-story .case-topic .time-breakdown p{margin:0;font-size:14px;line-height:1.7}
 .works-story .case-topic .time-breakdown .tb-step{font-weight:700;color:#282828}
 .works-story .case-topic .time-breakdown .tb-time{color:#5b5b5b;white-space:nowrap;text-align:right}

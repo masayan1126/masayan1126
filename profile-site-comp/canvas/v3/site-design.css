@@ -1,6 +1,6 @@
 @font-face{font-family:'Studio JP';src:url('%%JP%%') format('woff2');font-weight:100 900;font-display:swap}
 @font-face{font-family:'Studio Sans';src:url('%%EN%%') format('woff2');font-weight:200 800;font-display:swap}
-:root{--sans:'Studio JP','Hiragino Sans','Yu Gothic',sans-serif;--site-ink:#2a2926;--site-muted:#5f5e59;--site-rule:#dde2e6;--site-focus:#4164a5;--site-blue:#133f8f;--site-paper:#f7f7f5;--site-gutter:48px;--site-section:96px}
+:root{--sans:'Studio JP','Hiragino Sans','Yu Gothic',sans-serif;--site-ink:#2a2926;--site-muted:#5f5e59;--site-rule:#e1e1e1;--site-focus:#4164a5;--site-blue:#133f8f;--site-paper:#f7f7f5;--site-gutter:48px;--site-section:96px}
 body.site-renewal{font-family:var(--sans);font-synthesis:none;-webkit-font-smoothing:antialiased;background:white;color:var(--site-ink)}
 .site-renewal .v3{font-family:var(--sans);font-size:16px;line-height:1.85;letter-spacing:0;overflow-wrap:break-word}
 .site-renewal .v3-wrap,.site-renewal .wrap{width:100%;max-width:1296px;padding-inline:var(--site-gutter)}

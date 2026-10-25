@@ -13,6 +13,12 @@
 | [Carbon：動き](https://carbondesignsystem.com/building-blocks/foundations/motion/overview/) | ブランドの3D表現は残し、操作への反応と短い出現に動きを使う。減らす設定、手動停止、文字が最初から読める状態を維持する。 |
 | [W3C：文字コントラスト](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) / [非テキスト](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) / [ターゲットの大きさ](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | 本文は4.5:1、識別に必要な操作輪郭・状態は3:1を確認する。主な操作は48px以上を設計基準とし、フォーカスと選択状態を色だけに頼らず示す。 |
 
+## 背景の配色
+
+2026-10-25の追加指定により、薄い青と青みのある灰色の面は廃止した。本文・選択肢・比較バー・フォーム・レビューには白か無彩色の灰色を使い、青い文字・操作・図形の下地を中立な色にそろえる。選択済みはチェックと輪郭も残す。図解の淡青の下地と影も灰色へ変え、写真・動画と濃紺の料金案内は保持する。
+
+共通CSSだけでなく、ホーム専用CSS・見積もりCSS・生成元の旧CSS・SVG・レビューを確認する。実画面ではページ末尾と展開後、ホバーと選択済みを含めて背景色を測る。
+
 ## 確認方法
 
 ページの最初の画面だけではなく、全セクションと下記の状態を確認する。数値検査だけで見た目の品質を合格にしない。

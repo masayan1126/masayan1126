@@ -1,5 +1,5 @@
 /* Selected career direction: newest-first chapters. */
-.site-renewal .career-chapters{background:var(--site-paper,#f7f7f5);border-top:1px solid #dde2e6}
+.site-renewal .career-chapters{background:var(--site-paper,#f7f7f5);border-top:1px solid #e1e1e1}
 .site-renewal .career-chapters *{box-sizing:border-box}
 .site-renewal .career-chapters [hidden]{display:none!important}
 .site-renewal .career-chapters .career-wrap{max-width:1280px;margin:auto;padding:64px 40px 68px}
@@ -11,26 +11,26 @@
 .site-renewal .career-chapters .career-title{font-size:26px;line-height:1.6;letter-spacing:-.045em;margin:0 0 18px}
 .site-renewal .career-chapters .body-copy{font-size:14px;line-height:1.95;color:#5f5e59;margin:0;max-width:560px}
 .site-renewal .career-chapters .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
-.site-renewal .career-chapters .tags span{font-size:11px;line-height:1.5;border:1px solid #dde2e6;padding:6px 9px;border-radius:3px;background:#fff}
-.site-renewal .career-chapters .section-foot{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:44px;padding-top:24px;border-top:1px solid #dde2e6;color:#5f5e59;font-size:12px}
+.site-renewal .career-chapters .tags span{font-size:11px;line-height:1.5;border:1px solid #e1e1e1;padding:6px 9px;border-radius:3px;background:#fff}
+.site-renewal .career-chapters .section-foot{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:44px;padding-top:24px;border-top:1px solid #e1e1e1;color:#5f5e59;font-size:12px}
 .site-renewal .career-chapters .section-foot a{display:inline-flex;align-items:center;gap:30px;min-height:44px;color:#133f8f;font-weight:700;text-decoration:none}
 .site-renewal .career-chapters .section-foot a:hover{text-decoration:underline;text-underline-offset:5px}
 .site-renewal .career-chapters .chapter-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:48px}
 .site-renewal .career-chapters .chapter-nav{position:relative;display:flex;flex-direction:column;gap:10px;align-self:start}
-.site-renewal .career-chapters .chapter-nav:before{content:"";position:absolute;left:27px;top:28px;bottom:28px;width:1px;background:#b1bfda}
+.site-renewal .career-chapters .chapter-nav:before{content:"";position:absolute;left:27px;top:28px;bottom:28px;width:1px;background:#bebebe}
 .site-renewal .career-chapters .chapter-nav button{position:relative;display:flex;align-items:center;gap:18px;text-align:left;border:0;background:transparent;padding:20px 12px 20px 0;color:#5f5e59;border-radius:6px;font:inherit;cursor:pointer}
-.site-renewal .career-chapters .chapter-nav b{display:grid;place-items:center;flex:none;width:56px;height:56px;font-size:16px;font-weight:500;border:1px solid #b1bfda;background:#f7f7f5;border-radius:50%}
+.site-renewal .career-chapters .chapter-nav b{display:grid;place-items:center;flex:none;width:56px;height:56px;font-size:16px;font-weight:500;border:1px solid #bebebe;background:#f7f7f5;border-radius:50%}
 .site-renewal .career-chapters .chapter-nav small{display:block;font-size:10px;margin-bottom:7px}
 .site-renewal .career-chapters .chapter-nav strong{font-size:15px}
 .site-renewal .career-chapters .chapter-nav [aria-selected=true]{color:#133f8f}
-.site-renewal .career-chapters .chapter-nav [aria-selected=true] b{background:#133f8f;color:white;border-color:#133f8f;box-shadow:0 0 0 6px #eceff6}
-.site-renewal .career-chapters .chapter-panel{position:relative;min-height:525px;padding:36px;background:white;border:1px solid #dde2e6;box-shadow:0 18px 45px #133f8f09;border-radius:6px}
-.site-renewal .career-chapters .chapter-visual{height:190px;display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;border-bottom:1px solid #dde2e6;padding-bottom:30px}
+.site-renewal .career-chapters .chapter-nav [aria-selected=true] b{background:#133f8f;color:white;border-color:#133f8f;box-shadow:0 0 0 6px #efefef}
+.site-renewal .career-chapters .chapter-panel{position:relative;min-height:525px;padding:36px;background:white;border:1px solid #e1e1e1;box-shadow:0 18px 45px #00000009;border-radius:6px}
+.site-renewal .career-chapters .chapter-visual{height:190px;display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;border-bottom:1px solid #e1e1e1;padding-bottom:30px}
 .site-renewal .career-chapters .chapter-visual .stage-icon{width:150px;height:150px;color:#133f8f;padding:20px;filter:drop-shadow(0 12px 4px #133f8f0c)}
 .site-renewal .career-chapters .stage-icon svg{width:100%;height:100%}
-.site-renewal .career-chapters .chapter-visual b{font-weight:300;font-size:125px;line-height:1;letter-spacing:-.07em;color:#eceff6}
+.site-renewal .career-chapters .chapter-visual b{font-weight:300;font-size:125px;line-height:1;letter-spacing:-.07em;color:#efefef}
 .site-renewal .career-chapters .chapter-progress{margin-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#5f5e59}
-.site-renewal .career-chapters .chapter-progress button{min-height:44px;padding:10px 16px;border:1px solid #b1bfda;background:#fff;color:#133f8f;border-radius:3px;font:inherit;font-size:12px;cursor:pointer}
+.site-renewal .career-chapters .chapter-progress button{min-height:44px;padding:10px 16px;border:1px solid #bebebe;background:#fff;color:#133f8f;border-radius:3px;font:inherit;font-size:12px;cursor:pointer}
 .site-renewal .career-chapters button:focus-visible,.site-renewal .career-chapters a:focus-visible,.site-renewal .career-chapters .chapter-panel:focus-visible{outline:3px solid #133f8f;outline-offset:5px}
 .site-renewal .career-chapters:not([data-enhanced]) .chapter-layout{display:block}
 .site-renewal .career-chapters:not([data-enhanced]) .chapter-panel+.chapter-panel{margin-top:24px}
