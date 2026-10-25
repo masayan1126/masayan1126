@@ -28,8 +28,9 @@ def build(output):
     career_js=asset('career','mjs',(HERE/'career-chapters.js').read_text())
     works_js=asset('works','mjs',(HERE/'works-story.js').read_text())
     motion_js=asset('motion','mjs',(HERE/'site-motion.mjs').read_text())
+    quote_contact_js=asset('quote-contact','mjs',(HERE/'quote-contact.mjs').read_text())
     for name in ['NotoSansJP-OFL.txt','Manrope-OFL.txt']:(assets/name).write_bytes((HERE/'site-assets'/name).read_bytes())
-    return {'head':f'<link rel="preload" href="{jp}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{css_url}"><script type="module" src="{js_url}"></script><script type="module" src="{career_js}"></script><script type="module" src="{works_js}"></script><script type="module" src="{motion_js}"></script>'}
+    return {'head':f'<link rel="preload" href="{jp}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{css_url}"><script type="module" src="{js_url}"></script><script type="module" src="{career_js}"></script><script type="module" src="{works_js}"></script><script type="module" src="{motion_js}"></script><script type="module" src="{quote_contact_js}"></script>'}
 def decorate(key,body,paths,titles):
     body=body.replace('>実績<', '>実績・成果<')
     menu_paths={**paths,'pricing':'/pricing/'};labels={**titles,'pricing':'PR動画制作の見積もり'}
@@ -55,5 +56,6 @@ def decorate(key,body,paths,titles):
         return match[1] + content + match[3]
     body=re.sub(r'(<h[23] class="(?:business-title|story-title)"[^>]*>)(.*?)(</h[23]>)', emphasize_heading, body, flags=re.S)
     body=body.replace('<main>','<main id="main-content" tabindex="-1">',1).replace('<main class="estimate-page"','<main id="main-content" tabindex="-1" class="estimate-page"',1)
+    body=site_journeys.normalize_actions(body)
     styles=''.join(re.findall(r'<style>.*?</style>',body,re.S));body=re.sub(r'<style>.*?</style>','',body,flags=re.S)
     return '<a class="skip-link" href="#main-content">本文へ移動</a>'+body,styles

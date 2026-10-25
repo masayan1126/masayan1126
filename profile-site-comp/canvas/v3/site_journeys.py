@@ -1,5 +1,6 @@
 """Visitor actions and local indexes shared by the public pages."""
 from html import escape
+import re
 
 PRIMARY_NAV = (
     ('services', '/services/', '事業内容'),
@@ -21,18 +22,35 @@ PAGE_TOOLS = {
     'media': (('PR動画の料金を見積もる', '/pricing/'),
               ('PR・コラボを相談する', '/contact/?type=pr#contact-form'),
               (('PR動画の制作実績', '#pr-works'), ('視聴者データ', '#mediakit'),
-               ('代表的な動画', '#videos'), ('制作の進め方', '#channel-story'))),
+               ('代表的な動画', '#videos'), ('制作の進め方', '#production-method'))),
     'talks': (('登壇を相談する', '/contact/?type=talk#contact-form'),
               ('登壇実績・スライドを見る', '#talks'),
               (('テーマ・対応形式', '#talk-request'), ('過去の登壇', '#talks'))),
-    'membership': (('特典・料金を詳しく見る', 'https://masayan-ai-tech-ch.pages.dev/membership/'),
-                   ('YouTubeで加入する', 'https://www.youtube.com/@masayan-ai-hack/join'), ()),
-    'contact': (None, None, (('相談フォーム', '#contact-form'), ('メール・SNSで連絡する', '#contact'), ('ご依頼の流れ', '#flow'))),
+    'membership': (None, None, ()),
+    'contact': (None, None, (('メール・SNSで連絡する', '#contact'), ('ご依頼の流れ', '#flow'))),
 }
 
 
 def action(label, href, tier='primary'):
     return f'<a class="site-action site-action-{tier}" data-site-action="{tier}" href="{escape(href, quote=True)}">{escape(label)}<span aria-hidden="true">→</span></a>'
+
+
+def normalize_actions(body):
+    """Migrate legacy presentation names to one complete action component.
+
+    A modifier such as v3-secondary must never depend on another class for its
+    dimensions. Removing the old skin also prevents deep-page CSS winning back.
+    """
+    legacy = {'v3-primary', 'v3-secondary', 'btn', 'btn-p', 'btn-g', 'btn-w', 'business-cta'}
+    def replace(match):
+        classes = match['classes'].split()
+        if not legacy.intersection(classes) or 'site-action' in classes:
+            return match[0]
+        tier = 'secondary' if {'v3-secondary', 'btn-g', 'btn-w'}.intersection(classes) else 'primary'
+        clean = [name for name in classes if name not in legacy]
+        clean += ['site-action', 'site-action-' + tier]
+        return match['start'] + ' '.join(clean) + '" data-site-action="' + tier + '"'
+    return re.sub(r'(?P<start><(?:a|button)\b[^>]*?class=")(?P<classes>[^"]+)"', replace, body)
 
 
 def page_tools(key):

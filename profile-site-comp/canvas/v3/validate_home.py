@@ -23,9 +23,15 @@ class Page(HTMLParser):
         super().__init__()
         self.refs, self.ids, self.text = [], [], []
         self.h1 = self.main = 0
+        self.incomplete_actions = []
         self.in_body = False
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        classes = set(attrs.get('class', '').split())
+        if tag in ('a', 'button') and classes.intersection({'v3-primary','v3-secondary','btn-p','btn-g','btn-w','business-cta'}):
+            self.incomplete_actions.append(attrs.get('class'))
+        if 'site-action' in classes and len(classes.intersection({'site-action-primary','site-action-secondary'})) != 1:
+            self.incomplete_actions.append(attrs.get('class'))
         if tag == 'body': self.in_body = True
         if tag == 'h1': self.h1 += 1
         if tag == 'main': self.main += 1
@@ -77,7 +83,7 @@ RESTRUCTURED = {
                 ['/media/'], ['id="comparison-heading"', 'id="media-selection"', 'id="selected-scope"']),
     # Request decisions precede general videos: offers → PR proof → audience → production.
     'media': (['チャンネルについて', '視聴者データ', '代表的な動画', '最新の動画', 'PR動画の制作実績', 'Notta Memo Pro',
-               'ご依頼いただける内容と料金', 'タイアップ動画', 'Xでの紹介', '対談・コラボ企画', 'PR動画の料金・見積もり',
+               'ご依頼いただける内容と料金', 'タイアップ動画', 'Xでの紹介', '対談・コラボ企画', 'PR動画の料金',
                'YouTube横動画（本編動画）：2回まで料金内。3回目以降は1回5,500円（税込）です。',
                'ショート動画：2回まで料金内。3回目以降は1回3,300円（税込）です。',
                'X：2回まで料金内。3回目以降は1回1,000円（税込）です。', 'メンバーシップについて',
@@ -98,6 +104,7 @@ for key in ROUTES:
     source = path.read_text()
     page = Page(); page.feed(source)
     assert page.h1 == page.main == 1, (key, page.h1, page.main)
+    assert not page.incomplete_actions, (key, 'Incomplete action components', page.incomplete_actions)
     assert len(set(page.ids)) == len(page.ids), ('Duplicate IDs', key)
     assert 'main-content' in page.ids, key
     assert '127.0.0.1' not in source and '%%' not in source, key
@@ -233,6 +240,8 @@ for key in ROUTES:
         positions = [source.index(h) for h in order]
         assert positions == sorted(positions), ('Section order', key, order)
         preserved = True
+    if key == 'media':
+        assert 'id="latest"' not in element(source, 'production-method'), 'Latest videos must remain outside production details'
     pages['/' + key + ('/' if key else '')] = {'singleH1AndMain': True, 'uniqueIds': True, 'validReferences': len(page.refs), 'expectedContentPreserved': preserved, 'approvedChange': ['works-story', 'career-chapters'] if key == '' else None}
 
 # The top page is an excerpt of the detail pages: every piece of text in a top-page section must also

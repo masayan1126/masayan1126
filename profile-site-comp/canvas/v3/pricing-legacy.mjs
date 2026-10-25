@@ -4,6 +4,9 @@ const currentData = JSON.parse(el('pricing-data').textContent);
 let data = currentData;
 let legacy = false;
 const form = el('estimate-form');
+// The common handoff module reads this text, avoiding amounts in the form URL.
+el('estimate-mail').insertAdjacentHTML('beforebegin', '<div id="legacy-quote-contact" data-quote-contact hidden><a id="legacy-form-inquiry" class="estimate-button" data-quote-inquiry href="/contact/?type=pr&from=estimate#contact-form">この内容でPRを相談する</a><button type="button" class="estimate-copy-button" data-quote-copy>相談文をコピー</button><p data-quote-status role="status" aria-live="polite"></p><a data-quote-fallback href="/contact/?type=pr#contact-form" hidden>PRの相談フォームを開く</a><textarea data-quote-text class="estimate-url" aria-label="見積もりの相談文" readonly hidden></textarea></div>');
+el('estimate-mail').className='estimate-copy-button';
 const write = (id, text) => { el(id).textContent = text; };
 const show = (id, visible) => { el(id).hidden = !visible; };
 const compactAmount = (min, max) => min == null ? '要相談' :
@@ -12,6 +15,7 @@ const list = (id, texts) => el(id).replaceChildren(...texts.map(text => {
   const item = document.createElement('li'); item.textContent = text; return item;
 }));
 let text = '', sharedUrl = '', copyVersion = 0, hasResult = false, resultInView = false;
+let startTracked = false, completionTracked = false;
 function mobileResult(){ show('estimate-mobile-total', hasResult && !resultInView); }
 function readState() {
   const fields = new FormData(form);
@@ -34,6 +38,8 @@ function render(announce = true, updateUrl = true) {
   const changed = !legacy || r.selected.length > 0 || state.custom.length > 0 || Number(state.revisions) !== 2;
   hasResult = valid && changed;
   text = summary(data, state, r); copyVersion++;
+  el('legacy-quote-contact').querySelector('[data-quote-text]').value=text;
+  show('legacy-quote-contact',valid);
   sharedUrl = estimateUrl(data, state, 'https://studio.msyn.me/pricing/#estimate-result');
   el('estimate-share-url').value = sharedUrl;
   show('share-fallback', false); write('share-status', '');
@@ -60,12 +66,16 @@ function render(announce = true, updateUrl = true) {
   mobileResult();
   show('estimate-mail', valid); show('estimate-share', valid); show('estimate-pdf',valid);
   el('estimate-mail').href = mailto(text);
-  write('estimate-mail-label', changed ? 'この内容で相談する' : 'とりあえず相談する');
+  write('estimate-mail-label', 'メールアプリで相談する');
+  if(announce && valid && !completionTracked){completionTracked=true;document.dispatchEvent(new CustomEvent('site:pricing-complete',{detail:{mode:'legacy'}}));}
   if (announce) write('estimate-live', !valid ? r.error??'制作物を選択してください。' : individual ?
     (r.totalMin==null?'概算料金は要相談です。':'合計は相談後に決まります。金額を算出できる項目の小計は税込' + amountText(r.totalMin,r.totalMax) + 'です。') :
     '概算合計は税込' + amountText(r.totalMin,r.totalMax) + 'です。');
 }
-form.addEventListener('input', () => render());
+form.addEventListener('input', () => {
+  if(!startTracked){startTracked=true;document.dispatchEvent(new CustomEvent('site:pricing-start',{detail:{mode:'legacy'}}));}
+  render();
+});
 form.addEventListener('submit', event => event.preventDefault());
 el('estimate-share').addEventListener('click', async () => {
   const current = copyVersion, url = sharedUrl;

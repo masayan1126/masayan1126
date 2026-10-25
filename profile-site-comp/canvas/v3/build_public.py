@@ -47,16 +47,28 @@ def public_body(payload):
     return payload
 
 # Google Analytics 4 (property "Miyabiya Studio (studio.msyn.me)", approved 2026-09-25).
-# Enhanced measurement covers page views, scrolls and outbound links; the events below add
-# the purpose-based entry buttons, the contact form and email links.
+# Page views and purpose-based events use clean URLs. Keep the stream enhanced
+# measurement disabled so its automatic history/link events cannot send quote text.
 GA4_ID = 'G-0HHRPGZRZB'
 GA4 = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>'
-       f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA4_ID}');"
-       "document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;"
-       "if(a.closest('.entry-actions'))gtag('event','entry_click',{entry:(a.querySelector('b')||a).textContent.trim()});"
-       "else if(a.href.startsWith('mailto:'))gtag('event','email_click',{page:location.pathname});"
-       "else if(/x\\.com|instagram\\.com/.test(a.hostname)&&location.pathname.startsWith('/contact'))gtag('event','dm_click',{service:a.hostname});},true);"
-       "document.addEventListener('submit',e=>{if(e.target.id==='inquiry-form')gtag('event','generate_lead',{kind:new FormData(e.target).get('kind')});},true);</script>")
+       "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());"
+       "const cleanAddress=value=>{try{const u=new URL(value);return /^https?:$/.test(u.protocol)?u.origin+u.pathname:'';}catch{return '';}};"
+       f"gtag('config','{GA4_ID}',{{page_location:location.origin+location.pathname,page_referrer:cleanAddress(document.referrer),send_page_view:false}});"
+       "gtag('event','page_view',{page_location:location.origin+location.pathname,page_referrer:cleanAddress(document.referrer)});"
+       "const inquiryKinds={'開発・AI導入のご依頼':'development','PR・タイアップのご依頼':'pr','登壇のご依頼':'talk','動画編集のご依頼':'video','採用・業務委託のご相談':'recruit','その他':'other'};"
+       "const inquiryKind=value=>Object.prototype.hasOwnProperty.call(inquiryKinds,value)?inquiryKinds[value]:'unselected';"
+       "const track=(name,detail={})=>gtag('event',name,{page:location.pathname,...detail});"
+       "document.addEventListener('click',e=>{const a=e.target.closest('a,button');if(!a)return;"
+       "if(a.id==='wizard-open')track('pricing_start',{mode:'wizard'});"
+       "const cta=a.matches('[data-site-action],[data-quote-inquiry],[data-quote-copy],.business-cta,.v3-primary,.v3-secondary,.btn,.estimate-button,.estimate-copy-button,#pricing-wizard .button,#inquiry-form button[type=submit]');"
+       "if(cta){let action='other';if(a.hasAttribute('data-quote-inquiry'))action='quote_inquiry';else if(a.hasAttribute('data-quote-copy'))action='quote_copy';else if(a.id==='wizard-open')action='pricing_start';else if(a.id==='save-pdf'||a.id==='estimate-pdf')action='quote_pdf';else if(a.id==='wizard-copy-url'||a.id==='estimate-share')action='quote_share';else if(a.id==='show-alternatives')action='quote_compare';else if(a.closest('#inquiry-form'))action='inquiry_submit';else if(a.href){const u=new URL(a.href,location.href);action=u.protocol==='mailto:'?'email':u.pathname.startsWith('/contact')?'contact':u.pathname.startsWith('/pricing')?'pricing':u.pathname.endsWith('/join')?'membership':'details';}"
+       "const position=a.closest('#pricing-wizard,#legacy-estimate')?'estimate':a.closest('.hero-priority-actions')?'hero':a.closest('.page-actions')?'page_header':a.closest('header')?'header':'content';track('cta_click',{action,position});}"
+       "if(a.href?.startsWith('mailto:'))track('email_click');"
+       "else if(['x.com','www.instagram.com','instagram.com'].includes(a.hostname)&&location.pathname.startsWith('/contact'))track('dm_click',{service:a.hostname});},true);"
+       "const startedForms=new WeakSet();document.addEventListener('input',e=>{const f=e.target.closest('#inquiry-form');if(!f||startedForms.has(f)||e.target.name==='website')return;startedForms.add(f);track('inquiry_start',{kind:inquiryKind(f.elements.kind.value)});},true);"
+       "document.addEventListener('site:pricing-start',e=>{if(e.detail?.mode==='legacy')track('pricing_start',{mode:'legacy'});});"
+       "document.addEventListener('site:pricing-complete',e=>{if(['wizard','legacy'].includes(e.detail?.mode))track('pricing_complete',{mode:e.detail.mode});});"
+       "document.addEventListener('site:inquiry-sent',e=>{const kind=inquiryKind(e.detail?.kind);if(kind!=='unselected')track('generate_lead',{kind});});</script>")
 
 def document(key, body):
     # 見出しの装飾 (decorate) で文字が分割される前に、文言の置き換えを済ませる。
@@ -192,7 +204,7 @@ home_path.write_text(home_html.replace(home_anchor, youtube_stats.render_latest(
 # The top page is an excerpt of the detail pages, so the latest videos also appear on the YouTube page (2026-09-30).
 media_path = OUT / 'media/index.html'
 media_html = media_path.read_text()
-media_anchor = '<section class="works-story detail-feature" id="channel-story">'
+media_anchor = '<div class="production-disclosure-wrap">'
 assert media_anchor in media_html
 media_path.write_text(media_html.replace(media_anchor, youtube_stats.render_latest(latest) + media_anchor, 1))
 # Sharing the design comparison is on hold; publish only the profile website.
