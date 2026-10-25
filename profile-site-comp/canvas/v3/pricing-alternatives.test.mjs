@@ -33,7 +33,7 @@ test('all seven selections generate six alternatives with preserved answers, amo
   }
 });
 
-test('unpriced X announcements and standalone offers remain pending rather than being advertised as free',()=>{
+test('unpriced X announcements remain pending and standalone short prices are shown without treating X as free',()=>{
   const rows=alternativeQuotes(data,{media:['main'],items:['materials','thumbnail'],revisions:2});
   const x=rows.find(row=>row.state.media.join(',')==='main,x');
   assert.equal(x.label,'公開動画をXでも告知する場合');
@@ -42,8 +42,11 @@ test('unpriced X announcements and standalone offers remain pending rather than 
   assert.equal(x.result.lines.find(line=>line.id==='videoAnnouncement').min,null);
   for(const media of ['x','short','short,x']) {
     const row=rows.find(row=>row.state.media.join(',')===media);
-    assert.equal(row.result.totalMin,null);
-    assert.equal(row.view.totalText,'要相談');
+    const short=media.includes('short');
+    assert.equal(row.result.totalMin,short?10000:null);
+    assert.equal(row.view.totalText,short?'10,000円':'要相談');
+    assert.ok(row.result.pending.length);
+    assert.equal(row.result.quotedTotal,null);
     assert.ok(!row.result.lines.some(line=>['research','shooting','editing'].includes(line.id)));
   }
   assert.deepEqual(alternativeQuotes(data,{media:[]}),[]);

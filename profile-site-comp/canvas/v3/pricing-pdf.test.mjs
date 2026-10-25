@@ -116,7 +116,7 @@ test('all seven media offers have matching PDF amounts, conditions and restoring
       assert.ok(!text.includes('サービス紹介動画1本'));
       assert.ok(!text.includes('本編動画はYouTube'));
       assert.ok(!text.includes('撮影開始時点'));
-      assert.ok(!text.includes('0円'));
+      assert.doesNotMatch(text,/(?<![\d,])0円/);
     }
     const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
     const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();

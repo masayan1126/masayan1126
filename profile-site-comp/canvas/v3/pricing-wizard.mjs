@@ -38,7 +38,7 @@ function questionContent(key) {
     hint='ご希望の制作・掲載先をお選びください。複数選択できます。';
     body='<div class="choices">'+[
       {group:'media',id:'main',title:'YouTube本編で紹介',description:'10〜20分程度・1本を制作し、AIギルドchで公開',icon:'main'},
-      {group:'media',id:'short',title:'ショート動画で紹介',description:hasMain()?'本編の内容・撮影素材から60秒程度を1本（範囲は要相談）':'60秒程度・1本を制作し、YouTube Shortsで公開（詳細は要相談）',icon:'short'},
+      {group:'media',id:'short',title:'ショート動画で紹介',description:hasMain()?'本編の内容・撮影素材から60秒程度を1本（範囲は要相談）':'60秒程度・1本を制作し、YouTube Shortsで公開（詳細は要相談）',price:!hasMain()&&data.mediaRates.standaloneShort?.min!=null&&data.mediaRates.standaloneShort?.max!=null?'単独制作：'+amountText(taxIncluded(data.mediaRates.standaloneShort.min,data.taxRate,data.mediaRates.standaloneShort.taxInclusive),taxIncluded(data.mediaRates.standaloneShort.max,data.taxRate,data.mediaRates.standaloneShort.taxInclusive))+'（税込）':'',icon:'short'},
       {group:'media',id:'x',title:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR',description:state.media.some(id=>id!=='x')?'公開動画をXで告知・1回（料金・条件は要相談）':'製品・サービスをXで紹介・1回（要相談）',icon:'x'},
     ].map(selectChoice).join('')+'</div><p class="hint">Xのみの場合は製品PR、動画と組み合わせる場合は公開動画の告知です。</p>';
   } else if(key==='assets') {
