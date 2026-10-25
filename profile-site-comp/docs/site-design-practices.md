@@ -10,7 +10,7 @@
 | [NN/g：B2Bの信頼](https://www.nngroup.com/articles/b2b-trust-from-b2c/) | サービスに対応する担当実績、実際のPR動画、視聴者データ、登壇記録を判断材料として近くに置く。根拠のある数字と比較条件を保持する。 |
 | [NN/g：段階的開示](https://www.nngroup.com/articles/progressive-disclosure/) | PR概要では価格例と主操作を先に置き、修正料などの詳しい条件は見出しから開く。見積もり内の金額・追加料金・要相談の有無は引き続き表示する。 |
 | [NN/g：再認と想起](https://www.nngroup.com/articles/recognition-and-recall/) | 見積もりの回答確認・選び直し・代替案の差額を維持する。完成後の相談では同じ計算結果から本文を作り、フォームへ引き継ぐ。 |
-| [Carbon：動き](https://carbondesignsystem.com/building-blocks/foundations/motion/overview/) | ブランドの3D表現は残し、操作への反応と短い出現に動きを使う。減らす設定、手動停止、文字が最初から読める状態を維持する。 |
+| [Carbon：動き](https://carbondesignsystem.com/building-blocks/foundations/motion/overview/) | ブランドの3D表現は残し、操作への反応と短い出現に動きを使う。動きを減らす設定と、文字が最初から読める状態を維持する。 |
 | [W3C：文字コントラスト](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) / [非テキスト](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) / [ターゲットの大きさ](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | 本文は4.5:1、識別に必要な操作輪郭・状態は3:1を確認する。主な操作は48px以上を設計基準とし、フォーカスと選択状態を色だけに頼らず示す。 |
 
 ## 背景の配色

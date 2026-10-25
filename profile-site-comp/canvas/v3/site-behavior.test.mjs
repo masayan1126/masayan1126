@@ -26,21 +26,22 @@ test('contact form rejects invalid input before network activity and restores th
   assert.match(status.textContent,/2営業日/);
 });
 
-test('background motion keeps a manual pause across visibility and reduced-motion changes',()=>{
+test('background motion follows visibility and reduced-motion preferences without a manual control',()=>{
   const source=readFileSync(new URL('./home-3d/diorama/video-hero.js',import.meta.url),'utf8');
   const handlers={},videoHandlers={};let intersection,preferenceChange;
   const preference={matches:false,addEventListener:(_,fn)=>{preferenceChange=fn;}};
   const video={dataset:{sets:JSON.stringify({webm:'scene.webm',hevc:'scene.mp4',poster:'scene.webp',w:100,h:80}),track:'track.json'},paused:true,append(){},addEventListener:(name,fn)=>{videoHandlers[name]=fn;},play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},load(){}};
-  const toggle={hidden:true,attrs:{},addEventListener:(name,fn)=>{handlers[name]=fn;},setAttribute(name,value){this.attrs[name]=value;}};
-  const host={querySelector:s=>({'#scene':video,'.world':{style:{setProperty(){}}},'.monitor-link':{},'.hero-motion-toggle':toggle})[s],classList:{add(){}}};
+  const host={querySelector:s=>({'#scene':video,'.world':{style:{setProperty(){}}},'.monitor-link':{}})[s],classList:{add(){}}};
   const document={hidden:false,querySelector:()=>host,createElement:()=>({}),addEventListener:(name,fn)=>{handlers[name]=fn;}};
   vm.runInNewContext(source,{document,navigator:{userAgent:'Chrome'},matchMedia:()=>preference,IntersectionObserver:class{constructor(fn){intersection=fn;}observe(){}},fetch:()=>new Promise(()=>{}),requestAnimationFrame:()=>1});
   assert.equal(video.paused,false);
-  handlers.click();assert.equal(video.paused,true);assert.equal(toggle.attrs['aria-pressed'],'true');
-  intersection([{isIntersecting:false}]);intersection([{isIntersecting:true}]);assert.equal(video.paused,true);
-  preference.matches=true;preferenceChange();assert.equal(toggle.hidden,true);
+  intersection([{isIntersecting:false}]);assert.equal(video.paused,true);
+  preference.matches=true;preferenceChange();assert.equal(video.paused,true);
   preference.matches=false;preferenceChange();assert.equal(video.paused,true);
-  handlers.click();assert.equal(video.paused,false);
+  preference.matches=true;preferenceChange();assert.equal(video.paused,true);
+  intersection([{isIntersecting:true}]);assert.equal(video.paused,true);
+  preference.matches=false;preferenceChange();assert.equal(video.paused,false);
   document.hidden=true;handlers.visibilitychange();assert.equal(video.paused,true);
+  intersection([{isIntersecting:false}]);intersection([{isIntersecting:true}]);assert.equal(video.paused,true);
   document.hidden=false;handlers.visibilitychange();assert.equal(video.paused,false);
 });
