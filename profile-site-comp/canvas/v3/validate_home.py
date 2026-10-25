@@ -299,7 +299,48 @@ assert 'href="/services/#video-editing"' in business
 assert 'href="/services/#web-development"' in business
 assert 'href="/services/#ai-adoption"' in business
 
-report = {'pages': pages, 'pricingSourcePreserved': pricing, 'assetReferencesValid': True, 'heroHeadline': 'AIで「ちゃんと」生産性を上げる', 'scope': 'Local generated site; not deployed'}
+# Check the CSS actually linked by the nine pages, including hover/selected rules.
+# Pale blue surfaces are disallowed; photos, videos and archived unused assets are outside this rule.
+def pale_blue_colors(value):
+    colors = []
+    for match in re.finditer(r'#[0-9a-fA-F]{3,8}\b|rgba?\([^)]*\)', value):
+        color = match.group()
+        if color.startswith('#'):
+            digits = color[1:]
+            if len(digits) in (3, 4): digits = ''.join(c * 2 for c in digits)
+            if len(digits) not in (6, 8): continue
+            r, g, b = [int(digits[i:i+2], 16) for i in (0, 2, 4)]
+            alpha = int(digits[6:8], 16) / 255 if len(digits) == 8 else 1
+        else:
+            numbers = re.findall(r'[\d.]+%?', color)
+            if len(numbers) < 3: continue
+            r, g, b = [float(n[:-1]) * 2.55 if n.endswith('%') else float(n) for n in numbers[:3]]
+            alpha = (float(numbers[3][:-1]) / 100 if numbers[3].endswith('%') else float(numbers[3])) if len(numbers) > 3 else 1
+        r, g, b = [channel * alpha + 255 * (1 - alpha) for channel in (r, g, b)]
+        if alpha > 0 and min(r, g, b) >= 160 and b > r + 2 and b > g:
+            colors.append(color)
+    return colors
+
+# This static check covers hex/RGB literals. Browser checks also resolve variables and computed colors.
+def validate_surface_declarations(label, css):
+    for prop, value in re.findall(r'(background(?:-color|-image)?|--(?:site-paper|surface[\w-]*|paper|selection-surface|blue-light|light))\s*:\s*([^;}]+)', css):
+        assert not pale_blue_colors(value), ('Pale blue UI surface', label, prop, value)
+
+current_styles = set()
+for route in ROUTES:
+    source = (SITE / route / 'index.html').read_text()
+    for href in re.findall(r'<link[^>]+href="([^"?]+\.css)"', source):
+        current_styles.add(target(href, SITE / route / 'index.html'))
+    for css in re.findall(r'<style[^>]*>(.*?)</style>', source, re.S):
+        validate_surface_declarations(route + ' inline style', css)
+    for quote, css in re.findall(r'\bstyle=([\"\'])(.*?)\1', source, re.S):
+        validate_surface_declarations(route + ' style attribute', css)
+    for svg in re.findall(r'<svg\b.*?</svg>', source, re.S):
+        assert not pale_blue_colors(svg), ('Pale blue SVG surface', route, pale_blue_colors(svg))
+for sheet in current_styles:
+    validate_surface_declarations(sheet.name, sheet.read_text())
+
+report = {'pages': pages, 'pricingSourcePreserved': pricing, 'assetReferencesValid': True, 'neutralSurfaces': {'linkedStylesheets': len(current_styles), 'paleBlueSurfaces': 0}, 'heroHeadline': 'AIで「ちゃんと」生産性を上げる', 'scope': 'Local generated site; not deployed'}
 out = PROJECT / 'output/site-renewal-validation.json'
 out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(report, ensure_ascii=False))

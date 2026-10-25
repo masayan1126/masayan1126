@@ -39,7 +39,7 @@
 .site-renewal .immersive-hero .hero-stats b{color:#133f8f;text-shadow:none}
 .site-renewal .immersive-hero .hero-stats b small{color:#4164a5}
 .site-renewal .immersive-hero .hero-stats span{color:#5b5b5b}
-.site-renewal .immersive-hero .hero .actions.entry-actions a,.site-renewal .immersive-hero .hero .actions.entry-actions a+a{background:#fff;color:#282828;border-color:#c9d0da;backdrop-filter:none}
+.site-renewal .immersive-hero .hero .actions.entry-actions a,.site-renewal .immersive-hero .hero .actions.entry-actions a+a{background:#fff;color:#282828;border-color:#cfcfcf;backdrop-filter:none}
 .site-renewal .immersive-hero .hero .actions.entry-actions a:first-child{background:#133f8f;color:#fff;border-color:#133f8f}
 .site-renewal .immersive-hero .hero .actions.entry-actions a:hover,.site-renewal .immersive-hero .hero .actions.entry-actions a:focus-visible{border-color:#133f8f}
 .site-renewal .immersive-hero .hero .actions.entry-actions b svg{color:#133f8f}
@@ -92,7 +92,7 @@
 @media(max-width:640px){.site-renewal .immersive-hero .copy .hero-lead{font-size:14px;line-height:1.8}}
 
 /* 入口を事業内容の5つに揃える (2026-09-26)。広い画面は開発の2つを上段、残り3つを下段に。採用は名前の横の小さなリンクへ移す。 */
-.site-renewal .immersive-hero .hero .actions.entry-actions a:first-child{background:#fff;color:#282828;border-color:#c9d0da}
+.site-renewal .immersive-hero .hero .actions.entry-actions a:first-child{background:#fff;color:#282828;border-color:#cfcfcf}
 .site-renewal .immersive-hero .hero .actions.entry-actions a:first-child b svg{color:#133f8f}
 .site-renewal .immersive-hero .copy .byline .byline-recruit{margin-left:1.25em;font-size:.85em;color:#133f8f;text-decoration:underline;text-underline-offset:3px;text-shadow:none}
 @media(min-width:821px){
@@ -117,7 +117,7 @@
 .site-renewal .immersive-hero .hero>.hero-footer{padding-top:42px;padding-bottom:36px}
 .site-renewal .immersive-hero .service-shortcuts{display:flex;flex-wrap:wrap;gap:4px 24px;max-width:760px}
 .site-renewal .immersive-hero .service-shortcuts a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:#4c5866;text-decoration:underline;text-underline-offset:5px;border:0;background:transparent;padding:0}
-.site-renewal .immersive-hero .hero-motion-toggle{display:inline-flex;align-items:center;align-self:start;min-height:44px;border:0;background:#eef1f5;color:#344252;font:inherit;font-size:13px;padding:10px 16px;cursor:pointer;margin-top:12px;justify-self:start}
+.site-renewal .immersive-hero .hero-motion-toggle{display:inline-flex;align-items:center;align-self:start;min-height:44px;border:0;background:#f1f1f1;color:#344252;font:inherit;font-size:13px;padding:10px 16px;cursor:pointer;margin-top:12px;justify-self:start}
 .site-renewal .immersive-hero .hero-motion-toggle[hidden]{display:none}
 .site-renewal .immersive-hero .masthead nav{margin-left:auto}
 .site-renewal .immersive-hero .masthead .site-action{min-height:44px;padding:10px 16px;font-size:14px;gap:12px;flex:none}
