@@ -26,7 +26,7 @@ const observer = new IntersectionObserver(entries => {
     animation.addEventListener('finish',()=>active.delete(animation),{once:true});
   }
 }, {threshold:.08});
-document.querySelectorAll('.editorial-project, .editorial-about').forEach(element=>observer.observe(element));
+document.querySelectorAll('.focus-highlight, .focus-person').forEach(element=>observer.observe(element));
 const cancel=()=>{active.forEach(animation=>animation.cancel());active.clear();};
 document.addEventListener('focusin', cancel);
 preference.addEventListener('change',()=>{if(preference.matches)cancel();});

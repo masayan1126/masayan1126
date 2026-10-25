@@ -1,19 +1,30 @@
 """Build one local review page. Never copy it into the public site export."""
 from pathlib import Path
 import base64
+import html
 import subprocess
 HERE = Path(__file__).resolve().parent
 subprocess.run(['node', str(HERE / 'build_pricing_flows.mjs')], check=True)
 PAGES = [('/', 'トップ'), ('/site-review/', '今回の改善'), ('/site-audit/', '変更前の監査'), ('/profile/', 'プロフィール'), ('/works/', '実績'), ('/services/', 'サービス'), ('/media/', 'PR・発信'), ('/talks/', '登壇'), ('/membership/', 'メンバーシップ'), ('/pricing/', '見積もり'), ('/contact/', 'お問い合わせ'), ('/pricing-flows/', '以前の比較3案'), ('/pricing-review/', '料金・条件の確認')]
+history_pages = []
 # Local studies are optional and never enter the public site export.
 if (HERE.parents[1] / 'output/editorial-concept/site/index.html').exists():
-    PAGES.insert(1, ('http://127.0.0.1:8777/', '新デザインの試作'))
+    history_pages = PAGES[1:]
+    PAGES = [('http://127.0.0.1:8777/', '新デザインの試作'), ('/', '従来の構成')]
 references = HERE.parents[1] / 'output/site-references/references.html'
 if references.exists():
     encoded = base64.b64encode(references.read_bytes()).decode()
     PAGES.insert(2, ('data:text/html;base64,' + encoded, '参考サイト10選'))
 tabs = ''.join(f'<button role="tab" id="page-{i}" data-path="{path}" aria-controls="preview" aria-selected="{str(i == 0).lower()}" tabindex="{0 if i == 0 else -1}">{name}</button>' for i, (path, name) in enumerate(PAGES))
 source = (HERE / 'review-template.html').read_text().replace('%%TABS%%', tabs)
+if history_pages:
+    options = ''.join(f'<option value="{html.escape(path, quote=True)}">{name}</option>' for path, name in history_pages)
+    source = source.replace('<div class="tools">', '<div class="tools"><select id="review-history" aria-label="これまでの確認"><option value="">過去の確認</option>' + options + '</select>')
+    source = source.replace('title="トップ" src="/"', 'title="新デザインの試作" src="http://127.0.0.1:8777/"')
+    source = source.replace('</script>', """const past=document.querySelector('#review-history');
+past.onchange=()=>{if(!past.value)return;for(const tab of tabs){tab.setAttribute('aria-selected','false');tab.tabIndex=-1;}tabs[0].tabIndex=0;frame.title=past.selectedOptions[0].text;preview.setAttribute('aria-labelledby','review-history');frame.src=past.value;};
+tabs.forEach(tab=>{for(const event of ['click','keydown'])tab.addEventListener(event,()=>past.value='');});
+</script>""")
 source = source.replace('<div class="tools">', '<div class="tools"><select id="review-width" aria-label="確認する画面幅"><option value="">PC幅</option><option value="390">390px</option><option value="320">320px</option><option value="768">768px</option></select>')
 source = source.replace('<select id="review-width"', '<select id="review-section" aria-label="セクションに移動"><option value="">ページ先頭</option></select><select id="review-width"')
 source = source.replace('.mobile iframe{width:390px', '.mobile iframe{width:var(--review-width,390px)')
