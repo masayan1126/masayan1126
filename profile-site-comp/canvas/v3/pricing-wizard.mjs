@@ -149,7 +149,7 @@ function renderEstimate(result,view) {
   <details class="document-details"><summary>制作範囲・準備するもの・修正条件を見る</summary><h3>制作・公開の範囲</h3><ul>${view.scope.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>お客様にご用意いただくもの</h3><ul>${view.preparation.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul><h3>修正条件</h3><ul>${view.revisionNotes.map(text=>'<li>'+esc(text)+'</li>').join('')}</ul></details>
   <p class="document-foot">${esc(view.disclaimer)}</p><p class="document-foot">料金表の更新日：${esc(data.updated)}${data!==currentData?'（共有時の料金で表示しています）':''}</p></article><aside class="completed-controls"><h3>ご依頼内容を変更する</h3><div class="completed-answers" aria-label="回答を変更する">${answers(true)}</div></aside></div>
   <div class="pdf-recipient"><label for="wizard-recipient">見積書の宛名 <small>任意</small></label><input id="wizard-recipient" data-key="recipient" type="text" maxlength="80" placeholder="会社名・お名前" value="${esc(recipient)}" autocomplete="organization"><select id="wizard-honorific" aria-label="宛名の敬称"><option ${honorific==='御中'?'selected':''}>御中</option><option ${honorific==='様'?'selected':''}>様</option></select></div>
-  <div class="document-actions"><a class="button primary" id="estimate-inquiry" href="${esc(mailto(summary(data,state)))}">この内容でPRを相談する</a><button type="button" class="button secondary" id="save-pdf">概算見積書をPDFで保存 <span aria-hidden="true">↓</span></button><button type="button" class="text-button" data-edit="media">回答を選び直す</button></div><p class="pdf-message" id="pdf-message" role="status"></p>
+  <div data-quote-contact><div class="document-actions"><a class="button primary" id="estimate-inquiry" data-quote-inquiry href="/contact/?type=pr&from=estimate#contact-form">この内容でPRを相談する</a><button type="button" class="button secondary" data-quote-copy>相談文をコピー</button><button type="button" class="button secondary" id="save-pdf">概算見積書をPDFで保存 <span aria-hidden="true">↓</span></button><a class="text-button" id="estimate-inquiry-email" href="${esc(mailto(summary(data,state)))}">メールアプリで相談する</a><button type="button" class="text-button" data-edit="media">回答を選び直す</button></div><p data-quote-status role="status" aria-live="polite"></p><a data-quote-fallback href="/contact/?type=pr#contact-form" hidden>PRの相談フォームを開く</a><textarea data-quote-text class="estimate-url" aria-label="見積もりの相談文" readonly hidden>${esc(summary(data,state))}</textarea></div><p class="pdf-message" id="pdf-message" role="status"></p>
   <p class="sheet-note">宛名はPDFの作成にだけ使い、外部に送信しません。</p>
   <details class="document-details"><summary>同じ見積もりを開く共有URL</summary><p class="sheet-note">同じご依頼内容と概算金額を開くURLです。社内でのご相談にもご利用いただけます。</p><button class="button secondary" type="button" id="wizard-copy-url">見積もりURLをコピー</button><p id="wizard-share-status" role="status"></p><textarea class="estimate-url" aria-label="見積もりの共有URL" readonly>${esc(estimateUrl(data,state,'https://studio.msyn.me/pricing/#estimate-result'))}</textarea></details>
   <details class="document-details" id="wizard-full-terms"><summary>ご依頼前の確認事項・取引条件を見る</summary><div id="wizard-terms-content"></div></details><div class="restart-row"><button type="button" class="text-button" data-edit="media">← 制作物の選択へ戻る</button><button type="button" class="text-button" id="restart">すべての回答をリセット</button></div></section>`;
@@ -167,7 +167,7 @@ function updateDock() {
   dock.hidden=!complete;
   if(!complete){dock.replaceChildren();return;}
   const rows=alternativeQuotes(data,state),spotlight=rows.find(row=>row.added.length===1&&row.added[0]==='x'&&!row.removed.length)||rows.find(row=>row.added.length&&!row.removed.length);
-  dock.innerHTML=`<div><p>ほかの6案もできています</p><strong>${esc(spotlight?.label??'本編・ショート・Xの別の組み合わせと比べられます')}</strong></div><button class="button primary" type="button" id="show-alternatives">6案を比べる <span aria-hidden="true">↓</span></button>`;
+  dock.innerHTML=`<div><p>ほかの6案もできています</p><strong>${esc(spotlight?.label??'本編・ショート・Xの別の組み合わせと比べられます')}</strong></div><button class="button secondary" type="button" id="show-alternatives">6案を比べる <span aria-hidden="true">↓</span></button>`;
 }
 function updateLaunch(result,view) {
   const example=!state.media.length;
@@ -240,6 +240,7 @@ function finish() {
   questions().forEach(key=>answered.add(key));complete=true;everCompleted=true;revisionError='';render(null,'complete');
   scroller.scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});
   document.querySelector('#wizard-live').textContent='概算見積書を更新しました。'+quotePresentation(data,state,result).totalText;
+  document.dispatchEvent(new CustomEvent('site:pricing-complete',{detail:{mode:'wizard'}}));
 }
 workspace.addEventListener('change',event=>{
   const target=event.target;
