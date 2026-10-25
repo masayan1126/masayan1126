@@ -33,20 +33,20 @@ test('all seven selections generate six alternatives with preserved answers, amo
   }
 });
 
-test('video shares cost 1,500 yen, standalone X PR stays unpriced, and revision conditions remain pending',()=>{
+test('video shares cost 1,500 yen, standalone X PR stays unpriced, and two revisions are included per medium',()=>{
   const rows=alternativeQuotes(data,{media:['main'],items:['materials','thumbnail'],revisions:2});
   const x=rows.find(row=>row.state.media.join(',')==='main,x');
   assert.equal(x.label,'公開動画をXでも告知する場合');
-  assert.equal(x.knownDelta,null);
-  assert.ok(x.result.pending.some(item=>item.id==='xRevisions'));
+  assert.equal(x.knownDelta,1500);
+  assert.ok(!x.result.pending.some(item=>item.id==='xRevisions'));
   assert.equal(x.result.lines.find(line=>line.id==='videoAnnouncement').min,1500);
   for(const media of ['x','short','short,x']) {
     const row=rows.find(row=>row.state.media.join(',')===media);
     const short=media.includes('short');
     assert.equal(row.result.totalMin,short?(media.includes('x')?11500:10000):null);
     assert.equal(row.view.totalText,short?(media.includes('x')?'11,500円':'10,000円'):'要相談');
-    assert.ok(row.result.pending.length);
-    assert.equal(row.result.quotedTotal,null);
+    assert.equal(row.result.pending.length,short?0:1);
+    assert.equal(row.result.quotedTotal,short?row.result.totalMin:null);
     assert.ok(!row.result.lines.some(line=>['research','shooting','editing'].includes(line.id)));
   }
   assert.deepEqual(alternativeQuotes(data,{media:[]}),[]);

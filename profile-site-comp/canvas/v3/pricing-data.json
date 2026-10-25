@@ -291,8 +291,6 @@
       "taxInclusive": true
     },
     "additionalShortCount": 1,
-    "shortIncludedRevisions": null,
-    "xIncludedRevisions": null,
     "additionalShortClip": {
       "min": 0,
       "max": 0,
@@ -305,5 +303,10 @@
     }
   },
   "legacyUnversionedRateVersion": "17268bfca1d6",
-  "researchPolicy": "prior-pr-request"
+  "researchPolicy": "prior-pr-request",
+  "mediaRevisionRates": {
+    "main": {"included": 2, "fee": {"min": 5000, "max": 5000, "taxInclusive": false}},
+    "short": {"included": 2, "fee": {"min": 3300, "max": 3300, "taxInclusive": true}},
+    "x": {"included": 2, "fee": {"min": 1000, "max": 1000, "taxInclusive": true}}
+  }
 }

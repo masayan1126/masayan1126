@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA,revisionCount,mediaRevisionDetails} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -10,6 +10,7 @@ const productionOptions=data.mediaSchema>=2;
 const historyQuestion=data.researchPolicy==='prior-pr-request';
 const initialMedia=new URL(location.href).searchParams.has('media')?restored.media:[...MEDIA];
 const state = {media:initialMedia,items:(productionOptions||initialMedia.includes('main'))&&new URL(location.href).searchParams.has('items')?restored.items:defaultItems(data),shortMode:shortMode(restored),custom:[],notes:normalizeNotes([...data.custom.filter(item=>restored.custom?.includes(item.id)).map(item=>item.label),restored.notes??''].filter(Boolean).join('\n')),revisions:restored.revisions??2};
+if(data.mediaRevisionRates)state.revisionCounts=Object.fromEntries(MEDIA.map(id=>[id,revisionCount(restored,id)]));
 let question = 'media', complete = restored.media.length>0, everCompleted = complete;
 let revisionError = '', recipient = '', honorific='御中', lastPdfButton,copyVersion=0;
 const terms = document.querySelector('#main-terms').cloneNode(true);
@@ -37,7 +38,7 @@ function answerText(key) {
   if(key==='short')return shortMode(state)==='dedicated'?'別撮影・大幅な内容変更（＋'+priceText(data.mediaRates.additionalShortDedicated)+'）':'本編素材から切り抜く（追加0円）';
   if(key==='assets'&&productionOptions)return [...(historyQuestion?['同じサービス・製品のPR依頼歴：'+prHistoryPresentation(data,state).answer]:[]),...(historyQuestion?['materials','thumbnail']:['research','materials','thumbnail']).map(id=>({research:'事前検証',materials:'企画・台本',thumbnail:'サムネイル'})[id]+'：'+(state.items.includes(id)?'依頼する':'依頼しない'))].join('\n');
   if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');
-  return [`軽微修正${state.revisions}回をご希望`,normalizeNotes(state.notes)].filter(Boolean).join('\n');
+  return [...(data.mediaRevisionRates?mediaRevisionDetails(data,state).map(row=>row.label+'の軽微修正：'+revisionCount(state,row.id)+'回'):[`軽微修正${state.revisions}回をご希望`]),normalizeNotes(state.notes)].filter(Boolean).join('\n');
 }
 function questionContent(key) {
   const idx=questions().indexOf(key);
@@ -78,11 +79,12 @@ function questionContent(key) {
       price:'＋'+amountText(taxIncluded(item.min,data.taxRate,item.taxInclusive),taxIncluded(item.max,data.taxRate,item.taxInclusive))+'（税込）',
     })).join('')+'</div><p class="mini-note">製品マニュアルなどをもとに動画用の説明資料の作成を依頼される場合は、「動画用の説明資料も依頼する」をご選択ください。</p>';
   } else {
-    hint='ご希望の内容を自由にご記入ください。追加費用は個別にお見積もりし、表示中の小計には含みません。';
-    body=`<div class="request-field"><label for="wizard-notes">ご希望の内容（任意）</label><textarea id="wizard-notes" data-key="notes" rows="4" maxlength="1000" aria-describedby="request-note" placeholder="準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい">${esc(state.notes)}</textarea><p class="sheet-note" id="request-note">1,000文字まで入力できます。入力した内容は、概算見積書・共有URL・PDF・問い合わせ文に引き継がれます。</p></div>`
-      +`<div class="revisions"><label for="wizard-revisions">公開前の軽微修正の希望回数</label><input id="wizard-revisions" data-key="revisions" type="number" inputmode="numeric" min="0" step="1" value="${esc(state.revisions)}" aria-describedby="revision-note"><span>回</span></div>`
-      +`<p class="rev-note" id="revision-note">${hasMain()?'本編は2回まで料金内、3回目以降は1回'+amountText(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate))+'（税込）です。':'希望回数をもとに正式見積もりで確認します。'}${state.media.some(id=>id==='short'||id==='x')?' ショート・Xの無料回数と追加料金は要相談です。':''}</p>`
-      +extrasImpact();
+    hint=data.mediaRevisionRates?'制作物ごとに軽微修正の希望回数をご指定ください。そのほかのご希望は自由入力欄へご記入いただけます。':'ご希望の内容を自由にご記入ください。追加費用は個別にお見積もりし、表示中の小計には含みません。';
+    const requestField=`<div class="request-field"><label for="wizard-notes">ご希望の内容（任意）</label><textarea id="wizard-notes" data-key="notes" rows="4" maxlength="1000" aria-describedby="request-note" placeholder="準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい">${esc(state.notes)}</textarea><p class="sheet-note" id="request-note">1,000文字まで入力できます。入力した内容は、概算見積書・共有URL・PDF・問い合わせ文に引き継がれます。${data.mediaRevisionRates?' 自由入力のご希望にかかる追加費用は個別にお見積もりします。':''}</p></div>`;
+    const revisionFields=data.mediaRevisionRates?`<fieldset class="media-revisions"><legend>公開前の軽微修正の希望回数</legend>${mediaRevisionDetails(data,state).map(row=>`<div class="media-revision-field"><div class="revisions"><label for="wizard-revisions-${row.id}">${row.label}</label><input id="wizard-revisions-${row.id}" data-key="revisions-${row.id}" data-revision-media="${row.id}" type="number" inputmode="numeric" min="0" step="1" value="${esc(revisionCount(state,row.id))}" aria-describedby="revision-note-${row.id}"><span>回</span></div><p class="rev-note" id="revision-note-${row.id}">${esc(row.condition)}</p></div>`).join('')}</fieldset>`:
+        `<div class="revisions"><label for="wizard-revisions">公開前の軽微修正の希望回数</label><input id="wizard-revisions" data-key="revisions" type="number" inputmode="numeric" min="0" step="1" value="${esc(state.revisions)}" aria-describedby="revision-note"><span>回</span></div>`
+        +`<p class="rev-note" id="revision-note">${hasMain()?'本編は2回まで料金内、3回目以降は1回'+amountText(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate))+'（税込）です。':'希望回数をもとに正式見積もりで確認します。'}${state.media.some(id=>id==='short'||id==='x')?' ショート・Xの無料回数と追加料金は要相談です。':''}</p>`;
+    body=(data.mediaRevisionRates?revisionFields+requestField:requestField+revisionFields)+extrasImpact();
   }
   return `<section class="question" aria-labelledby="question-${key}"><p class="question-kicker">質問 ${idx+1} / ${questions().length}${key==='extras'?' ・ 任意':''}</p><h2 id="question-${key}" tabindex="-1">${titles[key]}</h2><p class="question-hint">${hint}</p>${body}</section>`;
 }
@@ -101,6 +103,7 @@ function refreshExtras(announce=false) {
   const panel=workspace.querySelector('#extras-impact');if(!panel)return;
   panel.outerHTML=extrasImpact();
   const result=quote(data,state),view=quotePresentation(data,state,result),asideNode=workspace.querySelector('.flow-aside');
+  if(result.status!=='invalid'){revisionError='';workspace.querySelector('.flow-main > .error')?.remove();}
   updateLaunch(result,view);
   if(result.status!=='invalid')history.replaceState(null,'',estimateUrl(data,state,location.href));
   if(asideNode)asideNode.outerHTML=aside(result,view);
@@ -178,13 +181,17 @@ function render(focusKey,motion) {
   if(complete&&['invalid','empty'].includes(result.status)){complete=false;question=result.status==='invalid'?'extras':'media';revisionError=result.error??'';}
   const oldRates=data!==currentData;
   const currentUrl=oldRates?latestEstimateUrl(data,currentData,state,new URL('/pricing/#production-options',location.href).href):'';
-  const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、同じサービス・製品のPR依頼歴に応じて事前検証費用が決まります。</p><p>切り替えると、現在の料金・条件で再計算します。PRの依頼歴をご確認ください。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">現在の見積もりでPRの依頼歴を確認する</a></section>`:'';
+  const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、同じサービス・製品のPR依頼歴と、制作物ごとの修正回数から料金を計算します。</p><p>切り替えると、現在の料金・条件で再計算します。選択内容をご確認ください。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">現在の料金・条件で見積もりを選び直す</a></section>`:'';
   workspace.innerHTML=notice+(complete?renderEstimate(result,view)+renderAlternatives():renderForm(result,view));
   updateDock();updateLaunch(result,view);
   if(complete){
     const host=document.querySelector('#wizard-terms-content');
     if(hasMain()) {
       host.append(terms.cloneNode(true));
+      if(data.mediaRevisionRates){
+        const revisionTerm=host.querySelector('[data-term-revisions]');
+        if(revisionTerm)revisionTerm.textContent=mediaRevisionDetails(data,state).map(row=>row.label+'：'+row.condition).join(' ');
+      }
       if(productionOptions) {
         host.querySelector('[data-term-report]')?.remove();
         const reportHeading=host.querySelector('[data-report-heading]');
@@ -214,7 +221,7 @@ function goTo(key) {
 function finish() {
   const result=quote(data,state);
   if(result.status==='empty') return goTo('media');
-  if(result.status==='invalid') {revisionError=result.error;question='extras';render();document.querySelector('#wizard-revisions')?.focus();return;}
+  if(result.status==='invalid') {revisionError=result.error;question='extras';render();document.querySelector(result.invalidRevisionMedia?'#wizard-revisions-'+result.invalidRevisionMedia:'#wizard-revisions')?.focus();return;}
   questions().forEach(key=>answered.add(key));complete=true;everCompleted=true;revisionError='';render(null,'complete');
   scroller.scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});
   document.querySelector('#wizard-live').textContent='概算見積書を更新しました。'+quotePresentation(data,state,result).totalText;
@@ -232,9 +239,11 @@ workspace.addEventListener('change',event=>{
     state[target.dataset.group]=[...values];answered.add(target.dataset.group==='media'?'media':target.dataset.group==='items'?'assets':'extras');
     render(target.dataset.key);
     if(question==='extras')refreshExtras(true);
-  } else if(target.id==='wizard-notes'||target.id==='wizard-revisions') {
+  } else if(target.id==='wizard-notes'||target.id==='wizard-revisions'||target.dataset.revisionMedia) {
     if(target.id==='wizard-notes'){state.notes=target.value;refreshExtras();return;}
-    state.revisions=target.value;revisionError='';
+    if(target.dataset.revisionMedia)state.revisionCounts[target.dataset.revisionMedia]=target.value;
+    else state.revisions=target.value;
+    revisionError='';
     // Keep the field and the clicked button in place while focus moves away.
     const result=quote(data,state),node=workspace.querySelector('.flow-aside');
     if(node)node.outerHTML=aside(result,quotePresentation(data,state,result));
@@ -244,14 +253,15 @@ workspace.addEventListener('input',event=>{
   if(event.target.id==='wizard-recipient')recipient=event.target.value;
   if(event.target.id==='wizard-notes'){state.notes=event.target.value;refreshExtras();}
   if(event.target.id==='wizard-revisions')state.revisions=event.target.value;
-  if(event.target.id==='wizard-revisions')refreshExtras(true);
+  if(event.target.dataset.revisionMedia)state.revisionCounts[event.target.dataset.revisionMedia]=event.target.value;
+  if(event.target.id==='wizard-revisions'||event.target.dataset.revisionMedia)refreshExtras(true);
 });
 workspace.addEventListener('click',async event=>{
   const button=event.target.closest('button');if(!button)return;
   if(button.dataset.edit)return goTo(button.dataset.edit);
   if(button.hasAttribute('data-alternative')) {
     const next=alternativeQuotes(data,state).find(row=>row.state.media.join(',')===button.dataset.alternative);
-    if(next){state.media=[...next.state.media];return finish();}
+    if(next){state.media=[...next.state.media];if(next.state.revisionCounts)state.revisionCounts={...next.state.revisionCounts};return finish();}
     return;
   }
   if(button.id==='back-to-estimate'){scroller.scrollTop=0;document.querySelector('#complete-title').focus({preventScroll:true});return;}
@@ -261,6 +271,7 @@ workspace.addEventListener('click',async event=>{
   if(button.hasAttribute('data-complete'))return finish();
   if(button.id==='restart') {
     Object.assign(state,{media:[...MEDIA],items:defaultItems(data),shortMode:'clip',custom:[],notes:'',revisions:2});document.querySelector('#wizard-live').textContent='選択内容をリセットしました。';
+    if(data.mediaRevisionRates)state.revisionCounts={main:2,short:2,x:2};
     answered.clear();everCompleted=false;recipient='';return goTo('media');
   }
   if(button.id==='wizard-copy-url') {
