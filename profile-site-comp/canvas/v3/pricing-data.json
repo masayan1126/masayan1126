@@ -284,9 +284,9 @@
   "mediaSchema": 1,
   "mediaRates": {
     "standaloneShort": {
-      "min": null,
-      "max": null,
-      "taxInclusive": false
+      "min": 10000,
+      "max": 10000,
+      "taxInclusive": true
     },
     "xPr": {
       "min": null,
