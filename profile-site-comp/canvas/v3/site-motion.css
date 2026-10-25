@@ -1,0 +1,24 @@
+/* Interaction feedback uses the existing palette and square action shapes. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .site-renewal a:is(.v3-primary,.business-cta,.v3-contact-link,.site-action):not(dialog a):not([role="dialog"] a):not(#pricing-wizard a) {
+    transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease;
+  }
+  .site-renewal a:is(.v3-primary,.business-cta,.site-action-primary):not(dialog a):not([role="dialog"] a):not(#pricing-wizard a):hover {
+    transform:translateY(-2px);
+  }
+  .site-renewal :is(.v3-primary,.business-cta,.v3-text-link,.home-detail-cta,.detail-link,.entry-actions a) :is(svg,.arrow):not(dialog *):not([role="dialog"] *):not(#pricing-wizard *),
+  .site-renewal .site-action > [aria-hidden="true"]:not(dialog *):not([role="dialog"] *):not(#pricing-wizard *) {
+    transition:transform 180ms ease;
+  }
+  .site-renewal :is(.v3-primary,.business-cta,.v3-text-link,.home-detail-cta,.detail-link,.entry-actions a):hover :is(svg,.arrow):not(dialog *):not([role="dialog"] *):not(#pricing-wizard *),
+  .site-renewal .site-action:hover > [aria-hidden="true"]:not(dialog *):not([role="dialog"] *):not(#pricing-wizard *) {
+    transform:translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .site-renewal :is(.v3-primary,.business-cta,.v3-contact-link,.v3-text-link,.home-detail-cta,.detail-link,.entry-actions a,.site-action-primary,.site-action-secondary),
+  .site-renewal :is(.v3-primary,.business-cta,.v3-text-link,.home-detail-cta,.detail-link,.entry-actions a,.site-action-primary,.site-action-secondary) :is(svg,.arrow,[aria-hidden="true"]) {
+    transition:none!important;
+  }
+}
