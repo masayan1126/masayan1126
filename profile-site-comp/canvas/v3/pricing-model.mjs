@@ -38,6 +38,13 @@ export function estimateUrl(data, state = {}, base = 'https://studio.msyn.me/pri
 }
 
 export const MEDIA = ['main','short','x'];
+export function latestEstimateUrl(previous,current,state,base='https://studio.msyn.me/pricing/#production-options') {
+  // Carry requested work forward; work that used to be mandatory starts selected.
+  const selected=new Set(state.items??[]);
+  const items=current.checklistItems.filter(item=>!item.fixed&&(selected.has(item.id)||previous.checklistItems.some(old=>old.id===item.id&&old.fixed))).map(item=>item.id);
+  const media=Array.isArray(state.media)?state.media:['main',...(selected.has('shorts')?['short','x']:[])];
+  return estimateUrl(current,{...state,media,items,shortMode:shortMode(state)},base);
+}
 export function stateFromUrl(data, url) {
   const params = new URL(url).searchParams;
   const state = {items:selectedFromUrl(data,url)};

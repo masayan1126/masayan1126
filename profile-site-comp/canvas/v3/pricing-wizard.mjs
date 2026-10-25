@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -18,6 +18,8 @@ const titles = {media:'どのPRをご希望ですか？',assets:productionOption
 const esc = text => String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const hasMain = () => state.media.includes('main');
 const questions = () => productionOptions?['media',...(hasMain()&&state.media.includes('short')?['short']:[]),...(hasMain()?['assets']:[]),'extras']:hasMain()?['media','assets','extras']:['media','extras'];
+const openProductionOptions=productionOptions&&hasMain()&&location.hash==='#production-options';
+if(openProductionOptions){complete=false;question='assets';}
 const priceText = rate => rate?.min==null||rate?.max==null?'要相談':amountText(taxIncluded(rate.min,data.taxRate,rate.taxInclusive),taxIncluded(rate.max,data.taxRate,rate.taxInclusive))+'（税込）';
 const icons = {
   main:'<rect x="2" y="5" width="23" height="17"/><path d="m11 10 6 4-6 4z"/>',
@@ -167,7 +169,10 @@ dock.addEventListener('click',event=>{
 function render(focusKey,motion) {
   const result=quote(data,state),view=quotePresentation(data,state,result);
   if(complete&&['invalid','empty'].includes(result.status)){complete=false;question=result.status==='invalid'?'extras':'media';revisionError=result.error??'';}
-  workspace.innerHTML=complete?renderEstimate(result,view)+renderAlternatives():renderForm(result,view);
+  const oldRates=data!==currentData;
+  const currentUrl=oldRates?latestEstimateUrl(data,currentData,state,new URL('/pricing/#production-options',location.href).href):'';
+  const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、事前検証の有無を選べます。</p><p>切り替えると、選択した内容を引き継ぎ、現在の料金・条件で再計算します。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">事前検証を選べる現在の見積もりに切り替える</a></section>`:'';
+  workspace.innerHTML=notice+(complete?renderEstimate(result,view)+renderAlternatives():renderForm(result,view));
   updateDock();updateLaunch(result,view);
   if(complete){
     const host=document.querySelector('#wizard-terms-content');
@@ -265,5 +270,5 @@ workspace.addEventListener('click',async event=>{
   }
 });
 render();
-if(complete)openSimulator();
+if(complete||openProductionOptions)openSimulator();
 }
