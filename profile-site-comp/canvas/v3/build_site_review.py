@@ -1,5 +1,6 @@
 """Build the owner-facing site review, kept outside the public export."""
 from pathlib import Path
+import json
 
 HERE = Path(__file__).resolve().parent
 ROWS = [
@@ -28,6 +29,11 @@ def build():
 </div></section><section><h2>各ページで判断できること</h2><div class="table-scroll"><table><thead><tr><th>ページ</th><th>主な行動</th><th>情報の並び</th></tr></thead><tbody>''' + rows + '''</tbody></table></div></section>
 <section><h2>変更前の点検</h2><p>「変更前の監査」タブには、実画面と30項目の診断をまとめています。変更前のAIっぽさは3/10で、主な問題は配色よりも、強調の優先順位・色線の反復・小さな文字でした。制作方法や著者を判定する点数ではありません。</p></section>
 <section><h2>確認状況</h2><p id="verification-status">ビルド・料金テスト・既存本文の保持を確認しています。PC・スマホ・キーボードと公開画面の最終確認を続けています。</p><p><a href="/pricing/?items=materials%2Cthumbnail&amp;v=17268bfca1d6">以前の本編見積もりを確認する</a></p><p class="note">Gmailの下書きは変更していません。</p></section></main></body></html>'''
+    verification = HERE.parents[1] / 'output/site-action-hierarchy/completion.json'
+    if verification.exists() and json.loads(verification.read_text()).get('status') == 'production verified':
+        page = page.replace('ビルド・料金テスト・既存本文の保持を確認しています。PC・スマホ・キーボードと公開画面の最終確認を続けています。',
+                            '公開サイトへ反映しました。67テスト・9ページの本文とリンク、PC・390px・320pxの27画面、キーボード、旧見積もりURLを確認済みです。公開9ページと関連ファイルも生成元と一致しています。')
+    page = page.replace('<p class="note">Gmailの下書き', '<p><a href="https://studio.msyn.me/">公開サイトを確認する</a></p><p class="note">Gmailの下書き')
     target = HERE.parents[1] / 'output/3d-mode/site-improvements.html'
     target.write_text(page)
     return target
