@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -7,6 +7,7 @@ const dialog=document.querySelector('#wizard-dialog'),scroller=document.querySel
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 let previousOverflow='';
 const productionOptions=data.mediaSchema>=2;
+const historyQuestion=data.researchPolicy==='prior-pr-request';
 const state = {media:restored.media,items:(productionOptions||restored.media.includes('main'))&&new URL(location.href).searchParams.has('items')?restored.items:defaultItems(data),shortMode:shortMode(restored),custom:[],notes:normalizeNotes([...data.custom.filter(item=>restored.custom?.includes(item.id)).map(item=>item.label),restored.notes??''].filter(Boolean).join('\n')),revisions:restored.revisions??2};
 let question = 'media', complete = state.media.length>0, everCompleted = complete;
 let revisionError = '', recipient = '', honorific='御中', lastPdfButton,copyVersion=0;
@@ -33,7 +34,7 @@ const selectChoice = ({group,id,title,description='',note='',price='',icon=''}) 
 function answerText(key) {
   if(key==='media') return state.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR'})[id]).join('・') || 'まだ選択していません';
   if(key==='short')return shortMode(state)==='dedicated'?'別撮影・大幅な内容変更（＋'+priceText(data.mediaRates.additionalShortDedicated)+'）':'本編素材から切り抜く（追加0円）';
-  if(key==='assets'&&productionOptions)return ['research','materials','thumbnail'].map(id=>({research:'事前検証',materials:'企画・台本',thumbnail:'サムネイル'})[id]+'：'+(state.items.includes(id)?'依頼する':'依頼しない')).join('\n');
+  if(key==='assets'&&productionOptions)return [...(historyQuestion?['同じサービス・製品のPR依頼歴：'+prHistoryPresentation(data,state).answer]:[]),...(historyQuestion?['materials','thumbnail']:['research','materials','thumbnail']).map(id=>({research:'事前検証',materials:'企画・台本',thumbnail:'サムネイル'})[id]+'：'+(state.items.includes(id)?'依頼する':'依頼しない'))].join('\n');
   if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');
   return [`軽微修正${state.revisions}回をご希望`,normalizeNotes(state.notes)].filter(Boolean).join('\n');
 }
@@ -54,8 +55,13 @@ function questionContent(key) {
       ['dedicated','別撮影・大幅な内容変更を依頼する','ショート用に別途撮影する、または紹介内容や構成を大きく変えて制作します。','＋'+priceText(data.mediaRates.additionalShortDedicated)],
     ].map(([value,title,description,price])=>`<label class="choice compact"><input type="radio" name="short-mode" value="${value}" data-key="short-${value}" ${shortMode(state)===value?'checked':''}><span class="choice-title">${title}</span><span class="choice-description">${description}</span><span class="choice-price">${price}</span></label>`).join('')+'</div></fieldset>';
   } else if(key==='assets'&&productionOptions) {
-    hint='必要なものだけお選びください。事前検証は、同じサービスへの再依頼で不要な場合に外せます。';
-    body='<div class="choices">'+(hasMain()?data.checklistItems.filter(item=>['research','materials','thumbnail'].includes(item.id)).map(item=>selectChoice({group:'items',id:item.id,
+    hint=historyQuestion?'同じサービス・製品のPR依頼歴をお答えいただき、企画・台本とサムネイルの制作をご選択ください。':'必要なものだけお選びください。事前検証は、同じサービスへの再依頼で不要な場合に外せます。';
+    const prior=prHistoryPresentation(data,state);
+    const research=data.checklistItems.find(item=>item.id==='research');
+    body=(historyQuestion?`<fieldset class="pr-history"><legend>${esc(prior.question)}</legend><p class="question-hint">以前にご依頼いただいたサービス・製品であれば、事前検証費用はかかりません。</p><div class="choices">${[
+      ['yes','ある（リピートのご依頼）','前回と同じサービス・製品のPRをご依頼いただく場合です。','0円（税込）'],
+      ['no','ない（初めてのご依頼）','初めてPRをご依頼いただくサービス・製品の機能や操作手順を確認します。',priceText(research)],
+    ].map(([value,title,description,fee])=>`<label class="choice compact"><input type="radio" name="pr-history" value="${value}" data-key="pr-history-${value}" ${(prior.previousRequest?'yes':'no')===value?'checked':''}><span class="choice-title">${title}</span><span class="choice-description">${description}</span><span class="choice-price">事前検証費用：${fee}</span></label>`).join('')}</div></fieldset><h3 class="asset-options-title">企画・台本とサムネイルの制作</h3>`:'')+'<div class="choices">'+(hasMain()?data.checklistItems.filter(item=>(historyQuestion?['materials','thumbnail']:['research','materials','thumbnail']).includes(item.id)).map(item=>selectChoice({group:'items',id:item.id,
       title:{research:'サービスの事前検証を依頼する',materials:'動画の企画・台本作成を依頼する',thumbnail:'サムネイル制作を依頼する'}[item.id],
       description:{research:'初めて紹介するサービスや、新機能・仕様変更がある場合に機能と操作手順を確認します。',materials:'動画で紹介する内容・構成・話す内容を整理し、企画書と台本を作成します。',thumbnail:'YouTubeで表示するサムネイルを制作します。'}[item.id],
       note:item.id==='research'?'同じサービスへの再依頼で検証が不要な場合は、選択を外せます。外すと'+priceText(item)+'を減額します。':item.id==='materials'?'※動画で紹介する項目をまとめた台本や構成案などをご用意いただける場合は、この項目の選択を外せます。':'',
@@ -171,7 +177,7 @@ function render(focusKey,motion) {
   if(complete&&['invalid','empty'].includes(result.status)){complete=false;question=result.status==='invalid'?'extras':'media';revisionError=result.error??'';}
   const oldRates=data!==currentData;
   const currentUrl=oldRates?latestEstimateUrl(data,currentData,state,new URL('/pricing/#production-options',location.href).href):'';
-  const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、事前検証の有無を選べます。</p><p>切り替えると、選択した内容を引き継ぎ、現在の料金・条件で再計算します。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">事前検証を選べる現在の見積もりに切り替える</a></section>`:'';
+  const notice=oldRates?`<section class="historical-rate-note" aria-labelledby="historical-rate-title"><div><h2 id="historical-rate-title">共有時の料金・条件で表示しています</h2><p>${data.checklistItems.find(item=>item.id==='research')?.fixed?'この料金版では事前検証が必須のため、選択を外せません。':''}現在の見積もりでは、同じサービス・製品のPR依頼歴に応じて事前検証費用が決まります。</p><p>切り替えると、現在の料金・条件で再計算します。PRの依頼歴をご確認ください。</p></div><a class="button secondary" id="use-current-rates" href="${esc(currentUrl)}">現在の見積もりでPRの依頼歴を確認する</a></section>`:'';
   workspace.innerHTML=notice+(complete?renderEstimate(result,view)+renderAlternatives():renderForm(result,view));
   updateDock();updateLaunch(result,view);
   if(complete){
@@ -214,6 +220,10 @@ function finish() {
 }
 workspace.addEventListener('change',event=>{
   const target=event.target;
+  if(target.name==='pr-history'){
+    const items=new Set(state.items);target.value==='yes'?items.delete('research'):items.add('research');
+    state.items=[...items];answered.add('assets');render(target.dataset.key);return;
+  }
   if(target.name==='short-mode'){state.shortMode=shortMode({shortMode:target.value});render(target.dataset.key);return;}
   if(target.id==='wizard-honorific'){honorific=target.value;return;}
   if(target.matches('[data-group]')) {

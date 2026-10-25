@@ -216,7 +216,7 @@
     {
       "id": "research",
       "label": "サービスの事前検証",
-      "helpText": "初めて紹介するサービスや、新機能・仕様変更がある場合に機能と操作手順を確認します。同じサービスへの再依頼で検証が不要な場合は、選択を外せます。",
+      "helpText": "同じサービス・製品のPRを以前にも当方へ依頼したことがある場合、事前検証費用はかかりません。初めてのご依頼では、機能と操作手順の確認に事前検証費用がかかります。",
       "sourceLabel": "リサーチ・事前検証",
       "group": "research",
       "min": 8000,
@@ -304,5 +304,6 @@
       "taxInclusive": true
     }
   },
-  "legacyUnversionedRateVersion": "17268bfca1d6"
+  "legacyUnversionedRateVersion": "17268bfca1d6",
+  "researchPolicy": "prior-pr-request"
 }
