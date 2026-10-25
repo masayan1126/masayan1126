@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -8,8 +8,9 @@ const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 let previousOverflow='';
 const productionOptions=data.mediaSchema>=2;
 const historyQuestion=data.researchPolicy==='prior-pr-request';
-const state = {media:restored.media,items:(productionOptions||restored.media.includes('main'))&&new URL(location.href).searchParams.has('items')?restored.items:defaultItems(data),shortMode:shortMode(restored),custom:[],notes:normalizeNotes([...data.custom.filter(item=>restored.custom?.includes(item.id)).map(item=>item.label),restored.notes??''].filter(Boolean).join('\n')),revisions:restored.revisions??2};
-let question = 'media', complete = state.media.length>0, everCompleted = complete;
+const initialMedia=new URL(location.href).searchParams.has('media')?restored.media:[...MEDIA];
+const state = {media:initialMedia,items:(productionOptions||initialMedia.includes('main'))&&new URL(location.href).searchParams.has('items')?restored.items:defaultItems(data),shortMode:shortMode(restored),custom:[],notes:normalizeNotes([...data.custom.filter(item=>restored.custom?.includes(item.id)).map(item=>item.label),restored.notes??''].filter(Boolean).join('\n')),revisions:restored.revisions??2};
+let question = 'media', complete = restored.media.length>0, everCompleted = complete;
 let revisionError = '', recipient = '', honorific='御中', lastPdfButton,copyVersion=0;
 const terms = document.querySelector('#main-terms').cloneNode(true);
 terms.removeAttribute('id');terms.hidden=false;
@@ -259,7 +260,7 @@ workspace.addEventListener('click',async event=>{
   if(button.hasAttribute('data-prev'))return goTo(qs[idx-1]);
   if(button.hasAttribute('data-complete'))return finish();
   if(button.id==='restart') {
-    Object.assign(state,{media:[],items:defaultItems(data),shortMode:'clip',custom:[],notes:'',revisions:2});document.querySelector('#wizard-live').textContent='選択内容をリセットしました。';
+    Object.assign(state,{media:[...MEDIA],items:defaultItems(data),shortMode:'clip',custom:[],notes:'',revisions:2});document.querySelector('#wizard-live').textContent='選択内容をリセットしました。';
     answered.clear();everCompleted=false;recipient='';return goTo('media');
   }
   if(button.id==='wizard-copy-url') {
