@@ -208,8 +208,7 @@
       "title": "公開・SNS発信",
       "icon": "share",
       "items": [
-        "publishing",
-        "shorts"
+        "publishing"
       ]
     }
   ],
@@ -217,21 +216,22 @@
     {
       "id": "research",
       "label": "サービスの事前検証",
-      "helpText": "サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。",
+      "helpText": "初めて紹介するサービスや、新機能・仕様変更がある場合に機能と操作手順を確認します。同じサービスへの再依頼で検証が不要な場合は、選択を外せます。",
       "sourceLabel": "リサーチ・事前検証",
       "group": "research",
       "min": 8000,
       "max": 8000,
-      "fixed": true
+      "fixed": false
     },
     {
       "id": "materials",
-      "label": "動画で使用する資料の作成",
-      "helpText": "動画内で使用する説明用資料（台本のような構成に近い資料）を作成します。\n動画で説明する内容と順番がまとまった資料をご用意いただいている場合は、そちらを使用いたします。\nその場合、この項目の選択は不要です。\nご用意いただけるのが製品マニュアルや一般的な製品紹介資料のみの場合は、動画用に構成をまとめるため、この項目をご選択ください。",
+      "label": "動画の企画・台本作成",
+      "helpText": "紹介する内容・構成・話す内容を整理し、動画用の企画書と台本を作成します。紹介項目をまとめた台本や構成案をご用意いただける場合は、選択を外せます。",
       "sourceLabel": "説明用資料の作成",
       "group": "research",
       "min": 10000,
-      "max": 10000
+      "max": 10000,
+      "description": "紹介内容・構成・話す内容を整理した企画書と台本"
     },
     {
       "id": "shooting",
@@ -264,24 +264,16 @@
     },
     {
       "id": "publishing",
-      "label": "公開作業および公開30日後のレポート提出",
-      "helpText": "公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。\nお客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。",
+      "label": "YouTubeへの公開作業",
+      "helpText": "動画の公開設定と概要欄の作成を行います。",
       "sourceLabel": "公開作業",
       "group": "publication",
       "min": 2000,
       "max": 2000,
       "fixed": true
-    },
-    {
-      "id": "shorts",
-      "label": "ショート動画制作・SNSシェア",
-      "sourceLabel": "ショート動画・SNSシェア",
-      "group": "publication",
-      "min": 5000,
-      "max": 5000
     }
   ],
-  "mediaSchema": 1,
+  "mediaSchema": 2,
   "mediaRates": {
     "standaloneShort": {
       "min": 10000,
@@ -294,18 +286,23 @@
       "taxInclusive": true
     },
     "videoAnnouncement": {
-      "min": null,
-      "max": null,
+      "min": 1500,
+      "max": 1500,
       "taxInclusive": true
     },
-    "additionalShortWithoutX": {
-      "min": null,
-      "max": null,
-      "taxInclusive": false
-    },
-    "additionalShortCount": null,
+    "additionalShortCount": 1,
     "shortIncludedRevisions": null,
-    "xIncludedRevisions": null
+    "xIncludedRevisions": null,
+    "additionalShortClip": {
+      "min": 0,
+      "max": 0,
+      "taxInclusive": true
+    },
+    "additionalShortDedicated": {
+      "min": 10000,
+      "max": 10000,
+      "taxInclusive": true
+    }
   },
   "legacyUnversionedRateVersion": "17268bfca1d6"
 }

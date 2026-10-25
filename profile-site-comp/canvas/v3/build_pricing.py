@@ -59,7 +59,7 @@ def content(public_data=None):
   </div></section>
   <section id="pricing-wizard" class="pricing-wizard v3-wrap" aria-label="PRのご依頼内容を選ぶ">
     <div class="simulator-launch">
-      <div><h2>ご希望のPRから、見積もりを作れます</h2><p>本編・ショート動画・X投稿を選び、資料制作や修正回数を指定できます。最後に概算見積書と、ほかの組み合わせの見積もりをご確認いただけます。</p><button type="button" id="wizard-open" class="button primary" aria-haspopup="dialog">料金シミュレーターを開く <span aria-hidden="true">↗</span></button><p class="sheet-note">回答はあとから変更できます。共有URL・PDF保存にも対応しています。</p></div>
+      <div><h2>ご希望のPRから、見積もりを作れます</h2><p>本編・ショート動画・X投稿を選び、事前検証や企画・台本作成、ショートの制作方法を指定できます。最後に概算見積書と、ほかの組み合わせの見積もりをご確認いただけます。</p><button type="button" id="wizard-open" class="button primary" aria-haspopup="dialog">料金シミュレーターを開く <span aria-hidden="true">↗</span></button><p class="sheet-note">回答はあとから変更できます。共有URL・PDF保存にも対応しています。</p></div>
       <aside id="wizard-launch-summary" class="launch-summary" aria-label="見積もりの概要"></aside>
     </div>
     <dialog id="wizard-dialog" class="pricing-simulator" aria-labelledby="wizard-dialog-title">
@@ -112,7 +112,7 @@ def content(public_data=None):
             <li>構成・尺の変更を伴う修正は、要相談とさせていただきます。</li>
           </ul>
           <h3>お客様のご都合によるキャンセル</h3>
-          <ul>
+          <ul data-cancellation-terms>
             <li>事前検証の開始前のキャンセルは、費用をいただきません。</li>
             <li>正式なお見積もりと取引条件にご承諾いただいた後に、サービスの事前検証を開始します。</li>
             <li>サービスの事前検証を開始した時点を「着手」といたします。</li>
@@ -155,19 +155,19 @@ def content(public_data=None):
           </ul>
           <h3>事前検証・秘密保持</h3>
           <ul>
-            <li>事前検証の結果、当方の判断で制作を見送る場合は、検証費を含め費用を請求いたしません。</li>
+            <li data-term-research>事前検証の結果、当方の判断で制作を見送る場合は、検証費を含め費用を請求いたしません。</li>
             <li>有料プランなどの利用料が発生する場合は、制作前に費用負担を確認いたします。</li>
             <li>検証用アカウントは本件の制作にのみ使用し、ログイン情報を第三者に開示いたしません。</li>
             <li>未公開情報は本件の制作にのみ使用し、お客様の許可なく公開・第三者への開示はいたしません。</li>
             <li>公開または制作中止後は検証用アカウントを使用せず、保管したログイン情報を削除いたします。</li>
           </ul>
-          <h3>PR表記・評価・効果レポート</h3>
+          <h3 data-report-heading>PR表記・評価・効果レポート</h3>
           <ul>
             <li>サービスの仕様・料金・利用条件は、ご提供いただいた情報をもとに確認します。公開前に、お客様にも内容のご確認をお願いいたします。</li>
             <li>動画もしくは概要欄の冒頭に「PR」「プロモーションを含む」などの表記を入れます。</li>
             <li>概要欄では、折りたたみ前に表示される範囲に記載します。</li>
             <li>YouTubeの「有料プロモーション」設定を有効にします。</li>
-            <li>公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。</li>
+            <li data-term-report>公開30日後に、動画の再生数・視聴維持率をまとめたレポートをお渡しいたします。</li>
             <li>お客様に計測用リンクをご用意いただける場合は、動画の概要欄に掲載いたします。リンクのクリック数は、お客様側で計測をお願いいたします。</li>
             <li>動画公開によるサービス利用者数・有料プランの契約数・売上の増加は、保証しておりません。</li>
           </ul>

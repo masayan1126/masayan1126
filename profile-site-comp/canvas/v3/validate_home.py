@@ -247,7 +247,8 @@ if BASELINE.exists():
     current = json.loads((ROOT / 'pricing-data.json').read_text())
     for item in current['checklistItems']:
         old = next(row for row in original['checklistItems'] if row['id'] == item['id'])
-        pricing[item['id']] = item['min'] == old['max'] and all(item.get(key) == old.get(key) for key in ('max','taxInclusive','fixed'))
+        # Research became optional at the owner's request (2026-10-25).
+        pricing[item['id']] = item['min'] == old['max'] and all(item.get(key) == old.get(key) for key in ('max','taxInclusive')) and (item.get('fixed') is False if item['id']=='research' else item.get('fixed') == old.get('fixed'))
     pricing['taxRate'] = current['taxRate'] == original['taxRate']
     pricing['revisionFee'] = current['revisionFee'] == original['revisionFee']
     assert all(pricing.values()), pricing

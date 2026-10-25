@@ -76,14 +76,14 @@ test('a supplied export reference is retained in PDF metadata and malformed refe
 
 
 test('item names and descriptions remain together in extracted PDF text',async()=>{
-  const bytes=await createEstimatePdf(data,{items:['materials','thumbnail']},options);
+  const bytes=await createEstimatePdf(data,{items:['research','materials','thumbnail']},options);
   const extracted=spawnSync('pdftotext',['-f','1','-l','1','-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
   if(extracted.error) throw extracted.error;
   assert.equal(extracted.status,0,extracted.stderr);
   const text=extracted.stdout;
-  assert.ok(text.includes('動画で使用する資料の作成\n説明内容と順番をまとめた動画用資料'));
+  assert.ok(text.replace(/\s+/gu,'').includes('動画の企画・台本作成紹介内容・構成・話す内容を整理した企画書と台本'));
   assert.ok(text.includes('動画編集\nカット、テロップ、BGM、効果音'));
-  const ordered=['サービスの事前検証','動画で使用する資料の作成','動画撮影','動画編集','サムネイル制作','公開作業および公開30日後のレポート提出'];
+  const ordered=['サービスの事前検証','動画の企画・台本作成','動画撮影','動画編集','サムネイル制作','YouTubeへの公開作業'];
   let last=-1;
   for(const label of ordered) {
     const offset=text.indexOf(label);
@@ -116,13 +116,35 @@ test('all seven media offers have matching PDF amounts, conditions and restoring
       assert.ok(!text.includes('サービス紹介動画1本'));
       assert.ok(!text.includes('本編動画はYouTube'));
       assert.ok(!text.includes('撮影開始時点'));
-      assert.doesNotMatch(text,/(?<![\d,])0円/);
+      if(r.lines.some(line=>line.min==null))assert.ok(text.includes('要相談'));
     }
     const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
     const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
     assert.deepEqual(quote(data,stateFromUrl(data,link)),r);
   }
   await assert.rejects(createEstimatePdf(data,{media:[]},options),/制作物/);
+});
+
+test('production options agree in PDF prices, scope, removed reports and restoring links',async()=>{
+  for(const state of [
+    {media:['main','short'],items:['materials','thumbnail'],shortMode:'clip',report:false},
+    {media:['main','short','x'],items:['research','materials','thumbnail'],shortMode:'dedicated',report:true},
+    {media:['short'],items:[],report:true},
+  ]) {
+    const result=quote(data,state),view=quotePresentation(data,state,result);
+    const bytes=await createEstimatePdf(data,state,options),doc=await PDFDocument.load(bytes);
+    const extracted=spawnSync('pdftotext',['-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+    assert.equal(extracted.status,0,extracted.stderr);
+    const text=extracted.stdout.replace(/\s+/gu,'');
+    assert.ok(text.includes(view.totalText));
+    for(const line of result.lines)assert.ok(text.includes(line.label.replace(/\s+/gu,'')),line.label);
+    for(const scope of view.scope)assert.ok(text.includes(scope.replace(/\s+/gu,'')),scope);
+    assert.ok(!text.includes('公開30日後'));
+    if(!state.items.includes('research'))assert.ok(!text.includes('サービスの事前検証を開始した時点を「着手」といたします。'));
+    const annotation=doc.context.lookup(doc.getPage(0).node.Annots().get(0));
+    const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
+    assert.deepEqual(quote(data,stateFromUrl(data,link)),result);
+  }
 });
 
 test('long multiline requests continue onto new PDF pages and retain their restoring link',async()=>{
