@@ -1,3 +1,4 @@
+// Preserve regression coverage for the published range-price snapshot.
 // Run with PRICING_PRIVATE_FIXTURE pointing at a local, ignored offer fixture.
 // Individual-contract amounts deliberately do not appear in tracked test data.
 import test from 'node:test';
@@ -6,7 +7,7 @@ import {readFileSync} from 'node:fs';
 import {quote,summary,estimateUrl,stateFromUrl,comparisonQuotes} from './pricing-model.mjs';
 test('private reference conditions reproduce all seven offers without double tax or shared-work charges',{skip:!process.env.PRICING_PRIVATE_FIXTURE},()=>{
   const fixture=JSON.parse(readFileSync(process.env.PRICING_PRIVATE_FIXTURE));
-  const data=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
+  const data=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
   data.rateVersion='123456abcdef';Object.assign(data.mediaRates,fixture.overrides);
   for(const [media,min,max] of fixture.expected){
     const state={media,items:['materials','thumbnail']},r=quote(data,state);

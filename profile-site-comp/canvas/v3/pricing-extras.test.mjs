@@ -1,8 +1,9 @@
+// Preserve regression coverage for the published range-price snapshot.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote,extrasPresentation} from './pricing-model.mjs';
-const data=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
+const data=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
 const base={media:['main'],items:['materials','thumbnail'],revisions:2,custom:[]};
 
 test('each consultation request stays outside the priced subtotal and is identified explicitly',()=>{

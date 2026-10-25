@@ -1,9 +1,10 @@
+// Preserve regression coverage for the published range-price snapshot.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote} from './pricing-model.mjs';
 import {fixedReviewRates,relatedQuotes,reviewSummary,combinations} from './pricing-flows-model.mjs';
-const source=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
+const source=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
 const state={media:['main'],items:['materials','thumbnail'],revisions:2,custom:[],notes:''};
 
 test('fixed-price proposals use existing upper amounts without changing published data or unknown media rates',()=>{
@@ -50,7 +51,7 @@ test('prototype summaries carry fixed amounts and requests without creating a co
   const data=fixedReviewRates(source);
   for(const media of combinations){
     const text=reviewSummary(data,{...state,media,notes:'掲載期間の相談'});
-    assert.ok(text.includes('未承認'));
+    assert.ok(text.includes('画面比較用'));
     assert.ok(text.includes('掲載期間の相談'));
     assert.ok(!text.includes('https://studio.msyn.me/pricing/'));
     assert.ok(!/\d円[〜～]/.test(text));

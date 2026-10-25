@@ -44,7 +44,7 @@ def groups():
     return ''.join(result)
 
 def public_rates():
-    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates')}
+    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates','legacyUnversionedRateVersion')}
 
 def content(public_data=None):
     if public_data is None: public_data=public_rates()
@@ -58,10 +58,18 @@ def content(public_data=None):
     <div id="share-load-error" class="estimate-error" role="alert" hidden><p>共有された見積もりを読み込めませんでした。URLをご確認ください。</p><a href="/pricing/">新しく見積もる</a></div>
   </div></section>
   <section id="pricing-wizard" class="pricing-wizard v3-wrap" aria-label="PRのご依頼内容を選ぶ">
-    <div id="wizard-workspace"><p>見積もりの選択項目を読み込んでいます。</p></div>
+    <div class="simulator-launch">
+      <div><h2>ご希望のPRから、見積もりを作れます</h2><p>本編・ショート動画・X投稿を選び、資料制作や修正回数を指定できます。最後に概算見積書と、ほかの組み合わせの見積もりをご確認いただけます。</p><button type="button" id="wizard-open" class="button primary" aria-haspopup="dialog">料金シミュレーターを開く <span aria-hidden="true">↗</span></button><p class="sheet-note">回答はあとから変更できます。共有URL・PDF保存にも対応しています。</p></div>
+      <aside id="wizard-launch-summary" class="launch-summary" aria-label="見積もりの概要"></aside>
+    </div>
+    <dialog id="wizard-dialog" class="pricing-simulator" aria-labelledby="wizard-dialog-title">
+      <header class="simulator-header"><div><p>PR制作・掲載のお見積もり</p><h2 id="wizard-dialog-title" tabindex="-1">料金シミュレーター</h2></div><button type="button" id="wizard-close" class="simulator-close">閉じる <span aria-hidden="true">×</span></button></header>
+      <div id="wizard-scroll" class="simulator-scroll"><div id="wizard-workspace"><p>見積もりの選択項目を読み込んでいます。</p></div></div>
+      <footer id="wizard-comparison-dock" class="comparison-dock" aria-label="別の組み合わせのご案内" hidden></footer>
+      <div id="wizard-live" class="estimate-sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+    </dialog>
     <p class="wizard-contact-note">どの内容が合うか迷われる場合は、<a href="/contact/?type=pr#contact-form">PRについて相談する</a>から、お気軽にお問い合わせください。</p>
     <noscript><p>見積もりの自動計算にはJavaScriptが必要です。ご希望の内容は、お問い合わせからもご相談いただけます。</p></noscript>
-    <div id="wizard-live" class="estimate-sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   </section>
   <div id="legacy-estimate" hidden>
   <section class="v3-wrap estimate-comparison" aria-labelledby="comparison-heading">

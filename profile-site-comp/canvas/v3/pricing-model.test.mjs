@@ -1,8 +1,9 @@
+// Preserve regression coverage for the published range-price snapshot.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote, summary, mailto, amountText, taxIncluded, selectedFromUrl, estimateUrl, loadSharedRates} from './pricing-model.mjs';
-const data=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url)));
+const data=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
 const source=JSON.parse(readFileSync(new URL('./pricing-proposal.json',import.meta.url)));
 const optional=data.checklistItems.filter(x=>!x.fixed&&x.min!=null).map(x=>x.id);
 test('source rates are preserved except explicitly revised preparation and production prices',()=>{

@@ -1,8 +1,9 @@
+// Preserve regression coverage for the published range-price snapshot.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote,summary,estimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,amountText,taxIncluded,quotePresentation} from './pricing-model.mjs';
-const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'123456abcdef'};
+const data={...JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url))),rateVersion:'123456abcdef'};
 const combinations=[['x'],['short'],['short','x'],['main'],['main','x'],['main','short'],['main','short','x']];
 test('public offers preserve main work and keep unapproved amounts and conditions pending',()=>{
   for (const media of combinations) {

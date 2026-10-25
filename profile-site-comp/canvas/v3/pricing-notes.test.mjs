@@ -1,8 +1,9 @@
+// Preserve regression coverage for the published range-price snapshot.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {quote,quotePresentation,extrasPresentation,summary,estimateUrl,stateFromUrl,normalizeNotes} from './pricing-model.mjs';
-const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'17268bfca1d6'};
+const data={...JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url))),rateVersion:'17268bfca1d6'};
 const notes='準備物や作業の分担を相談したい\n目安より大幅に長い動画を依頼したい';
 const base={media:['main'],items:['materials','thumbnail'],revisions:3,custom:[]};
 

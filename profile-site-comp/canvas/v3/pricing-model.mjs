@@ -54,7 +54,8 @@ export function stateFromUrl(data, url) {
 }
 
 export async function loadSharedRates(currentData, url, readSnapshot) {
-  const version = new URL(url).searchParams.get('v');
+  const params=new URL(url).searchParams;
+  const version = params.get('v') ?? (params.has('items')&&!params.has('media') ? currentData.legacyUnversionedRateVersion??null : null);
   if (version === null || version === currentData.rateVersion) return currentData;
   if (!/^[a-f0-9]{12}$/.test(version)) throw new Error('Invalid rate version');
   const archived = await readSnapshot(version);
@@ -246,4 +247,20 @@ export function comparisonQuotes(data) {
     const state={media,items:['materials','thumbnail']},result=quote(data,state);
     return {state,result,view:quotePresentation(data,state,result),index};
   }).sort((a,b)=> (a.result.totalMin??Infinity)-(b.result.totalMin??Infinity) || a.state.media.length-b.state.media.length || a.index-b.index);
+}
+
+// Alternatives retain the current answers and rate snapshot. Unknown amounts
+// remain pending, and are never used as a zero-price difference.
+export function alternativeQuotes(data,state) {
+  const current=quote(data,state);
+  if(!Array.isArray(current.media)||['invalid','empty'].includes(current.status))return [];
+  return comparisonQuotes(data).filter(row=>!(row.state.media.length===current.media.length&&row.state.media.every(id=>current.media.includes(id)))).map(row=>{
+    const next={...state,media:[...row.state.media]},result=quote(data,next),view=quotePresentation(data,next,result);
+    const added=next.media.filter(id=>!current.media.includes(id)),removed=current.media.filter(id=>!next.media.includes(id));
+    const label=added.length===1&&!removed.length
+      ? added[0]==='x'?'公開動画をXでも告知する場合':added[0]==='short'?'ショート動画でも紹介する場合':'本編でも詳しく紹介する場合'
+      : view.mediaLabel+'の場合';
+    const knownDelta=!current.pending.length&&!result.pending.length&&current.totalMin===current.totalMax&&result.totalMin===result.totalMax?result.totalMin-current.totalMin:null;
+    return {state:next,result,view,label,added,removed,knownDelta,index:row.index};
+  }).sort((a,b)=>(a.result.totalMin??Infinity)-(b.result.totalMin??Infinity)||a.state.media.length-b.state.media.length||a.index-b.index);
 }

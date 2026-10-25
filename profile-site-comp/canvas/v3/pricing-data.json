@@ -1,5 +1,5 @@
 {
-  "updated": "2026年10月24日",
+  "updated": "2026年10月25日",
   "taxRate": 0.1,
   "revisionFee": 5000,
   "plans": [
@@ -181,7 +181,7 @@
       "label": "掲載期間を指定したい"
     }
   ],
-  "rateMode": "range",
+  "rateMode": "fixed",
   "baseDescription": "チェックが付いていて選択を外せない項目は、基本料金に含まれます。",
   "checklistGroups": [
     {
@@ -220,7 +220,7 @@
       "helpText": "サービスの機能や操作手順を確認し、動画で紹介する内容を検証します。",
       "sourceLabel": "リサーチ・事前検証",
       "group": "research",
-      "min": 5000,
+      "min": 8000,
       "max": 8000,
       "fixed": true
     },
@@ -230,7 +230,7 @@
       "helpText": "動画内で使用する説明用資料（台本のような構成に近い資料）を作成します。\n動画で説明する内容と順番がまとまった資料をご用意いただいている場合は、そちらを使用いたします。\nその場合、この項目の選択は不要です。\nご用意いただけるのが製品マニュアルや一般的な製品紹介資料のみの場合は、動画用に構成をまとめるため、この項目をご選択ください。",
       "sourceLabel": "説明用資料の作成",
       "group": "research",
-      "min": 8000,
+      "min": 10000,
       "max": 10000
     },
     {
@@ -239,7 +239,7 @@
       "helpText": "本編は10〜20分程度を想定しております。\n30分を超える動画や撮り直しの料金は、要相談とさせていただきます。\n台本の文字数の目安（1分あたり約300字で換算）\n10分：約3,000字\n20分：約6,000字\n30分：約9,000字\n画面操作の時間や話す速さにより、実際の動画の長さは変わります。",
       "sourceLabel": "動画撮影",
       "group": "production",
-      "min": 8000,
+      "min": 10000,
       "max": 10000,
       "fixed": true
     },
@@ -306,5 +306,6 @@
     "additionalShortCount": null,
     "shortIncludedRevisions": null,
     "xIncludedRevisions": null
-  }
+  },
+  "legacyUnversionedRateVersion": "17268bfca1d6"
 }

@@ -12,6 +12,16 @@ const source=JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.u
 const data={...source,rateVersion:createHash('sha256').update(JSON.stringify(source)).digest('hex').slice(0,12)};
 const options={PDFDocument,PDFString,rgb,fontkit,fontBytes:readFileSync(new URL('./pdf-assets/NotoSansJP-Regular.ttf',import.meta.url)),date:new Date('2026-09-06T00:00:00Z')};
 
+test('PDF range explanations match fixed, historical and unpriced work',async()=>{
+  const previous=JSON.parse(readFileSync(new URL('./pricing-rates/17268bfca1d6.json',import.meta.url)));
+  for(const [rates,media,hasRange] of [[data,['main'],false],[previous,['main'],true],[data,['short'],false]]) {
+    const bytes=await createEstimatePdf(rates,{media,items:['materials','thumbnail']},options);
+    const extracted=spawnSync('pdftotext',['-layout','-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+    assert.equal(extracted.status,0,extracted.stderr);
+    assert.equal(extracted.stdout.includes('料金に幅がある項目は'),hasRange);
+  }
+});
+
 test('all current selections export as readable A4 PDF documents',async()=>{
   const optional=data.checklistItems.filter(item=>!item.fixed).map(item=>item.id);
   for(let mask=0;mask<2**optional.length;mask++) {
