@@ -4,7 +4,17 @@ const host = document.querySelector('.immersive-hero');
 const video = host.querySelector('#scene'), wrap = host.querySelector('.world'), link = host.querySelector('.monitor-link');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const set = JSON.parse(video.dataset.sets);   // { webm, hevc, poster, w, h }
-let track = null, raf = 0, visible = true;
+let track = null, raf = 0, visible = true, userPaused = false;
+const motionToggle = host.querySelector('.hero-motion-toggle');
+function updatePlayback() {
+  const playing = visible && !reduce.matches && !userPaused && !document.hidden;
+  if (playing) video.play().catch(() => {}); else video.pause();
+  motionToggle.hidden = reduce.matches;
+  motionToggle.setAttribute('aria-pressed', String(userPaused));
+  motionToggle.textContent = userPaused ? '背景の動きを再生する' : '背景の動きを止める';
+}
+motionToggle.addEventListener('click', () => { userPaused = !userPaused; updatePlayback(); });
+document.addEventListener('visibilitychange', updatePlayback);
 
 // Transparent video: Safari only keeps the alpha channel in HEVC; Chrome, Edge and Firefox in VP9 WebM.
 const safari = /^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
@@ -33,8 +43,8 @@ video.addEventListener('seeked', schedule);
 fetch(video.dataset.track).then(r => r.json()).then(j => { track = j; schedule(); }).catch(() => {});
 new IntersectionObserver(entries => {
   visible = entries[0].isIntersecting;
-  if (visible && !reduce.matches) video.play().catch(() => {}); else video.pause();
+  updatePlayback();
 }, { threshold: 0 }).observe(host);
-reduce.addEventListener('change', () => { if (reduce.matches) video.pause(); else if (visible) video.play().catch(() => {}); });
+reduce.addEventListener('change', updatePlayback);
 video.load();
-if (!reduce.matches) video.play().catch(() => {});
+updatePlayback();

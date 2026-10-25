@@ -90,6 +90,13 @@ def render_works(files, *, excerpt=False, single=None):
             dest, label = destinations[index]
             if dest:
                 revised = re.sub(r'<a class="detail-link".*?</a>', '<a class="detail-link" href="' + files[dest] + '"><span>' + label + '</span><span aria-hidden="true">↗</span></a>', revised, flags=re.S)
+            if index < 4 and single is None:
+                from site_journeys import action
+                request_label, request_url = [('開発・AI導入を相談する', '/contact/?type=web#contact-form'),
+                                               ('MCPの開発を相談する', '/contact/?type=web#contact-form'),
+                                               ('PR動画の料金を見積もる', '/pricing/'),
+                                               ('登壇を相談する', '/contact/?type=talk#contact-form')][index]
+                revised = revised.replace('</article>', '<div class="case-request">' + action(request_label, request_url) + '</div></article>')
         source = source.replace(case, revised)
         cases[index] = revised
     if single is not None:
@@ -209,7 +216,7 @@ def render_media(videos, ratecard, channel_story, membership_route):
               '<div class="grid3 pr-offers">' + ''.join(f'<div class="card"><h3>{t}</h3><p>{d}</p></div>' for t, d in PR_OFFERS) + '</div>'
               + ratecard.replace('</a></div>', '</a> <a class="v3-secondary" href="/contact/?type=pr#contact-form">PR・タイアップを相談する <span aria-hidden="true">→</span></a></div>', 1)
               + '</div></div>')
-    return (channel + render_pr_works() + offers + channel_story
+    return (offers + render_pr_works() + channel + channel_story
             + '<section class="sec"><div class="wrap">' + membership_route + '</div></section>')
 
 
@@ -226,7 +233,7 @@ def render_contact_form():
     script = """<script>(()=>{const f=document.getElementById('inquiry-form');if(!f)return;const s=f.querySelector('.form-status'),b=f.querySelector('button');
 const K={web:['開発・AI導入のご依頼','Webサービス開発について。作りたいもの・時期・ご予算の目安など、分かる範囲でお書きください。'],ai:['開発・AI導入のご依頼','AI導入支援について。使っているツール・チームの人数・困っていることなど、分かる範囲でお書きください。'],pr:['PR・タイアップのご依頼','紹介したい製品・公開の時期・ご予算の目安など、分かる範囲でお書きください。'],talk:['登壇のご依頼','イベント名・日時・形式（オンライン／会場）・持ち時間など、分かる範囲でお書きください。'],video:['動画編集のご依頼','動画の内容・長さ・本数・納期など、分かる範囲でお書きください。'],recruit:['採用・業務委託のご相談','募集内容・働き方（正社員／業務委託／技術顧問）など、分かる範囲でお書きください。']};
 const k=K[new URLSearchParams(location.search).get('type')];if(k){f.elements.kind.value=k[0];f.elements.body.placeholder=k[1];}
-f.addEventListener('submit',async e=>{e.preventDefault();b.disabled=true;s.className='form-status';s.textContent='送信しています…';
+f.addEventListener('submit',async e=>{e.preventDefault();if(!f.reportValidity())return;b.disabled=true;s.className='form-status';s.textContent='送信しています…';
 try{const r=await fetch('https://studio.msyn.me/api/contact',{method:'POST',body:new FormData(f)});const j=await r.json().catch(()=>({}));
 if(r.ok&&j.ok){f.reset();s.className='form-status ok';s.textContent='送信しました。ありがとうございます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。';}
 else{s.className='form-status ng';s.textContent=(j.error||'送信できませんでした。')+' 急ぎの場合は contact@msyn.me へメールでお送りください。';}}
@@ -234,7 +241,7 @@ catch(_){s.className='form-status ng';s.textContent='送信できませんでし
 finally{b.disabled=false;}});})();</script>"""
     return ('<section class="sec contact-form-sec" id="contact-form"><div class="wrap"><div class="contact-form-card">'
             '<h2>フォームから送る</h2><p class="lead">入力して「送信する」を押すと、この場で送信されます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。</p>'
-            '<form id="inquiry-form" novalidate><label><span class="field">ご相談の種類<span class="req">必須</span></span><select name="kind" required><option value="">選んでください</option>' + options + '</select></label>'
+            '<form id="inquiry-form"><label><span class="field">ご相談の種類<span class="req">必須</span></span><select name="kind" required><option value="">選んでください</option>' + options + '</select></label>'
             '<label><span class="field">お名前<span class="req">必須</span></span><input name="name" required maxlength="100" autocomplete="name"></label>'
             '<label><span class="field">会社名・団体名<span class="opt">任意</span></span><input name="org" maxlength="150" autocomplete="organization"></label>'
             '<label><span class="field">メールアドレス<span class="req">必須</span></span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>'

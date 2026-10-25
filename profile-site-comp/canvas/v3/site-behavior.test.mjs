@@ -1,0 +1,43 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import {execFileSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+
+test('contact form rejects invalid input before network activity and restores the button after valid submission', async()=>{
+  const html=execFileSync('python3',['-c',"import runpy,sys;print(runpy.run_path(sys.argv[1])['render_contact_form']())",fileURLToPath(new URL('./build_sections.py',import.meta.url))],{encoding:'utf8'});
+  const script=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]).find(s=>s.includes("const f=document.getElementById('inquiry-form')"));
+  let valid=false,submit,requests=0,resets=0;
+  const status={},button={disabled:false};
+  const form={querySelector:s=>s==='.form-status'?status:button,elements:{},reportValidity:()=>valid,reset:()=>resets++,addEventListener:(name,fn)=>{if(name==='submit')submit=fn;}};
+  vm.runInNewContext(script,{document:{getElementById:()=>form},location:{search:''},URLSearchParams,FormData:class {},fetch:async()=>{requests++;return {ok:true,json:async()=>({ok:true})};}});
+  await submit({preventDefault(){}});
+  assert.equal(requests,0);
+  assert.equal(button.disabled,false);
+  valid=true;
+  await submit({preventDefault(){}});
+  assert.equal(requests,1);
+  assert.equal(resets,1);
+  assert.equal(button.disabled,false);
+  assert.match(status.textContent,/2営業日/);
+});
+
+test('background motion keeps a manual pause across visibility and reduced-motion changes',()=>{
+  const source=readFileSync(new URL('./home-3d/diorama/video-hero.js',import.meta.url),'utf8');
+  const handlers={},videoHandlers={};let intersection,preferenceChange;
+  const preference={matches:false,addEventListener:(_,fn)=>{preferenceChange=fn;}};
+  const video={dataset:{sets:JSON.stringify({webm:'scene.webm',hevc:'scene.mp4',poster:'scene.webp',w:100,h:80}),track:'track.json'},paused:true,append(){},addEventListener:(name,fn)=>{videoHandlers[name]=fn;},play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},load(){}};
+  const toggle={hidden:true,attrs:{},addEventListener:(name,fn)=>{handlers[name]=fn;},setAttribute(name,value){this.attrs[name]=value;}};
+  const host={querySelector:s=>({'#scene':video,'.world':{style:{setProperty(){}}},'.monitor-link':{},'.hero-motion-toggle':toggle})[s],classList:{add(){}}};
+  const document={hidden:false,querySelector:()=>host,createElement:()=>({}),addEventListener:(name,fn)=>{handlers[name]=fn;}};
+  vm.runInNewContext(source,{document,navigator:{userAgent:'Chrome'},matchMedia:()=>preference,IntersectionObserver:class{constructor(fn){intersection=fn;}observe(){}},fetch:()=>new Promise(()=>{}),requestAnimationFrame:()=>1});
+  assert.equal(video.paused,false);
+  handlers.click();assert.equal(video.paused,true);assert.equal(toggle.attrs['aria-pressed'],'true');
+  intersection([{isIntersecting:false}]);intersection([{isIntersecting:true}]);assert.equal(video.paused,true);
+  preference.matches=true;preferenceChange();assert.equal(toggle.hidden,true);
+  preference.matches=false;preferenceChange();assert.equal(video.paused,true);
+  handlers.click();assert.equal(video.paused,false);
+  document.hidden=true;handlers.visibilitychange();assert.equal(video.paused,true);
+  document.hidden=false;handlers.visibilitychange();assert.equal(video.paused,false);
+});

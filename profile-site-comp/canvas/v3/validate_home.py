@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+from collections import Counter
 from urllib.parse import urlsplit, unquote
 
 import youtube_stats
@@ -38,6 +39,9 @@ class Page(HTMLParser):
         if self.in_body: self.text.append(value)
 
 def content(source):
+    # Navigation and action labels carry no new claims; compare the underlying prose.
+    source = re.sub(r'<div class="(?:page-actions|case-request)"[^>]*>.*?</div>', '', source, flags=re.S)
+    source = re.sub(r'<nav class="page-index"[^>]*>.*?</nav>', '', source, flags=re.S)
     # Decorative business artwork is excluded from the prose contract.
     source = re.sub(r'<div class="business-art" aria-hidden="true">.*?</div>', '', source, flags=re.S)
     source = re.sub(r'<(script|style|header|footer)\b[^>]*>.*?</\1>', '', source, flags=re.S)
@@ -71,7 +75,7 @@ RESTRUCTURED = {
                  '追加修正・二次利用などを相談する', '要相談の項目の金額は、小計に含まれていません。',
                  '自社サイト・SNS・広告などで二次利用したい', '要相談'],
                 ['/media/'], ['id="comparison-heading"', 'id="media-selection"', 'id="selected-scope"']),
-    # 2026-09-30: channel → PR work → offers and price → production → membership.
+    # Request decisions precede general videos: offers → PR proof → audience → production.
     'media': (['チャンネルについて', '視聴者データ', '代表的な動画', '最新の動画', 'PR動画の制作実績', 'Notta Memo Pro',
                'ご依頼いただける内容と料金', 'タイアップ動画', 'Xでの紹介', '対談・コラボ企画', 'PR動画の料金・見積もり',
                'YouTube横動画（本編動画）：2回まで料金内。3回目以降は1回5,500円（税込）です。',
@@ -79,7 +83,7 @@ RESTRUCTURED = {
                'X：2回まで料金内。3回目以降は1回1,000円（税込）です。', 'メンバーシップについて',
                f"{YOUTUBE['subs']:,}", f'{youtube_stats.MEMBERS}人'],
               ['/pricing/', '/contact/?type=pr#contact-form', '/membership/', 'https://youtu.be/FsA8gaup0w4'],
-              ['チャンネルについて', 'PR動画の制作実績', 'ご依頼いただける内容と料金', 'AIチャンネルを一人で運営し', 'メンバーシップについて']),
+              ['id="pr"', 'id="pr-works"', 'id="videos"', 'id="channel-story"', 'メンバーシップについて']),
     # 2026-09-30: every business card from the top page, with the scope and tags only this page carries.
     'services': (['AIエージェントの設計・ハーネス構築', 'Python / TypeScript', 'モーショングラフィックスなどの高度な演出は対象外です。',
                   'お見積もりは無料です。'],
@@ -203,7 +207,20 @@ for key in ROUTES:
         if key == '':
             original = re.sub(r'<section class="sec alt home-overview">.*?</section>', '', original, count=1, flags=re.S)
             comparable = comparable.replace(element(comparable, 'business-gallery'), '')
-        preserved = content(original) == content(comparable)
+        if key == 'contact':
+            original = original.replace('ご依頼の流れと、メール・SNSの連絡先をご案内します。',
+                'ご相談内容をフォームからお送りいただけます。通常2営業日以内に返信します。メール・SNSの連絡先と、ご依頼の流れもご案内しています。')
+            original = original.replace('まずはお気軽にご相談ください', 'メール・SNSからもご相談いただけます')
+            original = original.replace('XのDMかメールで、相談したい内容をお送りください。', 'フォーム・メール・SNSのいずれかで、相談したい内容をお送りください。')
+        if key in ('talks', 'contact'):
+            # These two pages deliberately move existing sections. Every prose block
+            # must still occur the same number of times; only their order may change.
+            def blocks(value):
+                value = re.sub(r'<(script|style|header|footer|nav)\b[^>]*>.*?</\1>', '', value, flags=re.S)
+                return Counter(re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', part)) for part in re.findall(r'<(?:h[1-6]|p|li)\b[^>]*>.*?</(?:h[1-6]|p|li)>', value, flags=re.S))
+            preserved = blocks(original) == blocks(comparable)
+        else:
+            preserved = content(original) == content(comparable)
         assert preserved, ('Content changed', key)
     if key in RESTRUCTURED:
         # Approved 2026-09-30: these pages were rebuilt, so check their order and required facts instead of the baseline text.

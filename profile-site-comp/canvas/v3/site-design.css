@@ -109,7 +109,7 @@ body.site-renewal{font-family:var(--sans);font-synthesis:none;-webkit-font-smoot
 
 /* 事業内容カード: 悩み → 内容 → 根拠 → 行動 (2026-09-26)。開発の2枚を上段、残り3枚を下段に並べる。 */
 .site-renewal .business-gallery .business-copy p.business-pain{font-size:14px;line-height:1.75;color:#133f8f;font-weight:650;margin:0 0 12px}
-.site-renewal .business-gallery .business-copy p.business-proof{font-size:13px;line-height:1.8;color:#3d3c38;background:#f4f6fa;border-left:3px solid #133f8f;padding:10px 12px;margin:0 0 22px}
+.site-renewal .business-gallery .business-copy p.business-proof{font-size:15px;line-height:1.9;color:#243b5c;background:#f1f4f8;border:0;padding:16px 18px;margin:20px 0 22px}
 .site-renewal .business-gallery .business-actions{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding-top:18px;border-top:1px solid #dde2e6}
 .site-renewal .business-gallery .business-cta{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:#133f8f;color:#fff;font-size:14px;font-weight:700;text-decoration:none;border:1px solid #133f8f}
 .site-renewal .business-gallery .business-cta:hover,.site-renewal .business-gallery .business-cta:focus-visible{background:#fff;color:#133f8f}
