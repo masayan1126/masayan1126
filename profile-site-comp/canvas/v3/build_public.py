@@ -114,6 +114,12 @@ archive.mkdir(exist_ok=True)
 snapshot = archive / (rate_version + '.json')
 if not snapshot.exists():
     snapshot.write_text(json.dumps(rate_data, ensure_ascii=False, indent=2) + '\n')
+# Export the managed archive exactly; discarded local prototypes are not releases.
+exported_archive = OUT / 'pricing-rates'
+if exported_archive.exists():
+    for stale in exported_archive.glob('*.json'):
+        if not (archive / stale.name).exists():
+            stale.unlink()
 shutil.copytree(archive, OUT / 'pricing-rates', dirs_exist_ok=True)
 # Content-addressed assets prevent an older cached stylesheet or model from mixing
 # with the updated estimate form.
