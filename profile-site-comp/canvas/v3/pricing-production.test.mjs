@@ -1,9 +1,50 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {quote,quotePresentation,summary,estimateUrl,latestEstimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems} from './pricing-model.mjs';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {quote,quotePresentation,summary,estimateUrl,latestEstimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems,prHistoryPresentation} from './pricing-model.mjs';
 const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'123456abcdef'};
 const items=defaultItems(data);
+
+test('the public build retains the policy used to show PR-history answers',()=>{
+  const built=spawnSync('python3',['-c','import json,runpy,sys; print(json.dumps(runpy.run_path(sys.argv[1])["public_rates"]()))',fileURLToPath(new URL('./build_pricing.py',import.meta.url))],{encoding:'utf8'});
+  assert.equal(built.status,0,built.stderr);
+  const publicData=JSON.parse(built.stdout);
+  const state={media:['main'],items:['materials','thumbnail']};
+  assert.deepEqual(prHistoryPresentation(publicData,state),prHistoryPresentation(data,state));
+  assert.equal(publicData.researchPolicy,'prior-pr-request');
+});
+
+test('prior PR requests determine research fees consistently in shared quotes and inquiry/PDF presentation',()=>{
+  assert.equal(data.researchPolicy,'prior-pr-request');
+  for(const previous of [false,true])for(const media of [['main'],['main','short'],['main','x'],['main','short','x']]) {
+    const state={media,items:items.filter(id=>!previous||id!=='research'),revisions:2};
+    const result=quote(data,state),history=prHistoryPresentation(data,state),view=quotePresentation(data,state,result);
+    assert.equal(history.previousRequest,previous);
+    assert.equal(history.feeText,previous?'0円（税込）':'8,800円（税込）');
+    assert.equal(result.lines.some(line=>line.id==='research'),!previous);
+    assert.equal(result.totalMin,(previous?44200:53000)+(media.includes('x')?1500:0));
+    assert.ok(view.scope.includes(history.description));
+    assert.ok(summary(data,state).includes(history.description));
+    const restored=stateFromUrl(data,estimateUrl(data,state));
+    assert.deepEqual(prHistoryPresentation(data,restored),history);
+    assert.deepEqual(quote(data,restored),result);
+  }
+  for(const media of [[],['short'],['x'],['short','x']])assert.equal(prHistoryPresentation(data,{media,items}),null);
+});
+
+test('old optional research is kept distinct from a confirmed previous PR request',async()=>{
+  const old=JSON.parse(readFileSync(new URL('./pricing-rates/4f6dad17c97f.json',import.meta.url)));
+  const state={media:['main'],items:['materials','thumbnail']};
+  const url=estimateUrl(old,state),loaded=await loadSharedRates(data,url,async()=>old);
+  assert.equal(quote(loaded,stateFromUrl(loaded,url)).totalMin,44200);
+  assert.equal(prHistoryPresentation(loaded,state),null);
+  assert.equal(loaded.checklistItems.find(item=>item.id==='research').helpText,old.checklistItems.find(item=>item.id==='research').helpText);
+  const upgraded=stateFromUrl(data,latestEstimateUrl(old,data,state));
+  assert.ok(upgraded.items.includes('research'));
+  assert.equal(quote(data,upgraded).totalMin,53000);
+});
 
 test('switching explicitly from an old quote preserves answers and opens optional research without rewriting the original',()=>{
   const old=JSON.parse(readFileSync(new URL('./pricing-rates/04da1a7ceffd.json',import.meta.url)));

@@ -44,7 +44,7 @@ def groups():
     return ''.join(result)
 
 def public_rates():
-    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates','legacyUnversionedRateVersion')}
+    return {key:DATA[key] for key in ('updated','taxRate','revisionFee','rateMode','baseDescription','checklistGroups','checklistItems','custom','mediaSchema','mediaRates','legacyUnversionedRateVersion','researchPolicy')}
 
 def content(public_data=None):
     if public_data is None: public_data=public_rates()

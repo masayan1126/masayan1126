@@ -8,6 +8,16 @@ export function amountText(min, max) {
   return min === max ? yen(min) : yen(min) + '〜' + yen(max);
 }
 
+export function prHistoryPresentation(data,state) {
+  if(data.researchPolicy!=='prior-pr-request'||!state.media?.includes('main'))return null;
+  const previousRequest=!(state.items??[]).includes('research');
+  const rate=data.checklistItems.find(item=>item.id==='research');
+  const fee=previousRequest?'0円':amountText(taxIncluded(rate.min,data.taxRate,rate.taxInclusive),taxIncluded(rate.max,data.taxRate,rate.taxInclusive));
+  return {question:'このサービス・製品のPRを、以前にも当方へ依頼したことはありますか？',previousRequest,
+    answer:previousRequest?'ある（リピートのご依頼）':'ない（初めてのご依頼）',feeText:fee+'（税込）',
+    description:previousRequest?'同じサービス・製品のPR依頼歴：あり。事前検証費用はかかりません（0円）。':'同じサービス・製品のPR依頼歴：なし。事前検証費用'+fee+'（税込）を含みます。'};
+}
+
 export function selectedFromUrl(data, url) {
   const requested = new Set(new URL(url).searchParams.getAll('items').flatMap(value => value.split(',')));
   return data.checklistItems.filter(item => !item.fixed && requested.has(item.id)).map(item => item.id);
@@ -41,6 +51,8 @@ export const MEDIA = ['main','short','x'];
 export function latestEstimateUrl(previous,current,state,base='https://studio.msyn.me/pricing/#production-options') {
   // Carry requested work forward; work that used to be mandatory starts selected.
   const selected=new Set(state.items??[]);
+  // An old optional-work answer does not establish that this product was promoted before.
+  if(current.researchPolicy==='prior-pr-request'&&previous.researchPolicy!==current.researchPolicy)selected.add('research');
   const items=current.checklistItems.filter(item=>!item.fixed&&(selected.has(item.id)||previous.checklistItems.some(old=>old.id===item.id&&old.fixed))).map(item=>item.id);
   const media=Array.isArray(state.media)?state.media:['main',...(selected.has('shorts')?['short','x']:[])];
   return estimateUrl(current,{...state,media,items,shortMode:shortMode(state)},base);
@@ -80,7 +92,7 @@ export async function loadSharedRates(currentData, url, readSnapshot) {
   return {...archived, checklistItems: archived.checklistItems.map(item => {
     const current = currentItems.get(item.id);
     // A description must not change an archived bundle into today's optional work.
-    return current && !(currentData.mediaSchema>=2 && (archived.mediaSchema??0)<2) ? {...item, helpText: current.helpText, description: current.description} : item;
+    return current && !(currentData.mediaSchema>=2 && (archived.mediaSchema??0)<2) && !(item.id==='research'&&archived.researchPolicy!==currentData.researchPolicy) ? {...item, helpText: current.helpText, description: current.description} : item;
   })};
 }
 
@@ -195,14 +207,14 @@ function mediaQuote(data,state) {
     : ['製品の紹介資料・正確な仕様と料金','紹介先URL・使用許諾済み画像','検証が必要な場合のアカウント（要相談）'];
   if(productionOptions && main) {
     preparation=preparation.filter(text=>!['紹介する機能・操作手順の検証結果','動画で使用する資料','台本'].includes(text));
-    if(!items.includes('research'))preparation.push('前回のPR動画URL・今回紹介する機能や仕様変更の有無');
+    if(!items.includes('research'))preparation.push(data.researchPolicy==='prior-pr-request'?'前回のPR動画URL・今回紹介したい内容':'前回のPR動画URL・今回紹介する機能や仕様変更の有無');
     if(!items.includes('materials'))preparation.push('動画で紹介する項目をまとめた企画書・台本・構成案');
   }
   const scope = [
     ...(main ? ['YouTube本編1本（10〜20分程度）を制作し、AIギルドchで公開します。', '本編はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'] : []),
     ...(short ? [main ? productionOptions?(shortMode(state)==='dedicated'?'ショート1本（60秒程度）は、別撮影または本編から内容を大きく変えて制作します。':'本編の内容・撮影素材から、切り抜きショート1本（60秒程度）を追加の制作料金なしで作成します。'):'本編からショート1本（60秒程度）を制作するご希望です。本数・制作範囲は正式見積もりで確認します。' : 'ショート1本（60秒程度）を単独で制作するご希望です。', productionOptions?'ショートの公開先はYouTube Shortsを想定します。ファイル納品の方法は別途ご相談ください。':'ショートの公開先はYouTube Shortsを想定し、納品方法・レポートの有無は要相談です。'] : []),
     ...(x ? [main||short ? 'X投稿1回は、公開動画の告知シェアです。' : 'X投稿1回は、製品・サービスを紹介するPR投稿です。', 'Xの公開先：@masayan_ai_hack。掲載内容・画像・リンクは公開前に確認します。'] : []),
-    ...(productionOptions && main ? [items.includes('research')?'サービスの事前検証を行い、今回紹介する機能と操作手順を確認します。':'同じサービスへの再依頼など、今回は事前検証を省くご希望です。前回からの仕様変更を確認し、再検証が必要な場合は作業前にご相談します。',...(!items.includes('research')?['事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。']:[])] : []),
+    ...(productionOptions && main ? [prHistoryPresentation(data,state)?.description??(items.includes('research')?'サービスの事前検証を行い、今回紹介する機能と操作手順を確認します。':'同じサービスへの再依頼など、今回は事前検証を省くご希望です。前回からの仕様変更を確認し、再検証が必要な場合は作業前にご相談します。'),...(!items.includes('research')?['事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。']:[])] : []),
   ];
   const revisionNotes = [
     ...(main ? ['本編の公開前の軽微修正：'+revisions+'回（2回まで料金内・3回目以降は1回'+yen(taxIncluded(data.revisionFee,data.taxRate))+'・税込）'] : []),
