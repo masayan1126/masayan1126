@@ -4,16 +4,11 @@ const host = document.querySelector('.immersive-hero');
 const video = host.querySelector('#scene'), wrap = host.querySelector('.world'), link = host.querySelector('.monitor-link');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const set = JSON.parse(video.dataset.sets);   // { webm, hevc, poster, w, h }
-let track = null, raf = 0, visible = true, userPaused = false;
-const motionToggle = host.querySelector('.hero-motion-toggle');
+let track = null, raf = 0, visible = true;
 function updatePlayback() {
-  const playing = visible && !reduce.matches && !userPaused && !document.hidden;
+  const playing = visible && !reduce.matches && !document.hidden;
   if (playing) video.play().catch(() => {}); else video.pause();
-  motionToggle.hidden = reduce.matches;
-  motionToggle.setAttribute('aria-pressed', String(userPaused));
-  motionToggle.textContent = userPaused ? '背景の動きを再生する' : '背景の動きを止める';
 }
-motionToggle.addEventListener('click', () => { userPaused = !userPaused; updatePlayback(); });
 document.addEventListener('visibilitychange', updatePlayback);
 
 // Transparent video: Safari only keeps the alpha channel in HEVC; Chrome, Edge and Firefox in VP9 WebM.
