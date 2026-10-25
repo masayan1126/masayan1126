@@ -9,6 +9,7 @@ import hashlib
 import html
 import json
 import shutil
+from monochrome import neutralize_css, neutralize_paint
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[3]
@@ -92,6 +93,27 @@ def build():
         for form in soup.select('form#inquiry-form'):
             form['action'] = '/__preview/contact'
             form['data-editorial-preview'] = 'true'
+        # Local neutral copies cover every interaction state without changing
+        # the public palette, pricing data or calculation/PDF modules.
+        for link in soup.select('link[rel="stylesheet"]'):
+            href = link.get('href', '')
+            source = (PUBLIC / href.lstrip('/')).resolve()
+            if not source.is_relative_to(PUBLIC.resolve()) or not source.is_file():
+                raise ValueError(f'Unexpected stylesheet: {href}')
+            css = neutralize_css(source.read_text())
+            name = f'neutral-{hashlib.sha256(css.encode()).hexdigest()[:12]}.css'
+            (asset_dir / name).write_text(css)
+            link['href'] = '/editorial-assets/' + name
+        for style in soup.select('style'):
+            style.string = neutralize_css(style.get_text())
+        for element in soup.select('[style]'):
+            element['style'] = neutralize_css(element['style'])
+        for element in soup.select('svg, svg *'):
+            for attribute in ('fill', 'stroke', 'stop-color', 'flood-color', 'lighting-color'):
+                if element.has_attr(attribute):
+                    element[attribute] = neutralize_paint(element[attribute])
+        for meta in soup.select('meta[name="theme-color"]'):
+            meta['content'] = '#ffffff'
         for meta in list(soup.head.select('meta[name="robots"]')):
             meta.decompose()
         soup.head.append(soup.new_tag('meta', attrs={'name': 'robots', 'content': 'noindex,nofollow'}))

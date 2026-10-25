@@ -25,6 +25,11 @@ frame.addEventListener('load',()=>{outline.replaceChildren(new Option('ページ
 """)
 source = source.replace("document.querySelector('#expand').onclick", "document.querySelector('#review-width').onchange=e=>{const width=e.target.value;preview.classList.toggle('mobile',!!width);preview.style.setProperty('--review-width',(width||390)+'px');document.querySelector('#phone').setAttribute('aria-pressed',String(!!width));document.querySelector('#phone').textContent=width?'PC幅':'スマホ幅'};\ndocument.querySelector('#expand').onclick")
 source = source.replace("outline.replaceChildren(new Option('ページ先頭',''));", "outline.hidden=frame.src.startsWith('http://127.0.0.1:8777/');outline.replaceChildren(new Option('ページ先頭',''));")
+if (HERE.parents[1] / 'output/editorial-concept/site/index.html').exists():
+    # Keep review chrome neutral too, without filtering the compared pages.
+    import re
+    from prototypes.editorial.monochrome import neutralize_css
+    source = re.sub(r'(<style>)(.*?)(</style>)', lambda match: match[1] + neutralize_css(match[2]) + match[3], source, flags=re.S)
 out = HERE.parents[1] / 'output/3d-mode/review.html'
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(source)
