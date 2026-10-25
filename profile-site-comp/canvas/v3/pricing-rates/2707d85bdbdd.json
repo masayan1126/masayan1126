@@ -1,0 +1,157 @@
+{
+  "updated": "2026年10月25日",
+  "taxRate": 0.1,
+  "revisionFee": 5000,
+  "rateMode": "fixed",
+  "baseDescription": "チェックが付いていて選択を外せない項目は、基本料金に含まれます。",
+  "checklistGroups": [
+    {
+      "id": "research",
+      "title": "事前準備作業",
+      "icon": "file",
+      "items": [
+        "research",
+        "materials"
+      ]
+    },
+    {
+      "id": "production",
+      "title": "撮影・編集",
+      "icon": "video",
+      "items": [
+        "shooting",
+        "editing",
+        "thumbnail"
+      ]
+    },
+    {
+      "id": "publication",
+      "title": "公開・SNS発信",
+      "icon": "share",
+      "items": [
+        "publishing"
+      ]
+    }
+  ],
+  "checklistItems": [
+    {
+      "id": "research",
+      "label": "サービスの事前検証",
+      "helpText": "同じサービス・製品のPRを以前にも当方へ依頼したことがある場合、事前検証費用はかかりません。初めてのご依頼では、機能と操作手順の確認に事前検証費用がかかります。",
+      "sourceLabel": "リサーチ・事前検証",
+      "group": "research",
+      "min": 8000,
+      "max": 8000,
+      "fixed": false
+    },
+    {
+      "id": "materials",
+      "label": "動画の企画・台本作成",
+      "helpText": "紹介する内容・構成・話す内容を整理し、動画用の企画書と台本を作成します。紹介項目をまとめた台本や構成案をご用意いただける場合は、選択を外せます。",
+      "sourceLabel": "説明用資料の作成",
+      "group": "research",
+      "min": 10000,
+      "max": 10000,
+      "description": "紹介内容・構成・話す内容を整理した企画書と台本"
+    },
+    {
+      "id": "shooting",
+      "label": "動画撮影",
+      "helpText": "本編は10〜20分程度を想定しております。\n30分を超える動画や撮り直しの料金は、要相談とさせていただきます。\n台本の文字数の目安（1分あたり約300字で換算）\n10分：約3,000字\n20分：約6,000字\n30分：約9,000字\n画面操作の時間や話す速さにより、実際の動画の長さは変わります。",
+      "sourceLabel": "動画撮影",
+      "group": "production",
+      "min": 10000,
+      "max": 10000,
+      "fixed": true
+    },
+    {
+      "id": "editing",
+      "label": "動画編集",
+      "group": "production",
+      "min": 15000,
+      "max": 15000,
+      "description": "カット、テロップ、BGM、効果音",
+      "taxInclusive": true,
+      "fixed": true
+    },
+    {
+      "id": "thumbnail",
+      "label": "サムネイル制作",
+      "helpText": "1〜5枚程度のサムネイル案をご用意いたします。\nお客様にお選びいただくか、お任せいただいた場合はこちらで選定し、動画に使用いたします。",
+      "group": "production",
+      "min": 5000,
+      "max": 5000,
+      "taxInclusive": true
+    },
+    {
+      "id": "publishing",
+      "label": "YouTubeへの公開作業（タイトル、概要欄、公開予約作業等）",
+      "helpText": "動画の公開設定と概要欄の作成を行います。",
+      "sourceLabel": "公開作業",
+      "group": "publication",
+      "min": 2000,
+      "max": 2000,
+      "fixed": true
+    }
+  ],
+  "custom": [
+    {
+      "id": "preparation",
+      "label": "準備物や作業の分担を相談したい"
+    },
+    {
+      "id": "reuse",
+      "label": "自社サイト・SNS・広告などで二次利用したい"
+    },
+    {
+      "id": "reshoot",
+      "label": "撮り直しを含めて依頼したい"
+    },
+    {
+      "id": "long",
+      "label": "目安より大幅に長い動画を依頼したい"
+    },
+    {
+      "id": "multiple",
+      "label": "複数本の制作・継続契約を相談したい"
+    },
+    {
+      "id": "period",
+      "label": "掲載期間を指定したい"
+    }
+  ],
+  "mediaSchema": 2,
+  "mediaRates": {
+    "standaloneShort": {
+      "min": 10000,
+      "max": 10000,
+      "taxInclusive": true
+    },
+    "xPr": {
+      "min": null,
+      "max": null,
+      "taxInclusive": true
+    },
+    "videoAnnouncement": {
+      "min": 1500,
+      "max": 1500,
+      "taxInclusive": true
+    },
+    "additionalShortCount": 1,
+    "shortIncludedRevisions": null,
+    "xIncludedRevisions": null,
+    "additionalShortClip": {
+      "min": 0,
+      "max": 0,
+      "taxInclusive": true
+    },
+    "additionalShortDedicated": {
+      "min": 10000,
+      "max": 10000,
+      "taxInclusive": true
+    }
+  },
+  "legacyUnversionedRateVersion": "17268bfca1d6",
+  "researchPolicy": "prior-pr-request",
+  "rateVersion": "2707d85bdbdd"
+}
