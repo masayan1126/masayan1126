@@ -7,9 +7,9 @@ HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[3]
 
 
-def link(label, href, primary=False):
+def link(label, href, primary=False, secondary=False):
     external = ' target="_blank" rel="noopener noreferrer"' if href.startswith('https://') else ''
-    css = 'editorial-button' if primary else 'editorial-text-link'
+    css = 'editorial-button' if primary else 'editorial-button editorial-button-secondary' if secondary else 'editorial-text-link'
     return f'<a class="{css}" href="{escape(href, quote=True)}"{external}>{label}<span aria-hidden="true">↗</span></a>'
 
 
@@ -61,7 +61,7 @@ def profile(source):
     return intro('経歴', 'Webサービスの開発から、チームの技術選定・AI導入まで担当してきました。') + section('Masaya Nishigaki', '''<div class="focus-person"><img src="/hero-photo.webp" width="800" height="1000" alt="Masaya Nishigaki" loading="lazy"><div><p class="focus-result">Webエンジニア・テックリード</p><p>Miyabiya Studioは個人の屋号です。現在はWeb系企業でテックリードを務め、MCPサーバーとAPIの開発、開発チームへのAI導入に取り組んでいます。</p></div></div>''') + section('これまでの担当', '''<ol class="focus-career">
 <li><p class="focus-kicker">現職・Web系企業 · 3年</p><h3>インフラからバックエンドリード、テックリードへ</h3><p>クリーンアーキテクチャ・自動テスト・CI/CDによる開発体制の整備、決済・SSO（SAML）・監査ログの設計と実装、MCPサーバー開発を担当。一次面接50回以上、エンジニア4名の採用に関与しました。</p></li>
 <li><p class="focus-kicker">前職・Web系企業 · 2年</p><h3>フロントエンドのチームリーダー</h3><p>技術選定から保守まで担当。React・Next.js・Vue3の導入、CypressによるE2EテストのCI組み込み、メンバーの技術教育を進めました。</p></li>
-<li><p class="focus-kicker">SIer · 4年</p><h3>営業・システム開発</h3><p>営業と、詳細設計・実装・テストを担当しました。</p></li></ol>''', 'career-history') + section('主に使ってきた技術', '''<dl class="focus-facts"><div><dt>開発</dt><dd>Python・TypeScript（各5年） / Django・FastAPI・FastMCP / Vue.js・React・Next.js</dd></div><div><dt>基盤・運用</dt><dd>PostgreSQL・BigQuery / Google Cloud・AWS / Docker・GitHub Actions</dd></div><div><dt>AI活用</dt><dd>Claude Code・Codex・Cursor / 開発フローの設計・MCPサーバー開発</dd></div></dl>''', 'tech-stack') + section('採用・業務委託をご検討の方へ', '''<p>正社員・業務委託・技術顧問のご相談をお受けしています。職務経歴書は、ご連絡いただいた方へお送りします。</p><div class="editorial-actions">''' + link('採用・業務委託を相談する', '/contact/?type=recruit#contact-form', True) + link('実績を見る', '/works/') + '''</div>''', 'career')
+<li><p class="focus-kicker">SIer · 4年</p><h3>営業・システム開発</h3><p>営業と、詳細設計・実装・テストを担当しました。</p></li></ol>''', 'career-history') + section('主に使ってきた技術', '''<dl class="focus-facts"><div><dt>開発</dt><dd>Python・TypeScript（各5年） / Django・FastAPI・FastMCP / Vue.js・React・Next.js</dd></div><div><dt>基盤・運用</dt><dd>PostgreSQL・BigQuery / Google Cloud・AWS / Docker・GitHub Actions</dd></div><div><dt>AI活用</dt><dd>Claude Code・Codex・Cursor / 開発フローの設計・MCPサーバー開発</dd></div></dl>''', 'tech-stack') + section('採用・業務委託をご検討の方へ', '''<p>正社員・業務委託・技術顧問のご相談をお受けしています。職務経歴書は、ご連絡いただいた方へお送りします。</p><div class="editorial-actions">''' + link('採用・業務委託を相談する', '/contact/?type=recruit#contact-form', True) + link('実績を見る', '/works/', secondary=True) + '''</div>''', 'career')
 
 
 def services(source):
