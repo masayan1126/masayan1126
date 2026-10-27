@@ -10,6 +10,7 @@ import json
 import shutil
 import subprocess
 from monochrome import neutralize_css, neutralize_paint
+from interactions import motion_only_css
 from content import page_content, header, footer
 import content as editorial_content
 from site_copy import PAGE_INFO, refine_ui_copy, centralize_quote_controls, centralize_contact_page, relocate_pr_links
@@ -30,7 +31,10 @@ def build(*, source_root=None, output_root=None, production=False):
     editorial_content.SOURCE_ROOT = PUBLIC
     OUT.mkdir(parents=True, exist_ok=True)
     for name in ('editorial.css', 'editorial.mjs', 'compact.css', 'pricing-local.css'):
-        shutil.copyfile(HERE / name, OUT / name)
+        if name.endswith('.css'):
+            (OUT / name).write_text(motion_only_css((HERE / name).read_text()))
+        else:
+            shutil.copyfile(HERE / name, OUT / name)
     if production:
         runtime = (OUT / 'editorial.mjs').read_text()
         start = runtime.index("document.addEventListener('submit', event => {")
@@ -138,12 +142,12 @@ def build(*, source_root=None, output_root=None, production=False):
             source = (PUBLIC / href.lstrip('/')).resolve()
             if not source.is_relative_to(PUBLIC.resolve()) or not source.is_file():
                 raise ValueError(f'Unexpected stylesheet: {href}')
-            css = neutralize_css(source.read_text())
+            css = motion_only_css(neutralize_css(source.read_text()))
             name = f'neutral-{hashlib.sha256(css.encode()).hexdigest()[:12]}.css'
             (asset_dir / name).write_text(css)
             link['href'] = '/editorial-assets/' + name
         for style in soup.select('style'):
-            style.string = neutralize_css(style.get_text())
+            style.string = motion_only_css(neutralize_css(style.get_text()))
         for element in soup.select('[style]'):
             element['style'] = neutralize_css(element['style'])
         for element in soup.select('svg, svg *'):
