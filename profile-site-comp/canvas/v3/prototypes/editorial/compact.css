@@ -13,6 +13,9 @@ body.site-renewal.editorial.compact-local {
   --youtube-icon-color:#ff0000;
   --field-badge-text:#fff;--required-surface:#b42318;--optional-surface:#606060;
   --field-badge-radius:4px;--field-badge-line-height:20px;--field-badge-padding-block:2px;
+  --reading-progress-length:144px;--reading-progress-thickness:4px;--reading-progress-inline-thickness:2px;
+  --reading-progress-height:28px;--reading-progress-percent-width:40px;
+  --reading-progress-track:#e8e8e8;--reading-progress-ink:#202020;--reading-progress-muted:#606060;
 }
 body.site-renewal.editorial.compact-local>.v3 {min-height:100vh;min-height:100svh;padding-bottom:calc(var(--site-footer-height) + var(--space-related))}
 /* Page shells own the horizontal inset, including the pricing page. */
@@ -354,3 +357,18 @@ body.site-renewal.editorial.compact-local #pricing-wizard :is(input,select,texta
     --action-lift-y:0px!important;transition:none!important;
   }
 }
+
+/* Adopted C: a passive progress rail outside the homepage content column. */
+body.site-renewal.editorial.compact-local[data-reading-progress] .site-reading-progress {position:fixed;z-index:20;right:max(var(--space-block),calc((100vw - var(--site-shell-width))/2 - var(--space-section)));top:calc(50% - var(--reading-progress-length)/2);display:grid;width:var(--reading-progress-percent-width);grid-template-columns:minmax(0,1fr);grid-template-rows:var(--reading-progress-length) var(--space-block);align-items:start;justify-items:center;gap:var(--space-tight);color:var(--reading-progress-muted);font-size:14px;line-height:var(--space-block);pointer-events:none}
+body[data-reading-progress] .reading-progress-track {grid-column:1;grid-row:1;display:block;width:var(--reading-progress-thickness);height:var(--reading-progress-length);background:var(--reading-progress-track);overflow:hidden}
+body[data-reading-progress] .reading-progress-track>span {display:block;width:100%;height:100%;background:var(--reading-progress-ink);transform:scaleY(var(--reading-progress-fraction,0));transform-origin:top}
+body[data-reading-progress] .reading-progress-percent {grid-column:1;grid-row:2;white-space:nowrap;font-variant-numeric:tabular-nums}
+@media(max-width:1000px),(max-height:400px) {
+  body.site-renewal.editorial.compact-local[data-reading-progress] {--site-header-clearance:calc(var(--reading-header-height,104px) + var(--space-field) + var(--space-tight))}
+  body.site-renewal.editorial.compact-local[data-reading-progress] .site-reading-progress {left:var(--site-shell-gutter);right:var(--site-shell-gutter);top:var(--reading-header-height,104px);width:auto;max-width:calc(var(--site-shell-width) - var(--site-shell-gutter) - var(--site-shell-gutter));margin-inline:auto;height:var(--reading-progress-height);grid-template-columns:minmax(0,1fr) var(--reading-progress-percent-width);grid-template-rows:var(--reading-progress-height);align-items:center;gap:var(--space-tight);background:#fff}
+  body[data-reading-progress] .reading-progress-track {grid-column:1;grid-row:1;width:100%;height:var(--reading-progress-inline-thickness)}
+  body[data-reading-progress] .reading-progress-track>span {transform:scaleX(var(--reading-progress-fraction,0));transform-origin:left}
+  body[data-reading-progress] .reading-progress-percent {grid-column:2;grid-row:1;justify-self:end;text-align:right}
+  body.site-renewal.editorial.compact-local[data-reading-progress] .compact-home .a-intro {padding-top:calc(var(--space-block) + var(--space-block))}
+}
+@media print {body[data-reading-progress] .site-reading-progress {display:none!important}}
