@@ -116,6 +116,7 @@ body.site-renewal.editorial.compact-local .site-social-links a {display:inline-f
 body.site-renewal.editorial.compact-local .site-social-links a:hover {color:#606060}
 body.site-renewal.editorial.compact-local .site-social-links a:focus-visible {outline:3px solid #202020;outline-offset:1px}
 body.site-renewal.editorial.compact-local .site-social-icon {display:block;width:20px;height:20px;fill:currentColor;flex:none}
+body.site-renewal.editorial.compact-local .site-social-icon-note {width:44px;height:44px}
 body.compact-local .compact-home .actions {display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:25px}
 body.compact-local .compact-home .button {display:inline-flex;align-items:center;justify-content:center;gap:23px;min-height:46px;padding:10px 20px;border:1px solid #202020;border-radius:4px!important;background:#202020;color:#fff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.85}
 body.compact-local .compact-home .button:hover {background:#3b3b3b}
@@ -209,8 +210,10 @@ body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1p
   :root {--site-footer-height:calc(96px + env(safe-area-inset-bottom,0px))}
   body.compact-local .compact-home .project-extension-links {grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px;max-width:320px}
   body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px;--site-header-clearance:120px;--site-shell-gutter:24px}
-  body.site-renewal.editorial.compact-local .editorial-header-inner {grid-template-columns:minmax(0,1fr);gap:0;min-height:0;padding-block:8px}
-  body.site-renewal.editorial.compact-local .editorial-header-actions {justify-self:end;gap:12px;max-width:100%}
+  body.site-renewal.editorial.compact-local .editorial-header-inner {grid-template-columns:minmax(0,1fr) auto;gap:0 8px;min-height:0;padding-block:8px}
+  body.site-renewal.editorial.compact-local .editorial-header-actions {display:contents}
+  body.site-renewal.editorial.compact-local .editorial-header .site-social-links {grid-row:2;grid-column:1/-1;justify-self:end}
+  body.site-renewal.editorial.compact-local .editorial-header :is(.editorial-contact-link,.editorial-home-link) {grid-row:1;grid-column:2;justify-self:end}
   body.site-renewal.editorial.compact-local .editorial-brand {gap:6px;font-size:18px}
   body.site-renewal.editorial.compact-local .editorial-brand-icon {width:20px;height:20px}
   body.site-renewal.editorial.compact-local .editorial-contact-link {grid-row:1;grid-column:2}
@@ -303,10 +306,6 @@ body.site-renewal.editorial.compact-local .editorial-home-link:focus-visible {ou
 @media(max-width:620px) {
   body.site-renewal.editorial.compact-local .home-link-full {display:none}
   body.site-renewal.editorial.compact-local .home-link-short {display:inline}
-}
-@media(max-width:360px) {
-  body.site-renewal.editorial.compact-local .editorial-header-actions {gap:8px}
-  body.site-renewal.editorial.compact-local .editorial-header .site-social-links a {flex-basis:40px;width:40px}
 }
 /* Keep page anchors and focused controls below the sticky header, without
    changing the simulator dialog's independent scroll area. */

@@ -54,6 +54,10 @@ def build(*, source_root=None, output_root=None, production=False):
     (OUT / 'typography.css').write_text(typography['css'] + '\n')
     asset_dir = OUT / 'editorial-assets'
     asset_dir.mkdir(exist_ok=True)
+    note_icon = HERE / 'icons/note/icon.svg'
+    note_source = json.loads((HERE / 'icons/note/sources.json').read_text())
+    assert hashlib.sha256(note_icon.read_bytes()).hexdigest() == note_source['sha256']
+    shutil.copyfile(note_icon, asset_dir / 'note-icon.svg')
     font_dir = HERE / 'assets/fonts/ibm-plex-sans-jp'
     font_manifest = json.loads((font_dir / 'manifest.json').read_text())
     for face in font_manifest['faces']:

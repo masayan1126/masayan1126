@@ -79,7 +79,7 @@ def validate():
     assert [item['data-category'] for item in docs[''].select('.a-entry')] == ['activity', 'pr', 'development', 'video', 'talk', 'ai'], 'Activity order must follow the approved introduction'
     for page, soup in docs.items():
         assert not soup.select('.editorial-nav'), page
-        social_urls = ['https://www.youtube.com/@masayan-ai-hack', 'https://x.com/masayan_ai_hack', 'https://www.instagram.com/miyabiya1126/', 'https://github.com/masayan1126']
+        social_urls = ['https://www.youtube.com/@masayan-ai-hack', 'https://x.com/masayan_ai_hack', 'https://www.instagram.com/miyabiya1126/', 'https://note.com/msyn1126', 'https://github.com/masayan1126']
         expected_header_links = ['/', *social_urls, '/' if page == 'contact' else '/contact/']
         assert [a['href'] for a in soup.select('.editorial-header a')] == expected_header_links, page
         assert [a['href'] for a in soup.select('.editorial-footer .site-social-links a')] == social_urls, page
@@ -101,7 +101,7 @@ def validate():
     assert docs[''].select_one('#personal-development a[href="https://github.com/masayan1126/chrome-extensions"]')
     assert not docs[''].select_one('#personal-development a[href="https://github.com/masayan1126"]')
     assert docs[''].select_one('#activities a[href="/membership/"]')
-    assert len(docs[''].select('#activities .activity-highlights > li')) == 4
+    assert len(docs[''].select('#activities .activity-highlights > li')) == 5
     assert len(docs[''].select('#personal-development .activity-highlights > li')) == 1
     extension_links = docs[''].select('#personal-development .project-extension-links a')
     records = extension_records()
