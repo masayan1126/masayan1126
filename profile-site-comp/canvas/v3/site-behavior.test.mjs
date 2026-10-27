@@ -54,7 +54,7 @@ test('successful inquiries clear sent values even when native reset restores non
 test('bot verification blocks unverified submits, supports retry, and clears used or expired tokens',async()=>{
   const h=contactHarness({verified:false});const original=h.elements.body.value;
   await h.submit();assert.equal(h.result().requests,0);assert.equal(h.check.focused,true);assert.equal(h.elements.body.value,original);
-  h.widgetOptions['before-interactive-callback']();assert.match(h.check.textContent,/チェック/);await h.submit();assert.match(h.status.textContent,/チェック/);
+  h.check.focused=false;h.widgetOptions['before-interactive-callback']();assert.equal(h.check.textContent,'');await h.submit();assert.match(h.status.textContent,/チェック/);assert.equal(h.status.focused,true);assert.equal(h.check.focused,false);assert.equal(h.result().requests,0);
   h.widgetOptions['error-callback']();assert.equal(h.retry.hidden,false);
   h.handlers['retry:click']();assert.equal(h.checkResets(),1);assert.equal(h.retry.hidden,true);
   h.widgetOptions.callback('new-token');assert.equal(h.tokenField.value,'new-token');assert.equal(h.check.textContent,'');
