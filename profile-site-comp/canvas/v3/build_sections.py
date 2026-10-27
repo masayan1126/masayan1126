@@ -250,4 +250,4 @@ finally{b.disabled=false;}});})();</script>"""
             '<label><span class="field">メールアドレス<span class="req">必須</span></span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>'
             '<label><span class="field">ご相談内容<span class="req">必須</span></span><textarea name="body" rows="6" required maxlength="5000"></textarea></label>'
             '<label class="hp" aria-hidden="true">ウェブサイト<input name="website" tabindex="-1" autocomplete="off"></label>'
-            '<div class="form-submit"><button class="site-action site-action-primary" data-site-action="primary" type="submit">相談内容を送信する<span aria-hidden="true">→</span></button><p>送信後、入力いただいたメールアドレスへ返信します。</p></div><p class="form-status" role="status" aria-live="polite"></p></form></div></div></section>' + script)
+            '<div class="form-submit"><button class="site-action site-action-primary" data-site-action="primary" type="submit">相談内容を送信する<span aria-hidden="true">→</span></button></div><p class="form-status" role="status" aria-live="polite"></p></form></div></div></section>' + script)
