@@ -136,6 +136,11 @@ body.compact-local .compact-home .activity-highlights {display:grid;gap:var(--sp
 body.compact-local .compact-home .activity-highlights>li {display:grid;grid-template-columns:18px minmax(0,1fr);gap:12px;align-items:start;margin:0;padding:0;border:0;background:none;color:#202020;line-height:1.75}
 body.compact-local .compact-home .activity-list-marker {display:grid;place-items:center;width:18px;height:18px;margin-top:3px;border-radius:50%;background:#f0f0f0;color:#202020}
 body.compact-local .compact-home .activity-list-marker svg {display:block;width:12px;height:12px}
+body.compact-local .compact-home .project-extension-links {display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 0 30px;padding:0}
+body.compact-local .compact-home .project-extension-links a {display:grid;place-items:center;width:56px;height:56px;padding:4px;box-sizing:border-box;border:0;background:none;text-decoration:none;border-radius:8px}
+body.compact-local .compact-home .project-extension-links img {display:block;width:48px;height:48px;object-fit:contain}
+body.compact-local .compact-home .project-extension-links a:hover {background:#f3f3f3}
+body.compact-local .compact-home .project-extension-links a:focus-visible {outline:3px solid #202020;outline-offset:3px}
 body.compact-local .compact-home .activity-highlights strong {font-weight:650;color:inherit}
 body.compact-local .compact-home .activity-qualifier {white-space:nowrap}
 body.compact-local .compact-home .a-entry .plain-link {margin:0 0 0 30px;font-weight:600;line-height:1.5}
@@ -177,6 +182,7 @@ body.compact-local .compact-home .a-invitation .actions {gap:22px;margin:0}
 body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 
 @media(max-width:620px) {
+  body.compact-local .compact-home .project-extension-links {max-width:192px}
   body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px}
   body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {padding-inline:24px}
   body.site-renewal.editorial.compact-local .editorial-header-inner {display:grid;grid-template-columns:1fr auto;gap:0 6px;min-height:0;padding-block:17px 5px}

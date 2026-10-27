@@ -118,9 +118,22 @@ def technical_activities():
     ])
 
 
+def extension_records():
+    return json.loads((HERE / 'assets/extensions/manifest.json').read_text())['extensions']
+
+
+def extension_icon_links():
+    links = []
+    for item in extension_records():
+        name = escape(item['name'], quote=True)
+        links.append(f'''<a href="{escape(item['store_url'], quote=True)}" target="_blank" rel="noopener noreferrer" title="{name}" aria-label="{name}のChromeウェブストア掲載ページ（新しいタブ）"><img src="/editorial-assets/extensions/{item['image']}" width="48" height="48" alt="" loading="lazy"></a>''')
+    return '<nav class="project-extension-links" aria-label="公開中のChrome拡張機能">' + ''.join(links) + '</nav>'
+
+
 def personal_projects():
-    return activity_list([
+    return '<div class="project-extensions">' + activity_list([
         '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>（Markdownプレビュー・タブのコピーなど）',
+    ]) + extension_icon_links() + '</div>' + activity_list([
         '<a href="https://github.com/masayan1126" target="_blank" rel="noopener noreferrer">GitHubでソースコードを公開</a>',
     ])
 

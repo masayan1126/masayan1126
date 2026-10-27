@@ -51,6 +51,12 @@ def build(*, source_root=None, output_root=None, production=False):
     asset_dir = OUT / 'editorial-assets'
     asset_dir.mkdir(exist_ok=True)
     shutil.copyfile(HERE / 'assets/avatar-cutout.png', asset_dir / 'avatar-cutout.png')
+    extension_dir = asset_dir / 'extensions'
+    extension_dir.mkdir(exist_ok=True)
+    for record in editorial_content.extension_records():
+        icon = HERE / 'assets/extensions' / record['image']
+        assert hashlib.sha256(icon.read_bytes()).hexdigest() == record['sha256'], icon
+        shutil.copyfile(icon, extension_dir / icon.name)
     for record in json.loads((HERE / 'assets/talk-cards.json').read_text()).values():
         cover = HERE / 'assets' / record['image']
         shutil.copyfile(cover, asset_dir / cover.name)
