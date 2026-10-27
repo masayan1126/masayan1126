@@ -67,7 +67,8 @@ def validate():
     preview_form = copy.copy(docs['contact'].select_one('#inquiry-form'))
     assert preview_form['action'] == '/__preview/contact'
     assert preview_form['data-editorial-preview'] == 'true'
-    del preview_form['action'], preview_form['data-editorial-preview']
+    preview_form['action'] = original_form['action']
+    del preview_form['data-editorial-preview']
     assert str(original_form) == str(preview_form), 'Inquiry fields changed'
     assert docs['contact'].get_text().count('通常2営業日以内') == 1
     assert 'https://studio.msyn.me/api/contact' not in str(docs['contact'])
