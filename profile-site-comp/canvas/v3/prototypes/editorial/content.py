@@ -108,7 +108,7 @@ def social_icon_links(placement):
             continue
         svg = BeautifulSoup((HERE / 'icons/simple-icons' / (slug + '.svg')).read_text(), 'html.parser').svg
         svg.attrs.pop('role', None)
-        svg.attrs.update({'class': 'site-social-icon', 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
+        svg.attrs.update({'class': 'site-social-icon' + (' site-social-icon-youtube' if slug == 'youtube' else ''), 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
         for title in svg.select('title'):
             title.decompose()
         label = name + 'を開く（新しいタブ）'
