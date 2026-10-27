@@ -117,8 +117,8 @@ def validate():
     assert len(docs[''].select('#video-editing .activity-highlights > li')) == 2
     assert '約90%' in docs[''].select_one('#video-editing').get_text()
     assert not docs[''].select_one('#video-editing').find_parent('details')
-    assert docs[''].select_one('#activities h3').get_text(strip=True) == '技術発信'
-    assert docs[''].select_one('#personal-development h3').get_text(strip=True) == '個人開発'
+    assert docs[''].select_one('#activities h2').get_text(strip=True) == '技術発信'
+    assert docs[''].select_one('#personal-development h2').get_text(strip=True) == '個人開発'
     assert '（Markdownプレビュー・タブのコピーなど）' not in docs[''].get_text()
     assert not docs[''].select('#activities a[href*="github.com"]')
     assert not docs[''].select('#activities .plain-link')

@@ -38,7 +38,7 @@ document.querySelectorAll('.scroll-cue-link,.scroll-contents a').forEach(anchor=
   event.preventDefault();
   history.pushState(null,'',anchor.getAttribute('href'));
   target.scrollIntoView({block:'start',behavior:'instant'});
-  const heading=target.querySelector('h3');
+  const heading=target.querySelector('h2,h3');
   if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
   update();
 }));
