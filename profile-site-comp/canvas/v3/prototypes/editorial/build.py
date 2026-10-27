@@ -54,7 +54,7 @@ def build(*, source_root=None, output_root=None, production=False):
     (OUT / 'typography.css').write_text(typography['css'] + '\n')
     asset_dir = OUT / 'editorial-assets'
     asset_dir.mkdir(exist_ok=True)
-    shutil.copyfile(HERE / 'assets/avatar-cutout.png', asset_dir / 'avatar-cutout.png')
+    shutil.copyfile(HERE / 'assets/avatar-mono-pixel.png', asset_dir / 'avatar-mono-pixel.png')
     extension_dir = asset_dir / 'extensions'
     extension_dir.mkdir(exist_ok=True)
     for record in editorial_content.extension_records():

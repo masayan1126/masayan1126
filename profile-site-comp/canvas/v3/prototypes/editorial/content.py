@@ -201,7 +201,7 @@ def home():
         for category, title, proof in entries
     )
     return '''<div class="a-shell compact-home-content"><section class="a-intro" aria-labelledby="a-title">
-<div class="a-person"><img src="/editorial-assets/avatar-cutout.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
+<div class="a-person"><img src="/editorial-assets/avatar-mono-pixel.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
 <p class="a-bio">YouTubeでのAI関連の発信・PR・個人開発・AI動画編集・技術登壇などを中心に活動</p></section>
 <section class="a-work" aria-labelledby="a-work-title"><div class="section-head"><h2 id="a-work-title">主な活動</h2></div>''' + rows + '</section></div>'
 

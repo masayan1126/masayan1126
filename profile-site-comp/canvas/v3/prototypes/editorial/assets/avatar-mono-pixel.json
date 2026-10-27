@@ -1,0 +1,17 @@
+{
+  "selected_option": "E",
+  "selected_at": "2026-10-27",
+  "source_reference": "canvas/v3/prototypes/editorial/assets/avatar-cutout.png",
+  "generation_tool": "built-in image_gen",
+  "prompt": "Use case: style-transfer.\nAsset type: small professional personal website avatar, one isolated finished icon, square transparent PNG.\nInput image 1 is the reference character: preserve recognizable parted dark wavy hair, distinctive slanted cap/beret, friendly clean-shaven Japanese male face and white shirt neckline. The current cute pixel avatar is a visual identity reference, not a realistic face. Keep the same identity cues while maturing and simplifying the styling for a minimalist editorial engineer/creator website.\nComposition: front-facing centered head with a little neck and shirt, entire hat and chin visible, generous but modest transparent margins, subject about 80 percent canvas width and 85 percent height. Strong readability at only 40px display size.\nConstraints: genuinely transparent background, no background disk, no colored panel, no frame, no shadow, no text, no initials, no badges, no props, no watermark, no glows, no ornament. One portrait only, not a contact sheet or mockup.\nStyle: meticulously crafted modern low-resolution pixel art portrait in neutral black, white and three grays only. Retain original recognizable cap tilt, wavy center-part hair and friendly character, but simplify into a compact coherent approximately 40x40-pixel sprite look, hard square pixel clusters and crisp edges. More restrained smaller eyes and reduced face detail, subtle friendly smile. No anti-aliased faux-vector edges, no scattered pixels, no blue or skin colors. Clean contemporary monochrome game-icon aesthetic, minimal and legible.",
+  "sha256": "ca937408765254bec038a3c3184f607b258cb1266330da399331f159969d16d4",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_range": [
+    0,
+    255
+  ]
+}
