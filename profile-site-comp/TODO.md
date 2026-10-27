@@ -1,6 +1,6 @@
 # Miyabiya Studio の進捗
 
-- 2026-10-27（トップへ戻るリンク・公開作業中）：お問い合わせヘッダーに「← トップページへ戻る」を追加しました。PCは右側、440px以下はブランド名の下へ配置。下線なし・14px・44pxの操作領域・3pxのフォーカスを設定。ビルド・7ページ互換性・関連16テスト・独立レビュー成功、フォームDOMの一致とPC／320pxの横はみ出しなし、Tab→Enterとクリックでトップ到達を確認。次はPRのマージと公開再確認です。根拠は output/contact-home-link/。
+- 2026-10-27（トップへ戻るリンク・公開済み）：お問い合わせヘッダーに「← トップページへ戻る」を追加。PCは右側、440px以下はブランド名の下へ配置しました。14px・44px操作領域・3pxフォーカスを維持。ビルド・7ページ互換性・関連16テスト・独立レビュー成功、PC／320pxとキーボード・クリックでトップ到達を確認。PR #42をマージし本番47c33822へ反映、公開7ページとCSS7件の一致、公開リンクからトップへ戻る操作を再確認済み。フォームと認証スクリプトは同一で、本人が選んだTurnstileを継続。メール送信・Gmail変更なし。根拠は output/contact-home-link/completion.json、public-http.json、public.png。
 
 - 2026-10-27（reCAPTCHA比較・Turnstile継続を採用）：Turnstile・Googleスコア型・チェックボックス型を公式情報で比較し、既存レビューの「ボット対策を比較」へ整理しました。本人がTurnstile継続を選択。公開フォーム・Worker・Gmail・Google Cloud設定は未変更です。比較資料の正本は output/contact-bot-options/comparison.html。
 
