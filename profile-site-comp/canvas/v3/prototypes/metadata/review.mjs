@@ -1,0 +1,3 @@
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+function show(index,focus=false){tabs.forEach((tab,i)=>{const active=i===index;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;document.getElementById(tab.getAttribute('aria-controls')).hidden=!active;});if(focus)tabs[index].focus();}
+tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>show(index));tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;show(next,true);});});

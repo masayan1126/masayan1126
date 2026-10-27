@@ -1,0 +1,829 @@
+{
+  "checked_at": "2026-10-28",
+  "base": "https://studio.msyn.me",
+  "pages": [
+    {
+      "route": "/",
+      "title": "Masaya Nishigaki | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "AI活用支援、製品PR・タイアップ、登壇・社内勉強会、技術発信、個人開発に取り組むWeb系のシニアエンジニア・テックリードです。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "Masaya Nishigaki | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "AI活用支援、製品PR・タイアップ、登壇・社内勉強会、技術発信、個人開発に取り組むWeb系のシニアエンジニア・テックリードです。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/profile/",
+      "title": "プロフィール・職務経歴 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/profile/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "Masaya Nishigakiの活動、職務経歴、技術・スキルをご紹介します。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "プロフィール・職務経歴 | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "Masaya Nishigakiの活動、職務経歴、技術・スキルをご紹介します。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/profile/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/works/",
+      "title": "実績紹介 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/works/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "AI開発フローのチーム導入、MCPサーバー開発、製品PR動画、個人開発の実績と担当業務をご紹介します。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "実績紹介 | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "AI開発フローのチーム導入、MCPサーバー開発、製品PR動画、個人開発の実績と担当業務をご紹介します。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/works/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/talks/",
+      "title": "登壇・社内勉強会 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/talks/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "AI駆動開発、MCPサーバー開発、動画制作の自動化に関する登壇実績と、対応するテーマ・形式をご紹介します。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "登壇・社内勉強会 | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "AI駆動開発、MCPサーバー開発、動画制作の自動化に関する登壇実績と、対応するテーマ・形式をご紹介します。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/talks/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/membership/",
+      "title": "YouTubeメンバーシップ | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/membership/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "メンバー限定の投稿・動画などを提供するYouTubeメンバーシップの特典と料金プランをご案内します。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "YouTubeメンバーシップ | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "メンバー限定の投稿・動画などを提供するYouTubeメンバーシップの特典と料金プランをご案内します。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/membership/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/pricing/",
+      "title": "PR制作のお見積もり | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/pricing/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "YouTube本編・ショート動画・X投稿の概算料金を確認できます。制作内容を選び、明細の確認、PDF保存、共有ができます。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "PR制作のお見積もり | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "YouTube本編・ショート動画・X投稿の概算料金を確認できます。制作内容を選び、明細の確認、PDF保存、共有ができます。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/pricing/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/contact/",
+      "title": "お問い合わせ | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/contact/",
+      "lang": "ja",
+      "metas": [
+        {},
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1"
+        },
+        {
+          "name": "description",
+          "content": "AI活用支援、製品PR・タイアップ、登壇・社内勉強会などのご依頼を承っています。通常2営業日以内に返信します。"
+        },
+        {
+          "property": "og:type",
+          "content": "website"
+        },
+        {
+          "property": "og:site_name",
+          "content": "Miyabiya Studio"
+        },
+        {
+          "property": "og:locale",
+          "content": "ja_JP"
+        },
+        {
+          "property": "og:title",
+          "content": "お問い合わせ | Miyabiya Studio"
+        },
+        {
+          "property": "og:description",
+          "content": "AI活用支援、製品PR・タイアップ、登壇・社内勉強会などのご依頼を承っています。通常2営業日以内に返信します。"
+        },
+        {
+          "property": "og:url",
+          "content": "https://studio.msyn.me/contact/"
+        },
+        {
+          "property": "og:image",
+          "content": "https://studio.msyn.me/og-profile.51d41aa5d0cc.png"
+        },
+        {
+          "property": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "property": "og:image:height",
+          "content": "630"
+        },
+        {
+          "property": "og:image:alt",
+          "content": "Masaya Nishigaki Webエンジニア・テックリード"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "theme-color",
+          "content": "#ffffff"
+        }
+      ],
+      "icons": [
+        {
+          "href": "/avatar.webp",
+          "rel": [
+            "icon"
+          ],
+          "type": "image/webp"
+        },
+        {
+          "href": "/apple-touch-icon.png",
+          "rel": [
+            "apple-touch-icon"
+          ]
+        }
+      ],
+      "structured_data": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Masaya Nishigaki",
+          "url": "https://studio.msyn.me/",
+          "jobTitle": "Webエンジニア・テックリード",
+          "image": "https://studio.msyn.me/hero-photo.webp",
+          "sameAs": [
+            "https://www.youtube.com/@masayan-ai-hack",
+            "https://x.com/masayan_ai_hack",
+            "https://github.com/masayan1126",
+            "https://www.instagram.com/miyabiya1126/",
+            "https://zenn.dev/masayan1126",
+            "https://substack.com/@masayan1126",
+            "https://speakerdeck.com/masayan1126"
+          ],
+          "alternateName": "まさやん",
+          "brand": {
+            "@type": "Brand",
+            "name": "Miyabiya Studio"
+          },
+          "knowsAbout": [
+            "Claude Code",
+            "Model Context Protocol (MCP)",
+            "AI駆動開発",
+            "AIエージェント",
+            "Python",
+            "TypeScript",
+            "Django",
+            "FastAPI",
+            "Vue.js",
+            "Google Cloud",
+            "動画編集"
+          ]
+        }
+      ]
+    }
+  ],
+  "crawl_files": {
+    "/robots.txt": "User-agent: *\nAllow: /\nDisallow: /__review/\nSitemap: https://studio.msyn.me/sitemap.xml\n",
+    "/sitemap.xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>https://studio.msyn.me/</loc></url><url><loc>https://studio.msyn.me/profile/</loc></url><url><loc>https://studio.msyn.me/works/</loc></url><url><loc>https://studio.msyn.me/talks/</loc></url><url><loc>https://studio.msyn.me/membership/</loc></url><url><loc>https://studio.msyn.me/pricing/</loc></url><url><loc>https://studio.msyn.me/contact/</loc></url></urlset>\n"
+  }
+}

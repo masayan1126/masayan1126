@@ -6,6 +6,8 @@
 
 | 変更 | 正本 |
 | --- | --- |
+| 検索・共有・保存用メタ情報 | `canvas/v3/site_metadata.py`。最終出力は `prototypes/editorial/build.py` が適用 |
+| OGP・favicon・Appleアイコン | `canvas/v3/build_og.py`。採用済みマークとIBM Plex Sans JPから `prototypes/editorial/assets/social/` へ生成。入力・出力ハッシュと文字の安全範囲をmanifestで確認 |
 | トップ本文・活動の並び・共通ヘッダーとフッター | `canvas/v3/prototypes/editorial/content.py` |
 | 余白・配色・共通の操作表現 | `canvas/v3/prototypes/editorial/compact.css`、`editorial.css` |
 | 見積もりページとダイアログの見た目 | `canvas/v3/prototypes/editorial/pricing-local.css` |
@@ -25,6 +27,7 @@
 
 ## 変更に合わせて確認する
 
+- 付帯情報の変更では、公開7ページのtitle・description・OGP・Xカード・JSON-LD・正規URL・アイコン・manifestの整合と資産の実体を確認する。画像生成の入力を変えた場合は、先に`canvas/v3/build_og.py`で再生成し、manifestの一致を確認する。旧下地のOGPを現在の公開参照へ戻さない。
 - サイトのコード変更は`npm run build`を実行する。これは公開用の生成と`validate_home.py`を含む。
 - ローカルの採用案は`python3 canvas/v3/prototypes/editorial/build.py`で更新し、`python3 canvas/v3/prototypes/editorial/validate.py`で本文・リンク・資産・料金DOM・フォーム互換性を確認する。
 - 関連する既存テストを実行する。共有の計算・フォーム・生成処理を変更した場合は`npm test`も通す。文書・スキルだけの変更では、サイトの再ビルドやデプロイを行わず、リンク・スキル形式・文章・同期を検証する。

@@ -10,6 +10,8 @@
 
 | 変更内容 | ファイル |
 |---|---|
+| 検索・シェア・保存用メタ情報 | `canvas/v3/site_metadata.py` |
+| OGP画像・favicon・Appleアイコンの生成 | `canvas/v3/build_og.py`、生成物は `canvas/v3/prototypes/editorial/assets/social/` |
 | 公開ページの本文・活動の並び・共通ヘッダーとフッター | `canvas/v3/prototypes/editorial/content.py` |
 | 現在の余白・配色・操作表現 | `canvas/v3/prototypes/editorial/compact.css`、`editorial.css`、`interactions.py` |
 | 文字サイズ | `canvas/v3/prototypes/typography/scales.mjs` |
@@ -89,15 +91,15 @@ npm run preview
 
 `python3 canvas/v3/validate_home.py` は、全ページのリンクと見出し、元の本文と料金の維持を検査します。レビュー用HTMLは公開用の生成先に含まれません。
 
-## OGP画像 (リンクのプレビュー画像)
+## OGP・検索・保存用アイコン
 
-プレビュー画像は、表示先の枠に合わせて中央から切り抜かれます (X・Facebook は 1.91:1、細いカードは 1.5:1 前後、小さいカードは正方形)。そのため、文字は中央の 630×630 に収め、左右の端には背景だけを置きます。文言や配置を変えたら、次のコマンドで作り直します。
+公開する付帯情報は `canvas/v3/site_metadata.py` を正本とし、`prototypes/editorial/build.py` が最終出力へ適用します。トップは「Miyabiya Studio | Masaya Nishigaki」、ほかのページは「ページ名 | Miyabiya Studio」。本文の内容に合う説明文・OGP・Xカード・構造化データを同じ設定から生成します。
 
-```sh
-python3 canvas/v3/build_og.py
-```
+`canvas/v3/build_og.py` は、採用済みの曲線mとIBM Plex Sans JPを使い、白基調のOGP画像7枚とSVG・PNG・ICO・Apple用アイコンを生成します。PillowとfontToolsを使うため、ブラウザや外部への画像送信は不要です。画像は1200×630pxで、主要な文字を中央の正方形内へ収めます。画像内の文字サイズは、サイトの24・18・14pxを2倍した48・36・28pxです。
 
-文字が中央の範囲からはみ出すと、生成を止めます。比率ごとの見え方は `output/og-profile-crops.png` で確認できます。Google Chrome が必要です (見つからないときは `CHROME` にパスを指定)。ビルド時は画像の内容から `og-profile.<ハッシュ>.png` を作って `og:image` に指定するため、画像を変えると各サービスのキャッシュも新しい画像に切り替わります。
+画像の文言・マーク・フォント・描画コードを変えたら生成を実行し、生成元と資産のハッシュを持つmanifestも更新します。通常ビルドはmanifestと入力の一致を検査し、再生成漏れを止めます。OGPの公開URLは内容のハッシュ付きとし、faviconのURLは固定します。検索・SNS側のキャッシュによる実際の表示変更は、公開HTMLの更新と区別して確認します。
+
+旧い `site/og-profile.png`・`site/og-pricing.png` などは、過去URLの互換用です。現在のメタ情報からは参照しません。既存レビューの「OGP・メタ情報」で、変更前後・ページ別の検索とシェア表示・アイコンを確認できます。
 
 ## 公開
 

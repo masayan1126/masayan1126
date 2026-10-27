@@ -9,11 +9,14 @@ import hashlib
 import json
 import shutil
 import subprocess
+import sys
 from monochrome import neutralize_css, neutralize_paint
 from interactions import motion_only_css
 from content import page_content, header, footer
 import content as editorial_content
-from site_copy import PAGE_INFO, refine_ui_copy, centralize_quote_controls, centralize_contact_page, relocate_pr_links
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from site_metadata import apply_metadata, copy_assets
+from site_copy import refine_ui_copy, centralize_quote_controls, centralize_contact_page, relocate_pr_links
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[3]
@@ -30,6 +33,7 @@ def build(*, source_root=None, output_root=None, production=False):
     OUT = Path(output_root) if output_root else PROJECT / 'output/editorial-concept/site'
     editorial_content.SOURCE_ROOT = PUBLIC
     OUT.mkdir(parents=True, exist_ok=True)
+    sharing_images = copy_assets(OUT)
     for name in ('editorial.css', 'editorial.mjs', 'compact.css', 'pricing-local.css', 'reading-progress.mjs'):
         if name.endswith('.css'):
             (OUT / name).write_text(motion_only_css((HERE / name).read_text()))
@@ -108,13 +112,6 @@ def build(*, source_root=None, output_root=None, production=False):
                 canonical['href'] = preview_url
             for meta in soup.select('meta[property="og:url"]'):
                 meta['content'] = preview_url
-        page_title, description = PAGE_INFO[page]
-        title = page_title + ' | Miyabiya Studio'
-        soup.title.string = title
-        for meta in soup.select('meta[name="description"],meta[property="og:description"],meta[name="twitter:description"]'):
-            meta['content'] = description
-        for meta in soup.select('meta[property="og:title"],meta[name="twitter:title"]'):
-            meta['content'] = title
         soup.select_one('.v3-head').replace_with(BeautifulSoup(header(page), 'html.parser'))
         soup.select_one('.v3-footer').replace_with(BeautifulSoup(footer(), 'html.parser'))
         for art in list(soup.select('.detail-page-art')):
@@ -166,12 +163,6 @@ def build(*, source_root=None, output_root=None, production=False):
             for attribute in ('fill', 'stroke', 'stop-color', 'flood-color', 'lighting-color'):
                 if element.has_attr(attribute):
                     element[attribute] = neutralize_paint(element[attribute])
-        for meta in soup.select('meta[name="theme-color"]'):
-            meta['content'] = '#ffffff'
-        for meta in list(soup.head.select('meta[name="robots"]')):
-            meta.decompose()
-        if not production:
-            soup.head.append(soup.new_tag('meta', attrs={'name': 'robots', 'content': 'noindex,nofollow'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/editorial-assets/fonts/ibm-plex-sans-jp/font-faces.css'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/editorial.css'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/compact.css'}))
@@ -179,6 +170,7 @@ def build(*, source_root=None, output_root=None, production=False):
         if page == 'pricing':
             soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/pricing-local.css'}))
         soup.head.append(soup.new_tag('script', attrs={'type': 'module', 'src': '/editorial.mjs'}))
+        apply_metadata(soup, page, sharing_images, production=production)
         result = refine_ui_copy(str(soup))
         if not production:
             result = result.replace('https://studio.msyn.me/api/contact', '/__preview/contact')
