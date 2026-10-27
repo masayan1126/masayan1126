@@ -181,7 +181,7 @@ for asset in ('pricing.css', 'pricing-model.mjs', 'pricing-ui.mjs', 'pricing-pdf
     shutil.copyfile(HERE / asset, OUT / asset)
 (OUT / 'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+BASE+'/sitemap.xml\n')
 (OUT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+p+'</loc></url>' for p in paths.values())+'</urlset>')
-(OUT / '_redirects').write_text('/ratecard /pricing/ 301\n/price /pricing/ 301\nhttps://miyabiya-studio.pages.dev/contact https://studio.msyn.me/contact/ 302\nhttps://miyabiya-studio.pages.dev/contact/ https://studio.msyn.me/contact/ 302\n')
+(OUT / '_redirects').write_text('/ratecard /pricing/ 301\n/price /pricing/ 301\n')
 (OUT / '_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/*.webp\n  Cache-Control: public, max-age=604800\n/*.png\n  Cache-Control: public, max-age=604800\n')
 (OUT / '_headers').write_text((OUT / '_headers').read_text() + '/home-assets/*\n  Cache-Control: public, max-age=31536000, immutable\n')
 (OUT / '_headers').write_text((OUT / '_headers').read_text() + '/site-assets/*\n  Cache-Control: public, max-age=31536000, immutable\n')
