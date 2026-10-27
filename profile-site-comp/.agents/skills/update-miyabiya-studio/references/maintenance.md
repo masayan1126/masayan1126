@@ -14,6 +14,7 @@
 | 文字サイズの尺度 | `canvas/v3/prototypes/typography/scales.mjs` |
 | 採用書体の通常配布 | `canvas/v3/prototypes/editorial/assets/fonts/ibm-plex-sans-jp/`。`fetch_site_fonts.py`でGoogle Fontsの通常配布を取得し、400・700とOFL・出典・ハッシュを保つ |
 | 全ページで使う色・寸法・余白の共通値 | `canvas/v3/prototypes/editorial/compact.css`の共通CSS変数。各ページ・`pricing-local.css`から参照 |
+| トップのスクロール進行表示 | `canvas/v3/prototypes/editorial/reading-progress.mjs`、`compact.css`、`build.py` |
 | 共通の線画／SNSアイコン | `canvas/v3/prototypes/editorial/icons/` |
 | 拡張機能のアイコン・正式名 | `canvas/v3/prototypes/editorial/assets/extensions/manifest.json`と同フォルダの画像 |
 | 人数と確認日 | `canvas/v3/youtube-audience.json`、`canvas/v3/prototypes/editorial/assets/extension-user-counts.json` |

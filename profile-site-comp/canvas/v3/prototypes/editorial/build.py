@@ -30,7 +30,7 @@ def build(*, source_root=None, output_root=None, production=False):
     OUT = Path(output_root) if output_root else PROJECT / 'output/editorial-concept/site'
     editorial_content.SOURCE_ROOT = PUBLIC
     OUT.mkdir(parents=True, exist_ok=True)
-    for name in ('editorial.css', 'editorial.mjs', 'compact.css', 'pricing-local.css'):
+    for name in ('editorial.css', 'editorial.mjs', 'compact.css', 'pricing-local.css', 'reading-progress.mjs'):
         if name.endswith('.css'):
             (OUT / name).write_text(motion_only_css((HERE / name).read_text()))
         else:
@@ -133,6 +133,9 @@ def build(*, source_root=None, output_root=None, production=False):
         centralize_contact_page(soup, page)
         relocate_pr_links(soup)
         if not page:
+            soup.body['data-reading-progress'] = ''
+            soup.body.append(BeautifulSoup('<div class="site-reading-progress" aria-hidden="true"><span class="reading-progress-track"><span></span></span><span class="reading-progress-percent">0%</span></div>', 'html.parser'))
+            soup.head.append(soup.new_tag('script', attrs={'type': 'module', 'src': '/reading-progress.mjs'}))
             for link in list(soup.head.select('link[href^="/home-assets/"]')):
                 link.decompose()
         # Keep form validation and quote handoff, but the local study never sends.

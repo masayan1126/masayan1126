@@ -29,6 +29,10 @@ brand_icons = HERE / 'prototypes/brand-icons/build.py'
 if brand_icons.exists() and (HERE.parents[1] / 'output/editorial-concept/site/index.html').exists():
     subprocess.run(['python3', str(brand_icons)], check=True)
     PAGES.insert(1, ('/__review/brand-icons/', 'ブランドアイコン5案'))
+scroll_cues = HERE / 'prototypes/scroll-cues/build.py'
+if scroll_cues.exists() and (HERE.parents[1] / 'output/editorial-concept/site/index.html').exists():
+    subprocess.run(['python3', str(scroll_cues)], check=True)
+    PAGES.insert(1, ('/__review/scroll-cues/', 'スクロールの伝え方5案'))
 tabs = ''.join(f'<button role="tab" id="page-{i}" data-path="{path}" aria-controls="preview" aria-selected="{str(i == 0).lower()}" tabindex="{0 if i == 0 else -1}">{name}</button>' for i, (path, name) in enumerate(PAGES))
 source = (HERE / 'review-template.html').read_text().replace('%%TABS%%', tabs)
 if history_pages:
