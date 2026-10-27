@@ -12,6 +12,7 @@
 | ホバーの色変化を除く生成処理 | `canvas/v3/prototypes/editorial/interactions.py` |
 | 表示文言の整合・導線整理 | `canvas/v3/prototypes/editorial/site_copy.py` |
 | 文字サイズの尺度 | `canvas/v3/prototypes/typography/scales.mjs` |
+| 全ページで使う色・寸法・余白の共通値 | `canvas/v3/prototypes/editorial/compact.css`の共通CSS変数。各ページ・`pricing-local.css`から参照 |
 | 共通の線画／SNSアイコン | `canvas/v3/prototypes/editorial/icons/` |
 | 拡張機能のアイコン・正式名 | `canvas/v3/prototypes/editorial/assets/extensions/manifest.json`と同フォルダの画像 |
 | 人数と確認日 | `canvas/v3/youtube-audience.json`、`canvas/v3/prototypes/editorial/assets/extension-user-counts.json` |
@@ -28,6 +29,9 @@
 - ビルドで取得キャッシュが変わることがある。今回の変更に必要か確認し、無関係な数値更新を混ぜない。
 - PCと320px程度のスマホ幅で、余白によるまとまり、左端の整列、折り返し、画像・文字・フォーカスの欠け、横はみ出しを確認する。
 - CSSの共通変更は、上書き後の計算済みスタイルを確認する。ホバー色の除去と、選択・フォーカス・エラーの表示を混同しない。
+- 文字サイズの共通値を変えたら、全ページ（現在7ページ）のPC・スマホで、文字を表示している要素の計算済み`font-size`を集計する。追加したページも対象に含める。通常表示に加え、補足・注記・フォームの状態表示・見積もりダイアログも24・18・14pxの3種類に収まることを確認する。旧い12pxの指定も検査対象にする。
+- 色・寸法・余白の共通値を変えたら、同じ役割の要素をページ横断で比較する。色は役割別の共通色、寸法と余白はpx単位の共通値に一致するかを確認する。PC・スマホの切り替えも共通のブレークポイントを使う。
+- 共通変数を宣言しただけで統一済みにしない。後から読み込むCSS、詳細度、インライン指定などで、実際の表示値が上書きされていないことを確認する。
 - 見積もりの計算や引き継ぎに触れたら、7通りの媒体の組み合わせ、要相談、別案、共有URL、PDF、問い合わせ文の一致と旧料金版の復元を確認する。
 
 ## レビュー・公開・後片付け
