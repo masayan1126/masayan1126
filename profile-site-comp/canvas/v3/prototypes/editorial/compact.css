@@ -166,6 +166,7 @@ body.compact-local .compact-home .pr-video-card {max-width:calc(100% - 30px);mar
 body.compact-local .compact-home .pr-section-header {display:grid;justify-items:start;gap:8px;margin-bottom:0}
 body.compact-local .compact-home .pr-section-header h3 {margin:0}
 body.compact-local .compact-home .pr-estimate-link {display:inline-flex;align-items:center;gap:6px;min-height:44px;max-width:calc(100% - 30px);margin-left:30px;padding:0;border:0;background:none;color:#202020;font-size:14px;font-weight:550;line-height:1.5;text-decoration:none}
+body.compact-local .compact-home .pr-estimate-icon {width:16px;height:16px;flex:none}
 body.compact-local .compact-home .pr-estimate-link:hover {color:#505050}
 body.compact-local .compact-home .talk-preview-row {display:flex;flex-wrap:wrap;align-items:flex-start;gap:var(--space-block) var(--space-field);max-width:calc(100% - 30px);margin-left:30px}
 body.compact-local .compact-home .talk-preview {display:grid;gap:8px;width:180px;max-width:100%;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:#202020;text-decoration:none;line-height:1.5}
