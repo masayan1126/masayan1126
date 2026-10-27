@@ -163,7 +163,7 @@ body.compact-local .compact-home .activity-card-copy {display:grid;gap:6px;min-w
 body.compact-local .compact-home .activity-card-title {font-size:14px;font-weight:600;color:#202020}
 body.compact-local .compact-home .activity-card-phrase {white-space:nowrap}
 body.compact-local .compact-home .pr-video-card {max-width:calc(100% - 30px);margin-left:30px}
-body.compact-local .compact-home .pr-section-header {display:grid;justify-items:start;gap:0;margin-bottom:0}
+body.compact-local .compact-home .pr-section-header {display:grid;justify-items:start;gap:8px;margin-bottom:0}
 body.compact-local .compact-home .pr-section-header h3 {margin:0}
 body.compact-local .compact-home .pr-estimate-link {display:inline-flex;align-items:center;gap:6px;min-height:44px;max-width:calc(100% - 30px);margin-left:30px;padding:0;border:0;background:none;color:#202020;font-size:14px;font-weight:550;line-height:1.5;text-decoration:none}
 body.compact-local .compact-home .pr-estimate-link:hover {color:#505050}
@@ -302,6 +302,7 @@ body.site-renewal.editorial.compact-local :is(button,summary,.skip-link,.estimat
   translate:0 var(--action-lift-y);transition:translate .18s ease-out;
 }
 body.site-renewal.editorial.compact-local .skip-link {top:16px}
+body.site-renewal.editorial.compact-local .pr-estimate-link:focus-visible {outline-offset:1px}
 body.site-renewal.editorial.compact-local #inquiry-form .site-action:hover > [aria-hidden="true"] {transform:none}
 body.site-renewal.editorial.compact-local :is(input:not([type="hidden"],[type="checkbox"],[type="radio"]),select,textarea):not([readonly]) {
   --action-lift-y:0px;translate:0 var(--action-lift-y);transition:translate .18s ease-out;
