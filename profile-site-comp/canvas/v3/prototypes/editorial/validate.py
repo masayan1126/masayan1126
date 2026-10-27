@@ -80,7 +80,7 @@ def validate():
     for page, soup in docs.items():
         assert not soup.select('.editorial-nav'), page
         social_urls = ['https://www.youtube.com/@masayan-ai-hack', 'https://x.com/masayan_ai_hack', 'https://www.instagram.com/miyabiya1126/', 'https://github.com/masayan1126']
-        expected_header_links = ['/', *social_urls, '/' if page == 'contact' else '/contact/#contact-form']
+        expected_header_links = ['/', *social_urls, '/' if page == 'contact' else '/contact/']
         assert [a['href'] for a in soup.select('.editorial-header a')] == expected_header_links, page
         assert [a['href'] for a in soup.select('.editorial-footer .site-social-links a')] == social_urls, page
         assert not soup.select('main .site-social-links, .profile-social-links'), page

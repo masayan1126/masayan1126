@@ -33,7 +33,7 @@ def studio_mark():
 
 
 def header(current):
-    contact_link = '<a class="editorial-home-link" href="/" aria-label="トップページへ戻る"><span aria-hidden="true">←</span><span class="home-link-full" aria-hidden="true">トップページへ戻る</span><span class="home-link-short" aria-hidden="true">トップへ</span></a>' if current == 'contact' else '<a class="editorial-contact-link" href="/contact/#contact-form">お問い合わせ <span aria-hidden="true">↗</span></a>'
+    contact_link = '<a class="editorial-home-link" href="/" aria-label="トップページへ戻る"><span aria-hidden="true">←</span><span class="home-link-full" aria-hidden="true">トップページへ戻る</span><span class="home-link-short" aria-hidden="true">トップへ</span></a>' if current == 'contact' else '<a class="editorial-contact-link" href="/contact/">お問い合わせ <span aria-hidden="true">↗</span></a>'
     return f'''<header class="editorial-header"><div class="editorial-shell editorial-header-inner">
 <a class="editorial-brand" href="/">{studio_mark()}Miyabiya Studio</a>
 <div class="editorial-header-actions">{social_icon_links('header')}{contact_link}</div>
