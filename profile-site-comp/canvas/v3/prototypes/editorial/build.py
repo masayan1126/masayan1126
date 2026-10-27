@@ -54,6 +54,11 @@ def build(*, source_root=None, output_root=None, production=False):
     (OUT / 'typography.css').write_text(typography['css'] + '\n')
     asset_dir = OUT / 'editorial-assets'
     asset_dir.mkdir(exist_ok=True)
+    font_dir = HERE / 'assets/fonts/ibm-plex-sans-jp'
+    font_manifest = json.loads((font_dir / 'manifest.json').read_text())
+    for face in font_manifest['faces']:
+        assert hashlib.sha256((font_dir / face['file']).read_bytes()).hexdigest() == face['sha256']
+    shutil.copytree(font_dir, asset_dir / 'fonts/ibm-plex-sans-jp', dirs_exist_ok=True)
     shutil.copyfile(HERE / 'assets/avatar-mono-pixel.png', asset_dir / 'avatar-mono-pixel.png')
     extension_dir = asset_dir / 'extensions'
     extension_dir.mkdir(exist_ok=True)
@@ -160,6 +165,7 @@ def build(*, source_root=None, output_root=None, production=False):
             meta.decompose()
         if not production:
             soup.head.append(soup.new_tag('meta', attrs={'name': 'robots', 'content': 'noindex,nofollow'}))
+        soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/editorial-assets/fonts/ibm-plex-sans-jp/font-faces.css'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/editorial.css'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/compact.css'}))
         soup.head.append(soup.new_tag('link', attrs={'rel': 'stylesheet', 'href': '/typography.css'}))
