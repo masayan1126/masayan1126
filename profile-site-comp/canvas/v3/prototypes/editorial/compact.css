@@ -258,3 +258,11 @@ body.site-renewal.editorial.compact-local #inquiry-security-status {margin:0;col
 body.site-renewal.editorial.compact-local #inquiry-security-retry {min-height:44px;padding:8px 12px;background:#fff;color:#202020;border:1px solid #8f8f8f;border-radius:4px;font:inherit;cursor:pointer}
 body.site-renewal.editorial.compact-local #inquiry-security-retry[hidden] {display:none}
 body.site-renewal.editorial.compact-local #inquiry-security-retry:focus-visible {outline:3px solid #202020;outline-offset:3px}
+
+/* Make the route home explicit on the contact page. */
+body.site-renewal.editorial.compact-local .editorial-home-link {display:inline-flex;align-items:center;justify-self:end;grid-row:1;grid-column:2;gap:6px;min-height:44px;font-size:14px;font-weight:400;line-height:1.5;color:#202020;background:none;border:0;text-decoration:none;white-space:nowrap}
+body.site-renewal.editorial.compact-local .editorial-home-link:hover {color:#000}
+body.site-renewal.editorial.compact-local .editorial-home-link:focus-visible {outline:3px solid #202020;outline-offset:3px}
+@media(max-width:440px) {
+  body.site-renewal.editorial.compact-local .editorial-home-link {grid-row:2;grid-column:1/-1;justify-self:start}
+}
