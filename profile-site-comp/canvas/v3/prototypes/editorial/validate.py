@@ -4,11 +4,15 @@ from urllib.parse import urlsplit, unquote
 from bs4 import BeautifulSoup
 import copy
 import json
+from site_copy import refine_ui_copy, centralize_contact_page
 
 PROJECT = Path(__file__).resolve().parents[4]
 PUBLIC = PROJECT / 'canvas/v3/site'
+if (PROJECT / 'output/editorial-base/site').exists():
+    PUBLIC = PROJECT / 'output/editorial-base/site'
 PREVIEW = PROJECT / 'output/editorial-concept/site'
-PAGES = ['', 'profile', 'works', 'services', 'media', 'talks', 'membership', 'pricing', 'contact']
+PAGES = ['', 'profile', 'works', 'talks', 'membership', 'pricing', 'contact']
+SOURCE_PAGE = {}
 
 
 def document(root, page):
@@ -42,12 +46,23 @@ def validate():
                 continue
             asset_path = url.path.lstrip('/')
             assert (PREVIEW / asset_path).is_file() or (PUBLIC / asset_path).is_file(), asset_path
-        before = content_size(document(PUBLIC, page))
+        before = content_size(document(PUBLIC, SOURCE_PAGE.get(page, page)))
         after = content_size(soup)
         pages.append({'path': '/' + (page + '/' if page else ''), 'source_chars': before, 'preview_chars': after})
 
+    expected_quote = document(PUBLIC, 'pricing')
+    centralize_contact_page(expected_quote, 'pricing')
+    expected_quote = BeautifulSoup(refine_ui_copy(str(expected_quote)), 'html.parser')
     for selector in ('#pricing-data', '#pricing-wizard', '#legacy-estimate'):
-        assert str(document(PUBLIC, 'pricing').select_one(selector)) == str(docs['pricing'].select_one(selector)), selector
+        before = str(expected_quote.select_one(selector))
+        assert before == str(docs['pricing'].select_one(selector)), selector
+    for page, soup in docs.items():
+        if page == 'contact':
+            continue
+        for anchor in soup.select('a[href]'):
+            if urlsplit(anchor['href']).path.rstrip('/') == '/contact':
+                assert anchor.find_parent('header') and 'editorial-contact-link' in anchor.get('class', []), page
+        assert not soup.select('main .focus-invitation, main .a-invitation'), page
     original_form = document(PUBLIC, 'contact').select_one('#inquiry-form')
     preview_form = copy.copy(docs['contact'].select_one('#inquiry-form'))
     assert preview_form['action'] == '/__preview/contact'
@@ -57,8 +72,38 @@ def validate():
     assert docs['contact'].get_text().count('通常2営業日以内') == 1
     assert 'https://studio.msyn.me/api/contact' not in str(docs['contact'])
     assert not docs['talks'].select('iframe'), 'Slides should open only on request'
-    assert len(docs[''].select('.focus-highlight')) == 3
-    result = {'pages': pages, 'links_and_assets': 'passed', 'quote_dom_unchanged': True, 'form_fields_unchanged': True, 'forms_send': False}
+    assert docs[''].select_one('.a-bio'), 'Approved profile introduction is missing'
+    assert [item['data-category'] for item in docs[''].select('.a-entry')] == ['activity', 'pr', 'development', 'video', 'talk', 'ai'], 'Activity order must follow the approved introduction'
+    for page, soup in docs.items():
+        assert not soup.select('.editorial-nav'), page
+        assert [a['href'] for a in soup.select('.editorial-header a')] == ['/', '/contact/#contact-form'], page
+    assert len(docs[''].select('#ai-adoption > .activity-group > .activity-highlights > li')) == 5
+    assert not docs[''].select('#ai-adoption .plain-link')
+    assert not docs[''].select('#other-services[open]')
+    assert docs[''].select_one('#web-development') and docs[''].select_one('#video-editing')
+    assert docs[''].get_text().count('約90%') == 1, 'YouTube automation result is duplicated'
+    assert docs[''].select_one('#activities a[href="https://www.youtube.com/@masayan-ai-hack"]')
+    assert docs[''].select_one('#personal-development a[href="https://github.com/masayan1126/chrome-extensions"]')
+    assert docs[''].select_one('#personal-development a[href="https://github.com/masayan1126"]')
+    assert docs[''].select_one('#activities a[href="/membership/"]')
+    assert len(docs[''].select('#activities .activity-highlights > li')) == 4
+    assert len(docs[''].select('#personal-development .activity-highlights > li')) == 2
+    assert len(docs[''].select('#video-editing .activity-highlights > li')) == 2
+    assert '約90%' in docs[''].select_one('#video-editing').get_text()
+    assert not docs[''].select_one('#video-editing').find_parent('details')
+    assert docs[''].select_one('#activities h3').get_text(strip=True) == '技術発信'
+    assert docs[''].select_one('#personal-development h3').get_text(strip=True) == '個人開発'
+    assert not docs[''].select('#activities a[href*="github.com"]')
+    assert not docs[''].select('#activities .plain-link')
+    assert docs[''].select_one('#product-pr a.pr-estimate-link[href="/pricing/"]')
+    removed = document(PREVIEW, 'activities')
+    assert not removed.select('main')
+    assert removed.select_one('meta[http-equiv="refresh"]')['content'] == '0;url=/#activities'
+    removed_services = document(PREVIEW, 'services')
+    assert not removed_services.select('main')
+    assert removed_services.select_one('meta[http-equiv="refresh"]')['content'] == '0;url=/#ai-adoption'
+    assert not docs[''].select('[data-pattern]'), 'Comparison tabs do not belong to the site'
+    result = {'pages': pages, 'links_and_assets': 'passed', 'quote_dom_matches_expected_copy': True, 'quote_data_unchanged': True, 'form_fields_unchanged': True, 'contact_entry_header_only': True, 'forms_send': False}
     output = PREVIEW.parent / 'selection'
     output.mkdir(exist_ok=True)
     (output / 'validation.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')

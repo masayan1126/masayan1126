@@ -1,0 +1,196 @@
+/* Local pricing presentation. Calculation, quote markup and controls stay shared. */
+body.site-renewal.editorial.compact-local[data-page="pricing"] {
+  --estimate-blue:#202020;
+  --estimate-muted:#606060;
+  --estimate-line:#dedede;
+  color:#202020;
+  background:#fff;
+
+  .estimate-intro {padding-block:24px 12px;background:#fff}
+  .estimate-intro h1 {margin:0 0 10px;line-height:1.5;font-weight:650}
+  .estimate-intro .v3-breadcrumb {display:inline-flex;align-items:center;min-height:44px;margin:0 0 12px;color:#606060}
+  .estimate-lead {max-width:46em;margin:0;line-height:1.85;color:#606060}
+
+  #pricing-wizard {
+    --blue:#202020;--ink:#202020;--muted:#606060;
+    --line:#dedede;--paper:#fff;--selection-surface:#f2f2f2;
+    padding-block:12px 40px;
+
+    .simulator-launch {grid-template-columns:1fr;gap:32px;padding:10px 0 0;align-items:start}
+    .simulator-launch h2 {margin:0 0 8px;line-height:1.6}
+    .simulator-launch p {margin:0 0 16px;line-height:1.85}
+    .launch-summary {padding:0;background:#fff;border:0;max-width:460px}
+    .launch-summary h3 {margin:6px 0 10px;font-weight:500;line-height:1.7}
+    .launch-summary strong {margin:4px 0 8px;letter-spacing:0}
+    .launch-summary p {margin:0 0 4px}
+
+    .pricing-simulator {width:calc(100% - 48px);max-width:1240px;height:calc(100dvh - 48px);border:0;border-radius:0;box-shadow:none}
+    .simulator-header {padding:20px 32px 16px;border:0;background:#fff;align-items:center}
+    .simulator-header p {margin:0 0 2px;color:#606060}
+    .simulator-header h2 {line-height:1.6}
+    .simulator-scroll {padding:16px 32px 36px}
+    .flow-layout {grid-template-columns:minmax(0,1fr) 250px;gap:48px}
+    .flow-main {min-width:0}
+    .progress {margin-bottom:24px;gap:8px}
+    .progress li {height:2px;background:#e6e6e6}
+    .progress li.done,.progress li.current {background:#202020}
+    .question-kicker {margin:0 0 8px;font-weight:400;color:#606060}
+    .question h2 {margin:0;font-weight:650;line-height:1.6}
+    .question-hint {margin:8px 0 20px;line-height:1.75}
+    .choices {grid-template-columns:1fr;gap:10px}
+    .choice,.choice.compact {display:grid;grid-template-columns:24px minmax(0,1fr);align-content:start;gap:4px 12px;min-height:0;padding:16px;border:0;border-radius:0;background:#fff}
+    .choice:hover {background:#f8f8f8}
+    .choice,.choice:has(input:checked) {outline:0}
+    .choice:has(input:checked) {background:#f2f2f2;border:0}
+    .choice:has(input:focus-visible) {outline:3px solid #202020;outline-offset:3px}
+    .choice input,.choice.compact input {position:static;grid-column:1;grid-row:1;width:20px;height:20px;margin:4px 0 0;accent-color:#202020}
+    .choice .choice-icon {display:none}
+    .choice-title,.choice.compact .choice-title {grid-column:2;padding:0;font-weight:550;line-height:1.6}
+    .choice-description,.choice-price {grid-column:2;margin:0;line-height:1.75;color:#606060}
+    .choice-price {margin-top:3px;color:#202020}
+    .hint {margin-top:16px;line-height:1.75}
+    .navigation {margin-top:24px;padding:0;border:0;gap:12px}
+    .button,.text-button,.simulator-close {min-height:44px;border-radius:0;box-shadow:none;text-decoration:none;font-weight:550}
+    .button {padding:10px 18px;gap:8px;line-height:1.6}
+    .button.primary {background:#202020;color:#fff;border:1px solid #202020}
+    .button.primary:hover {background:#404040;color:#fff;border-color:#404040}
+    .button.secondary,.text-button,.simulator-close {background:#fff;color:#202020;border:1px solid #c9c9c9}
+    .button.secondary:hover,.text-button:hover,.simulator-close:hover {background:#f6f6f6;color:#202020}
+    .text-button {display:inline-flex;align-items:center;justify-content:center;width:auto;padding:8px 12px}
+    .simulator-close {gap:8px;padding:8px 12px;white-space:nowrap}
+    .simulator-close span {font-weight:400}
+    :is(button,input,select,textarea,summary,a):focus-visible {outline:3px solid #202020;outline-offset:3px}
+
+    .flow-aside {background:#fff;border:0;padding:0;top:0}
+    .flow-aside h2 {margin:0 0 16px}
+    .answer-list {display:grid;gap:20px}
+    .answer-list li {padding:0;border:0}
+    .answer-list small {margin:0 0 4px;color:#606060}
+    .answer-row {gap:10px}
+    .answer-value {line-height:1.75;overflow-wrap:anywhere}
+    .answer-row button {min-height:44px;padding:8px 10px}
+    .aside-foot {border:0;padding:0;margin:20px 0 0;line-height:1.75}
+    .mini-note,.extras-impact,.extras-consultations,.historical-rate-note,.pending-box {border:0;background:#fff;padding:0;box-shadow:none;color:#606060}
+    .mini-note {margin-top:20px}
+    .pr-history {margin-bottom:28px}
+    .pr-history legend,.asset-options-title {font-weight:600;margin-bottom:10px}
+    .asset-options-title {margin-top:24px}
+    .revisions {border:0;padding-top:0;margin-top:20px;align-items:center}
+    .media-revisions {margin:28px 0}
+    .media-revision-field {padding:0;margin-top:18px}
+    .media-revision-field .revisions {grid-template-columns:minmax(0,1fr) 76px 1em;gap:10px}
+    .media-revision-field .rev-note {margin:6px 0 0;color:#606060}
+    input:not([type="checkbox"]):not([type="radio"]),select,textarea {border:1px solid #9d9d9d;border-radius:0;background:#fff;color:#202020;min-height:44px;line-height:1.6}
+    textarea {padding:12px}
+    .extras-impact {margin-top:28px}
+    .extras-impact h3 {margin:0 0 16px}
+    .extras-amounts>div {gap:16px}
+    .extras-revision-effects {margin:16px 0}
+    .extras-revision-effects li {padding:4px 0;gap:16px}
+    .extras-revision-effects strong,.extras-amounts dd {color:#202020}
+    .extras-current {border:0;padding-top:8px}
+    .optional-details,.document-details {border:0;background:#fff}
+    summary {color:#202020;min-height:44px;padding:10px 0}
+
+    .estimate-complete {max-width:1100px}
+    .completion-heading {gap:12px;margin-bottom:24px;align-items:start}
+    .complete-mark {width:28px;height:28px;margin-top:2px;background:#f2f2f2;color:#202020;border-radius:50%}
+    .completion-heading p {line-height:1.75;margin-top:6px}
+    .chosen-estimate {padding:0;border:0;background:#fff;margin-bottom:28px;gap:24px}
+    .chosen-estimate h3 {margin:4px 0 0;font-weight:500;line-height:1.7}
+    .chosen-estimate strong {letter-spacing:0}
+    .complete-grid {grid-template-columns:minmax(0,1fr) 250px;gap:48px}
+    .complete-grid .estimate-paper {border:0;padding:0;background:#fff;box-shadow:none}
+    .paper-heading {border:0;padding-bottom:20px}
+    .paper-heading h2 {font-weight:600}
+    .paper-heading p {margin-top:4px}
+    .paper-subject {margin:0 0 16px;line-height:1.75}
+    .estimate-lines th,.estimate-lines td {border:0;padding-block:10px;line-height:1.75}
+    .estimate-lines thead th {padding-block:8px;background:#f6f6f6;border:0}
+    .estimate-lines thead th:first-child {padding-left:10px}
+    .estimate-lines thead th:last-child {padding-right:10px}
+    .estimate-lines small {margin-top:3px;color:#606060}
+    .totals {margin-top:20px}
+    .total-row {margin:8px 0}
+    .grand-total {padding:12px 0 0;margin-top:8px;color:#202020}
+    .grand-total strong {letter-spacing:0}
+    .document-foot {line-height:1.75;margin-top:16px}
+    .document-details {margin-top:20px}
+    .document-details h3 {margin:16px 0 8px}
+    .document-actions {gap:10px;margin-top:24px}
+    .document-actions .text-button {margin-left:0}
+    .completion-next-step .document-actions {flex-direction:row;align-items:center}
+    .completion-next-step .document-actions .text-button {display:inline-flex;width:auto}
+    .pdf-recipient {gap:10px;flex-wrap:wrap}
+    .pdf-recipient input {max-width:360px}
+    .completed-controls {background:#fff;border:0;padding:0}
+    .completed-controls h3 {margin-bottom:14px}
+    .completed-controls .completed-answers>div {padding:0;margin-bottom:20px}
+    .completed-controls .answer-row {display:flex;align-items:start;gap:10px}
+    .completed-controls .answer-value {margin:4px 0}
+    .completed-controls small {color:#606060}
+
+    .comparison-dock {display:flex;padding:14px 32px;border:0;background:#f2f2f2;box-shadow:none;gap:24px}
+    .comparison-dock p {color:#606060}
+    .comparison-dock strong {line-height:1.6;color:#202020}
+    .comparison-dock .button {width:auto;min-height:44px;padding:10px 18px;justify-content:center}
+    .estimate-alternatives {border:0;padding-top:0;margin-top:40px}
+    .alternatives-heading {gap:16px}
+    .alternatives-heading>span {background:#fff;border:0;width:auto;height:auto;font-weight:400;color:#606060}
+    .alternatives-grid {gap:32px 40px}
+    .alternative-card {padding:0;border:0;background:#fff;box-shadow:none}
+    .alternative-card h3 {font-weight:550;margin-bottom:12px}
+    .alternative-label {margin-bottom:6px;color:#606060}
+    .alternative-total {letter-spacing:0;color:#202020}
+    .alternative-card>.button {width:auto;align-self:start;margin-top:auto}
+    .alternative-details {margin:8px 0 16px}
+    .alternative-details .estimate-lines td {white-space:normal}
+    .pending-box,.extras-consultations {margin-top:18px;line-height:1.8}
+    .restart-row {gap:12px;flex-wrap:wrap}
+  }
+  .estimate-pdf-dialog {border:0;border-radius:0;padding:28px;box-shadow:none}
+  .pdf-dialog-heading button {min-width:44px;min-height:44px;background:#fff;color:#202020;border:1px solid #c9c9c9;border-radius:0}
+  .pdf-recipient-fields input,.pdf-recipient-fields select {border-radius:0;border-color:#9d9d9d}
+}
+
+@media(max-width:1024px) {
+  body.site-renewal.editorial.compact-local[data-page="pricing"] #pricing-wizard {
+    .flow-layout,.complete-grid {grid-template-columns:1fr;gap:36px}
+    .flow-aside {position:static;max-width:560px;margin-top:8px}
+    .completed-controls {max-width:560px}
+  }
+}
+@media(forced-colors:active) {
+  body.site-renewal.editorial.compact-local[data-page="pricing"] #pricing-wizard .choice:has(input:checked) {outline:2px solid Highlight;outline-offset:-2px}
+}
+@media(max-width:680px) {
+  body.site-renewal.editorial.compact-local[data-page="pricing"] {
+    .estimate-intro {padding-block:16px 10px}
+    .estimate-intro .v3-breadcrumb {margin-bottom:8px}
+    #pricing-wizard {
+      .simulator-launch {gap:28px}
+      .pricing-simulator {width:100%;height:100dvh;max-width:none}
+      .simulator-header {padding:16px 20px;gap:12px}
+      .simulator-header p {display:none}
+      .simulator-scroll {padding:8px 20px 28px}
+      .flow-layout {display:grid;gap:32px}
+      .choices {gap:8px}
+      .choice,.choice.compact {padding:14px 12px;gap:4px 10px}
+      .chosen-estimate {padding:0}
+      .chosen-estimate>div:last-child {text-align:left;margin-top:16px}
+      .complete-grid .estimate-paper {padding:0}
+      .paper-heading {display:block;padding-bottom:18px}
+      .paper-sender {text-align:left;margin-top:12px;padding:0}
+      .estimate-lines th {padding-right:12px}
+      .estimate-lines td {white-space:normal;min-width:5.5em}
+      .chosen-estimate h3 {font-weight:500}
+      .comparison-dock {display:block;padding:12px 20px max(12px,env(safe-area-inset-bottom));gap:0}
+      .comparison-dock .button {width:100%;margin-top:8px}
+      .alternatives-grid {gap:32px}
+      .completed-controls .answer-row {display:flex}
+      .pdf-recipient {display:grid;grid-template-columns:minmax(0,1fr) auto}
+      .pdf-recipient label,.pdf-recipient small {grid-column:1/-1}
+      .pdf-recipient input {width:100%}
+    }
+  }
+}

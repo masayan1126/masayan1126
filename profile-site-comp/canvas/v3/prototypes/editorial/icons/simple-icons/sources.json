@@ -1,0 +1,13 @@
+{
+  "library": "Simple Icons",
+  "repository": "https://github.com/simple-icons/simple-icons",
+  "commit": "90646e4bf7f3b89df6c37e65baf3e7bc759a517c",
+  "retrieved": "2026-10-27",
+  "files": {
+    "youtube.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/youtube.svg",
+    "x.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/x.svg",
+    "instagram.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/instagram.svg",
+    "github.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/github.svg",
+    "LICENSE.md": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/LICENSE.md"
+  }
+}
