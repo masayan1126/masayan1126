@@ -163,7 +163,7 @@ def home():
     def entry_content(category, title, proof):
         heading = f'<h3 class="activity-title-with-icon">{lucide_icon(activity_icons[category], "activity-title-icon")}<span>{title}</span></h3>'
         if category == 'pr':
-            action = '<a class="pr-estimate-link" href="/pricing/" aria-label="PR動画のお見積りはこちら">お見積りはこちら<span class="arrow" aria-hidden="true">→</span></a>'
+            action = '<a class="pr-estimate-link" href="/pricing/" aria-label="PR動画の料金を見積もる">料金を見積もる<span class="arrow" aria-hidden="true">→</span></a>'
             return '<div class="pr-section-header">' + heading + action + '</div>' + video_card(proof)
         return heading + renderers[category]()
     rows = ''.join(
