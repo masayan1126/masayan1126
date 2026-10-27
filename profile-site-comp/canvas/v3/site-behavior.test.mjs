@@ -14,7 +14,7 @@ function contactHarness({verified=true,valid=true,search='',kind='PR・タイア
   const status={focus(){this.focused=true;}},hint={},count={},check={focus(){this.focused=true;}},tokenField={value:''},retry={addEventListener:(k,fn)=>{handlers['retry:'+k]=fn;}};
   let widgetOptions,checkResets=0;const loader={addEventListener:(k,fn)=>{handlers['loader:'+k]=fn;},remove(){}};
   const browser={addEventListener:(k,fn)=>{windowHandlers[k]=fn;},turnstile:{render:(_selector,options)=>{widgetOptions=options;return 'widget';},reset:()=>{checkResets++;}}};
-  const button={disabled:false,innerHTML:'相談内容を送信する<span>→</span>',setAttribute:(k,v)=>{attrs[k]=v;},removeAttribute:k=>{delete attrs[k];}};
+  const button={disabled:false,innerHTML:'送信する<span>→</span>',setAttribute:(k,v)=>{attrs[k]=v;},removeAttribute:k=>{delete attrs[k];}};
   let requests=0,resets=0,successEvents=0;
   const form={elements,querySelector:s=>s==='.form-status'?status:button,reportValidity:()=>valid&&!Object.values(elements).some(f=>f.customError),reset:()=>{resets++;for(const f of Object.values(elements))f.value='';},addEventListener:(name,fn)=>{handlers[name]=fn;}};
   const nodes={'inquiry-form':form,'inquiry-body-hint':hint,'inquiry-body-count':count,'inquiry-security-status':check,'inquiry-security-retry':retry,'inquiry-security-token':tokenField};
@@ -33,7 +33,7 @@ test('contact form rejects invalid input before network activity and restores th
   assert.deepEqual(valid.result(),{requests:1,resets:1,successEvents:1});
   assert.equal(valid.button.disabled,false);
   assert.equal(valid.attrs['aria-busy'],undefined);
-  assert.match(valid.button.innerHTML,/相談内容を送信する/);
+  assert.match(valid.button.innerHTML,/送信する/);
   assert.match(valid.status.textContent,/2営業日/);
   assert.equal(valid.status.focused,true);
   assert.equal(valid.count.textContent,'0 / 5,000文字');
