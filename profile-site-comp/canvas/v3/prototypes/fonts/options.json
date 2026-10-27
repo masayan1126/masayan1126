@@ -1,0 +1,7 @@
+[
+  {"id":"a","family":"IBM Plex Sans JP","directory":"ibmplexsansjp","label":"端正で、技術者らしい","note":"英字と日本語にほどよい個性。技術と発信を両方見せる今のサイトに。","recommended":true},
+  {"id":"b","family":"Zen Kaku Gothic New","directory":"zenkakugothicnew","label":"静かで、すっきり","note":"細部の線に落ち着きがあり、文章をゆっくり読ませたい雰囲気に。"},
+  {"id":"c","family":"Noto Sans JP","directory":"notosansjp","label":"自然で、癖が少ない","note":"字形の主張を抑え、活動や実績の内容を素直に伝える定番の案。"},
+  {"id":"d","family":"BIZ UDPGothic","directory":"bizudpgothic","label":"明快で、読み取りやすい","note":"本文や数字の見分けやすさを重視。情報が多い見積もりやフォームにも。"},
+  {"id":"e","family":"M PLUS 1","directory":"mplus1","label":"軽やかで、親しみやすい","note":"直線と丸みを生かした、少し柔らかな印象。ドット絵のアイコンにも。"}
+]

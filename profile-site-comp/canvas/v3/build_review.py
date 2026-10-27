@@ -21,6 +21,10 @@ if avatar_options.exists():
     avatar_review.parent.mkdir(parents=True, exist_ok=True)
     avatar_review.write_bytes(avatar_options.read_bytes())
     PAGES.insert(1, ('/__review/avatar-options/', 'プロフィール画像5案'))
+font_options = HERE / 'prototypes/fonts/build.py'
+if font_options.exists() and (font_options.parent / 'assets/manifest.json').exists() and (HERE.parents[1] / 'output/editorial-concept/site/index.html').exists():
+    subprocess.run(['python3', str(font_options)], check=True)
+    PAGES.insert(1, ('/__review/fonts/', 'フォント5案'))
 tabs = ''.join(f'<button role="tab" id="page-{i}" data-path="{path}" aria-controls="preview" aria-selected="{str(i == 0).lower()}" tabindex="{0 if i == 0 else -1}">{name}</button>' for i, (path, name) in enumerate(PAGES))
 source = (HERE / 'review-template.html').read_text().replace('%%TABS%%', tabs)
 if history_pages:
