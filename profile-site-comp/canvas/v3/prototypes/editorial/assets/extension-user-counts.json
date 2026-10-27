@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-10-27",
+  "user_counts": [
+    32,
+    59,
+    82,
+    16,
+    20
+  ],
+  "source": "User-provided Chrome Web Store dashboard screenshot dated 2026-10-27 10:19:26",
+  "aggregation": "Sum of the five displayed extension user counts; not deduplicated across extensions"
+}
