@@ -134,9 +134,7 @@ def extension_icon_links():
 def personal_projects():
     return '<div class="project-extensions">' + activity_list([
         '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>',
-    ]) + extension_icon_links() + '</div>' + activity_list([
-        '<a href="https://github.com/masayan1126" target="_blank" rel="noopener noreferrer">GitHubでソースコードを公開</a>',
-    ])
+    ]) + extension_icon_links() + '</div>'
 
 
 def ai_video_editing():
