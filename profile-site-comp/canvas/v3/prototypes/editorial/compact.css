@@ -10,7 +10,7 @@ body.site-renewal.editorial.compact-local {
   --site-shell-width:764px;--site-shell-gutter:30px;
   --activity-icon-width:20px;--activity-column-gap:10px;
   --activity-content-inset:calc(var(--activity-icon-width) + var(--activity-column-gap));
-  --required-text:#b42318;--required-surface:#f4f4f4;
+  --required-text:#fff;--required-surface:#b42318;
   --required-radius:4px;--required-line-height:20px;--required-padding-block:2px;
 }
 body.site-renewal.editorial.compact-local>.v3 {min-height:100vh;min-height:100svh;padding-bottom:calc(var(--site-footer-height) + var(--space-related))}
