@@ -15,6 +15,12 @@ references = HERE.parents[1] / 'output/site-references/references.html'
 if references.exists():
     encoded = base64.b64encode(references.read_bytes()).decode()
     PAGES.insert(2, ('data:text/html;base64,' + encoded, '参考サイト10選'))
+avatar_options = HERE.parents[1] / 'output/avatar-options/comparison.html'
+if avatar_options.exists():
+    avatar_review = HERE.parents[1] / 'output/editorial-concept/site/__review/avatar-options/index.html'
+    avatar_review.parent.mkdir(parents=True, exist_ok=True)
+    avatar_review.write_bytes(avatar_options.read_bytes())
+    PAGES.insert(1, ('/__review/avatar-options/', 'プロフィール画像5案'))
 tabs = ''.join(f'<button role="tab" id="page-{i}" data-path="{path}" aria-controls="preview" aria-selected="{str(i == 0).lower()}" tabindex="{0 if i == 0 else -1}">{name}</button>' for i, (path, name) in enumerate(PAGES))
 source = (HERE / 'review-template.html').read_text().replace('%%TABS%%', tabs)
 if history_pages:

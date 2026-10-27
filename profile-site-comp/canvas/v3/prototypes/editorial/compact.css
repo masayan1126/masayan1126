@@ -1,5 +1,5 @@
 /* The approved A direction, applied only to the complete local site. */
-:root {--site-footer-height:calc(60px + env(safe-area-inset-bottom,0px));scroll-padding-bottom:calc(var(--site-footer-height) + 12px)}
+:root {--site-footer-height:calc(60px + env(safe-area-inset-bottom,0px));scroll-padding-bottom:calc(var(--site-footer-height) + 12px);scrollbar-gutter:stable}
 body.site-renewal.editorial.compact-local {
   background:#fff;color:#202020;font-size:14px;line-height:1.85;
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
