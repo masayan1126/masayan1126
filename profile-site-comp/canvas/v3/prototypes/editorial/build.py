@@ -120,6 +120,11 @@ def build(*, source_root=None, output_root=None, production=False):
         for form in ([] if production else soup.select('form#inquiry-form')):
             form['action'] = '/__preview/contact'
             form['data-editorial-preview'] = 'true'
+        if not production:
+            public_sitekey = json.loads((PROJECT / 'canvas/v3/contact-security.json').read_text())['sitekey']
+            for script in soup.select('script:not([src])'):
+                if 'onContactTurnstileReady' in script.get_text():
+                    script.string = script.get_text().replace(public_sitekey, '1x00000000000000000000AA')
         # Local neutral copies cover every interaction state without changing
         # the public palette, pricing data or calculation/PDF modules.
         for link in soup.select('link[rel="stylesheet"]'):

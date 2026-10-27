@@ -9,3 +9,12 @@ routes = [{ pattern = "studio.msyn.me/api/contact", zone_name = "msyn.me" }]
 
 [[send_email]]
 name = "MAILER"
+
+# A dedicated namespace; counters apply per IP and Cloudflare location.
+# Turnstile secret is stored with `wrangler secret put TURNSTILE_SECRET_KEY`.
+[[ratelimits]]
+name = "CONTACT_RATE_LIMITER"
+namespace_id = "1740937261"
+[ratelimits.simple]
+limit = 5
+period = 60

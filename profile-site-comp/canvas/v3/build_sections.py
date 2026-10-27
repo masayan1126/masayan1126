@@ -1,6 +1,7 @@
 """Render excerpts and full case studies from the same editable content."""
 from pathlib import Path
 import hashlib
+import json
 import re
 
 HERE = Path(__file__).resolve().parent
@@ -233,7 +234,18 @@ def render_contact_form():
     Email Routing 経由で受信アドレスへ届く。送れなかったときはメールでの連絡先を案内する。
     """
     options = ''.join('<option>' + kind + '</option>' for kind in INQUIRY_KINDS)
-    script = """<script>(()=>{const f=document.getElementById('inquiry-form');if(!f)return;const s=f.querySelector('.form-status'),b=f.querySelector('button'),hint=document.getElementById('inquiry-body-hint'),count=document.getElementById('inquiry-body-count');
+    security = json.loads((HERE / 'contact-security.json').read_text())
+    assert re.fullmatch(r'0x[A-Za-z0-9_-]{20,}', security['sitekey']), 'Production Turnstile sitekey required'
+    assert security['hostname'] == 'studio.msyn.me' and security['action'] == 'contact'
+    script = """<script>(()=>{const f=document.getElementById('inquiry-form');if(!f)return;const s=f.querySelector('.form-status'),b=f.querySelector('button[type="submit"]'),hint=document.getElementById('inquiry-body-hint'),count=document.getElementById('inquiry-body-count');
+const check=document.getElementById('inquiry-security-status'),retry=document.getElementById('inquiry-security-retry'),tokenField=document.getElementById('inquiry-security-token');
+let token='',widgetId,checkState='loading',loader;
+const checkMessage=(state,message)=>{checkState=state;check.textContent=message;retry.hidden=state!=='error';if(state!=='ready'){token='';tokenField.value='';}};
+const startCheck=()=>{if(!window.turnstile)return;try{widgetId=window.turnstile.render('#inquiry-security-widget',{sitekey:__CONTACT_SITEKEY__,action:'contact',theme:'light',language:'ja',size:'compact',appearance:'interaction-only','response-field':false,callback:value=>{token=value;tokenField.value=value;checkMessage('ready','送信の準備ができました。');},'expired-callback':()=>checkMessage('loading','確認を更新しています…'),'timeout-callback':()=>checkMessage('error','確認が完了しませんでした。もう一度お試しください。'),'error-callback':()=>{checkMessage('error','自動確認を読み込めませんでした。通信状況をご確認のうえ、再試行してください。');return true;}});}catch(_){checkMessage('error','自動確認を開始できませんでした。もう一度お試しください。');}};
+window.onContactTurnstileReady=startCheck;
+const loadCheck=()=>{if(loader)loader.remove();checkMessage('loading','迷惑送信を防ぐため、自動で確認しています…');loader=document.createElement('script');loader.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onContactTurnstileReady&render=explicit';loader.async=true;loader.defer=true;loader.addEventListener('error',()=>checkMessage('error','自動確認を読み込めませんでした。通信状況をご確認のうえ、再試行してください。'));document.head.append(loader);};
+const resetCheck=()=>{checkMessage('loading','確認を更新しています…');if(window.turnstile&&widgetId!==undefined){try{window.turnstile.reset(widgetId);}catch(_){checkMessage('error','確認を更新できませんでした。ページを再読み込みしてください。');}}else if(window.turnstile)startCheck();else loadCheck();};
+retry.addEventListener('click',resetCheck);loadCheck();
 const K={web:['開発・AI導入のご依頼','Webサービス開発について。作りたいもの・時期・ご予算の目安など、分かる範囲でお書きください。'],ai:['開発・AI導入のご依頼','AI導入支援について。使っているツール・チームの人数・困っていることなど、分かる範囲でお書きください。'],pr:['PR・タイアップのご依頼','紹介したい製品・公開の時期・ご予算の目安など、分かる範囲でお書きください。'],talk:['登壇のご依頼','イベント名・日時・形式（オンライン／会場）・持ち時間など、分かる範囲でお書きください。'],video:['動画編集のご依頼','動画の内容・長さ・本数・納期など、分かる範囲でお書きください。'],recruit:['採用・業務委託のご相談','募集内容・働き方（正社員／業務委託／技術顧問）など、分かる範囲でお書きください。']};
 const H={'開発・AI導入のご依頼':'開発・AI活用でお困りのこと、希望時期・ご予算など','PR・タイアップのご依頼':'製品名・紹介したい内容・公開時期・ご予算など','登壇のご依頼':'イベント名・テーマ・日時・持ち時間・開催形式など','動画編集のご依頼':'動画の内容・長さ・本数・納期など','採用・業務委託のご相談':'募集内容・担当業務・働き方・開始時期など'};
 const k=K[new URLSearchParams(location.search).get('type')];if(k&&!f.elements.kind.value){f.elements.kind.value=k[0];}
@@ -242,16 +254,16 @@ const updateHint=()=>{hint.textContent=H[f.elements.kind.value]||'ご相談の�
 updateHint();updateCount();if(k&&f.elements.kind.value===k[0])f.elements.body.placeholder=k[1];
 f.addEventListener('change',e=>{if(e.target===f.elements.kind){updateHint();f.elements.body.placeholder='決まっている範囲でご記入ください。';}updateCount();});
 f.addEventListener('input',e=>{if(e.target===f.elements.name||e.target===f.elements.body)e.target.setCustomValidity('');updateCount();});
-window.addEventListener('pageshow',()=>{updateHint();updateCount();});
+window.addEventListener('pageshow',event=>{updateHint();updateCount();if(event?.persisted)resetCheck();});
 document.addEventListener('DOMContentLoaded',updateCount,{once:true});
 f.addEventListener('submit',async e=>{e.preventDefault();if(b.disabled)return;
 for(const [field,label] of [[f.elements.name,'お名前'],[f.elements.body,'ご相談内容']])field.setCustomValidity(field.value.trim()?'':label+'を入力してください。');
-if(!f.reportValidity())return;const fields=['kind','name','org','email','body'],submitted=fields.map(key=>f.elements[key].value);b.disabled=true;b.setAttribute('aria-busy','true');const buttonContent=b.innerHTML;b.textContent='送信中…';s.className='form-status';s.textContent='送信しています…';
+if(!f.reportValidity())return;if(!token){s.className='form-status ng';s.textContent=checkState==='error'?'自動確認を再試行してから送信してください。':'自動確認が完了するまでお待ちください。';check.focus();return;}const fields=['kind','name','org','email','body'],submitted=fields.map(key=>f.elements[key].value);b.disabled=true;b.setAttribute('aria-busy','true');const buttonContent=b.innerHTML;b.textContent='送信中…';s.className='form-status';s.textContent='送信しています…';
 try{const r=await fetch('https://studio.msyn.me/api/contact',{method:'POST',body:new FormData(f)});const j=await r.json().catch(()=>({}));
 if(r.ok&&j.ok){document.dispatchEvent(new CustomEvent('site:inquiry-sent',{detail:{kind:submitted[0]}}));const edited=fields.some((key,index)=>f.elements[key].value!==submitted[index]);if(!edited){f.reset();f.elements.body.placeholder='決まっている範囲でご記入ください。';}updateHint();updateCount();s.className='form-status ok';s.textContent=edited?'送信しました。送信中に変更した内容は、未送信のまま残しています。':'送信しました。ありがとうございます。通常2営業日以内に、入力いただいたメールアドレスへ返信します。';}
 else{s.className='form-status ng';s.textContent=(j.error||'送信できませんでした。')+' 急ぎの場合は contact@msyn.me へメールでお送りください。';}}
 catch(_){s.className='form-status ng';s.textContent='送信できませんでした。通信状況をご確認のうえ、もう一度お試しいただくか、contact@msyn.me へメールでお送りください。';}
-finally{b.disabled=false;b.removeAttribute('aria-busy');b.innerHTML=buttonContent;s.focus();}});})();</script>"""
+finally{resetCheck();b.disabled=false;b.removeAttribute('aria-busy');b.innerHTML=buttonContent;s.focus();}});})();</script>""".replace("__CONTACT_SITEKEY__", json.dumps(security["sitekey"]))
     return ('<section class="sec contact-form-sec" id="contact-form"><div class="wrap"><div class="contact-form-card">'
             '<h2>お仕事の相談を送る</h2><p class="lead">ご依頼内容・時期・ご予算など、分かる範囲でお知らせください。通常2営業日以内に返信します。</p><p id="quote-handoff-status" role="status" aria-live="polite"></p>'
             '<form id="inquiry-form" method="post" action="https://studio.msyn.me/api/contact" autocomplete="on"><label for="inquiry-kind"><span class="field">ご相談の種類<span class="req">必須</span></span><select id="inquiry-kind" name="kind" required><option value="">選んでください</option>' + options + '</select></label>'
@@ -260,4 +272,5 @@ finally{b.disabled=false;b.removeAttribute('aria-busy');b.innerHTML=buttonConten
             '<label for="inquiry-email"><span class="field">メールアドレス<span class="req">必須</span></span><input id="inquiry-email" name="email" type="email" inputmode="email" required maxlength="254" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="name@example.com"></label>'
             '<label for="inquiry-body"><span id="inquiry-body-label" class="field">ご相談内容<span class="req">必須</span></span><span id="inquiry-body-hint" class="field-hint">ご相談の概要・希望時期・ご予算など</span><textarea id="inquiry-body" name="body" rows="6" required maxlength="5000" autocomplete="off" spellcheck="true" enterkeyhint="enter" aria-labelledby="inquiry-body-label" aria-describedby="inquiry-body-hint inquiry-body-count" placeholder="決まっている範囲でご記入ください。"></textarea><span id="inquiry-body-count" class="field-count">0 / 5,000文字</span></label>'
             '<label class="hp" aria-hidden="true">ウェブサイト<input name="website" tabindex="-1" autocomplete="off"></label>'
+            '<div class="inquiry-security" id="inquiry-security"><div id="inquiry-security-widget"></div><input id="inquiry-security-token" type="hidden" name="cf-turnstile-response"><p id="inquiry-security-status" role="status" aria-live="polite" tabindex="-1">迷惑送信を防ぐため、自動で確認します。</p><button id="inquiry-security-retry" type="button" hidden>自動確認を再試行</button><noscript>送信にはJavaScriptを有効にしてください。</noscript></div>'
             '<div class="form-submit"><button class="site-action site-action-primary" data-site-action="primary" type="submit">相談内容を送信する<span aria-hidden="true">→</span></button></div><p class="form-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p></form></div></div></section>' + script)
