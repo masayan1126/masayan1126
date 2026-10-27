@@ -140,9 +140,10 @@ body.compact-local .compact-home .activity-list-marker {display:grid;place-items
 body.compact-local .compact-home .activity-list-marker svg {display:block;width:12px;height:12px}
 body.compact-local .compact-home .extension-users {display:flex;flex-wrap:wrap;gap:0 8px;margin-top:4px}
 body.compact-local .compact-home .extension-users time {color:#606060;white-space:nowrap}
-body.compact-local .compact-home .project-extension-links {display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 0 30px;padding:0}
-body.compact-local .compact-home .project-extension-links a {display:grid;place-items:center;width:56px;height:56px;padding:4px;box-sizing:border-box;border:0;background:none;text-decoration:none;border-radius:8px}
+body.compact-local .compact-home .project-extension-links {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;max-width:640px;margin:12px 0 0 30px;padding:0}
+body.compact-local .compact-home .project-extension-links a {display:grid;grid-template-rows:48px auto;align-content:start;justify-items:center;gap:8px;min-width:0;min-height:100px;padding:4px;box-sizing:border-box;border:0;background:none;text-decoration:none;text-align:center;border-radius:8px}
 body.compact-local .compact-home .project-extension-links img {display:block;width:48px;height:48px;object-fit:contain}
+body.compact-local .compact-home .project-extension-name {max-width:100%;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
 body.compact-local .compact-home .project-extension-links a:hover {background:#f3f3f3}
 body.compact-local .compact-home .project-extension-links a:focus-visible {outline:3px solid #202020;outline-offset:3px}
 body.compact-local .compact-home .activity-highlights strong {font-weight:650;color:inherit}
@@ -186,7 +187,7 @@ body.compact-local .compact-home .a-invitation .actions {gap:22px;margin:0}
 body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 
 @media(max-width:620px) {
-  body.compact-local .compact-home .project-extension-links {max-width:192px}
+  body.compact-local .compact-home .project-extension-links {grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px;max-width:320px}
   body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px;--site-header-clearance:120px}
   body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {padding-inline:24px}
   body.site-renewal.editorial.compact-local .editorial-header-inner {grid-template-columns:minmax(0,1fr);gap:0;min-height:0;padding-block:8px}
