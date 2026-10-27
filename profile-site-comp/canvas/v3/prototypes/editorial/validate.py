@@ -77,8 +77,13 @@ def validate():
     assert [item['data-category'] for item in docs[''].select('.a-entry')] == ['activity', 'pr', 'development', 'video', 'talk', 'ai'], 'Activity order must follow the approved introduction'
     for page, soup in docs.items():
         assert not soup.select('.editorial-nav'), page
-        expected_header_links = ['/'] if page == 'contact' else ['/', '/contact/#contact-form']
+        expected_header_links = ['/', '/'] if page == 'contact' else ['/', '/contact/#contact-form']
         assert [a['href'] for a in soup.select('.editorial-header a')] == expected_header_links, page
+        if page == 'contact':
+            home_link = soup.select_one('.editorial-header .editorial-home-link')
+            assert home_link and home_link['href'] == '/'
+            assert home_link.get_text(strip=True) == '←トップページへ戻る'
+            assert not soup.select('.editorial-contact-link')
     assert len(docs[''].select('#ai-adoption > .activity-group > .activity-highlights > li')) == 5
     assert not docs[''].select('#ai-adoption .plain-link')
     assert not docs[''].select('#other-services[open]')

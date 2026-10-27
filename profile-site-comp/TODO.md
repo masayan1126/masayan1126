@@ -1,5 +1,9 @@
 # Miyabiya Studio の進捗
 
+- 2026-10-27（トップへ戻るリンク・公開作業中）：お問い合わせヘッダーに「← トップページへ戻る」を追加しました。PCは右側、440px以下はブランド名の下へ配置。下線なし・14px・44pxの操作領域・3pxのフォーカスを設定。ビルド・7ページ互換性・関連16テスト・独立レビュー成功、フォームDOMの一致とPC／320pxの横はみ出しなし、Tab→Enterとクリックでトップ到達を確認。次はPRのマージと公開再確認です。根拠は output/contact-home-link/。
+
+- 2026-10-27（reCAPTCHA比較・Turnstile継続を採用）：Turnstile・Googleスコア型・チェックボックス型を公式情報で比較し、既存レビューの「ボット対策を比較」へ整理しました。本人がTurnstile継続を選択。公開フォーム・Worker・Gmail・Google Cloud設定は未変更です。比較資料の正本は output/contact-bot-options/comparison.html。
+
 - 2026-10-27（問い合わせのボット対策・公開済み）：Turnstileのトークン・hostname・actionをAPIで検証し、IP／Cloudflare拠点ごとに1分5回を目安とする回数制限と64 KiBの実データ制限を追加。入力補助と失敗時の内容保持、確認欄の操作案内を維持しました。86テスト中84成功・非公開データの2件スキップ、ビルド・7ページ互換性・320px幅・キーボード・独立セキュリティレビュー成功。PR #40／#41をマージし、本番9e017e0fとWorker 65e10c48へ反映済み。公開7ページ・CSS7件の一致、認証欠落の拒否、連続送信の429とRetry-Afterを確認。回数制限は同期遅延を伴うbest effortです。実際のCAPTCHA操作・メール送信・Gmail変更なし。根拠は output/contact-bot-protection/completion.json、public-api.json、public.png。
 
 - 2026-10-27（余白と近接を整理・公開済み）：活動間をPC64px／スマホ48px、見出しと本文12px、箇条書き8pxへ整理しました。PRのリンクと動画を近づけ、詳細ページ・フォーム・見積もりの質問群と完成見積書にも同じ間隔の基準を適用。色・文字サイズ・本文・画像・料金・PDFを維持しました。7ページ×2幅の14表示とキーボードで横はみ出しなし、54,500円の見積書を確認。79テスト中77成功・2スキップ、ビルド・互換性・独立画像レビュー成功。PR #39をマージし本番b279f9ceへ公開、7ページと新CSS2件の一致、公開画面の64/12/8pxを再読み込み確認済み。根拠は output/spacing-hierarchy/completion.json、layout-matrix.json、public.png。
