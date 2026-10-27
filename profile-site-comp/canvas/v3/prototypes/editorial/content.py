@@ -42,7 +42,7 @@ def header(current):
 
 def footer():
     return '<footer class="editorial-footer"><div class="editorial-shell focus-footer">' + social_icon_links('footer') + '''
-<p>© 2026 Masaya Nishigaki</p>
+<p>© 2026 Miyabiya Studio</p>
 </div></footer>'''
 
 
