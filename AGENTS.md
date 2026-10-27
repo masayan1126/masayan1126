@@ -1,4 +1,15 @@
-# CLAUDE.md
+# リポジトリの共通ルール
+
+## Miyabiya Studioのサイト更新
+
+`profile-site-comp/`のサイト更新・デザイン・情報設計・文言・操作を変更するときは、[サイトのAGENTS.md](profile-site-comp/AGENTS.md)と[update-miyabiya-studio](profile-site-comp/.agents/skills/update-miyabiya-studio/SKILL.md)を読んで適用する。
+
+基本は、シンプルさを保ち、情報を絞り、余白・近接・整列で要素やセクションのまとまりを示すこと。このサイトの詳細な方針はスキルを正本とする。他のプロジェクトには自動適用しない。
+
+このサイトのスキルは`profile-site-comp/.agents/skills/`を正本とし、同ディレクトリ内のClaude CodeとCodexの入口から参照する。
+
+理由：サイトの採用済み方針を、次回以降の作業でも継続して使うため。
+<!-- adopted: 2026-10-27 -->
 
 ## リポジトリの役割
 
@@ -45,11 +56,10 @@ masayan1126/
 リポジトリ内の `.md` でチャンネル登録者数に言及する場合は、必ずマーカーコメントで囲むこと。
 SessionStart フック（`.claude/hooks/fetch_subscribers.py`）が YouTube Data API から最新値を取得し、マーカーの中身だけを自動置換する。
 
-```markdown
-登録者数 **<!--subs-->1,234<!--/subs-->名**（<!--subs-date-->2026/1/23<!--/subs-date-->時点）
-```
+説明用の例は、フックがこの文書の例示を更新しないようHTMLエスケープして示す。実際の記事では通常のHTMLコメントとして記述する。
 
-- `<!--subs-->N<!--/subs-->` — 登録者数（カンマ区切り）。リポジトリ内の全 `.md` がスキャン対象
-- `<!--subs-date-->YYYY/M/D<!--/subs-date-->` — 取得日（数値が変化したときのみ更新される）
+<code>登録者数 **&lt;!--subs--&gt;1,234&lt;!--/subs--&gt;名**（&lt;!--subs-date--&gt;2026/1/23&lt;!--/subs-date--&gt;時点）</code>
+
+- <code>&lt;!--subs--&gt;N&lt;!--/subs--&gt;</code> — 登録者数（カンマ区切り）。リポジトリ内の全 `.md` がスキャン対象
+- <code>&lt;!--subs-date--&gt;YYYY/M/D&lt;!--/subs-date--&gt;</code> — 取得日（数値が変化したときのみ更新される）
 - 数値をベタ書きすると自動更新の対象外になるため禁止
-- CLAUDE.md 自体はスキャン対象外（この説明例が実数値で上書きされるのを防ぐため）

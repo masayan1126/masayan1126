@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "trees": [
+    {
+      "canonical": ".agents/skills/update-miyabiya-studio",
+      "aliases": [
+        ".claude/skills/update-miyabiya-studio",
+        ".codex/skills/update-miyabiya-studio"
+      ]
+    }
+  ],
+  "files": [],
+  "roles": []
+}
