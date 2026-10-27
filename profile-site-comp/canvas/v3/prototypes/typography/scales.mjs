@@ -17,6 +17,6 @@ export function typographyCss({values}){
   // adding sizes. Descendants inherit their role, including nested link text.
   const reset=`${scope}{font-family:var(--font-ui)!important;font-size:${size(2)}!important;font-weight:400!important;}\n${scope} :where(*),${scope} ::before,${scope} ::after,${scope} ::marker{font-family:inherit!important;font-size:inherit!important;font-weight:inherit!important;}`;
   const rules=[2,0,1].map(i=>`${scope} :where(${roles[i].selector}){font-size:${size(i)}!important;}`).join('\n');
-  const emphasis=`${scope} :where(h1,h2,h3,h4,h5,h6,strong,b,button,summary,legend,.editorial-brand,.choice-title,.site-action,.pr-estimate-link,.detail-link,.req){font-weight:700!important;}`;
+  const emphasis=`${scope} :where(h1,h2,h3,h4,h5,h6,strong,b,button,summary,legend,.editorial-brand,.choice-title,.site-action,.pr-estimate-link,.detail-link,.req,.opt){font-weight:700!important;}`;
   return `@layer local-typography {\n${reset}\n${rules}\n${emphasis}\n}`;
 }
