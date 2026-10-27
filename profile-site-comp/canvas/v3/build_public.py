@@ -8,11 +8,12 @@ import re
 import runpy
 import shutil
 import subprocess
+import os
 
 HERE = Path(__file__).resolve().parent
 design = runpy.run_path(str(HERE / 'build_v3.py'))
-OUT = HERE / 'site'
-OUT.mkdir(exist_ok=True)
+OUT = HERE.parents[1] / 'output/editorial-base/site'
+OUT.mkdir(parents=True, exist_ok=True)
 BASE = 'https://studio.msyn.me'
 paths = {'home':'/', 'profile':'/profile/', 'works':'/works/', 'services':'/services/',
          'media':'/media/', 'talks':'/talks/', 'membership':'/membership/', 'contact':'/contact/'}
@@ -60,7 +61,7 @@ GA4 = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}
        "const track=(name,detail={})=>gtag('event',name,{page:location.pathname,...detail});"
        "document.addEventListener('click',e=>{const a=e.target.closest('a,button');if(!a)return;"
        "if(a.id==='wizard-open')track('pricing_start',{mode:'wizard'});"
-       "const cta=a.matches('[data-site-action],[data-quote-inquiry],[data-quote-copy],.business-cta,.v3-primary,.v3-secondary,.btn,.estimate-button,.estimate-copy-button,#pricing-wizard .button,#inquiry-form button[type=submit]');"
+       "const cta=a.matches('[data-site-action],[data-quote-inquiry],[data-quote-copy],.editorial-contact-link,.pr-estimate-link,.business-cta,.v3-primary,.v3-secondary,.btn,.estimate-button,.estimate-copy-button,#pricing-wizard .button,#inquiry-form button[type=submit]');"
        "if(cta){let action='other';if(a.hasAttribute('data-quote-inquiry'))action='quote_inquiry';else if(a.hasAttribute('data-quote-copy'))action='quote_copy';else if(a.id==='wizard-open')action='pricing_start';else if(a.id==='save-pdf'||a.id==='estimate-pdf')action='quote_pdf';else if(a.id==='wizard-copy-url'||a.id==='estimate-share')action='quote_share';else if(a.id==='show-alternatives')action='quote_compare';else if(a.closest('#inquiry-form'))action='inquiry_submit';else if(a.href){const u=new URL(a.href,location.href);action=u.protocol==='mailto:'?'email':u.pathname.startsWith('/contact')?'contact':u.pathname.startsWith('/pricing')?'pricing':u.pathname.endsWith('/join')?'membership':'details';}"
        "const position=a.closest('#pricing-wizard,#legacy-estimate')?'estimate':a.closest('.hero-priority-actions')?'hero':a.closest('.page-actions')?'page_header':a.closest('header')?'header':'content';track('cta_click',{action,position});}"
        "if(a.href?.startsWith('mailto:'))track('email_click');"
@@ -244,3 +245,7 @@ if missing and os.environ.get('FONT_SUBSET_PASS') != '2' and FULL_FONT.exists():
 if missing:
     print('警告: 日本語フォントに無い文字があります:', ''.join(missing))
 print('Public pages:',len(paths),'in',OUT)
+if os.environ.get('STUDIO_BASE_ONLY') != '1':
+    sys.path.insert(0, str(HERE / 'prototypes/editorial'))
+    from publish import publish
+    publish(OUT, HERE / 'site')

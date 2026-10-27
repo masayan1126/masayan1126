@@ -2,9 +2,10 @@
 from html import escape
 import json
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 HERE = Path(__file__).resolve().parent
-PROJECT = HERE.parents[3]
+SOURCE_ROOT = HERE.parents[3] / 'canvas/v3/site'
 
 
 def link(label, href, primary=False):
@@ -13,24 +14,39 @@ def link(label, href, primary=False):
     return f'<a class="{css}" href="{escape(href, quote=True)}"{external}>{label}<span aria-hidden="true">↗</span></a>'
 
 
+def lucide_icon(name, css_class):
+    folder = HERE / 'icons'
+    # Retain the complete license with each locally embedded icon.
+    notice = (folder / 'lucide-LICENSE.txt').read_text()
+    # Consecutive hyphens are not valid inside HTML comments.
+    notice = notice.replace('--', '—')
+    attribution = '<!-- Lucide ' + name + ': https://lucide.dev/icons/' + name + '\n' + notice + '\n-->'
+    return attribution + (folder / (name + '.svg')).read_text().replace(
+        '<svg', f'<svg class="{css_class}" aria-hidden="true" focusable="false"', 1)
+
+
+def studio_mark():
+    # Original M monogram; kept separate from licensed third-party icons.
+    return (HERE / 'icons/miyabiya-mark.svg').read_text().replace(
+        '<svg', '<svg class="editorial-brand-icon" aria-hidden="true" focusable="false"', 1)
+
+
 def header(current):
-    items = [('works', '実績'), ('services', '依頼できること'), ('profile', '経歴')]
-    links = ''.join(f'<a href="/{slug}/"' + (' aria-current="page"' if current == slug else '') + f'>{label}</a>' for slug, label in items)
     return f'''<header class="editorial-header"><div class="editorial-shell editorial-header-inner">
-<a class="editorial-brand" href="/">Miyabiya Studio<span>Masaya Nishigaki</span></a>
-<nav class="editorial-nav" aria-label="メインメニュー">{links}</nav>
-<a class="editorial-contact-link" href="/contact/#contact-form">相談する <span aria-hidden="true">↗</span></a>
+<a class="editorial-brand" href="/">{studio_mark()}Miyabiya Studio</a>
+<a class="editorial-contact-link" href="/contact/#contact-form"''' + (' aria-current="page"' if current == 'contact' else '') + '''>お問い合わせ <span aria-hidden="true">↗</span></a>
 </div></header>'''
 
 
 def footer():
     return '''<footer class="editorial-footer"><div class="editorial-shell focus-footer">
-<p>© 2026 Masaya Nishigaki</p><nav aria-label="外部の活動"><a href="https://github.com/masayan1126" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.youtube.com/@masayan-ai-hack" target="_blank" rel="noopener noreferrer">YouTube ↗</a></nav>
+<p>© 2026 Masaya Nishigaki</p>
 </div></footer>'''
 
 
-def intro(title, text):
-    return f'<section class="editorial-shell focus-page-head"><h1>{title}</h1><p>{text}</p></section>'
+def intro(title, text=''):
+    lead = f'<p>{text}</p>' if text else ''
+    return f'<section class="editorial-shell focus-page-head"><h1>{title}</h1>{lead}</section>'
 
 
 def section(title, body, id=''):
@@ -38,56 +54,155 @@ def section(title, body, id=''):
     return f'<section class="editorial-shell focus-section"{attr}><h2>{title}</h2>{body}</section>'
 
 
-def invitation(title='仕事・採用のご相談', text='内容・時期・ご予算など、決まっている範囲でお知らせください。', href='/contact/#contact-form', label='相談内容を送る'):
-    return f'''<section class="editorial-shell focus-invitation"><div><h2>{title}</h2><p>{text}</p></div>{link(label, href, True)}</section>'''
+def invitation(title='お仕事のご依頼・採用のご相談', text='', href='/contact/#contact-form', label='お問い合わせフォームへ'):
+    lead = f'<p>{text}</p>' if text else ''
+    return f'''<section class="editorial-shell focus-invitation"><div><h2>{title}</h2>{lead}</div>{link(label, href, True)}</section>'''
+
+
+def talk_records(source=None):
+    if source is None:
+        source = BeautifulSoup((SOURCE_ROOT / 'talks/index.html').read_text(), 'html.parser')
+    covers = json.loads((HERE / 'assets/talk-cards.json').read_text())
+    records = []
+    for item in source.select('#talks .talk'):
+        title = item.select_one('a.talk-title')
+        deck = item.select_one('iframe')['src']
+        cover = covers[deck.rsplit('/', 1)[-1]]
+        records.append({'title': title.get_text(' ', strip=True), 'date': item.select_one('.d').get_text(' ', strip=True),
+                        'event': item.select_one('.ev').get_text(' ', strip=True), 'event_url': title['href'],
+                        'deck_url': deck, 'short_title': cover['label'], 'page_url': cover['page_url'],
+                        'image': '/editorial-assets/' + cover['image']})
+    return records
+
+
+def talk_previews():
+    return '<div class="talk-preview-row">' + ''.join(
+        f'''<a class="talk-preview" href="{escape(item['event_url'], quote=True)}" target="_blank" rel="noopener noreferrer" aria-label="登壇テーマ：{escape(item['short_title'], quote=True)}のイベントページを見る（新しいタブ）" title="{escape(item['title'], quote=True)}">
+<img src="{item['image']}" width="640" height="360" alt="" loading="lazy">
+<span class="talk-preview-title">登壇テーマ：{escape(item['short_title']).replace('使いこなす', '<span class="activity-card-phrase">使いこなす</span>')}</span></a>'''
+        for item in talk_records()
+    ) + '</div>'
+
+
+def activity_list(items):
+    marker = '<span class="activity-list-marker" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m4 8 2.5 2.5L12 5"/></svg></span>'
+    return '<ul class="activity-highlights" role="list">' + ''.join(f'<li>{marker}<span>{item}</span></li>' for item in items) + '</ul>'
+
+
+def social_icon_links():
+    profiles = [
+        ('youtube', 'YouTube', 'https://www.youtube.com/@masayan-ai-hack'),
+        ('x', 'X', 'https://x.com/masayan_ai_hack'),
+        ('instagram', 'Instagram', 'https://www.instagram.com/miyabiya1126/'),
+        ('github', 'GitHub', 'https://github.com/masayan1126'),
+    ]
+    links = []
+    for slug, name, url in profiles:
+        svg = BeautifulSoup((HERE / 'icons/simple-icons' / (slug + '.svg')).read_text(), 'html.parser').svg
+        svg.attrs.pop('role', None)
+        svg.attrs.update({'class': 'profile-social-icon', 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
+        for title in svg.select('title'):
+            title.decompose()
+        label = name + 'を開く（新しいタブ）'
+        links.append(f'<a href="{url}" target="_blank" rel="noopener noreferrer" aria-label="{label}" title="{name}">{svg}</a>')
+    return '<nav class="profile-social-links" aria-label="SNS・公開プロフィール">' + ''.join(links) + '</nav>'
+
+
+def technical_activities():
+    return activity_list([
+        '<a id="youtube" href="https://www.youtube.com/@masayan-ai-hack" target="_blank" rel="noopener noreferrer">YouTube「まさやん【AIギルドch】」</a>でAI駆動開発・AIエージェント・動画制作の自動化を発信',
+        '<a id="membership" href="/membership/">YouTubeメンバーシップ</a>で限定投稿・動画を提供',
+        '<a href="https://x.com/masayan_ai_hack" target="_blank" rel="noopener noreferrer">X（@masayan_ai_hack）</a>',
+        '<a href="https://www.instagram.com/miyabiya1126/" target="_blank" rel="noopener noreferrer">Instagram（@miyabiya1126）</a>',
+    ])
+
+
+def personal_projects():
+    return activity_list([
+        '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>（Markdownプレビュー・タブのコピーなど）',
+        '<a href="https://github.com/masayan1126" target="_blank" rel="noopener noreferrer">GitHubでソースコードを公開</a>',
+    ])
+
+
+def ai_video_editing():
+    return activity_list([
+        'YouTube制作の自動化で、本編1本・ショート15本の工数を<strong>約90%</strong>削減（約25〜37時間→約2〜3時間、<span class="activity-qualifier">撮影除く）</span>',
+        '教育・ビジネス系の動画編集：カット・テロップ・効果音に対応。モーショングラフィックスなどの高度な演出は対象外',
+    ])
+
+
+def ai_support():
+    return activity_list([
+        '業務・開発環境に合わせたAIツールの選定・導入',
+        '設計・実装・コードレビューにAIを組み込む開発フローの整備',
+        '社内勉強会・作業手順の共有によるチームへの定着',
+        '<span id="ai-results">勤務先での実績：AI駆動開発環境の構築により、企画からリリースまでの開発工数を<strong>約50〜75%</strong>削減<span class="activity-qualifier">（AI導入前比）</span></span>',
+        '<a href="/works/#work-case-1">MCPサーバーの企画・開発、社内外への導入</a>',
+    ]) + '<details class="focus-details ai-support-details" id="other-services"><summary>その他の対応業務</summary>' + activity_list([
+        '<span id="web-development">Webサービス・MCPサーバーの開発：要件整理・設計・実装・運用、フロントエンド・バックエンド・クラウドの開発・構築</span>',
+    ]) + '</details>'
 
 
 def home():
-    return '''<section class="editorial-shell editorial-intro" aria-labelledby="editorial-title">
-<div><p class="editorial-byline">Webエンジニア・テックリード</p><h1 id="editorial-title">Web開発とAI活用を、<br>仕事の現場へ。</h1></div>
-<div class="editorial-intro-copy"><p>Masaya Nishigakiです。Webサービス開発と、チームへのAI導入を担当しています。製品PRや技術登壇もお受けしています。</p><div class="editorial-actions">''' + link('仕事を相談する', '/contact/#contact-form', True) + link('採用をご検討の方へ', '/profile/#career') + '''</div></div></section>
-''' + section('主な実績', '''<div class="focus-highlights">
-<article class="focus-highlight"><p class="focus-kicker">勤務先の開発チームへのAI導入</p><h3>設計・実装・レビューの工数を<br>約50〜75%削減</h3><p>AI導入前の実績工数との比較。開発フローの設計から、チームへの展開・定着まで担当しました。</p>''' + link('取り組みを見る', '/works/#work-case-0') + '''</article>
-<article class="focus-highlight"><p class="focus-kicker">勤務先でのMCPサーバー開発</p><h3>自社製品をAIから使える仕組みを、<br>企画から導入まで</h3><p>要件定義・設計・実装と、社外クライアント・社内チームへの導入を担当しました。</p>''' + link('担当範囲と成果を見る', '/works/#work-case-1') + '''</article>
-<article class="focus-highlight focus-highlight-media"><a href="/media/#pr-works" aria-label="Notta Memo Proの制作実績を見る"><img src="/thumb-FsA8gaup0w4.webp" width="640" height="360" alt="制作したNotta Memo Pro紹介動画のサムネイル" loading="lazy"></a><div><p class="focus-kicker">製品PR動画の制作</p><h3>Notta Memo Proを、<br>実機で検証して紹介</h3><p>構成から撮影・編集・公開まで担当しました。</p>''' + link('動画と制作内容を見る', '/media/#pr-works') + '''</div></article></div>''', 'selected-work') + invitation(text='Web開発・AI導入・製品PRのご依頼、採用・業務委託についてご相談いただけます。')
+    # Keep A's adopted layout; the earlier three studies remain historical.
+    activity_icons = {'ai': 'brain-circuit', 'pr': 'clapperboard', 'talk': 'presentation', 'activity': 'rss', 'development': 'code-xml', 'video': 'clapperboard'}
+    entries = [
+        ('activity', '技術発信', ''),
+        ('pr', 'YouTube や SNS での製品PR・タイアップ', 'Notta 株式会社様の Notta Memo ProのPR動画'),
+        ('development', '個人開発', ''),
+        ('video', 'AI動画編集', ''),
+        ('talk', '登壇・社内勉強会', ''),
+        ('ai', 'AI活用支援', ''),
+    ]
+    def video_card(title):
+        return f'''<a class="pr-video-card pr-video-plain" href="https://youtu.be/FsA8gaup0w4" target="_blank" rel="noopener noreferrer" aria-label="{escape(title, quote=True)}をYouTubeで見る（新しいタブ）">
+<img src="/thumb-FsA8gaup0w4.webp" width="640" height="360" alt="" loading="lazy">
+<span class="pr-video-copy"><strong class="pr-video-title">{title.replace('PR動画', '<span class="pr-video-kind">PR動画</span>')}</strong><span class="pr-video-action">YouTubeで見る <span aria-hidden="true">→</span></span></span></a>'''
+    anchors = {'ai': 'ai-adoption', 'pr': 'product-pr', 'talk': 'speaking', 'activity': 'activities', 'development': 'personal-development', 'video': 'video-editing'}
+    renderers = {'ai': ai_support, 'talk': talk_previews, 'activity': technical_activities, 'development': personal_projects, 'video': ai_video_editing}
+    def entry_content(category, title, proof):
+        heading = f'<h3 class="activity-title-with-icon">{lucide_icon(activity_icons[category], "activity-title-icon")}<span>{title}</span></h3>'
+        if category == 'pr':
+            action = '<a class="pr-estimate-link" href="/pricing/" aria-label="PR動画のお見積りはこちら">お見積りはこちら<span class="arrow" aria-hidden="true">→</span></a>'
+            return '<div class="pr-section-header">' + heading + action + '</div>' + video_card(proof)
+        return heading + renderers[category]()
+    rows = ''.join(
+        f'<article class="a-entry" data-category="{category}"' + (f' id="{anchors[category]}"' if anchors[category] else '') + '><div class="activity-group">'
+        + entry_content(category, title, proof)
+        + '</div></article>'
+        for category, title, proof in entries
+    )
+    return '''<div class="a-shell compact-home-content"><section class="a-intro" aria-labelledby="a-title">
+<div class="a-person"><img src="/editorial-assets/avatar-cutout.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
+<p class="a-bio">YouTubeでのAI関連の発信・PR・個人開発・AI動画編集・技術登壇などを中心に活動</p>''' + social_icon_links() + '''</section>
+<section class="a-work" aria-labelledby="a-work-title"><div class="section-head"><h2 id="a-work-title">主な活動</h2></div>''' + rows + '</section></div>'
 
 
 def works(source):
-    return intro('実績', '勤務先での担当業務と、個人で公開した制作物です。勤務先の社名は伏せて掲載しています。') + section('AI開発フローのチーム導入', '''<p class="focus-result">開発工数を約50〜75%削減</p><p class="focus-note">設計・実装・コードレビューの実績工数を、AI導入前と比較。</p>
-<dl class="focus-facts"><div><dt>担当</dt><dd>テックリードとして導入を推進。Issueから開発を進める流れと、生成役・評価役のAIを組み合わせた仕組みを設計・実装し、勉強会でチームへ展開しました。</dd></div><div><dt>業務への展開</dt><dd>商談用デモの準備なども、1件8〜12時間から20分へ短縮。月平均30件で、月230〜350時間の削減です。</dd></div></dl>''', 'work-case-0') + section('MCPサーバーの企画・開発', '''<p class="focus-result">社外クライアントと社内チームへ導入</p><dl class="focus-facts"><div><dt>担当</dt><dd>自社製品をAIから利用するMCPサーバーを、企画・要件定義から設計・実装、導入支援まで担当しました。</dd></div><div><dt>定着</dt><dd>作業手順をAIへ伝えるスキルも配布。勉強会2回で約20名へ共有し、約10名が実務で活用しています。</dd></div></dl>''', 'work-case-1') + section('製品PR・公開したプロダクト', '''<div class="focus-two-col"><article id="work-case-2"><h3>Notta Memo Proのタイアップ動画</h3><p>実機検証、構成・スライド、撮影・編集、サムネイル、公開とXでの告知を担当しました。</p>''' + link('制作した動画を見る', '/media/#pr-works') + '''</article><article id="work-case-4"><h3>Chrome拡張機能を5本公開</h3><p>Markdownのプレビューやタブのコピーなど、自分が不便に感じた作業を減らすツールを、企画から開発・公開まで担当しました。</p>''' + link('公開物とソースコードを見る', 'https://github.com/masayan1126/chrome-extensions') + '''</article></div>''') + invitation()
+    return intro('実績紹介', '勤務先でのAI導入と、個人で担当した制作・開発の実績です。') + section('AI開発フローのチーム導入', '''<p class="focus-kicker">勤務先での実績</p><p class="focus-result">AI駆動開発環境の構築により、企画からリリースまでの開発工数を約50〜75%削減 <small class="focus-note">（AI導入前比）</small></p>
+<dl class="focus-facts"><div><dt>担当業務</dt><dd>企画からリリースまでの開発工程にAIを導入しました。Issueを起点とした開発フローと、生成・評価を分担するAIの仕組みを整え、チームへ展開しました。</dd></div><div><dt>業務効率化の成果</dt><dd>商談用デモの準備などにかかる時間を、1件8〜12時間から20分へ短縮しました。月平均30件で、月230〜350時間の削減です。</dd></div></dl>''', 'work-case-0') + section('MCPサーバーの企画・開発', '''<p class="focus-result">社外クライアントと社内チームへ導入</p><dl class="focus-facts"><div><dt>担当業務</dt><dd>自社製品をAIから利用するMCPサーバーを、企画・要件定義から設計・実装、導入支援まで担当しました。</dd></div><div><dt>導入後の利用状況</dt><dd>作業手順をAIへ伝えるスキルも配布しました。勉強会2回で約20名へ共有し、約10名が実務で活用しています。</dd></div></dl>''', 'work-case-1') + section('製品PR・個人開発', '''<div class="focus-two-col"><article id="work-case-2"><h3>Notta Memo Proのタイアップ動画</h3><p>実機検証、構成・スライド、撮影・編集、サムネイル、公開とXでの告知を担当しました。</p>''' + link('制作動画を見る', '/#product-pr') + '''</article><article id="work-case-4"><h3>Chrome拡張機能を5本公開</h3><p>Markdownのプレビューやタブのコピーなど、日常の作業を効率化するツールを企画し、開発・公開しました。</p>''' + link('ソースコードを見る', 'https://github.com/masayan1126/chrome-extensions') + '''</article></div>''') + invitation()
 
 
 def profile(source):
-    return intro('経歴', 'Webサービスの開発から、チームの技術選定・AI導入まで担当してきました。') + section('Masaya Nishigaki', '''<div class="focus-person"><img src="/hero-photo.webp" width="800" height="1000" alt="Masaya Nishigaki" loading="lazy"><div><p class="focus-result">Webエンジニア・テックリード</p><p>Miyabiya Studioは個人の屋号です。現在はWeb系企業でテックリードを務め、MCPサーバーとAPIの開発、開発チームへのAI導入に取り組んでいます。</p></div></div>''') + section('これまでの担当', '''<ol class="focus-career">
-<li><p class="focus-kicker">現職・Web系企業 · 3年</p><h3>インフラからバックエンドリード、テックリードへ</h3><p>クリーンアーキテクチャ・自動テスト・CI/CDによる開発体制の整備、決済・SSO（SAML）・監査ログの設計と実装、MCPサーバー開発を担当。一次面接50回以上、エンジニア4名の採用に関与しました。</p></li>
-<li><p class="focus-kicker">前職・Web系企業 · 2年</p><h3>フロントエンドのチームリーダー</h3><p>技術選定から保守まで担当。React・Next.js・Vue3の導入、CypressによるE2EテストのCI組み込み、メンバーの技術教育を進めました。</p></li>
-<li><p class="focus-kicker">SIer · 4年</p><h3>営業・システム開発</h3><p>営業と、詳細設計・実装・テストを担当しました。</p></li></ol>''', 'career-history') + section('主に使ってきた技術', '''<dl class="focus-facts"><div><dt>開発</dt><dd>Python・TypeScript（各5年） / Django・FastAPI・FastMCP / Vue.js・React・Next.js</dd></div><div><dt>基盤・運用</dt><dd>PostgreSQL・BigQuery / Google Cloud・AWS / Docker・GitHub Actions</dd></div><div><dt>AI活用</dt><dd>Claude Code・Codex・Cursor / 開発フローの設計・MCPサーバー開発</dd></div></dl>''', 'tech-stack') + section('採用・業務委託をご検討の方へ', '''<p>正社員・業務委託・技術顧問のご相談をお受けしています。職務経歴書は、ご連絡いただいた方へお送りします。</p><div class="editorial-actions">''' + link('採用・業務委託を相談する', '/contact/?type=recruit#contact-form', True) + link('実績を見る', '/works/') + '''</div>''', 'career')
+    return intro('プロフィール・職務経歴') + section('Masaya Nishigaki', '''<div class="focus-person"><img src="/hero-photo.webp" width="800" height="1000" alt="Masaya Nishigaki" loading="lazy"><div><p class="focus-result">Web系のシニアエンジニア・テックリード</p><p>Web系企業でテックリードを務め、開発チームへのAI導入に取り組んでいます。個人では製品PR、技術登壇、YouTubeでの発信とツール開発を行っています。Miyabiya Studioは個人の屋号です。</p></div></div>''') + section('主な活動', activity_links()) + section('職務経歴', '''<ol class="focus-career">
+<li><p class="focus-kicker">現職・Web系企業 · 3年</p><h3>インフラからバックエンドリード、テックリードへ</h3><p>開発体制の整備、MCPサーバーの開発、AI開発フローのチーム展開を担当しました。</p><details class="focus-details"><summary>担当業務の詳細</summary><p>クリーンアーキテクチャ・自動テスト・CI/CDの導入、決済・SSO（SAML）・監査ログの設計と実装を担当しました。一次面接50回以上、エンジニア4名の採用に関与しました。</p></details></li>
+<li><p class="focus-kicker">前職・Web系企業 · 2年</p><h3>フロントエンドのチームリーダー</h3><p>技術選定から保守まで担当しました。React・Next.js・Vue3の導入、CypressによるE2EテストのCI組み込み、メンバーの技術教育を進めました。</p></li>
+<li><p class="focus-kicker">SIer · 4年</p><h3>営業・システム開発</h3><p>営業と、詳細設計・実装・テストを担当しました。</p></li></ol>''', 'career-history') + section('技術・スキル', '''<dl class="focus-facts"><div><dt>開発</dt><dd>Python・TypeScript（各5年） / Django・FastAPI・FastMCP / Vue.js・React・Next.js</dd></div><div><dt>基盤・運用</dt><dd>PostgreSQL・BigQuery / Google Cloud・AWS / Docker・GitHub Actions</dd></div><div><dt>AI活用</dt><dd>Claude Code・Codex・Cursor / 開発フローの設計・MCPサーバー開発</dd></div></dl>''', 'tech-stack') + section('採用・業務委託をご検討の方へ', '''<p>正社員・業務委託・技術顧問のご相談をお受けしています。職務経歴書はお問い合わせ後にお送りします。</p><div class="editorial-actions">''' + link('採用・業務委託を相談する', '/contact/?type=recruit#contact-form', True) + link('実績を見る', '/works/') + '''</div>''', 'career')
 
 
-def services(source):
-    return intro('依頼できること', 'Web開発、チームへのAI導入、製品PRを中心にお受けしています。') + section('Webサービス・MCPサーバーの開発', '''<p>要件整理から設計・実装・運用まで。フロントエンド、バックエンド、クラウドを横断して担当します。既存製品をAIから使えるMCPサーバーの企画・開発にも対応します。</p><div class="editorial-actions">''' + link('開発を相談する', '/contact/?type=web#contact-form', True) + link('開発の実績を見る', '/works/#work-case-1') + '''</div>''', 'web-development') + section('チームへのAI導入', '''<p>AIツールの選定・導入、開発フローの設計、社内勉強会、導入後の定着まで支援します。AIを入れた後の品質や、チーム内での使い方を整えたい場合もご相談ください。</p><div class="editorial-actions">''' + link('AI導入を相談する', '/contact/?type=ai#contact-form', True) + link('導入と改善結果を見る', '/works/#work-case-0') + '''</div>''', 'ai-adoption') + section('製品PR・動画制作', '''<p>AIツールや開発者向けサービスを実際に使い、YouTube本編・ショート・Xで紹介します。制作例、視聴者データ、概算料金はPRページで確認できます。</p>''' + link('制作例と料金を見る', '/media/') , 'product-pr') + section('登壇・動画編集', '''<div class="focus-two-col"><article><h3>技術登壇・社内勉強会</h3><p>AI駆動開発、MCP、動画制作の自動化など、実際に運用している事例をお話しします。</p>''' + link('登壇実績・対応形式を見る', '/talks/') + '''</article><article id="video-editing"><h3>教育・ビジネス系の動画編集</h3><p>カット、テロップ、効果音などの一般的な編集に対応します。モーショングラフィックスなどの高度な演出は対象外です。</p>''' + link('動画編集を相談する', '/contact/?type=video#contact-form', True) + '''</article></div>''') + invitation('内容が固まる前でも、ご相談ください。', '対応範囲・進め方・費用を確認してご提案します。お見積もりは無料です。')
-
-
-def media(source):
-    prices = str(source.select_one('#ratecard .price-examples'))
-    basis = escape(source.select_one('#ratecard .ratecard-basis').get_text(' ', strip=True))
-    stats = json.loads((PROJECT / 'canvas/v3/youtube-stats.json').read_text())
-    stats_date = stats['date'].split('-')
-    stamp = f'{stats_date[0]}年{int(stats_date[1])}月{int(stats_date[2])}日'
-    return intro('製品PR・動画制作', 'AIツールや開発者向けサービスを、実際に使ってエンジニアへ紹介します。') + section('Notta Memo Proのタイアップ動画', '''<div class="focus-pr-example"><a href="https://youtu.be/FsA8gaup0w4" target="_blank" rel="noopener noreferrer" aria-label="Notta Memo ProのPR動画をYouTubeで見る"><img src="/thumb-FsA8gaup0w4.webp" width="640" height="360" alt="制作したNotta Memo Pro紹介動画のサムネイル"></a><div><p>AIボイスレコーダーの予約販売開始に合わせて制作。録音・AI要約から、議事録作成とGoogleカレンダーへの登録までを実演しました。</p><p class="focus-note">担当：実機検証、構成・スライド、撮影・編集、サムネイル、公開・X告知。2026年9月28日公開。</p>''' + link('制作した動画を見る', 'https://youtu.be/FsA8gaup0w4') + '''</div></div>''', 'pr-works') + section('視聴者とチャンネル', f'''<p>Claude Codeを中心にAI駆動開発を扱う「まさやん【AIギルドch】」です。AIを開発へ取り入れたいエンジニアを中心にご覧いただいています。</p><dl class="focus-metrics"><div><dt>チャンネル登録者</dt><dd>{stats['subs']:,}人</dd></div><div><dt>本編1本あたりの平均再生数</dt><dd>911回</dd></div></dl><p class="focus-note">登録者は{stamp}時点。平均再生数は2026年9月24日時点の直近90日、本編（3分超の動画）36本を対象とした実績です。</p>''' + link('チャンネルで動画を見る', 'https://www.youtube.com/@masayan-ai-hack'), 'videos') + section('制作費の目安', prices + f'''<p class="focus-note">{basis}</p><p>本編・ショート・Xを組み合わせ、明細つきの概算見積書を作れます。Xのみの製品PR、二次利用・撮り直しは個別にお見積もりします。</p><div class="editorial-actions">''' + link('料金を見積もる', '/pricing/', True) + link('PRを相談する', '/contact/?type=pr#contact-form') + '''</div>''', 'ratecard') + '''<div class="editorial-shell focus-secondary"><p>対談・共同企画もお受けしています。''' + '<a href="/contact/?type=pr#contact-form">企画を相談する</a>' + '''</p><p>動画をご覧の方へ：<a href="/membership/">メンバーシップについて</a></p></div>'''
+def activity_links():
+    return '<nav class="focus-activity-links" aria-label="活動の詳細"><a href="/#activities">技術発信 ↗</a><a href="/#product-pr">製品PR・タイアップ ↗</a><a href="/#personal-development">個人開発 ↗</a><a href="/#video-editing">AI動画編集 ↗</a><a href="/talks/">登壇・社内勉強会 ↗</a><a href="/#ai-adoption">AI活用支援 ↗</a></nav>'
 
 
 def talks(source):
     records = []
-    for item in source.select('#talks .talk'):
-        title = item.select_one('a.talk-title')
-        deck = item.select_one('iframe')
-        records.append(f'''<article class="focus-talk"><p class="focus-kicker">{escape(item.select_one('.d').get_text(' ', strip=True))} · {escape(item.select_one('.ev').get_text(' ', strip=True))}</p><h3>{escape(title.get_text(' ', strip=True))}</h3><div class="editorial-actions">{link('イベントを見る', title['href'])}{link('スライドを見る', deck['src'])}</div></article>''')
-    return intro('技術登壇', '実務で使っているAI開発・MCP・動画制作の仕組みをお話しします。') + section('登壇実績', ''.join(records), 'talks') + section('お話しできるテーマ・形式', '''<p>AI駆動開発のチーム導入、MCPサーバーの開発、YouTube運営・動画制作の自動化。LT（5〜15分）からセッション（30〜45分）、社内勉強会に対応します。オンライン・会場のどちらも可能です。</p>''', 'talk-request') + invitation('登壇のご相談', 'イベント名・日時・形式・持ち時間を、決まっている範囲でお知らせください。', '/contact/?type=talk#contact-form', '登壇を相談する')
+    for item in talk_records(source):
+        records.append(f'''<article class="focus-talk"><p class="focus-kicker">{escape(item['date'])} · {escape(item['event'])}</p><h3>{escape(item['title'])}</h3><div class="editorial-actions">{link('イベントを見る', item['event_url'])}{link('スライドを見る', item['deck_url'])}</div></article>''')
+    return intro('登壇・社内勉強会') + section('テーマ・対応形式', '''<p>AI駆動開発のチーム導入、MCPサーバー開発、YouTube運営・動画制作の自動化を主なテーマとしています。LT（5〜15分）からセッション（30〜45分）、社内勉強会に対応します。オンライン・会場での登壇に対応します。</p>''', 'talk-request') + section('登壇実績', ''.join(records), 'talks') + invitation('登壇のご相談', 'イベント名・日時・持ち時間をお知らせください。', '/contact/?type=talk#contact-form', '登壇を相談する')
 
 
 def membership(source):
-    return intro('メンバーシップ', 'YouTubeで発信しているAI活用の内容を、さらに詳しく知りたい方へ。') + section('特典・加入方法', '''<p>月額390円からの3ランクです。メンバー限定の投稿・動画・Shortsに加え、上位ランクではAI活用のドキュメントやソースコードを配布します。いつでも解約できます。</p><div class="editorial-actions">''' + link('特典・各ランクの詳細を見る', 'https://masayan-ai-tech-ch.pages.dev/membership/', True) + link('YouTubeで加入する', 'https://www.youtube.com/@masayan-ai-hack/join') + '''</div>''')
+    return intro('YouTubeメンバーシップ') + section('特典・加入方法', '''<p>月額390円から、3つの料金プランをご用意しています。メンバー限定の投稿・動画・Shortsに加え、上位プランではAI活用のドキュメントやソースコードを配布します。いつでも解約できます。</p><div class="editorial-actions">''' + link('特典・料金プランを見る', 'https://masayan-ai-tech-ch.pages.dev/membership/', True) + link('YouTubeで加入する', 'https://www.youtube.com/@masayan-ai-hack/join') + '''</div>''')
 
 
 def contact(source):
@@ -96,7 +211,7 @@ def contact(source):
     for paragraph in form_section.select('.sec-lead, .contact-form-card > .lead'):
         paragraph.decompose()
     script = form_section.find_next_sibling('script')
-    return intro('仕事・採用のご相談', '内容・時期・ご予算など、分かる範囲でお知らせください。通常2営業日以内に返信します。') + str(form_section) + (str(script) if script else '') + section('ご相談から着手まで', '''<p>内容を確認し、必要に応じてオンラインでヒアリングします。進め方・期間・費用をご提案し、合意してから着手します。お見積もりは無料です。</p><p class="focus-note">メールでのご連絡をご希望の場合：<a href="mailto:contact@msyn.me">contact@msyn.me</a></p>''', 'flow')
+    return intro('お問い合わせ', 'AI活用支援・製品PR・登壇などのご依頼を承っています。内容・希望時期・ご予算を、分かる範囲でお知らせください。通常2営業日以内に返信します。') + str(form_section) + (str(script) if script else '') + section('ご相談からご依頼までの流れ', '''<p>内容を確認し、進め方・期間・費用をご提案します。合意後に着手します。お見積もりは無料です。</p><p class="focus-note"><a href="mailto:contact@msyn.me">contact@msyn.me</a></p>''', 'flow')
 
 
 def page_content(page, source):
@@ -104,4 +219,5 @@ def page_content(page, source):
         # Preserve every quote DOM contract, including historical link restoration.
         return None
     body = home() if not page else globals()[page](source)
-    return f'<main id="main-content" tabindex="-1" class="focus-main">{body}</main>'
+    classes = 'focus-main compact-home' if not page else 'focus-main'
+    return f'<main id="main-content" tabindex="-1" class="{classes}">{body}</main>'

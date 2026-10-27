@@ -5,6 +5,8 @@ import hashlib
 import json
 import re
 import subprocess
+import os
+import sys
 from collections import Counter
 from urllib.parse import urlsplit, unquote
 
@@ -13,7 +15,11 @@ import copy_updates
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parents[1]
-SITE = ROOT / 'site'
+SITE = Path(os.environ.get('STUDIO_SITE_ROOT', ROOT / 'site'))
+if 'STUDIO_SITE_ROOT' not in os.environ and 'compact-local' in (SITE / 'index.html').read_text():
+    from validate_public import validate
+    validate(SITE)
+    sys.exit(0)
 BASELINE = PROJECT / 'output/before-full-site-20260906'
 YOUTUBE = youtube_stats.load(fetch=False)
 ROUTES = ['', 'profile', 'works', 'services', 'media', 'talks', 'membership', 'contact', 'pricing']
