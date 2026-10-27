@@ -235,7 +235,8 @@ body.site-renewal.editorial.compact-local[data-page="contact"] .focus-page-head 
 body.site-renewal.editorial.compact-local[data-page="contact"] .focus-page-head p {max-width:650px;color:#202020;line-height:1.85}
 body.site-renewal.editorial.compact-local[data-page="contact"] .contact-form-sec {padding-block:12px 24px!important}
 body.site-renewal.editorial.compact-local[data-page="contact"] .contact-form-card {max-width:none;margin:0;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
-body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form {gap:var(--space-field)}
+body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form {gap:var(--space-related)}
+body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form>label:not(.hp)+label:not(.hp) {margin-top:calc(var(--space-field) - var(--space-related))}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form label {gap:8px;font-weight:500;color:#202020}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .field {gap:10px;color:#202020}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(.field-hint,.field-count) {font-weight:400;color:#606060;line-height:1.6}
@@ -245,7 +246,7 @@ body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(input,select,textarea) {min-width:0;min-height:46px;padding:8px 12px;line-height:1.5;border:1px solid #8f8f8f;border-radius:4px;background:#fff;color:#202020;box-shadow:none;accent-color:#202020}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form textarea {min-height:160px;resize:vertical}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(input,select,textarea):focus-visible {outline:3px solid #202020;outline-offset:2px}
-body.site-renewal.editorial.compact-local[data-page="contact"] .form-submit {display:grid;justify-items:start;gap:var(--space-tight);margin-top:var(--space-related)}
+body.site-renewal.editorial.compact-local[data-page="contact"] .form-submit {display:grid;justify-items:start;gap:var(--space-tight);margin-top:0}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form button[type="submit"] {display:inline-flex;align-items:center;justify-content:center;justify-self:start;width:auto;max-width:100%;min-height:46px;margin:0;padding:10px 20px;gap:12px;border:0;border-radius:4px;background:var(--action-main-bg);color:#fff;line-height:1.5;box-shadow:none}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form button[type="submit"]:hover {background:var(--action-main-hover);color:#fff}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form button[type="submit"]:focus-visible {outline:3px solid #202020;outline-offset:3px}
@@ -268,7 +269,8 @@ body.site-renewal.editorial.compact-local[data-page="contact"] #flow p {line-hei
 }
 
 /* Bot verification remains close to the submit action, without a card. */
-body.site-renewal.editorial.compact-local #inquiry-form .inquiry-security {display:grid;justify-items:start;gap:8px;min-width:0;margin-bottom:calc(12px - var(--space-field))}
+body.site-renewal.editorial.compact-local #inquiry-form .inquiry-security {display:grid;justify-items:start;gap:8px;min-width:0;margin:0}
+body.site-renewal.editorial.compact-local #inquiry-form #inquiry-security-status:empty~noscript {display:none}
 body.site-renewal.editorial.compact-local #inquiry-security-status {margin:0;color:#606060;line-height:1.6}
 body.site-renewal.editorial.compact-local #inquiry-security-status:empty {display:none}
 body.site-renewal.editorial.compact-local #inquiry-security-retry {min-height:44px;padding:8px 12px;background:#fff;color:#202020;border:1px solid #8f8f8f;border-radius:4px;font:inherit;cursor:pointer}
