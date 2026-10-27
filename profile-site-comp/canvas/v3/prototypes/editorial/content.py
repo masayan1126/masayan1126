@@ -211,7 +211,7 @@ def contact(source):
     for paragraph in form_section.select('.sec-lead, .contact-form-card > .lead'):
         paragraph.decompose()
     script = form_section.find_next_sibling('script')
-    return intro('お問い合わせ', 'AI活用支援・製品PR・登壇などのご依頼を承っています。内容・希望時期・ご予算を、分かる範囲でお知らせください。通常2営業日以内に返信します。') + str(form_section) + (str(script) if script else '') + section('ご相談からご依頼までの流れ', '''<p>内容を確認し、進め方・期間・費用をご提案します。合意後に着手します。お見積もりは無料です。</p><p class="focus-note"><a href="mailto:contact@msyn.me">contact@msyn.me</a></p>''', 'flow')
+    return intro('お問い合わせ', 'AI活用支援・製品PR・登壇などのご依頼を承っています。内容・希望時期・ご予算を、分かる範囲でお知らせください。通常2営業日以内に返信します。') + str(form_section) + (str(script) if script else '')
 
 
 def page_content(page, source):
