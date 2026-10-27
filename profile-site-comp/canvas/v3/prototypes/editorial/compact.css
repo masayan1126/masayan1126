@@ -1,4 +1,5 @@
 /* The approved A direction, applied only to the complete local site. */
+:root {--site-footer-height:calc(60px + env(safe-area-inset-bottom,0px));scroll-padding-bottom:calc(var(--site-footer-height) + 12px)}
 body.site-renewal.editorial.compact-local {
   background:#fff;color:#202020;font-size:14px;line-height:1.85;
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
@@ -6,6 +7,7 @@ body.site-renewal.editorial.compact-local {
   --space-tight:8px;--space-related:12px;--space-block:24px;--space-field:32px;--space-section:64px;
   --site-header-clearance:84px;
 }
+body.site-renewal.editorial.compact-local>.v3 {min-height:100vh;min-height:100svh;padding-bottom:calc(var(--site-footer-height) + var(--space-related))}
 body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {
   width:100%;max-width:764px;margin-inline:auto;padding-inline:30px;
 }
@@ -67,7 +69,8 @@ body.site-renewal.editorial.compact-local .focus-section .price-examples dd {fon
 body.site-renewal.editorial.compact-local .focus-invitation {display:block;padding-block:33px 12px}
 body.site-renewal.editorial.compact-local .focus-invitation h2 {font-size:22px;margin-bottom:10px}
 body.site-renewal.editorial.compact-local .focus-invitation p {font-size:14px;margin-bottom:22px}
-body.site-renewal.editorial.compact-local .editorial-footer {padding-block:33px 30px}
+body.site-renewal.editorial.compact-local .editorial-footer {position:fixed;inset-inline:0;bottom:0;z-index:20;padding-block:8px calc(8px + env(safe-area-inset-bottom,0px));background:#fff}
+body.site-renewal.editorial.compact-local .estimate-mobile-total:not(dialog *) {bottom:var(--site-footer-height)}
 body.site-renewal.editorial.compact-local .focus-footer {display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
 body.site-renewal.editorial.compact-local .focus-activity-links {display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
 body.site-renewal.editorial.compact-local .focus-activity-links a {min-height:44px;display:flex;align-items:center}
@@ -189,6 +192,7 @@ body.compact-local .compact-home .a-invitation .actions {gap:22px;margin:0}
 body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 
 @media(max-width:620px) {
+  :root {--site-footer-height:calc(96px + env(safe-area-inset-bottom,0px))}
   body.compact-local .compact-home .project-extension-links {grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px;max-width:320px}
   body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px;--site-header-clearance:120px}
   body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {padding-inline:24px}
@@ -292,7 +296,13 @@ body.site-renewal.editorial.compact-local .editorial-home-link:focus-visible {ou
 }
 /* Keep page anchors and focused controls below the sticky header, without
    changing the simulator dialog's independent scroll area. */
-body.site-renewal.editorial.compact-local :is(#main-content,main [id],main a,main button,main input,main select,main textarea,main summary):not(dialog,dialog *) {scroll-margin-top:var(--site-header-clearance)}
+body.site-renewal.editorial.compact-local :is(#main-content,main [id],main a,main button,main input,main select,main textarea,main summary):not(dialog,dialog *) {scroll-margin-top:var(--site-header-clearance);scroll-margin-bottom:var(--space-related)}
+
+@media print {
+  :root {scroll-padding-bottom:0}
+  body.site-renewal.editorial.compact-local>.v3 {min-height:0;padding-bottom:0}
+  body.site-renewal.editorial.compact-local .editorial-footer {position:static}
+}
 
 /* One lift for operable elements. Relative positioning lets text links keep
    their natural line wrapping; translate preserves dialog/button transforms.

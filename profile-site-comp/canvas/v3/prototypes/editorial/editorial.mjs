@@ -1,5 +1,17 @@
-// This module is loaded only by the private design study.
+// Shared behavior for the approved editorial site and its private preview.
 import {saveHandoff, CONTACT_PATH, HANDOFF_KEY} from './editorial-quote-contact.mjs';
+
+const siteFooter = document.querySelector('.editorial-footer');
+if (siteFooter) {
+  const reserveFooter = () => {
+    const height = Math.ceil(siteFooter.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--site-footer-height', `${height}px`);
+  };
+  reserveFooter();
+  if (typeof ResizeObserver === 'function') new ResizeObserver(reserveFooter).observe(siteFooter);
+  window.addEventListener('resize', reserveFooter, {passive:true});
+  window.addEventListener('pageshow', reserveFooter);
+}
 
 document.addEventListener('click', event => {
   const entry = event.target.closest('.editorial-contact-link');
