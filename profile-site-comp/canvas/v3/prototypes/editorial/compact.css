@@ -2,13 +2,16 @@
 :root {--site-footer-height:calc(60px + env(safe-area-inset-bottom,0px));scroll-padding-bottom:calc(var(--site-footer-height) + 12px);scrollbar-gutter:stable}
 body.site-renewal.editorial.compact-local {
   background:#fff;color:#202020;font-size:14px;line-height:1.85;
-  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  --font-ui:"IBM Plex Sans JP","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  font-family:var(--font-ui);font-synthesis:none;
   --action-main-bg:#202020;--action-main-hover:#3b3b3b;--action-secondary-rule:#c8c8c8;
   --space-tight:8px;--space-related:12px;--space-block:24px;--space-field:32px;--space-section:64px;
   --site-header-clearance:84px;
   --site-shell-width:764px;--site-shell-gutter:30px;
   --activity-icon-width:20px;--activity-column-gap:10px;
   --activity-content-inset:calc(var(--activity-icon-width) + var(--activity-column-gap));
+  --required-text:#b42318;--required-surface:#f4f4f4;
+  --required-radius:4px;--required-line-height:20px;--required-padding-block:2px;
 }
 body.site-renewal.editorial.compact-local>.v3 {min-height:100vh;min-height:100svh;padding-bottom:calc(var(--site-footer-height) + var(--space-related))}
 /* Page shells own the horizontal inset, including the pricing page. */
@@ -257,6 +260,7 @@ body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .field-count {justify-self:end;font-variant-numeric:tabular-nums}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form ::placeholder {color:#666;opacity:1}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(.req,.opt) {padding:0;background:transparent;color:#606060;font-weight:400;line-height:1.5}
+body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .req {display:inline-flex;align-items:center;justify-content:center;flex:none;align-self:center;padding:var(--required-padding-block) var(--space-tight);border:0;border-radius:var(--required-radius);background:var(--required-surface);color:var(--required-text);line-height:var(--required-line-height);white-space:nowrap}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(input,select,textarea) {min-width:0;min-height:46px;padding:8px 12px;line-height:1.5;border:1px solid #8f8f8f;border-radius:4px;background:#fff;color:#202020;box-shadow:none;accent-color:#202020}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form textarea {min-height:160px;resize:vertical}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(input,select,textarea):focus-visible {outline:3px solid #202020;outline-offset:2px}

@@ -1,9 +1,9 @@
 {
   "trees": {
     ".agents/skills/update-miyabiya-studio": {
-      "SKILL.md": "1612b4304c79742bfeab55a389cfa8f0e0e890c0f5d93d17938bfb0c022f5898",
-      "references/current-site.md": "8f3aa62761c4b6d94dd29e99af3d4a018b0f192cf93f2c083dcd6f0bb34a948b",
-      "references/maintenance.md": "e6c19c0a4983b409b1c7a00f544616118ccc9b14f96acb3c7942c63ebd264807",
+      "SKILL.md": "263e0cd39acc196835f2cdeb3563757e3af9e4f5ab372cb1d780a59258c7ecff",
+      "references/current-site.md": "ca72cb40c1c8d4370fff5da165bdf8eff3678a2c5d386733e7ac7c73066d3228",
+      "references/maintenance.md": "269732a6fe764ffe54acc119c07e00e8ab2461a9b86b4a08b1b7f4d3b35d3c24",
       "agents/openai.yaml": "e80191e8003054acc9e6661237bdc623a17e50565bd7ee1025b69d228ebefa3f"
     }
   },
