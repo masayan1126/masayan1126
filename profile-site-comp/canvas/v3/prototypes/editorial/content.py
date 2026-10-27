@@ -27,7 +27,7 @@ def lucide_icon(name, css_class):
 
 
 def studio_mark():
-    # Original M monogram; kept separate from licensed third-party icons.
+    # Original curved m monogram, adopted proposal B; separate from licensed icons.
     return (HERE / 'icons/miyabiya-mark.svg').read_text().replace(
         '<svg', '<svg class="editorial-brand-icon" aria-hidden="true" focusable="false"', 1)
 
