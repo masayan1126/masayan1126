@@ -10,6 +10,7 @@ body.site-renewal.editorial.compact-local {
   --site-shell-width:764px;--site-shell-gutter:30px;
   --activity-icon-width:20px;--activity-column-gap:10px;
   --activity-content-inset:calc(var(--activity-icon-width) + var(--activity-column-gap));
+  --youtube-icon-color:#ff0000;
   --field-badge-text:#fff;--required-surface:#b42318;--optional-surface:#606060;
   --field-badge-radius:4px;--field-badge-line-height:20px;--field-badge-padding-block:2px;
 }
@@ -116,6 +117,7 @@ body.site-renewal.editorial.compact-local .site-social-links a {display:inline-f
 body.site-renewal.editorial.compact-local .site-social-links a:hover {color:#606060}
 body.site-renewal.editorial.compact-local .site-social-links a:focus-visible {outline:3px solid #202020;outline-offset:1px}
 body.site-renewal.editorial.compact-local .site-social-icon {display:block;width:20px;height:20px;fill:currentColor;flex:none}
+body.site-renewal.editorial.compact-local .site-social-icon-youtube {fill:var(--youtube-icon-color)}
 body.site-renewal.editorial.compact-local .site-social-icon-note {width:44px;height:44px}
 body.compact-local .compact-home .actions {display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:25px}
 body.compact-local .compact-home .button {display:inline-flex;align-items:center;justify-content:center;gap:23px;min-height:46px;padding:10px 20px;border:1px solid #202020;border-radius:4px!important;background:#202020;color:#fff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.85}

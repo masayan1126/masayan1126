@@ -9,5 +9,11 @@
     "instagram.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/instagram.svg",
     "github.svg": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/icons/github.svg",
     "LICENSE.md": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/LICENSE.md"
+  },
+  "brand_colors": {
+    "youtube.svg": {
+      "hex": "#FF0000",
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/90646e4bf7f3b89df6c37e65baf3e7bc759a517c/data/simple-icons.json"
+    }
   }
 }
