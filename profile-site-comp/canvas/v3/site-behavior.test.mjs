@@ -45,7 +45,7 @@ test('bot verification blocks unverified submits, supports retry, and clears use
   h.widgetOptions['before-interactive-callback']();assert.match(h.check.textContent,/チェック/);await h.submit();assert.match(h.status.textContent,/チェック/);
   h.widgetOptions['error-callback']();assert.equal(h.retry.hidden,false);
   h.handlers['retry:click']();assert.equal(h.checkResets(),1);assert.equal(h.retry.hidden,true);
-  h.widgetOptions.callback('new-token');assert.equal(h.tokenField.value,'new-token');
+  h.widgetOptions.callback('new-token');assert.equal(h.tokenField.value,'new-token');assert.equal(h.check.textContent,'');
   h.widgetOptions['expired-callback']();assert.equal(h.tokenField.value,'');
   await h.submit();assert.equal(h.result().requests,0);
   h.widgetOptions.callback('fresh-token');await h.submit();assert.equal(h.result().requests,1);assert.equal(h.tokenField.value,'');
