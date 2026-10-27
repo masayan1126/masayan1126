@@ -96,10 +96,16 @@ def social_icon_links(placement):
         ('youtube', 'YouTube', 'https://www.youtube.com/@masayan-ai-hack'),
         ('x', 'X', 'https://x.com/masayan_ai_hack'),
         ('instagram', 'Instagram', 'https://www.instagram.com/miyabiya1126/'),
+        ('note', 'note', 'https://note.com/msyn1126'),
         ('github', 'GitHub', 'https://github.com/masayan1126'),
     ]
     links = []
     for slug, name, url in profiles:
+        if slug == 'note':
+            icon = '<img class="site-social-icon site-social-icon-note" src="/editorial-assets/note-icon.svg" width="44" height="44" alt="" aria-hidden="true">'
+            label = name + 'を開く（新しいタブ）'
+            links.append(f'<a href="{url}" target="_blank" rel="noopener noreferrer" aria-label="{label}" title="{name}">{icon}</a>')
+            continue
         svg = BeautifulSoup((HERE / 'icons/simple-icons' / (slug + '.svg')).read_text(), 'html.parser').svg
         svg.attrs.pop('role', None)
         svg.attrs.update({'class': 'site-social-icon', 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
@@ -125,6 +131,7 @@ def technical_activities():
         '<a id="membership" href="/membership/">YouTubeメンバーシップ</a>で限定投稿・動画を提供' + youtube_audience_count('members', 'メンバー数'),
         '<a href="https://x.com/masayan_ai_hack" target="_blank" rel="noopener noreferrer">X（@masayan_ai_hack）</a>',
         '<a href="https://www.instagram.com/miyabiya1126/" target="_blank" rel="noopener noreferrer">Instagram（@miyabiya1126）</a>',
+        '<a href="https://note.com/msyn1126" target="_blank" rel="noopener noreferrer">note（@msyn1126）</a>',
     ])
 
 
