@@ -79,12 +79,18 @@ def validate():
     assert [item['data-category'] for item in docs[''].select('.a-entry')] == ['activity', 'pr', 'development', 'video', 'talk', 'ai'], 'Activity order must follow the approved introduction'
     for page, soup in docs.items():
         assert not soup.select('.editorial-nav'), page
-        expected_header_links = ['/', '/'] if page == 'contact' else ['/', '/contact/#contact-form']
+        social_urls = ['https://www.youtube.com/@masayan-ai-hack', 'https://x.com/masayan_ai_hack', 'https://www.instagram.com/miyabiya1126/', 'https://github.com/masayan1126']
+        expected_header_links = ['/', *social_urls, '/' if page == 'contact' else '/contact/#contact-form']
         assert [a['href'] for a in soup.select('.editorial-header a')] == expected_header_links, page
+        assert [a['href'] for a in soup.select('.editorial-footer .site-social-links a')] == social_urls, page
+        assert not soup.select('main .site-social-links, .profile-social-links'), page
+        assert len({nav['aria-label'] for nav in soup.select('.site-social-links')}) == 2, page
+        for anchor in soup.select('.site-social-links a'):
+            assert anchor.get('aria-label') and anchor['target'] == '_blank' and 'noopener' in anchor['rel'], page
         if page == 'contact':
             home_link = soup.select_one('.editorial-header .editorial-home-link')
             assert home_link and home_link['href'] == '/'
-            assert home_link.get_text(strip=True) == '←トップページへ戻る'
+            assert home_link['aria-label'] == 'トップページへ戻る'
             assert not soup.select('.editorial-contact-link')
     assert len(docs[''].select('#ai-adoption > .activity-group > .activity-highlights > li')) == 5
     assert not docs[''].select('#ai-adoption .plain-link')
@@ -113,6 +119,7 @@ def validate():
     assert not docs[''].select_one('#video-editing').find_parent('details')
     assert docs[''].select_one('#activities h3').get_text(strip=True) == '技術発信'
     assert docs[''].select_one('#personal-development h3').get_text(strip=True) == '個人開発'
+    assert '（Markdownプレビュー・タブのコピーなど）' not in docs[''].get_text()
     assert not docs[''].select('#activities a[href*="github.com"]')
     assert not docs[''].select('#activities .plain-link')
     assert docs[''].select_one('#product-pr a.pr-estimate-link[href="/pricing/"]')

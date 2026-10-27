@@ -32,15 +32,15 @@ def studio_mark():
 
 
 def header(current):
-    contact_link = '<a class="editorial-home-link" href="/"><span aria-hidden="true">←</span>トップページへ戻る</a>' if current == 'contact' else '<a class="editorial-contact-link" href="/contact/#contact-form">お問い合わせ <span aria-hidden="true">↗</span></a>'
+    contact_link = '<a class="editorial-home-link" href="/" aria-label="トップページへ戻る"><span aria-hidden="true">←</span><span class="home-link-full" aria-hidden="true">トップページへ戻る</span><span class="home-link-short" aria-hidden="true">トップへ</span></a>' if current == 'contact' else '<a class="editorial-contact-link" href="/contact/#contact-form">お問い合わせ <span aria-hidden="true">↗</span></a>'
     return f'''<header class="editorial-header"><div class="editorial-shell editorial-header-inner">
 <a class="editorial-brand" href="/">{studio_mark()}Miyabiya Studio</a>
-{contact_link}
+<div class="editorial-header-actions">{social_icon_links('header')}{contact_link}</div>
 </div></header>'''
 
 
 def footer():
-    return '''<footer class="editorial-footer"><div class="editorial-shell focus-footer">
+    return '<footer class="editorial-footer"><div class="editorial-shell focus-footer">' + social_icon_links('footer') + '''
 <p>© 2026 Masaya Nishigaki</p>
 </div></footer>'''
 
@@ -90,7 +90,7 @@ def activity_list(items):
     return '<ul class="activity-highlights" role="list">' + ''.join(f'<li>{marker}<span>{item}</span></li>' for item in items) + '</ul>'
 
 
-def social_icon_links():
+def social_icon_links(placement):
     profiles = [
         ('youtube', 'YouTube', 'https://www.youtube.com/@masayan-ai-hack'),
         ('x', 'X', 'https://x.com/masayan_ai_hack'),
@@ -101,12 +101,13 @@ def social_icon_links():
     for slug, name, url in profiles:
         svg = BeautifulSoup((HERE / 'icons/simple-icons' / (slug + '.svg')).read_text(), 'html.parser').svg
         svg.attrs.pop('role', None)
-        svg.attrs.update({'class': 'profile-social-icon', 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
+        svg.attrs.update({'class': 'site-social-icon', 'aria-hidden': 'true', 'focusable': 'false', 'fill': 'currentColor'})
         for title in svg.select('title'):
             title.decompose()
         label = name + 'を開く（新しいタブ）'
         links.append(f'<a href="{url}" target="_blank" rel="noopener noreferrer" aria-label="{label}" title="{name}">{svg}</a>')
-    return '<nav class="profile-social-links" aria-label="SNS・公開プロフィール">' + ''.join(links) + '</nav>'
+    landmark = 'ヘッダー' if placement == 'header' else 'フッター'
+    return f'<nav class="site-social-links" aria-label="{landmark}のSNS・公開プロフィール">' + ''.join(links) + '</nav>'
 
 
 def technical_activities():
@@ -132,7 +133,7 @@ def extension_icon_links():
 
 def personal_projects():
     return '<div class="project-extensions">' + activity_list([
-        '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>（Markdownプレビュー・タブのコピーなど）',
+        '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>',
     ]) + extension_icon_links() + '</div>' + activity_list([
         '<a href="https://github.com/masayan1126" target="_blank" rel="noopener noreferrer">GitHubでソースコードを公開</a>',
     ])
@@ -188,7 +189,7 @@ def home():
     )
     return '''<div class="a-shell compact-home-content"><section class="a-intro" aria-labelledby="a-title">
 <div class="a-person"><img src="/editorial-assets/avatar-cutout.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
-<p class="a-bio">YouTubeでのAI関連の発信・PR・個人開発・AI動画編集・技術登壇などを中心に活動</p>''' + social_icon_links() + '''</section>
+<p class="a-bio">YouTubeでのAI関連の発信・PR・個人開発・AI動画編集・技術登壇などを中心に活動</p></section>
 <section class="a-work" aria-labelledby="a-work-title"><div class="section-head"><h2 id="a-work-title">主な活動</h2></div>''' + rows + '</section></div>'
 
 

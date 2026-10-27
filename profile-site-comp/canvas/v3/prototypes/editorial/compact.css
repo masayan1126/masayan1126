@@ -4,6 +4,7 @@ body.site-renewal.editorial.compact-local {
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
   --action-main-bg:#202020;--action-main-hover:#3b3b3b;--action-secondary-rule:#c8c8c8;
   --space-tight:8px;--space-related:12px;--space-block:24px;--space-field:32px;--space-section:64px;
+  --site-header-clearance:84px;
 }
 body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {
   width:100%;max-width:764px;margin-inline:auto;padding-inline:30px;
@@ -16,10 +17,12 @@ body.site-renewal.editorial.compact-local :is(.v3-contact-link,.v3-text-link,.de
 body.site-renewal.editorial.compact-local :is([data-centralized-contact],#legacy-quote-contact) {display:none!important}
 body.site-renewal.editorial.compact-local .v3 {font-family:inherit}
 body.site-renewal.editorial.compact-local :is(h1,h2,h3,button,input,select,textarea) {font-family:inherit}
+body.site-renewal.editorial.compact-local .editorial-header {position:sticky;top:0;z-index:30;background:#fff}
 body.site-renewal.editorial.compact-local .editorial-header-inner {
-  display:grid;grid-template-columns:1fr auto;gap:0 26px;min-height:0;padding-block:25px 13px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 16px;min-height:0;padding-block:12px;
 }
-body.site-renewal.editorial.compact-local .editorial-brand {display:inline-flex;align-items:center;justify-self:start;gap:8px;min-height:44px;font-size:18px;font-weight:650;letter-spacing:-.015em}
+body.site-renewal.editorial.compact-local .editorial-header-actions {display:flex;align-items:center;justify-content:flex-end;gap:16px;min-width:0}
+body.site-renewal.editorial.compact-local .editorial-brand {display:inline-flex;align-items:center;justify-self:start;gap:8px;min-height:44px;font-size:18px;font-weight:650;letter-spacing:-.015em;white-space:nowrap}
 body.site-renewal.editorial.compact-local .editorial-brand-icon {display:block;width:24px;height:24px;flex:none;color:inherit}
 body.site-renewal.editorial.compact-local .editorial-nav {grid-row:2;grid-column:1/-1;gap:12px 28px;margin:0;flex-wrap:wrap}
 body.site-renewal.editorial.compact-local .editorial-contact-link {grid-row:1;grid-column:2}
@@ -67,9 +70,7 @@ body.site-renewal.editorial.compact-local .focus-invitation {display:block;paddi
 body.site-renewal.editorial.compact-local .focus-invitation h2 {font-size:22px;margin-bottom:10px}
 body.site-renewal.editorial.compact-local .focus-invitation p {font-size:14px;margin-bottom:22px}
 body.site-renewal.editorial.compact-local .editorial-footer {padding-block:33px 30px}
-body.site-renewal.editorial.compact-local .focus-footer {display:block;font-size:12px}
-body.site-renewal.editorial.compact-local .focus-footer nav {display:flex;flex-wrap:wrap;gap:4px 24px;margin:0 0 16px}
-body.site-renewal.editorial.compact-local .focus-footer nav a {display:inline-flex;align-items:center;min-height:44px}
+body.site-renewal.editorial.compact-local .focus-footer {display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
 body.site-renewal.editorial.compact-local .focus-activity-links {display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
 body.site-renewal.editorial.compact-local .focus-activity-links a {min-height:44px;display:flex;align-items:center}
 body.site-renewal.editorial.compact-local .focus-details {margin-top:18px;background:none;border:0}
@@ -101,10 +102,11 @@ body.compact-local .compact-home .a-person h1 {font-size:18px;line-height:1.5;le
 body.compact-local .compact-home .a-person .eyebrow {margin:2px 0 0;font-size:14px;color:#606060;line-height:1.65}
 body.compact-local .compact-home .a-bio {font-size:14px;line-height:1.85;letter-spacing:0;color:#202020;margin:0;max-width:650px}
 body.compact-local .compact-home .a-bio a {white-space:nowrap;text-decoration:none;font-weight:550;background:none;border:0}
-body.compact-local .compact-home .profile-social-links {display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 0 -12px;padding:0}
-body.compact-local .compact-home .profile-social-links a {display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:0;background:none;color:#202020;line-height:1;text-decoration:none}
-body.compact-local .compact-home .profile-social-links a:hover {color:#606060}
-body.compact-local .compact-home .profile-social-icon {display:block;width:20px;height:20px;fill:currentColor;flex:none}
+body.site-renewal.editorial.compact-local :is(.editorial-header,.focus-footer) .site-social-links {display:flex;flex-wrap:nowrap;align-items:center;gap:0;margin:0;padding:0}
+body.site-renewal.editorial.compact-local .site-social-links a {display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:0;background:none;color:#202020;line-height:1;text-decoration:none}
+body.site-renewal.editorial.compact-local .site-social-links a:hover {color:#606060}
+body.site-renewal.editorial.compact-local .site-social-links a:focus-visible {outline:3px solid #202020;outline-offset:1px}
+body.site-renewal.editorial.compact-local .site-social-icon {display:block;width:20px;height:20px;fill:currentColor;flex:none}
 body.compact-local .compact-home .actions {display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:25px}
 body.compact-local .compact-home .button {display:inline-flex;align-items:center;justify-content:center;gap:23px;min-height:46px;padding:10px 20px;border:1px solid #202020;border-radius:4px!important;background:#202020;color:#fff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.85}
 body.compact-local .compact-home .button:hover {background:#3b3b3b}
@@ -183,9 +185,10 @@ body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1p
 
 @media(max-width:620px) {
   body.compact-local .compact-home .project-extension-links {max-width:192px}
-  body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px}
+  body.site-renewal.editorial.compact-local {--space-field:28px;--space-section:48px;--site-header-clearance:120px}
   body.site-renewal.editorial.compact-local :is(.editorial-shell,.v3-wrap,.wrap,.works-wrap,.a-shell) {padding-inline:24px}
-  body.site-renewal.editorial.compact-local .editorial-header-inner {display:grid;grid-template-columns:1fr auto;gap:0 6px;min-height:0;padding-block:17px 5px}
+  body.site-renewal.editorial.compact-local .editorial-header-inner {grid-template-columns:minmax(0,1fr);gap:0;min-height:0;padding-block:8px}
+  body.site-renewal.editorial.compact-local .editorial-header-actions {justify-self:end;gap:12px;max-width:100%}
   body.site-renewal.editorial.compact-local .editorial-brand {gap:6px;font-size:18px}
   body.site-renewal.editorial.compact-local .editorial-brand-icon {width:20px;height:20px}
   body.site-renewal.editorial.compact-local .editorial-contact-link {grid-row:1;grid-column:2}
@@ -202,8 +205,7 @@ body.compact-local .compact-home .sr-only {position:absolute;width:1px;height:1p
   body.site-renewal.editorial.compact-local .focus-person img {width:105px;height:130px}
   body.site-renewal.editorial.compact-local .focus-invitation {padding-top:29px}
   body.site-renewal.editorial.compact-local .focus-invitation h2 {font-size:21px}
-  body.site-renewal.editorial.compact-local .focus-footer {display:block}
-  body.site-renewal.editorial.compact-local .focus-footer nav {margin-top:8px}
+  body.site-renewal.editorial.compact-local .focus-footer {flex-direction:column;align-items:flex-start}
   body.site-renewal.editorial.compact-local .focus-activity-links {grid-template-columns:1fr;gap:0}
   body.site-renewal.editorial.compact-local .focus-main .contact-form-card {padding:20px}
   body.site-renewal.editorial.compact-local .estimate-intro {padding-block:19px 14px}
@@ -267,9 +269,18 @@ body.site-renewal.editorial.compact-local #inquiry-security-retry[hidden] {displ
 body.site-renewal.editorial.compact-local #inquiry-security-retry:focus-visible {outline:3px solid #202020;outline-offset:3px}
 
 /* Make the route home explicit on the contact page. */
-body.site-renewal.editorial.compact-local .editorial-home-link {display:inline-flex;align-items:center;justify-self:end;grid-row:1;grid-column:2;gap:6px;min-height:44px;font-size:14px;font-weight:400;line-height:1.5;color:#202020;background:none;border:0;text-decoration:none;white-space:nowrap}
+body.site-renewal.editorial.compact-local .editorial-home-link {display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;font-weight:400;line-height:1.5;color:#202020;background:none;border:0;text-decoration:none;white-space:nowrap}
+body.site-renewal.editorial.compact-local .home-link-short {display:none}
 body.site-renewal.editorial.compact-local .editorial-home-link:hover {color:#000}
 body.site-renewal.editorial.compact-local .editorial-home-link:focus-visible {outline:3px solid #202020;outline-offset:3px}
-@media(max-width:440px) {
-  body.site-renewal.editorial.compact-local .editorial-home-link {grid-row:2;grid-column:1/-1;justify-self:start}
+@media(max-width:620px) {
+  body.site-renewal.editorial.compact-local .home-link-full {display:none}
+  body.site-renewal.editorial.compact-local .home-link-short {display:inline}
 }
+@media(max-width:360px) {
+  body.site-renewal.editorial.compact-local .editorial-header-actions {gap:8px}
+  body.site-renewal.editorial.compact-local .editorial-header .site-social-links a {flex-basis:40px;width:40px}
+}
+/* Keep page anchors and focused controls below the sticky header, without
+   changing the simulator dialog's independent scroll area. */
+body.site-renewal.editorial.compact-local :is(#main-content,main [id],main a,main button,main input,main select,main textarea,main summary):not(dialog,dialog *) {scroll-margin-top:var(--site-header-clearance)}
