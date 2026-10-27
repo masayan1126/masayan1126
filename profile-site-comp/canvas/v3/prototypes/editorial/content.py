@@ -196,7 +196,7 @@ def home():
     anchors = {'ai': 'ai-adoption', 'pr': 'product-pr', 'talk': 'speaking', 'activity': 'activities', 'development': 'personal-development', 'video': 'video-editing'}
     renderers = {'ai': ai_support, 'talk': talk_previews, 'activity': technical_activities, 'development': personal_projects, 'video': ai_video_editing}
     def entry_content(category, title, proof):
-        heading = f'<h3 class="activity-title-with-icon">{lucide_icon(activity_icons[category], "activity-title-icon")}<span>{title}</span></h3>'
+        heading = f'<h2 class="activity-title-with-icon">{lucide_icon(activity_icons[category], "activity-title-icon")}<span>{title}</span></h2>'
         if category == 'pr':
             action = '<a class="pr-estimate-link" href="/pricing/" aria-label="PR動画の料金を見積もる">' + lucide_icon('calculator', 'pr-estimate-icon') + '<span>料金を見積もる</span><span class="arrow" aria-hidden="true">→</span></a>'
             return '<div class="pr-section-header">' + heading + action + '</div>' + video_card(proof)
@@ -210,7 +210,7 @@ def home():
     return '''<div class="a-shell compact-home-content"><section class="a-intro" aria-labelledby="a-title">
 <div class="a-person"><img src="/editorial-assets/avatar-mono-pixel.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
 <p class="a-bio">YouTubeでのAI関連の発信・PR・個人開発・AI動画編集・技術登壇などを中心に活動</p></section>
-<section class="a-work" aria-labelledby="a-work-title"><div class="section-head"><h2 id="a-work-title">主な活動</h2></div>''' + rows + '</section></div>'
+<div class="a-work">''' + rows + '</div></div>'
 
 
 def works(source):

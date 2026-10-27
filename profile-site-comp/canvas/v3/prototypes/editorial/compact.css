@@ -143,7 +143,7 @@ body.compact-local .compact-home .activity-group>* {grid-column:2;min-width:0}
 body.compact-local .compact-home .activity-group>:is(.activity-title-with-icon,.activity-highlights,.project-extensions,.pr-section-header) {grid-column:1/-1}
 body.compact-local .compact-home .a-entry[hidden] {display:none}
 body.compact-local .compact-home .a-entry .entry-type {font-size:11px;color:#606060;padding-top:4px;margin:0}
-body.compact-local .compact-home .a-entry h3 {font-size:16px;line-height:1.5;margin:0;font-weight:650}
+body.compact-local .compact-home .a-entry :is(h2,h3) {font-size:18px;line-height:1.5;margin:0;font-weight:650}
 body.compact-local .compact-home .a-entry .activity-title-with-icon {display:grid;grid-template-columns:var(--activity-icon-width) minmax(0,1fr);align-items:center;gap:var(--activity-column-gap)}
 body.compact-local .compact-home .activity-title-icon {display:block;width:var(--activity-icon-width);height:20px;color:inherit}
 body.compact-local .compact-home .activity-title-with-icon>span {min-width:0}
@@ -186,7 +186,7 @@ body.compact-local .compact-home .activity-card-title {font-size:14px;font-weigh
 body.compact-local .compact-home .activity-card-phrase {white-space:nowrap}
 body.compact-local .compact-home .pr-video-card {max-width:100%;margin:0}
 body.compact-local .compact-home .pr-section-header {display:grid;grid-template-columns:var(--activity-icon-width) minmax(0,1fr);justify-items:start;gap:8px var(--activity-column-gap);margin-bottom:0}
-body.compact-local .compact-home .pr-section-header h3 {grid-column:1/-1;margin:0}
+body.compact-local .compact-home .pr-section-header .activity-title-with-icon {grid-column:1/-1;margin:0}
 body.compact-local .compact-home .pr-estimate-link {grid-column:1/-1;display:grid;grid-template-columns:var(--activity-icon-width) max-content max-content;align-items:center;gap:var(--activity-column-gap);min-height:44px;max-width:100%;margin:0;padding:0;border:0;background:none;color:#202020;font-size:14px;font-weight:550;line-height:1.5;text-decoration:none}
 body.compact-local .compact-home .pr-estimate-icon {width:16px;height:16px;justify-self:center}
 body.compact-local .compact-home .pr-estimate-link .arrow {margin-inline-start:-4px}
