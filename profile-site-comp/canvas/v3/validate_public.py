@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 import hashlib
 import json
 import re
+import struct
+from site_metadata import metadata, SITE_NAME, OWNER, ROLE, SOCIAL_PROFILES, ASSETS
 
 ROOT = Path(__file__).resolve().parent
 PAGES = ['', 'profile', 'works', 'talks', 'membership', 'pricing', 'contact']
@@ -13,6 +15,9 @@ BASE = 'https://studio.msyn.me'
 
 def validate(site=ROOT / 'site'):
     site = Path(site)
+    social_assets = json.loads((ASSETS / 'manifest.json').read_text())
+    page_images = {record['page']: BASE + record['public_path'] for record in social_assets['files'] if 'page' in record}
+    assert set(page_images) == set(PAGES)
     docs = {page: BeautifulSoup((site / page / 'index.html').read_text(), 'html.parser') for page in PAGES}
     for page, doc in docs.items():
         text = str(doc)
@@ -22,6 +27,46 @@ def validate(site=ROOT / 'site'):
         route = '/' + (page + '/' if page else '')
         assert doc.select_one('link[rel="canonical"]')['href'] == BASE + route
         assert doc.select_one('meta[property="og:url"]')['content'] == BASE + route
+        info = metadata(page)
+        assert doc.title.get_text() == info['title'], page
+        assert len(doc.select('link[rel="canonical"]')) == 1, page
+        expected = {
+            'description': info['description'], 'application-name': SITE_NAME,
+            'twitter:title': info['title'], 'twitter:description': info['description'],
+            'twitter:card': 'summary_large_image', 'theme-color': '#ffffff',
+        }
+        for name, value in expected.items():
+            matches = doc.select(f'meta[name="{name}"]')
+            assert len(matches) == 1 and matches[0]['content'] == value, (page, name)
+        for name, value in {'og:title': info['title'], 'og:description': info['description'],
+                            'og:site_name': SITE_NAME, 'og:image:alt': info['image_alt'],
+                            'og:image:type': 'image/png', 'og:image:width': '1200', 'og:image:height': '630'}.items():
+            matches = doc.select(f'meta[property="{name}"]')
+            assert len(matches) == 1 and matches[0]['content'] == value, (page, name)
+        image = doc.select('meta[property="og:image"]')
+        assert len(image) == 1 and image[0]['content'].startswith(BASE + '/social/og-'), page
+        assert image[0]['content'] == page_images[page], page
+        image_path = site / urlsplit(image[0]['content']).path.lstrip('/')
+        image_bytes = image_path.read_bytes()
+        assert image_bytes[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', image_bytes[16:24]) == (1200, 630), page
+        assert hashlib.sha256(image_bytes).hexdigest()[:12] in image_path.name, image_path
+        assert doc.select_one('meta[name="twitter:image"]')['content'] == image[0]['content'], page
+        schema = doc.select('script[type="application/ld+json"]')
+        assert len(schema) == 1, page
+        graph = json.loads(schema[0].string)['@graph']
+        assert len(graph) == len({node['@id'] for node in graph}) == 3, page
+        website, person, webpage = graph
+        assert website['@type'] == 'WebSite' and website['name'] == SITE_NAME and website['url'] == BASE + '/', page
+        assert person['@type'] == 'Person' and person['name'] == OWNER and person['jobTitle'] == ROLE, page
+        assert person['sameAs'] == SOCIAL_PROFILES and 'https://note.com/msyn1126' in person['sameAs'], page
+        assert webpage['url'] == info['url'] and webpage['name'] == info['title'] and webpage['description'] == info['description'], page
+        assert webpage['primaryImageOfPage']['url'] == image[0]['content'], page
+        assert webpage['isPartOf']['@id'] == website['@id'] and webpage['about']['@id'] == person['@id'], page
+        assert len(doc.select('link[rel~="icon"]')) == 3, page
+        assert doc.select_one('link[rel="icon"][type="image/svg+xml"]')['href'] == '/favicon.svg', page
+        assert doc.select_one('link[rel="icon"][type="image/png"]')['href'] == '/icons/favicon-96.png', page
+        assert doc.select_one('link[rel="apple-touch-icon"]')['href'] == '/icons/apple-touch-icon.png', page
+        assert doc.select_one('link[rel="manifest"]')['href'] == '/site.webmanifest', page
         assert not doc.select('meta[name="robots"][content*="noindex"]'), page
         assert len(doc.select('script[src*="googletagmanager.com"]')) == 1, page
         assert 'page_location:location.origin+location.pathname' in text
@@ -66,7 +111,21 @@ def validate(site=ROOT / 'site'):
     sitemap = BeautifulSoup((site / 'sitemap.xml').read_text(), 'xml')
     assert {node.text for node in sitemap.select('loc')} == {BASE + '/' + (p + '/' if p else '') for p in PAGES}
     assert not list(site.rglob('__review'))
-    result = {'pages': len(PAGES), 'links_assets_and_modules': 'passed', 'contact_production': True, 'analytics_clean_urls': True, 'indexable': True, 'rate_version': raw_rates['rateVersion'], 'historical_rates_unchanged': True}
+    for record in social_assets['files']:
+        delivered = site / record['public_path'].lstrip('/')
+        assert hashlib.sha256(delivered.read_bytes()).hexdigest() == record['sha256'], delivered
+        if record['file'].endswith('.png'):
+            assert struct.unpack('>II', delivered.read_bytes()[16:24]) == (record['width'], record['height']), delivered
+    bookmark = json.loads((site / 'site.webmanifest').read_text())
+    assert (site / 'apple-touch-icon.png').read_bytes() == (ASSETS / 'apple-touch-icon.png').read_bytes()
+    assert bookmark['name'] == SITE_NAME and bookmark['start_url'] == '/' and bookmark['display'] == 'browser'
+    for icon in bookmark['icons']:
+        width, height = struct.unpack('>II', (site / icon['src'].lstrip('/')).read_bytes()[16:24])
+        assert icon['sizes'] == f'{width}x{height}' and width == height
+    ico = (site / 'favicon.ico').read_bytes()
+    assert struct.unpack('<HHH', ico[:6]) == (0, 1, 3)
+    assert {(ico[6+i*16] or 256, ico[7+i*16] or 256) for i in range(3)} == {(16,16),(32,32),(48,48)}
+    result = {'pages': len(PAGES), 'links_assets_and_modules': 'passed', 'metadata_and_bookmark_assets': 'passed', 'contact_production': True, 'analytics_clean_urls': True, 'indexable': True, 'rate_version': raw_rates['rateVersion'], 'historical_rates_unchanged': True}
     output = ROOT.parents[1] / 'output/public-release/validation.json'
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')

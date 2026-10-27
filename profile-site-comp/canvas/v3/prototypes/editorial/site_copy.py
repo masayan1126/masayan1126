@@ -2,16 +2,6 @@
 import re
 from urllib.parse import urlsplit
 
-PAGE_INFO = {
-    '': ('Masaya Nishigaki', 'AI活用支援、製品PR・タイアップ、登壇・社内勉強会、技術発信、個人開発に取り組むWeb系のシニアエンジニア・テックリードです。'),
-    'works': ('実績紹介', 'AI開発フローのチーム導入、MCPサーバー開発、製品PR動画、個人開発の実績と担当業務をご紹介します。'),
-    'profile': ('プロフィール・職務経歴', 'Masaya Nishigakiの活動、職務経歴、技術・スキルをご紹介します。'),
-    'talks': ('登壇・社内勉強会', 'AI駆動開発、MCPサーバー開発、動画制作の自動化に関する登壇実績と、対応するテーマ・形式をご紹介します。'),
-    'membership': ('YouTubeメンバーシップ', 'メンバー限定の投稿・動画などを提供するYouTubeメンバーシップの特典と料金プランをご案内します。'),
-    'pricing': ('PR制作のお見積もり', 'YouTube本編・ショート動画・X投稿の概算料金を確認できます。制作内容を選び、明細の確認、PDF保存、共有ができます。'),
-    'contact': ('お問い合わせ', 'AI活用支援、製品PR・タイアップ、登壇・社内勉強会などのご依頼を承っています。通常2営業日以内に返信します。'),
-}
-
 # Only interface labels and instructions. Do not rename priced work or archived
 # terms: those descriptions are shared by the screen, PDF and inquiry summary.
 UI_COPY = {
