@@ -111,10 +111,18 @@ def social_icon_links(placement):
     return f'<nav class="site-social-links" aria-label="{landmark}のSNS・公開プロフィール">' + ''.join(links) + '</nav>'
 
 
+def youtube_audience_count(metric, label):
+    audience = json.loads((HERE.parents[1] / 'youtube-audience.json').read_text())
+    value = audience[metric]
+    observed = date.fromisoformat(value['as_of'])
+    return (f'<span class="audience-count"><span>{label}：<strong>{value["count"]:,}人</strong></span>'
+            f'<time datetime="{observed.isoformat()}">（{observed.year}年{observed.month}月{observed.day}日時点）</time></span>')
+
+
 def technical_activities():
     return activity_list([
-        '<a id="youtube" href="https://www.youtube.com/@masayan-ai-hack" target="_blank" rel="noopener noreferrer">YouTube「まさやん【AIギルドch】」</a>でAI駆動開発・AIエージェント・動画制作の自動化を発信',
-        '<a id="membership" href="/membership/">YouTubeメンバーシップ</a>で限定投稿・動画を提供',
+        '<a id="youtube" href="https://www.youtube.com/@masayan-ai-hack" target="_blank" rel="noopener noreferrer">YouTube「まさやん【AIギルドch】」</a>でAI駆動開発・AIエージェント・動画制作の自動化を発信' + youtube_audience_count('subscribers', '登録者数'),
+        '<a id="membership" href="/membership/">YouTubeメンバーシップ</a>で限定投稿・動画を提供' + youtube_audience_count('members', 'メンバー数'),
         '<a href="https://x.com/masayan_ai_hack" target="_blank" rel="noopener noreferrer">X（@masayan_ai_hack）</a>',
         '<a href="https://www.instagram.com/miyabiya1126/" target="_blank" rel="noopener noreferrer">Instagram（@miyabiya1126）</a>',
     ])
@@ -222,7 +230,7 @@ def talks(source):
 
 
 def membership(source):
-    return intro('YouTubeメンバーシップ') + section('特典・加入方法', '''<p>月額390円から、3つの料金プランをご用意しています。メンバー限定の投稿・動画・Shortsに加え、上位プランではAI活用のドキュメントやソースコードを配布します。いつでも解約できます。</p><div class="editorial-actions">''' + link('特典・料金プランを見る', 'https://masayan-ai-tech-ch.pages.dev/membership/', True) + link('YouTubeで加入する', 'https://www.youtube.com/@masayan-ai-hack/join') + '''</div>''')
+    return intro('YouTubeメンバーシップ') + section('特典・加入方法', youtube_audience_count('members', 'メンバー数') + '''<p>月額390円から、3つの料金プランをご用意しています。メンバー限定の投稿・動画・Shortsに加え、上位プランではAI活用のドキュメントやソースコードを配布します。いつでも解約できます。</p><div class="editorial-actions">''' + link('特典・料金プランを見る', 'https://masayan-ai-tech-ch.pages.dev/membership/', True) + link('YouTubeで加入する', 'https://www.youtube.com/@masayan-ai-hack/join') + '''</div>''')
 
 
 def contact(source):
