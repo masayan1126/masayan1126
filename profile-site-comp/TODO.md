@@ -1,6 +1,6 @@
 # Miyabiya Studio の進捗
 
-- 2026-10-27（送信ボタン前の余白・公開準備済み）：入力項目の間隔をPC32px／スマホ28pxに保ち、認証完了時の文字数表示から送信ボタンまでを両画面24pxへ調整しました。負のマージンと空のnoscriptグリッド項目による空きを除去し、ウィジェット・読込・エラー・再試行とJavaScript無効時の案内を維持。ビルド・7ページ互換性・実認証完了時のPC／320px測定・独立レビューを確認済み。次はマージと公開確認です。根拠は output/contact-submit-spacing/。
+- 2026-10-27（送信ボタン前の余白・公開済み）：入力項目の間隔をPC32px／スマホ28pxに保ち、認証完了時の文字数表示から送信ボタンまでを両画面24pxへ調整しました。認証・読込・エラー・再試行・JavaScript無効時の案内を維持。ビルド・7ページ互換性・認証完了時のPC／320px測定・独立レビューを確認。PR #58をマージし本番ec72c3deへ反映、公開7ページ・全参照CSS・JSの一致と、公開PC／スマホの認証欄前後12px・横はみ出しなしを確認済みです。根拠は output/contact-submit-spacing/completion.json、public-http.json、local-browser.json、ready-local.png。
 
 - 2026-10-27（問い合わせの表示位置・公開済み）：ヘッダーの問い合わせリンクからフォームへのアンカー指定を外し、ページ先頭の見出しから表示するよう修正しました。ビルド・7ページ互換性・全86テスト中84成功／2スキップ、PC／320pxのscrollY=0と見出しの視認、54,500円の相談文1,189文字の一致、旧い明示アンカーと独立レビューを確認。PR #57をマージし本番ac34257eへ反映、公開7ページ・CSS・JSの一致とPC／スマホでの実遷移を確認済みです。根拠は output/contact-entry-position/completion.json、public-http.json、public-browser.json、public.png。
 
