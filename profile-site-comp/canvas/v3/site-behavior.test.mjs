@@ -7,17 +7,20 @@ import {fileURLToPath} from 'node:url';
 
 const contactHtml=execFileSync('python3',['-c',"import runpy,sys;print(runpy.run_path(sys.argv[1])['render_contact_form']())",fileURLToPath(new URL('./build_sections.py',import.meta.url))],{encoding:'utf8'});
 const contactScript=[...contactHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]).find(s=>s.includes("const f=document.getElementById('inquiry-form')"));
-function contactHarness({valid=true,search='',kind='PR・タイアップのご依頼',request=async()=>({ok:true,json:async()=>({ok:true})})}={}) {
+function contactHarness({verified=true,valid=true,search='',kind='PR・タイアップのご依頼',request=async()=>({ok:true,json:async()=>({ok:true})})}={}) {
   const handlers={},windowHandlers={},documentHandlers={},attrs={};
   const field=value=>({value,customError:'',setCustomValidity(message){this.customError=message;}});
   const elements={kind:field(kind),name:field('テスト担当'),org:field(''),email:field('test@example.com'),body:field('ご相談の本文'),website:field('')};
-  const status={focus(){this.focused=true;}},hint={},count={};
+  const status={focus(){this.focused=true;}},hint={},count={},check={focus(){this.focused=true;}},tokenField={value:''},retry={addEventListener:(k,fn)=>{handlers['retry:'+k]=fn;}};
+  let widgetOptions,checkResets=0;const loader={addEventListener:(k,fn)=>{handlers['loader:'+k]=fn;},remove(){}};
+  const browser={addEventListener:(k,fn)=>{windowHandlers[k]=fn;},turnstile:{render:(_selector,options)=>{widgetOptions=options;return 'widget';},reset:()=>{checkResets++;}}};
   const button={disabled:false,innerHTML:'相談内容を送信する<span>→</span>',setAttribute:(k,v)=>{attrs[k]=v;},removeAttribute:k=>{delete attrs[k];}};
   let requests=0,resets=0,successEvents=0;
   const form={elements,querySelector:s=>s==='.form-status'?status:button,reportValidity:()=>valid&&!Object.values(elements).some(f=>f.customError),reset:()=>{resets++;for(const f of Object.values(elements))f.value='';},addEventListener:(name,fn)=>{handlers[name]=fn;}};
-  const nodes={'inquiry-form':form,'inquiry-body-hint':hint,'inquiry-body-count':count};
-  vm.runInNewContext(contactScript,{document:{getElementById:id=>nodes[id],addEventListener:(k,fn)=>{documentHandlers[k]=fn;},dispatchEvent:e=>{if(e.type==='site:inquiry-sent')successEvents++;}},window:{addEventListener:(k,fn)=>{windowHandlers[k]=fn;}},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}},location:{search},URLSearchParams,FormData:class {},fetch:async()=>{requests++;return request();}});
-  return {elements,status,button,hint,count,attrs,handlers,windowHandlers,documentHandlers,submit:()=>handlers.submit({preventDefault(){}}),result:()=>({requests,resets,successEvents})};
+  const nodes={'inquiry-form':form,'inquiry-body-hint':hint,'inquiry-body-count':count,'inquiry-security-status':check,'inquiry-security-retry':retry,'inquiry-security-token':tokenField};
+  vm.runInNewContext(contactScript,{document:{head:{append(){}},createElement:()=>loader,getElementById:id=>nodes[id],addEventListener:(k,fn)=>{documentHandlers[k]=fn;},dispatchEvent:e=>{if(e.type==='site:inquiry-sent')successEvents++;}},window:browser,CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}},location:{search},URLSearchParams,FormData:class {},fetch:async()=>{requests++;return request();}});
+  browser.onContactTurnstileReady();if(verified)widgetOptions.callback('verified-test-token');
+  return {check,tokenField,retry,widgetOptions,checkResets:()=>checkResets,elements,status,button,hint,count,attrs,handlers,windowHandlers,documentHandlers,submit:()=>handlers.submit({preventDefault(){}}),result:()=>({requests,resets,successEvents})};
 }
 
 test('contact form rejects invalid input before network activity and restores the button after valid submission', async()=>{
@@ -34,6 +37,26 @@ test('contact form rejects invalid input before network activity and restores th
   assert.match(valid.status.textContent,/2営業日/);
   assert.equal(valid.status.focused,true);
   assert.equal(valid.count.textContent,'0 / 5,000文字');
+});
+
+test('bot verification blocks unverified submits, supports retry, and clears used or expired tokens',async()=>{
+  const h=contactHarness({verified:false});const original=h.elements.body.value;
+  await h.submit();assert.equal(h.result().requests,0);assert.equal(h.check.focused,true);assert.equal(h.elements.body.value,original);
+  h.widgetOptions['error-callback']();assert.equal(h.retry.hidden,false);
+  h.handlers['retry:click']();assert.equal(h.checkResets(),1);assert.equal(h.retry.hidden,true);
+  h.widgetOptions.callback('new-token');assert.equal(h.tokenField.value,'new-token');
+  h.widgetOptions['expired-callback']();assert.equal(h.tokenField.value,'');
+  await h.submit();assert.equal(h.result().requests,0);
+  h.widgetOptions.callback('fresh-token');await h.submit();assert.equal(h.result().requests,1);assert.equal(h.tokenField.value,'');
+  assert.equal(h.checkResets(),2);await h.submit();assert.equal(h.result().requests,1);
+  const cached=contactHarness();cached.windowHandlers.pageshow({persisted:true});assert.equal(cached.tokenField.value,'');
+});
+
+test('verification script failure keeps the form editable and offers a keyboard-accessible retry',async()=>{
+  const h=contactHarness({verified:false});h.handlers['loader:error']();
+  assert.equal(h.retry.hidden,false);assert.match(h.check.textContent,/再試行/);
+  await h.submit();assert.equal(h.result().requests,0);assert.equal(h.button.disabled,false);
+  assert.equal(h.elements.email.value,'test@example.com');
 });
 
 test('changing inquiry suggestions and restoring a quote never replaces the entered body',()=>{
