@@ -32,9 +32,10 @@ def studio_mark():
 
 
 def header(current):
+    contact_link = '' if current == 'contact' else '<a class="editorial-contact-link" href="/contact/#contact-form">お問い合わせ <span aria-hidden="true">↗</span></a>'
     return f'''<header class="editorial-header"><div class="editorial-shell editorial-header-inner">
 <a class="editorial-brand" href="/">{studio_mark()}Miyabiya Studio</a>
-<a class="editorial-contact-link" href="/contact/#contact-form"''' + (' aria-current="page"' if current == 'contact' else '') + '''>お問い合わせ <span aria-hidden="true">↗</span></a>
+{contact_link}
 </div></header>'''
 
 
