@@ -1,0 +1,32 @@
+{
+  "created": "2026-10-27",
+  "origin": "Original SVG proposals created for Miyabiya Studio in this session",
+  "options": [
+    {
+      "id": "a",
+      "label": "くっきりしたM",
+      "note": "文字の太さに合わせた、直線的なモノグラム。",
+      "recommended": true
+    },
+    {
+      "id": "b",
+      "label": "曲線のm",
+      "note": "丸い二つのアーチで、少し柔らかい印象に。"
+    },
+    {
+      "id": "c",
+      "label": "ピクセルM",
+      "note": "プロフィールのドット絵とそろえた、角のある形。"
+    },
+    {
+      "id": "d",
+      "label": "開いたページ",
+      "note": "二枚の面で、知識やアイデアを発信する姿を表現。"
+    },
+    {
+      "id": "e",
+      "label": "白抜きのM",
+      "note": "黒い面を使い、小さくても目に留まるマークに。"
+    }
+  ]
+}
