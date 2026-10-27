@@ -99,10 +99,10 @@ def validate():
     assert docs[''].get_text().count('約90%') == 1, 'YouTube automation result is duplicated'
     assert docs[''].select_one('#activities a[href="https://www.youtube.com/@masayan-ai-hack"]')
     assert docs[''].select_one('#personal-development a[href="https://github.com/masayan1126/chrome-extensions"]')
-    assert docs[''].select_one('#personal-development a[href="https://github.com/masayan1126"]')
+    assert not docs[''].select_one('#personal-development a[href="https://github.com/masayan1126"]')
     assert docs[''].select_one('#activities a[href="/membership/"]')
     assert len(docs[''].select('#activities .activity-highlights > li')) == 4
-    assert len(docs[''].select('#personal-development .activity-highlights > li')) == 2
+    assert len(docs[''].select('#personal-development .activity-highlights > li')) == 1
     extension_links = docs[''].select('#personal-development .project-extension-links a')
     records = extension_records()
     assert len(extension_links) == len(records) == 5
