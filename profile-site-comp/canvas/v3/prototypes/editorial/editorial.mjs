@@ -4,7 +4,7 @@ import {saveHandoff, CONTACT_PATH, HANDOFF_KEY} from './editorial-quote-contact.
 document.addEventListener('click', event => {
   const entry = event.target.closest('.editorial-contact-link');
   if (!entry || location.pathname !== '/pricing/') return;
-  entry.href = '/contact/#contact-form';
+  entry.href = '/contact/';
   const legacy = document.querySelector('#legacy-estimate');
   const field = legacy && !legacy.hidden
     ? legacy.querySelector('[data-quote-text]')
@@ -12,10 +12,11 @@ document.addEventListener('click', event => {
   if (!field?.value.trim()) return;
   try {
     saveHandoff(sessionStorage, location.origin, field.value);
-    entry.href = CONTACT_PATH;
+    // Header navigation starts at the page heading; keep the quote query flags.
+    entry.href = CONTACT_PATH.split('#')[0];
   } catch {
     try { sessionStorage.removeItem(HANDOFF_KEY); } catch {}
-    entry.href = '/contact/?type=pr&quote=unavailable#contact-form';
+    entry.href = '/contact/?type=pr&quote=unavailable';
   }
 });
 
