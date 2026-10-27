@@ -3,7 +3,9 @@ from pathlib import Path
 from urllib.parse import urlsplit, unquote
 from bs4 import BeautifulSoup
 import copy
+import hashlib
 import json
+from content import extension_records
 from site_copy import refine_ui_copy, centralize_contact_page
 
 PROJECT = Path(__file__).resolve().parents[4]
@@ -95,6 +97,17 @@ def validate():
     assert docs[''].select_one('#activities a[href="/membership/"]')
     assert len(docs[''].select('#activities .activity-highlights > li')) == 4
     assert len(docs[''].select('#personal-development .activity-highlights > li')) == 2
+    extension_links = docs[''].select('#personal-development .project-extension-links a')
+    records = extension_records()
+    assert len(extension_links) == len(records) == 5
+    for anchor, record in zip(extension_links, records):
+        assert anchor['href'] == record['store_url']
+        assert record['name'] in anchor['aria-label'] and anchor['title'] == record['name']
+        assert anchor['target'] == '_blank' and 'noopener' in anchor['rel']
+        image = anchor.select_one('img')
+        assert image and image['alt'] == '' and image['width'] == image['height'] == '48'
+        icon = PREVIEW / image['src'].lstrip('/')
+        assert hashlib.sha256(icon.read_bytes()).hexdigest() == record['sha256'], icon
     assert len(docs[''].select('#video-editing .activity-highlights > li')) == 2
     assert '約90%' in docs[''].select_one('#video-editing').get_text()
     assert not docs[''].select_one('#video-editing').find_parent('details')

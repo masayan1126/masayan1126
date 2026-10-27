@@ -1,0 +1,42 @@
+{
+  "source_repository": "https://github.com/masayan1126/chrome-extensions",
+  "source_commit": "214a15f375f16a446055cef99dfeeb526d18dcb5",
+  "verified_on": "2026-10-27",
+  "extensions": [
+    {
+      "name": "Article Date Detector",
+      "image": "article-date-detector.png",
+      "store_url": "https://chromewebstore.google.com/detail/article-date-detector/kcibimkobhbikanlidohhnahodekmaej",
+      "source": "article-date-detector/icons/icon128.png",
+      "sha256": "cc711b8c0d03ad1ef18f23d32e223b9d3db2f499e4e5b42018ca11e7e6ea3b59"
+    },
+    {
+      "name": "Rich Markdown Preview",
+      "image": "rich-markdown-preview.png",
+      "store_url": "https://chromewebstore.google.com/detail/rich-markdown-preview/ojgdkdohicphaegmilnmlgaledfcopca",
+      "source": "rich-markdown-preview/public/icons/icon-128.png",
+      "sha256": "55b9dd484a0a360b134e2e590723620110229b04bc52ee216f4e8d8a1179a166"
+    },
+    {
+      "name": "Web Annotator",
+      "image": "web-annotator.png",
+      "store_url": "https://chromewebstore.google.com/detail/web-annotator/gckpllfnimaepbbelfmhcelibclnkena",
+      "source": "web-annotator/icons/icon128.png",
+      "sha256": "7568bcb97629cf449b5f4c073ade808a603172f43a1052544bc559ec424b01f7"
+    },
+    {
+      "name": "Copy Tab Anything",
+      "image": "copy-tab-anything.png",
+      "store_url": "https://chromewebstore.google.com/detail/copy-tab-anything/gafkainbomdnemmdemopmechbmabgfeh",
+      "source": "tab-link-composer/public/icon-128.png",
+      "sha256": "a619f0b19c62675d5d3e1df91a8720054b79ab2d307c7fae6f779d945bbca66f"
+    },
+    {
+      "name": "Canvas Whiteboard",
+      "image": "canvas-whiteboard.png",
+      "store_url": "https://chromewebstore.google.com/detail/canvas-whiteboard/fpekokphickomacboclmogcmjeffhmle",
+      "source": "canvas-whiteboard/public/icon-128.png",
+      "sha256": "476220e4af8ef1b5fbddc68e385d30e64dca1928fdd5b8ba575182add58c858f"
+    }
+  ]
+}
