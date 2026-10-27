@@ -42,6 +42,7 @@ test('contact form rejects invalid input before network activity and restores th
 test('bot verification blocks unverified submits, supports retry, and clears used or expired tokens',async()=>{
   const h=contactHarness({verified:false});const original=h.elements.body.value;
   await h.submit();assert.equal(h.result().requests,0);assert.equal(h.check.focused,true);assert.equal(h.elements.body.value,original);
+  h.widgetOptions['before-interactive-callback']();assert.match(h.check.textContent,/チェック/);await h.submit();assert.match(h.status.textContent,/チェック/);
   h.widgetOptions['error-callback']();assert.equal(h.retry.hidden,false);
   h.handlers['retry:click']();assert.equal(h.checkResets(),1);assert.equal(h.retry.hidden,true);
   h.widgetOptions.callback('new-token');assert.equal(h.tokenField.value,'new-token');
@@ -50,6 +51,12 @@ test('bot verification blocks unverified submits, supports retry, and clears use
   h.widgetOptions.callback('fresh-token');await h.submit();assert.equal(h.result().requests,1);assert.equal(h.tokenField.value,'');
   assert.equal(h.checkResets(),2);await h.submit();assert.equal(h.result().requests,1);
   const cached=contactHarness();cached.windowHandlers.pageshow({persisted:true});assert.equal(cached.tokenField.value,'');
+});
+
+test('pages.dev contact pages move to the canonical host before loading verification',()=>{
+  let redirected;
+  vm.runInNewContext(contactScript,{document:{getElementById:()=>({})},location:{hostname:'release.miyabiya-studio.pages.dev',search:'?type=pr',hash:'#contact-form',replace:url=>{redirected=url;}}});
+  assert.equal(redirected,'https://studio.msyn.me/contact/?type=pr#contact-form');
 });
 
 test('verification script failure keeps the form editable and offers a keyboard-accessible retry',async()=>{
