@@ -1,5 +1,6 @@
 """A selective, inquiry-focused edition of the local design study."""
 from html import escape
+from datetime import date
 import json
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -132,8 +133,12 @@ def extension_icon_links():
 
 
 def personal_projects():
+    usage = json.loads((HERE / 'assets/extension-user-counts.json').read_text())
+    observed = date.fromisoformat(usage['as_of'])
+    total = sum(usage['user_counts'])
+    usage_label = f'<span class="extension-users"><span>ユーザー数：合計<strong>{total:,}人</strong></span><time datetime="{observed.isoformat()}">（{observed.year}年{observed.month}月{observed.day}日時点）</time></span>'
     return '<div class="project-extensions">' + activity_list([
-        '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>',
+        '<a id="tools" href="https://github.com/masayan1126/chrome-extensions" target="_blank" rel="noopener noreferrer">Chrome拡張機能を5本公開</a>' + usage_label,
     ]) + extension_icon_links() + '</div>'
 
 
