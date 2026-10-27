@@ -128,7 +128,9 @@ def extension_icon_links():
     links = []
     for item in extension_records():
         name = escape(item['name'], quote=True)
-        links.append(f'''<a href="{escape(item['store_url'], quote=True)}" target="_blank" rel="noopener noreferrer" title="{name}" aria-label="{name}のChromeウェブストア掲載ページ（新しいタブ）"><img src="/editorial-assets/extensions/{item['image']}" width="48" height="48" alt="" loading="lazy"><span class="project-extension-name">{name}</span></a>''')
+        first_line, last_word = item['name'].rsplit(' ', 1)
+        label = escape(first_line) + '<br>' + escape(last_word)
+        links.append(f'''<a href="{escape(item['store_url'], quote=True)}" target="_blank" rel="noopener noreferrer" title="{name}" aria-label="{name}のChromeウェブストア掲載ページ（新しいタブ）"><img src="/editorial-assets/extensions/{item['image']}" width="48" height="48" alt="" loading="lazy"><span class="project-extension-name">{label}</span></a>''')
     return '<nav class="project-extension-links" aria-label="公開中のChrome拡張機能">' + ''.join(links) + '</nav>'
 
 

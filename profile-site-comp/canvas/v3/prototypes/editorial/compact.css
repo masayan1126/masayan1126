@@ -140,8 +140,8 @@ body.compact-local .compact-home .activity-list-marker {display:grid;place-items
 body.compact-local .compact-home .activity-list-marker svg {display:block;width:12px;height:12px}
 body.compact-local .compact-home .extension-users {display:flex;flex-wrap:wrap;gap:0 8px;margin-top:4px}
 body.compact-local .compact-home .extension-users time {color:#606060;white-space:nowrap}
-body.compact-local .compact-home .project-extension-links {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;max-width:640px;margin:12px 0 0 30px;padding:0}
-body.compact-local .compact-home .project-extension-links a {display:grid;grid-template-rows:48px auto;align-content:start;justify-items:center;gap:8px;min-width:0;min-height:100px;padding:4px;box-sizing:border-box;border:0;background:none;text-decoration:none;text-align:center;border-radius:8px}
+body.compact-local .compact-home .project-extension-links {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;max-width:600px;margin:12px 0 0 30px;padding:0}
+body.compact-local .compact-home .project-extension-links a {display:grid;grid-template-rows:48px auto;align-content:start;justify-items:start;gap:8px;min-width:0;min-height:100px;padding:0;box-sizing:border-box;border:0;background:none;text-decoration:none;text-align:left;border-radius:8px}
 body.compact-local .compact-home .project-extension-links img {display:block;width:48px;height:48px;object-fit:contain}
 body.compact-local .compact-home .project-extension-name {max-width:100%;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
 body.compact-local .compact-home .project-extension-links a:hover {background:#f3f3f3}
