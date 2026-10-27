@@ -7,7 +7,7 @@
 取得には、リポジトリの SessionStart フック (.claude/hooks/fetch_subscribers.py) と
 同じ OAuth トークンを使う。取得できないとき (オフライン・トークン切れ) は、
 前回の取得結果 youtube-stats.json を使ってビルドを続ける。
-メンバー数は API で取れないため、Studio で確認した値を MEMBERS に手入力する。
+メンバー数は、Studio で確認した人数と確認日を youtube-audience.json で管理する。
 """
 from datetime import datetime, timedelta, timezone
 import json
@@ -29,8 +29,11 @@ SNAPSHOT = {
     'videos': {'Kggm_W0w0lw': '15,495', 'BxQ2nutD-_o': '4,706', 'D1gsaCoJelw': '4,446'},
 }
 
-# メンバー数 (Studio の収益化 > メンバーシップ「すべてのメンバー」)。元データの承認値は 37人。
-MEMBERS = 41
+# Studio の確認値。API の取得日でメンバーの確認日を更新しない。
+AUDIENCE = json.loads((HERE / 'youtube-audience.json').read_text())
+MEMBERS = AUDIENCE['members']['count']
+_member_date = datetime.fromisoformat(AUDIENCE['members']['as_of'])
+MEMBERS_AS_OF = f'{_member_date.year}年{_member_date.month}月{_member_date.day}日時点'
 
 
 def _fetch():
@@ -78,6 +81,8 @@ def apply(html, stats):
     """生成したページ内の承認時点の数値を、stats の値に置き換える。"""
     year, month, day = (int(x) for x in stats['date'].split('-'))
     floor = stats['subs'] // 100 * 100
+    member_snapshot = f'メンバー <b>37人</b><small>{SNAPSHOT["date"]}</small>'
+    html = html.replace(member_snapshot, f'メンバー <b>{MEMBERS}人</b><small>{MEMBERS_AS_OF}</small>')
     html = html.replace(SNAPSHOT['subs_floor'], f'{floor:,}<small>人+</small>')
     html = html.replace(SNAPSHOT['subs'], f'{stats["subs"]:,}')
     html = html.replace(SNAPSHOT['date'], f'{year}年{month}月{day}日時点')

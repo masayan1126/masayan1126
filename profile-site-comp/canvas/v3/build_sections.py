@@ -171,7 +171,7 @@ def render_mediakit():
             ('45〜54歳', data['age']['45-54']), ('55歳以上', data['age']['55+'])]
     bars = ''.join(f'<div class="mk-bar"><span>{label}</span><i style="width:{value / 40 * 100:.0f}%"></i><em>{value:.0f}%</em></div>' for label, value in ages)
     return ('<div class="mediakit" id="mediakit"><h3>視聴者データ</h3>'
-            f'<p class="note">登録者・メンバーは{youtube_stats.SNAPSHOT["date"]}。再生数・本数・年齢層は{data["as_of"]}時点の直近90日（YouTube アナリティクス）。</p>'
+            f'<p class="note">登録者は{youtube_stats.SNAPSHOT["date"]}、メンバーは{youtube_stats.MEMBERS_AS_OF}。再生数・本数・年齢層は{data["as_of"]}時点の直近90日（YouTube アナリティクス）。</p>'
             '<div class="mk-tiles">' + ''.join(f'<div><b>{n}</b><span>{l}</span></div>' for n, l in tiles) + '</div>'
             f'<div class="mk-aud"><div><h4>年齢層</h4>{bars}</div><div><h4>主なテーマ</h4>'
             '<p class="mk-theme">Claude Code を中心としたAI駆動開発。視聴者の中心は、AIを開発に取り入れたいエンジニアです。</p></div></div></div>')
