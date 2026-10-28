@@ -1,5 +1,6 @@
 {
-  "status": "awaiting_selection",
+  "status": "selected",
+  "selected_design": "c",
   "identity": [
     "Miyabiya Studio",
     "Masaya Nishigaki"
@@ -172,28 +173,28 @@
       "file": "ogp-c.png",
       "width": 1200,
       "height": 630,
-      "sha256": "44ea3ec97cca393917ecdb95c6cdf22ee930149a7f70e55a1abf4620f7e0c18d",
+      "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
       "text": [
         {
           "text": "Miyabiya Studio",
-          "size": 64,
+          "size": 48,
           "weight": 700,
           "bounds": [
-            416,
-            213,
-            916.0,
-            277
+            493,
+            207,
+            870.0,
+            254
           ]
         },
         {
           "text": "Masaya Nishigaki",
-          "size": 36,
+          "size": 28,
           "weight": 400,
           "bounds": [
-            416,
-            300,
-            712.0,
-            336
+            493,
+            274,
+            720.0,
+            302
           ]
         },
         {
@@ -201,10 +202,10 @@
           "size": 36,
           "weight": 400,
           "bounds": [
-            416,
-            397,
-            900.0,
-            432
+            309,
+            369,
+            793.0,
+            404
           ]
         },
         {
@@ -212,10 +213,10 @@
           "size": 36,
           "weight": 400,
           "bounds": [
-            416,
-            441,
-            998.0,
-            475
+            309,
+            417,
+            891.0,
+            451
           ]
         },
         {
@@ -223,10 +224,10 @@
           "size": 28,
           "weight": 400,
           "bounds": [
-            416,
-            530,
-            628,
-            558
+            309,
+            528,
+            521,
+            556
           ]
         }
       ]

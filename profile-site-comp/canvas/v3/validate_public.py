@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import struct
+from PIL import Image, ImageChops
 from site_metadata import metadata, SITE_NAME, OWNER, ROLE, SOCIAL_PROFILES, ASSETS
 
 ROOT = Path(__file__).resolve().parent
@@ -116,6 +117,14 @@ def validate(site=ROOT / 'site'):
         assert hashlib.sha256(delivered.read_bytes()).hexdigest() == record['sha256'], delivered
         if record['file'].endswith('.png'):
             assert struct.unpack('>II', delivered.read_bytes()[16:24]) == (record['width'], record['height']), delivered
+        if 'page' in record:
+            # Check actual raster pixels, not only the generator's text boxes.
+            with Image.open(delivered) as source:
+                image = source.convert('RGB')
+            ink = ImageChops.difference(image, Image.new('RGB', image.size, 'white')).getbbox()
+            left, top, right, bottom = social_assets['safe_bounds']
+            assert ink and left <= ink[0] < ink[2] <= right and top <= ink[1] < ink[3] <= bottom, (delivered, ink)
+            assert 285 <= left < right <= 915, social_assets['safe_bounds']
     bookmark = json.loads((site / 'site.webmanifest').read_text())
     assert (site / 'apple-touch-icon.png').read_bytes() == (ASSETS / 'apple-touch-icon.png').read_bytes()
     assert bookmark['name'] == SITE_NAME and bookmark['start_url'] == '/' and bookmark['display'] == 'browser'

@@ -27,7 +27,7 @@
 
 ## 変更に合わせて確認する
 
-- 付帯情報の変更では、公開7ページのtitle・description・OGP・Xカード・JSON-LD・正規URL・アイコン・manifestの整合と資産の実体を確認する。画像生成の入力を変えた場合は、先に`canvas/v3/build_og.py`で再生成し、manifestの一致を確認する。旧下地のOGPを現在の公開参照へ戻さない。
+- 付帯情報の変更では、公開7ページのtitle・description・OGP・Xカード・JSON-LD・正規URL・アイコン・manifestの整合と資産の実体を確認する。実画像の白以外の画素が中央630px内の安全範囲に収まることも検査し、文字の計算値だけで正方形の見切れなしと判定しない。2026年10月28日の「正方形が見切れてる」という指摘に基づく。画像生成の入力を変えた場合は、先に`canvas/v3/build_og.py`で再生成し、manifestの一致を確認する。旧下地のOGPを現在の公開参照へ戻さない。
 - サイトのコード変更は`npm run build`を実行する。これは公開用の生成と`validate_home.py`を含む。
 - ローカルの採用案は`python3 canvas/v3/prototypes/editorial/build.py`で更新し、`python3 canvas/v3/prototypes/editorial/validate.py`で本文・リンク・資産・料金DOM・フォーム互換性を確認する。
 - 関連する既存テストを実行する。共有の計算・フォーム・生成処理を変更した場合は`npm test`も通す。文書・スキルだけの変更では、サイトの再ビルドやデプロイを行わず、リンク・スキル形式・文章・同期を検証する。
