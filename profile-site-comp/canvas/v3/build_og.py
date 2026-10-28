@@ -191,7 +191,7 @@ def render_landscape_sharing_image(page):
         boxes.append(line(PAGES[page]['label'], 406, 36, 700))
     for text, baseline in zip(PAGES[page]['image_lines'], (480, 528)):
         boxes.append(line(text, baseline, 36, color=MUTED))
-    boxes.append(line(urlsplit(BASE).netloc, 566, 28, color=MUTED, x=left))
+    boxes.append(line(urlsplit(BASE).netloc, 566, 28, color=MUTED))
     visuals = [{'role': 'avatar', 'bounds': (left, 172, left + avatar.width, 172 + avatar.height)},
                {'role': 'mark', 'bounds': (text_x, 100, text_x + 56, 156)}]
     for visual in visuals:
