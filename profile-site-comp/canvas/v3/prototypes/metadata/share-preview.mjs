@@ -23,7 +23,7 @@ if(dataNode){
     feedback.textContent='';fallback.hidden=true;
     const error=root.querySelector('#share-error');
     error.hidden=true;cards.hidden=true;
-    for(const id of ['#share-live-page','#share-live-image']){
+    for(const id of ['#share-live-page','#share-live-image','#share-live-x-image']){
       const link=root.querySelector(id);link.hidden=true;link.removeAttribute('href');
     }
     root.querySelector('#share-values').replaceChildren();
@@ -43,6 +43,7 @@ if(dataNode){
       cards.querySelectorAll('[data-page-link]').forEach(link=>link.href=pageUrl);
       root.querySelector('#share-live-page').href=pageUrl;root.querySelector('#share-live-page').hidden=false;
       const imageLink=root.querySelector('#share-live-image');imageLink.hidden=!ogUrl;if(ogUrl)imageLink.href=ogUrl;else imageLink.removeAttribute('href');
+      const xImageLink=root.querySelector('#share-live-x-image');xImageLink.hidden=!twitterUrl;if(twitterUrl)xImageLink.href=twitterUrl;else xImageLink.removeAttribute('href');
       root.querySelector('#share-copy').disabled=false;
       cards.querySelectorAll('[data-share-domain]').forEach(node=>node.textContent=new URL(pageUrl).host);
       cards.querySelectorAll('[data-share-text]').forEach(node=>{
@@ -66,7 +67,9 @@ if(dataNode){
       addValue('取得元',current.response.url);addValue('転送後',current.response.final_url);
       addValue('正規URL',current.canonical);addValue('ページタイトル',current.title);addValue('description',tags.description);addValue('favicon',current.favicon);
       for(const name of ['og:title','og:description','og:url','og:image','og:image:alt','og:image:width','og:image:height','twitter:card','twitter:title','twitter:description','twitter:image','twitter:image:alt'])addValue(name,tags[name]);
-      if(image)addValue('画像のSHA-256',image.sha256);
+      if(image)addValue('OGP画像のSHA-256',image.sha256);
+      const xImage=twitterUrl&&current.images[twitterUrl];
+      if(xImage){addValue('X用画像の実寸',`${xImage.width}×${xImage.height}px`);addValue('X用画像のSHA-256',xImage.sha256);}
       if(current.missing.length){error.textContent=`未設定の項目：${current.missing.join('、')}`;error.hidden=false;}
       cards.hidden=false;
     }catch(problem){error.textContent=problem.message;error.hidden=false;root.querySelector('#share-copy').disabled=true;}

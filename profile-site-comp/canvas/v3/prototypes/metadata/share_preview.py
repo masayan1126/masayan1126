@@ -19,7 +19,7 @@ def panel():
 <button type="button" id="share-copy">公開URLをコピー</button></form>
 <p class="muted" id="share-captured"></p><p class="share-feedback" id="share-feedback" role="status" aria-live="polite"></p>
 <label id="share-copy-fallback" hidden>公開URL<input id="share-copy-value" readonly></label>
-<div id="share-source-line"><a id="share-live-page" target="_blank" rel="noopener">公開ページを開く →</a><a id="share-live-image" target="_blank" rel="noopener">OGPの元画像を開く →</a></div>
+<div id="share-source-line"><a id="share-live-page" target="_blank" rel="noopener">公開ページを開く →</a><a id="share-live-image" target="_blank" rel="noopener">OGPの元画像を開く →</a><a id="share-live-x-image" target="_blank" rel="noopener">X用の元画像を開く →</a></div>
 <p id="share-error" role="alert" hidden></p>
 <div class="share-grid" id="share-cards" data-width="pc">
 <article class="share-study"><h3>X風・横長カード</h3><p class="muted">横長 2:1 ／ タイトルを2行まで表示</p><div class="share-stage"><a class="share-card x-preview" data-page-link target="_blank" rel="noopener"><img data-share-img="twitter" class="x-picture" alt=""><div class="share-card-copy"><p data-share-domain class="muted"></p><h4 data-share-text="twitter:title" class="clamp-two"></h4></div></a><p class="share-image-error" hidden>画像を読み込めませんでした。</p></div></article>

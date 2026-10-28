@@ -18,7 +18,8 @@ def validate(site=ROOT / 'site'):
     site = Path(site)
     social_assets = json.loads((ASSETS / 'manifest.json').read_text())
     page_images = {record['page']: BASE + record['public_path'] for record in social_assets['files'] if 'page' in record}
-    assert set(page_images) == set(PAGES)
+    x_images = {record['twitter_page']: BASE + record['public_path'] for record in social_assets['files'] if 'twitter_page' in record}
+    assert set(page_images) == set(x_images) == set(PAGES)
     docs = {page: BeautifulSoup((site / page / 'index.html').read_text(), 'html.parser') for page in PAGES}
     for page, doc in docs.items():
         text = str(doc)
@@ -51,7 +52,14 @@ def validate(site=ROOT / 'site'):
         image_bytes = image_path.read_bytes()
         assert image_bytes[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', image_bytes[16:24]) == (1200, 630), page
         assert hashlib.sha256(image_bytes).hexdigest()[:12] in image_path.name, image_path
-        assert doc.select_one('meta[name="twitter:image"]')['content'] == image[0]['content'], page
+        twitter = doc.select('meta[name="twitter:image"]')
+        assert len(twitter) == 1 and twitter[0]['content'] == x_images[page], page
+        assert twitter[0]['content'] != image[0]['content'], page
+        assert doc.select_one('meta[name="twitter:image:alt"]')['content'] == info['image_alt'], page
+        x_path = site / urlsplit(twitter[0]['content']).path.lstrip('/')
+        x_bytes = x_path.read_bytes()
+        assert x_bytes[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', x_bytes[16:24]) == (1200, 630), page
+        assert hashlib.sha256(x_bytes).hexdigest()[:12] in x_path.name, x_path
         schema = doc.select('script[type="application/ld+json"]')
         assert len(schema) == 1, page
         graph = json.loads(schema[0].string)['@graph']
@@ -125,6 +133,15 @@ def validate(site=ROOT / 'site'):
             left, top, right, bottom = social_assets['safe_bounds']
             assert ink and left <= ink[0] < ink[2] <= right and top <= ink[1] < ink[3] <= bottom, (delivered, ink)
             assert 285 <= left < right <= 915, social_assets['safe_bounds']
+        elif 'twitter_page' in record:
+            with Image.open(delivered) as source:
+                image = source.convert('RGB')
+            ink = ImageChops.difference(image, Image.new('RGB', image.size, 'white')).getbbox()
+            left, top, right, bottom = social_assets['landscape_safe_bounds']
+            assert ink and left <= ink[0] < ink[2] <= right and top <= ink[1] < ink[3] <= bottom, (delivered, ink)
+            # Explicit landscape assets must actually use more width than the OG square.
+            assert ink[0] < 285 and ink[2] > 915, (delivered, ink)
+            assert abs(ink[0] - (1200 - ink[2])) <= 4, (delivered, ink)
     bookmark = json.loads((site / 'site.webmanifest').read_text())
     assert (site / 'apple-touch-icon.png').read_bytes() == (ASSETS / 'apple-touch-icon.png').read_bytes()
     assert bookmark['name'] == SITE_NAME and bookmark['start_url'] == '/' and bookmark['display'] == 'browser'

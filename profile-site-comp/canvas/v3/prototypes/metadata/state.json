@@ -7,5 +7,8 @@
   "published_at": "2026-10-28",
   "selected_design": "c",
   "design_status": "published",
-  "selected_at": "2026-10-28"
+  "selected_at": "2026-10-28",
+  "landscape_status": "adopted",
+  "landscape_selected_at": "2026-10-28",
+  "landscape_choice": "X用の横長画像を追加。通常OGPは正方形で見切れない配置を維持。"
 }

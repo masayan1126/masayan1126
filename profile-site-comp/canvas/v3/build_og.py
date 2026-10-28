@@ -27,6 +27,7 @@ MARK = HERE / 'prototypes/editorial/icons/miyabiya-mark.svg'
 AVATAR = HERE / 'prototypes/editorial/assets/avatar-mono-pixel.png'
 W, H = 1200, 630
 SAFE = (309, 48, 891, 582)
+LANDSCAPE_SAFE = (128, 48, 1072, 582)
 INK, MUTED = '#202020', '#606060'
 USED_FONTS = set()
 
@@ -72,7 +73,7 @@ def text_runs(text, size, weight):
     return [(font(filename, size), value) for filename, value in runs]
 
 
-def draw_line(draw, text, baseline, size, weight, color=INK, *, x=None):
+def draw_line(draw, text, baseline, size, weight, color=INK, *, x=None, safe=SAFE):
     runs = text_runs(text, size, weight)
     if x is None:
         x = (W - sum(face.getlength(value) for face, value in runs)) / 2
@@ -88,7 +89,7 @@ def draw_line(draw, text, baseline, size, weight, color=INK, *, x=None):
         x += face.getlength(value)
     bounds = (min(x[0] for x in boxes), min(x[1] for x in boxes),
               max(x[2] for x in boxes), max(x[3] for x in boxes))
-    left, top, right, bottom = SAFE
+    left, top, right, bottom = safe
     assert left <= bounds[0] and top <= bounds[1] and bounds[2] <= right and bounds[3] <= bottom, (text, bounds)
     return {'text': text, 'size': size, 'weight': weight, 'bounds': bounds}
 
@@ -170,9 +171,39 @@ def render_sharing_image(page):
     return image, boxes, visuals
 
 
+def render_landscape_sharing_image(page):
+    """Adopted C in a wider composition for the explicit X image tag."""
+    image = Image.new('RGB', (W, H), 'white')
+    draw = ImageDraw.Draw(image)
+    left, avatar_size, gap = 144, 240, 48
+    text_x = left + avatar_size + gap
+    with Image.open(AVATAR) as source:
+        avatar = source.convert('RGBA')
+    avatar.thumbnail((avatar_size, avatar_size), Image.Resampling.NEAREST)
+    image.paste(avatar, (left, 172), avatar)
+    image.paste(mark_image(56), (text_x, 100))
+
+    def line(text, baseline, size, weight=400, color=INK, *, x=text_x):
+        return draw_line(draw, text, baseline, size, weight, color, x=x, safe=LANDSCAPE_SAFE)
+
+    boxes = [line(SITE_NAME, 264, 80, 700), line(OWNER, 328, 36, color=MUTED)]
+    if page:
+        boxes.append(line(PAGES[page]['label'], 406, 36, 700))
+    for text, baseline in zip(PAGES[page]['image_lines'], (480, 528)):
+        boxes.append(line(text, baseline, 36, color=MUTED))
+    boxes.append(line(urlsplit(BASE).netloc, 566, 28, color=MUTED, x=left))
+    visuals = [{'role': 'avatar', 'bounds': (left, 172, left + avatar.width, 172 + avatar.height)},
+               {'role': 'mark', 'bounds': (text_x, 100, text_x + 56, 156)}]
+    for visual in visuals:
+        x1, y1, x2, y2 = visual['bounds']
+        assert LANDSCAPE_SAFE[0] <= x1 < x2 <= LANDSCAPE_SAFE[2] and LANDSCAPE_SAFE[1] <= y1 < y2 <= LANDSCAPE_SAFE[3], visual
+    return image, boxes, visuals
+
+
 def main():
     ASSETS.mkdir(parents=True, exist_ok=True)
     files, layouts, visual_bounds = [], {}, {}
+    landscape_layouts, landscape_visual_bounds = {}, {}
 
     def record(filename, public_path, **extra):
         raw = (ASSETS / filename).read_bytes()
@@ -191,6 +222,13 @@ def main():
         record(filename, '/social/' + filename.replace('.png', '.' + digest + '.png'), page=page)
         layouts[page] = boxes
         visual_bounds[page] = visuals
+        wide_image, wide_boxes, wide_visuals = render_landscape_sharing_image(page)
+        wide_filename = 'x-' + (page or 'home') + '.png'
+        wide_image.save(ASSETS / wide_filename, optimize=True)
+        wide_digest = hashlib.sha256((ASSETS / wide_filename).read_bytes()).hexdigest()[:12]
+        record(wide_filename, '/social/' + wide_filename.replace('.png', '.' + wide_digest + '.png'), twitter_page=page)
+        landscape_layouts[page] = wide_boxes
+        landscape_visual_bounds[page] = wide_visuals
 
     ET.register_namespace('', 'http://www.w3.org/2000/svg')
     svg = ET.fromstring(MARK.read_text())
@@ -211,14 +249,16 @@ def main():
     record('site.webmanifest', '/site.webmanifest')
     result = {'generator': 'canvas/v3/build_og.py', 'input_sha256': asset_input_digest(), 'mark_source': str(MARK.relative_to(HERE)),
               'mark_sha256': hashlib.sha256(MARK.read_bytes()).hexdigest(),
-              'design': 'C: pixel avatar, central-square safe',
+              'design': 'C: pixel avatar; square-safe OG and wide X composition',
               'avatar_source': str(AVATAR.relative_to(HERE)),
               'avatar_sha256': hashlib.sha256(AVATAR.read_bytes()).hexdigest(),
               'font_family': FONT_MANIFEST['family'], 'font_license': 'OFL-1.1',
               'font_files': sorted(USED_FONTS), 'safe_bounds': SAFE, 'layouts': layouts,
-              'visual_bounds': visual_bounds, 'files': files}
+              'visual_bounds': visual_bounds,
+              'landscape_safe_bounds': LANDSCAPE_SAFE, 'landscape_layouts': landscape_layouts,
+              'landscape_visual_bounds': landscape_visual_bounds, 'files': files}
     (ASSETS / 'manifest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
-    print(json.dumps({'og_images': len(PAGES), 'bookmark_assets': len(files)-len(PAGES), 'safe_bounds': SAFE, 'used_font_files': len(USED_FONTS), 'output': str(ASSETS)}, ensure_ascii=False))
+    print(json.dumps({'og_images': len(PAGES), 'x_images': len(PAGES), 'bookmark_assets': len(files)-2*len(PAGES), 'safe_bounds': SAFE, 'landscape_safe_bounds': LANDSCAPE_SAFE, 'used_font_files': len(USED_FONTS), 'output': str(ASSETS)}, ensure_ascii=False))
 
 
 if __name__ == '__main__':
