@@ -146,29 +146,18 @@ def mark_image(size):
 
 
 def render_sharing_image(page):
-    """Adopted C: avatar and wordmark, all inside the central square."""
-    info = PAGES[page]
+    """Text-free portrait for OG cards that already show title and description."""
     image = Image.new('RGB', (W, H), 'white')
     with Image.open(AVATAR) as source:
         avatar = source.convert('RGBA')
-    avatar.thumbnail((160, 160), Image.Resampling.NEAREST)
-    image.paste(avatar, (309, 164), avatar)
-    image.paste(mark_image(48), (493, 112))
-    visuals = [{'role': 'avatar', 'bounds': (309, 164, 309 + avatar.width, 164 + avatar.height)},
-               {'role': 'mark', 'bounds': (493, 112, 541, 160)}]
-    draw = ImageDraw.Draw(image)
-    boxes = [draw_line(draw, SITE_NAME, 244, 48, 700, x=493),
-             draw_line(draw, OWNER, 296, 28, 400, MUTED, x=493)]
-    if page:
-        boxes.append(draw_line(draw, info['label'], 376, 36, 700, x=309))
-    baselines, size = ((436, 480), 28) if page else ((400, 448), 36)
-    for text, baseline in zip(info['image_lines'], baselines):
-        boxes.append(draw_line(draw, text, baseline, size, 400, MUTED, x=309))
-    boxes.append(draw_line(draw, urlsplit(BASE).netloc, 550, 28, 400, MUTED, x=309))
+    avatar.thumbnail((512, 512), Image.Resampling.NEAREST)
+    x, y = (W - avatar.width) // 2, (H - avatar.height) // 2
+    image.paste(avatar, (x, y), avatar)
+    visuals = [{'role': 'avatar', 'bounds': (x, y, x + avatar.width, y + avatar.height)}]
     for visual in visuals:
         x1, y1, x2, y2 = visual['bounds']
         assert SAFE[0] <= x1 < x2 <= SAFE[2] and SAFE[1] <= y1 < y2 <= SAFE[3], visual
-    return image, boxes, visuals
+    return image, [], visuals
 
 
 def render_landscape_sharing_image(page):
@@ -249,7 +238,7 @@ def main():
     record('site.webmanifest', '/site.webmanifest')
     result = {'generator': 'canvas/v3/build_og.py', 'input_sha256': asset_input_digest(), 'mark_source': str(MARK.relative_to(HERE)),
               'mark_sha256': hashlib.sha256(MARK.read_bytes()).hexdigest(),
-              'design': 'C: pixel avatar; square-safe OG and wide X composition',
+              'design': 'C: text-free portrait OG and wide X composition',
               'avatar_source': str(AVATAR.relative_to(HERE)),
               'avatar_sha256': hashlib.sha256(AVATAR.read_bytes()).hexdigest(),
               'font_family': FONT_MANIFEST['family'], 'font_license': 'OFL-1.1',

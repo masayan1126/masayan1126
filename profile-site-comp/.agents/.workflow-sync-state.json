@@ -3,7 +3,7 @@
     ".agents/skills/update-miyabiya-studio": {
       "SKILL.md": "ab75a04590896cbe2f0b0cf36d00e54e73121e778b26dbb41de7f210286e9f30",
       "references/current-site.md": "fe4ecb2a81685551fb519c1ec1275ceeec69e6ce0bb23516d1d151891e10f688",
-      "references/maintenance.md": "d243e217d95d19c4a2bfb05e5c39263eb960eecdff5c447d90e3953347e19e74",
+      "references/maintenance.md": "63e221a7f86acf116f98fc054824133619480fb088a63a52215a834642e17374",
       "agents/openai.yaml": "e80191e8003054acc9e6661237bdc623a17e50565bd7ee1025b69d228ebefa3f"
     }
   },
