@@ -1,6 +1,6 @@
 {
   "generator": "canvas/v3/build_og.py",
-  "input_sha256": "4b65a61f1041336b042a575bff4821d1601fe0e95480b6f76c97bf81a42afa14",
+  "input_sha256": "7f9f46ccb0b28f50d88896891229c25966193130bf1733e63847e4303718df0d",
   "mark_source": "prototypes/editorial/icons/miyabiya-mark.svg",
   "mark_sha256": "4b1062370c24768d7739cbdb01343f399ae3e3098bef3fa0039574d488bce942",
   "design": "C: pixel avatar; square-safe OG and wide X composition",
@@ -715,9 +715,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -783,9 +783,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -851,9 +851,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -919,9 +919,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -987,9 +987,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -1055,9 +1055,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -1123,9 +1123,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          144,
+          432,
           544,
-          356,
+          644,
           572
         ]
       }
@@ -1284,8 +1284,8 @@
     },
     {
       "file": "x-home.png",
-      "public_path": "/social/x-home.a483d78573af.png",
-      "sha256": "a483d78573af27952f9c71a51d0c7327c6e2515050e91fc6489734cdf8d9939d",
+      "public_path": "/social/x-home.db4021a4ba78.png",
+      "sha256": "db4021a4ba786eeb15406e9c6cc6ceac62196031d85209df4fc6606483735c5e",
       "twitter_page": "",
       "width": 1200,
       "height": 630
@@ -1300,8 +1300,8 @@
     },
     {
       "file": "x-profile.png",
-      "public_path": "/social/x-profile.ecc56de7f9e9.png",
-      "sha256": "ecc56de7f9e9061d665279f8d6b9c831af8656ed78ba5e7018b335b5b83e3b10",
+      "public_path": "/social/x-profile.95a561567353.png",
+      "sha256": "95a5615673535f0c389217ec07c9392716ebb8b4cafd17a3d7ffade7a1f4d063",
       "twitter_page": "profile",
       "width": 1200,
       "height": 630
@@ -1316,8 +1316,8 @@
     },
     {
       "file": "x-works.png",
-      "public_path": "/social/x-works.ee999e444436.png",
-      "sha256": "ee999e444436263cdb09ac1dfa08128062b7501d81cabcd0ae3b4d97e9a7052c",
+      "public_path": "/social/x-works.e79d78dbe2aa.png",
+      "sha256": "e79d78dbe2aae6d8b71a9550a9bb51a331efed90589e440d58cc8c6017793b45",
       "twitter_page": "works",
       "width": 1200,
       "height": 630
@@ -1332,8 +1332,8 @@
     },
     {
       "file": "x-talks.png",
-      "public_path": "/social/x-talks.aa738a118885.png",
-      "sha256": "aa738a1188859e42797995aeb299f2f71c9ce297cba33ccb4ba4dbdc03a77c93",
+      "public_path": "/social/x-talks.0b7a31973591.png",
+      "sha256": "0b7a3197359166f364eafb9c69a2b879bdde0b1c52d1c1aefb119fe4b9afc97d",
       "twitter_page": "talks",
       "width": 1200,
       "height": 630
@@ -1348,8 +1348,8 @@
     },
     {
       "file": "x-membership.png",
-      "public_path": "/social/x-membership.009ab9dfb530.png",
-      "sha256": "009ab9dfb530dd6f9400768099faa7dc4582cb066babbdec8c013d85f4a13b5a",
+      "public_path": "/social/x-membership.a5ecbc03d1dc.png",
+      "sha256": "a5ecbc03d1dc906924b54ee705602095a148ead8b2c00134c64b06f019dbdb5d",
       "twitter_page": "membership",
       "width": 1200,
       "height": 630
@@ -1364,8 +1364,8 @@
     },
     {
       "file": "x-pricing.png",
-      "public_path": "/social/x-pricing.f6512a6b3a8e.png",
-      "sha256": "f6512a6b3a8ed48fdaa07e81992f5ceb3824ccad3e523ea778d8fafa701062d9",
+      "public_path": "/social/x-pricing.7251ce2e9918.png",
+      "sha256": "7251ce2e99189c00387de28f91520a303306ad7693e2e77a004a53fc0f0ce717",
       "twitter_page": "pricing",
       "width": 1200,
       "height": 630
@@ -1380,8 +1380,8 @@
     },
     {
       "file": "x-contact.png",
-      "public_path": "/social/x-contact.e491b7107f5e.png",
-      "sha256": "e491b7107f5e4c010e6b9138727f8cb162d777f03e596ca9850b9736b1154b4d",
+      "public_path": "/social/x-contact.4a8096e07ae3.png",
+      "sha256": "4a8096e07ae33d5cb8426b9e3cf8d645f3d41b99f6abb3f47534307a55127381",
       "twitter_page": "contact",
       "width": 1200,
       "height": 630

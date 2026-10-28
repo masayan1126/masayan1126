@@ -141,7 +141,11 @@ def validate(site=ROOT / 'site'):
             assert ink and left <= ink[0] < ink[2] <= right and top <= ink[1] < ink[3] <= bottom, (delivered, ink)
             # Explicit landscape assets must actually use more width than the OG square.
             assert ink[0] < 285 and ink[2] > 915, (delivered, ink)
-            assert abs(ink[0] - (1200 - ink[2])) <= 4, (delivered, ink)
+            # The avatar's transparent pixels can shift the outer ink edge by
+            # a few pixels when all text, including the URL, shares one column.
+            assert abs(ink[0] - (1200 - ink[2])) <= 8, (delivered, ink)
+            text_lefts = {row['bounds'][0] for row in social_assets['landscape_layouts'][record['twitter_page']]}
+            assert len(text_lefts) == 1, (delivered, text_lefts)
     bookmark = json.loads((site / 'site.webmanifest').read_text())
     assert (site / 'apple-touch-icon.png').read_bytes() == (ASSETS / 'apple-touch-icon.png').read_bytes()
     assert bookmark['name'] == SITE_NAME and bookmark['start_url'] == '/' and bookmark['display'] == 'browser'
