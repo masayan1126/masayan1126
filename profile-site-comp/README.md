@@ -101,6 +101,8 @@ npm run preview
 
 旧い `site/og-profile.png`・`site/og-pricing.png` などは、過去URLの互換用です。現在のメタ情報からは参照しません。既存レビューの「OGP・メタ情報」で、変更前後・ページ別の検索とシェア表示・アイコンを確認できます。
 
+「SNSでの表示」には公開7ページから取得したデータを使い、横長・正方形・小さな共有カードを表示します。取得日時と取得値も確認できます。公開情報を取り直す場合は `python3 canvas/v3/prototypes/metadata/fetch_public_preview.py`、続けて `python3 canvas/v3/prototypes/metadata/build.py` を実行します。通常のレビュー生成では保存済みの `public-preview.json` を使います。各SNSの実カードやキャッシュを取得する機能ではありません。
+
 ## 公開
 
 Cloudflare の対象アカウントで認証してから実行します。
