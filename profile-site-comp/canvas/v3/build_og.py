@@ -24,6 +24,7 @@ HERE = Path(__file__).resolve().parent
 FONT_DIR = HERE / 'prototypes/editorial/assets/fonts/ibm-plex-sans-jp'
 FONT_MANIFEST = json.loads((FONT_DIR / 'manifest.json').read_text())
 MARK = HERE / 'prototypes/editorial/icons/miyabiya-mark.svg'
+AVATAR = HERE / 'prototypes/editorial/assets/avatar-mono-pixel.png'
 W, H = 1200, 630
 SAFE = (309, 48, 891, 582)
 INK, MUTED = '#202020', '#606060'
@@ -71,9 +72,14 @@ def text_runs(text, size, weight):
     return [(font(filename, size), value) for filename, value in runs]
 
 
-def draw_line(draw, text, baseline, size, weight, color=INK):
+def draw_line(draw, text, baseline, size, weight, color=INK, *, x=None):
     runs = text_runs(text, size, weight)
-    x = (W - sum(face.getlength(value) for face, value in runs)) / 2
+    if x is None:
+        x = (W - sum(face.getlength(value) for face, value in runs)) / 2
+    else:
+        # Align the visible ink, including Latin glyphs with negative bearings.
+        first_face, first_text = runs[0]
+        x += x - draw.textbbox((x, baseline), first_text, font=first_face, anchor='ls')[0]
     boxes = []
     for face, value in runs:
         box = draw.textbbox((x, baseline), value, font=face, anchor='ls')
@@ -138,9 +144,35 @@ def mark_image(size):
     return image.resize((size, size), Image.Resampling.LANCZOS)
 
 
+def render_sharing_image(page):
+    """Adopted C: avatar and wordmark, all inside the central square."""
+    info = PAGES[page]
+    image = Image.new('RGB', (W, H), 'white')
+    with Image.open(AVATAR) as source:
+        avatar = source.convert('RGBA')
+    avatar.thumbnail((160, 160), Image.Resampling.NEAREST)
+    image.paste(avatar, (309, 164), avatar)
+    image.paste(mark_image(48), (493, 112))
+    visuals = [{'role': 'avatar', 'bounds': (309, 164, 309 + avatar.width, 164 + avatar.height)},
+               {'role': 'mark', 'bounds': (493, 112, 541, 160)}]
+    draw = ImageDraw.Draw(image)
+    boxes = [draw_line(draw, SITE_NAME, 244, 48, 700, x=493),
+             draw_line(draw, OWNER, 296, 28, 400, MUTED, x=493)]
+    if page:
+        boxes.append(draw_line(draw, info['label'], 376, 36, 700, x=309))
+    baselines, size = ((436, 480), 28) if page else ((400, 448), 36)
+    for text, baseline in zip(info['image_lines'], baselines):
+        boxes.append(draw_line(draw, text, baseline, size, 400, MUTED, x=309))
+    boxes.append(draw_line(draw, urlsplit(BASE).netloc, 550, 28, 400, MUTED, x=309))
+    for visual in visuals:
+        x1, y1, x2, y2 = visual['bounds']
+        assert SAFE[0] <= x1 < x2 <= SAFE[2] and SAFE[1] <= y1 < y2 <= SAFE[3], visual
+    return image, boxes, visuals
+
+
 def main():
     ASSETS.mkdir(parents=True, exist_ok=True)
-    files, layouts = [], {}
+    files, layouts, visual_bounds = [], {}, {}
 
     def record(filename, public_path, **extra):
         raw = (ASSETS / filename).read_bytes()
@@ -151,23 +183,14 @@ def main():
                 data['width'], data['height'] = image.size
         files.append(data)
 
-    for page, info in PAGES.items():
-        image = Image.new('RGB', (W, H), 'white')
-        image.paste(mark_image(80), (560, 82))
-        draw = ImageDraw.Draw(image)
-        boxes = [draw_line(draw, SITE_NAME, 250, 48, 700),
-                 draw_line(draw, OWNER, 306, 28, 400, MUTED)]
-        if page:
-            boxes.append(draw_line(draw, info['label'], 378, 36, 700))
-        baselines = (438, 480) if page else (408, 456)
-        for text, baseline in zip(info['image_lines'], baselines):
-            boxes.append(draw_line(draw, text, baseline, 28, 400, MUTED))
-        boxes.append(draw_line(draw, urlsplit(BASE).netloc, 550, 28, 400, MUTED))
+    for page in PAGES:
+        image, boxes, visuals = render_sharing_image(page)
         filename = 'og-' + (page or 'home') + '.png'
         image.save(ASSETS / filename, optimize=True)
         digest = hashlib.sha256((ASSETS / filename).read_bytes()).hexdigest()[:12]
         record(filename, '/social/' + filename.replace('.png', '.' + digest + '.png'), page=page)
         layouts[page] = boxes
+        visual_bounds[page] = visuals
 
     ET.register_namespace('', 'http://www.w3.org/2000/svg')
     svg = ET.fromstring(MARK.read_text())
@@ -188,8 +211,12 @@ def main():
     record('site.webmanifest', '/site.webmanifest')
     result = {'generator': 'canvas/v3/build_og.py', 'input_sha256': asset_input_digest(), 'mark_source': str(MARK.relative_to(HERE)),
               'mark_sha256': hashlib.sha256(MARK.read_bytes()).hexdigest(),
+              'design': 'C: pixel avatar, central-square safe',
+              'avatar_source': str(AVATAR.relative_to(HERE)),
+              'avatar_sha256': hashlib.sha256(AVATAR.read_bytes()).hexdigest(),
               'font_family': FONT_MANIFEST['family'], 'font_license': 'OFL-1.1',
-              'font_files': sorted(USED_FONTS), 'safe_bounds': SAFE, 'layouts': layouts, 'files': files}
+              'font_files': sorted(USED_FONTS), 'safe_bounds': SAFE, 'layouts': layouts,
+              'visual_bounds': visual_bounds, 'files': files}
     (ASSETS / 'manifest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'og_images': len(PAGES), 'bookmark_assets': len(files)-len(PAGES), 'safe_bounds': SAFE, 'used_font_files': len(USED_FONTS), 'output': str(ASSETS)}, ensure_ascii=False))
 

@@ -64,6 +64,7 @@ def asset_input_digest():
               'generator': hashlib.sha256((HERE / 'build_og.py').read_bytes()).hexdigest(),
               'pages': {key: {'label': value['label'], 'lines': value['image_lines']} for key, value in PAGES.items()},
               'mark': hashlib.sha256((editorial / 'icons/miyabiya-mark.svg').read_bytes()).hexdigest(),
+              'avatar': hashlib.sha256((editorial / 'assets/avatar-mono-pixel.png').read_bytes()).hexdigest(),
               'fonts': hashlib.sha256((editorial / 'assets/fonts/ibm-plex-sans-jp/manifest.json').read_bytes()).hexdigest()}
     return hashlib.sha256(json.dumps(inputs, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
 

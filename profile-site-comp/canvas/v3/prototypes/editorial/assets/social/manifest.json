@@ -1,8 +1,11 @@
 {
   "generator": "canvas/v3/build_og.py",
-  "input_sha256": "51ca9293a2ddac0617a08a9ed5192dbcf30631b47b9e04e99b3afaf2ff72559d",
+  "input_sha256": "fcbe04c68dcbc8470b5e17c77a82dd62c8df99549dfaa69edee987e677f51c11",
   "mark_source": "prototypes/editorial/icons/miyabiya-mark.svg",
   "mark_sha256": "4b1062370c24768d7739cbdb01343f399ae3e3098bef3fa0039574d488bce942",
+  "design": "C: pixel avatar, central-square safe",
+  "avatar_source": "prototypes/editorial/assets/avatar-mono-pixel.png",
+  "avatar_sha256": "ca937408765254bec038a3c3184f607b258cb1266330da399331f159969d16d4",
   "font_family": "IBM Plex Sans JP",
   "font_license": "OFL-1.1",
   "font_files": [
@@ -53,10 +56,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -64,32 +67,32 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
         "text": "AIの発信・製品PR・個人開発",
-        "size": 28,
+        "size": 36,
         "weight": 400,
         "bounds": [
-          412.0,
-          384,
-          788.0,
-          411
+          309,
+          369,
+          793.0,
+          404
         ]
       },
       {
         "text": "AI動画編集・技術登壇・AI活用支援",
-        "size": 28,
+        "size": 36,
         "weight": 400,
         "bounds": [
-          373.0,
-          432,
-          827.0,
-          459
+          309,
+          417,
+          891.0,
+          451
         ]
       },
       {
@@ -97,9 +100,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -110,10 +113,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -121,10 +124,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -132,10 +135,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          402.0,
-          347,
-          798.0,
-          382
+          309,
+          345,
+          705.0,
+          380
         ]
       },
       {
@@ -143,10 +146,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          430.0,
-          414,
-          770.0,
-          441
+          309,
+          412,
+          649.0,
+          439
         ]
       },
       {
@@ -154,9 +157,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          516.0,
+          309,
           457,
-          684.0,
+          477,
           482
         ]
       },
@@ -165,9 +168,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -178,10 +181,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -189,10 +192,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -200,10 +203,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          528.0,
-          346,
-          672.0,
-          382
+          309,
+          344,
+          453.0,
+          380
         ]
       },
       {
@@ -211,10 +214,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          400.5,
-          414,
-          799.5,
-          441
+          309,
+          412,
+          708.0,
+          439
         ]
       },
       {
@@ -222,9 +225,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          403.5,
+          309,
           456,
-          796.5,
+          702.0,
           483
         ]
       },
@@ -233,9 +236,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -246,10 +249,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -257,10 +260,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -268,10 +271,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          456.0,
-          346,
-          744.0,
-          382
+          309,
+          344,
+          597.0,
+          380
         ]
       },
       {
@@ -279,10 +282,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          383.0,
-          414,
-          817.0,
-          441
+          309,
+          412,
+          743.0,
+          439
         ]
       },
       {
@@ -290,9 +293,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          488.0,
+          309,
           455,
-          712.0,
+          533.0,
           483
         ]
       },
@@ -301,9 +304,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -314,10 +317,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -325,10 +328,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -336,10 +339,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          395.5,
-          347,
-          803.5,
-          381
+          309,
+          345,
+          717.0,
+          379
         ]
       },
       {
@@ -347,10 +350,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          443.0,
-          413,
-          757.0,
-          440
+          309,
+          411,
+          623.0,
+          438
         ]
       },
       {
@@ -358,9 +361,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          502.0,
+          309,
           456,
-          698.0,
+          505.0,
           483
         ]
       },
@@ -369,9 +372,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -382,10 +385,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -393,10 +396,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -404,10 +407,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          431.5,
-          346,
-          768.5,
-          382
+          309,
+          344,
+          646.0,
+          380
         ]
       },
       {
@@ -415,10 +418,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          390.5,
-          414,
-          808.5,
-          441
+          309,
+          412,
+          727.0,
+          439
         ]
       },
       {
@@ -426,9 +429,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          460.5,
+          309,
           456,
-          739.5,
+          588.0,
           483
         ]
       },
@@ -437,9 +440,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
         ]
       }
@@ -450,10 +453,10 @@
         "size": 48,
         "weight": 700,
         "bounds": [
-          411.5,
-          213,
-          788.5,
-          260
+          493,
+          207,
+          870.0,
+          254
         ]
       },
       {
@@ -461,10 +464,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          486.5,
-          284,
-          713.5,
-          312
+          493,
+          274,
+          720.0,
+          302
         ]
       },
       {
@@ -472,10 +475,10 @@
         "size": 36,
         "weight": 700,
         "bounds": [
-          492.0,
-          347,
-          708.0,
-          381
+          309,
+          345,
+          525.0,
+          379
         ]
       },
       {
@@ -483,10 +486,10 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          441.5,
-          414,
-          758.5,
-          441
+          309,
+          412,
+          626.0,
+          439
         ]
       },
       {
@@ -494,9 +497,9 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          472.5,
+          309,
           456,
-          727.5,
+          564.0,
           483
         ]
       },
@@ -505,10 +508,152 @@
         "size": 28,
         "weight": 400,
         "bounds": [
-          494.0,
+          309,
           528,
-          706.0,
+          521,
           556
+        ]
+      }
+    ]
+  },
+  "visual_bounds": {
+    "": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "profile": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "works": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "talks": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "membership": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "pricing": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "role": "avatar",
+        "bounds": [
+          309,
+          164,
+          469,
+          324
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          493,
+          112,
+          541,
+          160
         ]
       }
     ]
@@ -516,56 +661,56 @@
   "files": [
     {
       "file": "og-home.png",
-      "public_path": "/social/og-home.a4fe75319b96.png",
-      "sha256": "a4fe75319b96a438da63da5e81d94a6a58c0dfb82c2951463f7d2353312844ae",
+      "public_path": "/social/og-home.a06fe4d52a1d.png",
+      "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
       "page": "",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-profile.png",
-      "public_path": "/social/og-profile.d3f120e5ad4b.png",
-      "sha256": "d3f120e5ad4b6a60a1c390c06aed502de54a1a189e69d2ad67817fc2af633e71",
+      "public_path": "/social/og-profile.44a5e5b15c24.png",
+      "sha256": "44a5e5b15c24ee4a5e8f62265c0735be2d5a87e17b3865bcc42d2cc34dcc1565",
       "page": "profile",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-works.png",
-      "public_path": "/social/og-works.9f02c4497568.png",
-      "sha256": "9f02c4497568dfde1b64bfa2fb6746badeaaa8b0e91a0062d88cdb6c201a1a71",
+      "public_path": "/social/og-works.c3c32c3606f4.png",
+      "sha256": "c3c32c3606f4215e115ba6c8c0268124f77abd4a8d808296d1b2b5846fa50f5a",
       "page": "works",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-talks.png",
-      "public_path": "/social/og-talks.9a0c0f6cb207.png",
-      "sha256": "9a0c0f6cb207d7031ee7b3cb37413c986d01aa2613a5b1569885ed431d1de4a1",
+      "public_path": "/social/og-talks.8e20937c8825.png",
+      "sha256": "8e20937c8825e35313a1e3929400bc83e6de9eee79412db83dc34c5fc1661c3a",
       "page": "talks",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-membership.png",
-      "public_path": "/social/og-membership.9c2e5205d4a6.png",
-      "sha256": "9c2e5205d4a6578eb3e7369490f81b12ce2e450ebc1fccb86ffc2da930f850cd",
+      "public_path": "/social/og-membership.bdb57731b464.png",
+      "sha256": "bdb57731b4643601f6b1efba81bba1f069828445d0fa892656a77b46a36320b8",
       "page": "membership",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-pricing.png",
-      "public_path": "/social/og-pricing.1b85b132fc03.png",
-      "sha256": "1b85b132fc0372f26a2f788132338cb4a934ebdf024b28183da8956c162aca52",
+      "public_path": "/social/og-pricing.7f03bbf79ed8.png",
+      "sha256": "7f03bbf79ed876136f746b79ef6f1da21e757115dc30a5adfa4fa74b802d6286",
       "page": "pricing",
       "width": 1200,
       "height": 630
     },
     {
       "file": "og-contact.png",
-      "public_path": "/social/og-contact.68a879334185.png",
-      "sha256": "68a879334185c482ba40e419e77dd27b4f1b0da54230950c7fb6704901df1644",
+      "public_path": "/social/og-contact.d887d506bbc2.png",
+      "sha256": "d887d506bbc2b6952b7d7d3ae38df07b221e79d028039210bdb1c23ba2b481d5",
       "page": "contact",
       "width": 1200,
       "height": 630

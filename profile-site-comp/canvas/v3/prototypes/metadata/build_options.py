@@ -11,7 +11,7 @@ from fontTools.svgLib.path import parse_path
 HERE = Path(__file__).resolve().parent
 V3 = HERE.parents[1]
 sys.path.insert(0, str(V3))
-from build_og import text_runs, StrokePen, MARK, USED_FONTS
+from build_og import text_runs, StrokePen, MARK, USED_FONTS, render_sharing_image
 from site_metadata import SITE_NAME, OWNER
 
 OUT = HERE / 'assets'
@@ -47,6 +47,9 @@ def logo(image, size, xy, ink=INK, bg=WHITE):
 
 
 def render(key):
+    if key == 'c':
+        image, boxes, _ = render_sharing_image('')
+        return image, boxes
     dark = key == 'e'
     bg, ink, muted = (INK, WHITE, '#d0d0d0') if dark else (WHITE, INK, MUTED)
     image = Image.new('RGB', (1200, 630), bg)
@@ -83,17 +86,6 @@ def render(key):
         for baseline, text in zip([490, 534], LINES):
             line(text, 148, baseline, 36, color=muted)
         line('studio.msyn.me', 838, 552, 28, color=muted)
-    elif key == 'c':
-        avatar_path = V3 / 'prototypes/editorial/assets/avatar-mono-pixel.png'
-        avatar = Image.open(avatar_path).convert('RGBA')
-        avatar.thumbnail((208, 208), Image.Resampling.NEAREST)
-        image.paste(avatar, (144, 180), avatar)
-        logo(image, 48, (416, 132))
-        line(SITE_NAME, 416, 264, 64, 700)
-        line(OWNER, 416, 328, 36, color=muted)
-        for baseline, text in zip([428, 472], LINES):
-            line(text, 416, baseline, 36, color=muted)
-        line('studio.msyn.me', 416, 552, 28, color=muted)
     elif key == 'd':
         logo(image, 288, (120, 148))
         line('Miyabiya', 536, 236, 64, 700)
@@ -124,7 +116,7 @@ def build():
         entries.append({'key': key, 'name': name, 'description': description,
                         'file': path.name, 'width': 1200, 'height': 630,
                         'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'text': boxes})
-    result = {'status': 'awaiting_selection', 'identity': [SITE_NAME, OWNER],
+    result = {'status': 'selected', 'selected_design': 'c', 'identity': [SITE_NAME, OWNER],
               'font': 'IBM Plex Sans JP', 'mark_sha256': hashlib.sha256(MARK.read_bytes()).hexdigest(),
               'font_files': sorted(USED_FONTS), 'options': entries}
     (OUT / 'options.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
