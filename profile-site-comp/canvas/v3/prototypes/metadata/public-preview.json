@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fetched_at": "2026-10-28T10:57:47.601709+09:00",
+  "fetched_at": "2026-10-28T11:08:57.207861+09:00",
   "source": "https://studio.msyn.me",
   "complete": true,
   "pages": [
@@ -13,41 +13,41 @@
         "final_url": "https://studio.msyn.me/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 100174,
-        "sha256": "0c42246c956380d615011bf050953c46e3847eea6e442552676a31b02eeddeda"
+        "bytes": 99742,
+        "sha256": "db3e993400a527d3a3302c157092b72de8c2cb7974235e65596ad0773e422251"
       },
       "title": "Miyabiya Studio | Masaya Nishigaki",
       "canonical": "https://studio.msyn.me/",
       "favicon": "https://studio.msyn.me/favicon.svg",
       "tags": {
-        "description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "description": "YouTubeでのAI発信・製品PR・個人開発・AI動画編集・技術登壇・AI活用支援。",
         "twitter:card": "summary_large_image",
         "twitter:site": "@masayan_ai_hack",
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "Miyabiya Studio | Masaya Nishigaki",
-        "twitter:description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "twitter:description": "YouTubeでのAI発信・製品PR・個人開発・AI動画編集・技術登壇・AI活用支援。",
         "twitter:image": "https://studio.msyn.me/social/x-home.db4021a4ba78.png",
         "twitter:image:alt": "Miyabiya Studio — Masaya Nishigakiの活動紹介",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
         "og:locale": "ja_JP",
         "og:title": "Miyabiya Studio | Masaya Nishigaki",
-        "og:description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "og:description": "YouTubeでのAI発信・製品PR・個人開発・AI動画編集・技術登壇・AI活用支援。",
         "og:url": "https://studio.msyn.me/",
-        "og:image": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+        "og:image": "https://studio.msyn.me/social/og-home.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — Masaya Nishigakiの活動紹介"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png": {
-          "url": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
-          "final_url": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+        "https://studio.msyn.me/social/og-home.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-home.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-home.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 62268,
-          "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -75,8 +75,8 @@
         "final_url": "https://studio.msyn.me/profile/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 63759,
-        "sha256": "e7b5fc66db18c42f6f48ebd00ee1538d2abb1e9bc5c5e0bb8505ab9285dc8858"
+        "bytes": 63749,
+        "sha256": "306e4461d1d0559af40bfd3fa41ec5ab61dd30b527cefa099585776fff5054a6"
       },
       "title": "プロフィール・職務経歴 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/profile/",
@@ -96,20 +96,20 @@
         "og:title": "プロフィール・職務経歴 | Miyabiya Studio",
         "og:description": "Web系のシニアエンジニア・テックリード、Masaya Nishigakiのプロフィール。職務経歴、開発経験、技術・スキルを紹介します。",
         "og:url": "https://studio.msyn.me/profile/",
-        "og:image": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+        "og:image": "https://studio.msyn.me/social/og-profile.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — プロフィール・職務経歴"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png": {
-          "url": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
-          "final_url": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+        "https://studio.msyn.me/social/og-profile.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-profile.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-profile.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 58810,
-          "sha256": "44a5e5b15c24ee4a5e8f62265c0735be2d5a87e17b3865bcc42d2cc34dcc1565",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -137,8 +137,8 @@
         "final_url": "https://studio.msyn.me/works/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 62784,
-        "sha256": "cb1a8b820551d6b041fd76c93236fd9d14a3d830072a8c5a826878ac754da9b8"
+        "bytes": 62795,
+        "sha256": "5df98b9bf375a835c9356e1515c32fb5a037338af5e0c8e092378eba06168a38"
       },
       "title": "実績紹介 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/works/",
@@ -158,20 +158,20 @@
         "og:title": "実績紹介 | Miyabiya Studio",
         "og:description": "AI活用支援、MCPサーバー開発、製品PR動画、Chrome拡張機能の実績。担当工程と成果を掲載しています。",
         "og:url": "https://studio.msyn.me/works/",
-        "og:image": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+        "og:image": "https://studio.msyn.me/social/og-works.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — 実績紹介"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-works.c3c32c3606f4.png": {
-          "url": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
-          "final_url": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+        "https://studio.msyn.me/social/og-works.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-works.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-works.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 63183,
-          "sha256": "c3c32c3606f4215e115ba6c8c0268124f77abd4a8d808296d1b2b5846fa50f5a",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -199,8 +199,8 @@
         "final_url": "https://studio.msyn.me/talks/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 62487,
-        "sha256": "3a3d4480828abf3a0ac7346b452cb7c09d792d48b4ebe3b0dea7575148eaafb0"
+        "bytes": 62486,
+        "sha256": "82c6017d8e2bce659a5f489d443d318e6759490367878761db262b227ba86a98"
       },
       "title": "登壇・社内勉強会 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/talks/",
@@ -220,20 +220,20 @@
         "og:title": "登壇・社内勉強会 | Miyabiya Studio",
         "og:description": "AI駆動開発、MCP、YouTube運営・動画制作の自動化に関する登壇実績。イベントや発表資料、対応テーマを掲載しています。",
         "og:url": "https://studio.msyn.me/talks/",
-        "og:image": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+        "og:image": "https://studio.msyn.me/social/og-talks.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — 登壇・社内勉強会"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-talks.8e20937c8825.png": {
-          "url": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
-          "final_url": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+        "https://studio.msyn.me/social/og-talks.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-talks.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-talks.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 61254,
-          "sha256": "8e20937c8825e35313a1e3929400bc83e6de9eee79412db83dc34c5fc1661c3a",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -261,8 +261,8 @@
         "final_url": "https://studio.msyn.me/membership/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 61506,
-        "sha256": "818706ad340f2304289ad492acfdad04438a77779b6f38c122133ed4abc33ae6"
+        "bytes": 61501,
+        "sha256": "9f527b6b9390d7c147a50ea5039732d52eb8b4a2ba5cb11cde47c2ae536b8c3d"
       },
       "title": "YouTubeメンバーシップ | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/membership/",
@@ -282,20 +282,20 @@
         "og:title": "YouTubeメンバーシップ | Miyabiya Studio",
         "og:description": "YouTube「まさやん【AIギルドch】」のメンバーシップ。限定投稿・動画など、各プランの特典と料金を確認できます。",
         "og:url": "https://studio.msyn.me/membership/",
-        "og:image": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+        "og:image": "https://studio.msyn.me/social/og-membership.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — YouTubeメンバーシップ"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-membership.bdb57731b464.png": {
-          "url": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
-          "final_url": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+        "https://studio.msyn.me/social/og-membership.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-membership.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-membership.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 59962,
-          "sha256": "bdb57731b4643601f6b1efba81bba1f069828445d0fa892656a77b46a36320b8",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -323,8 +323,8 @@
         "final_url": "https://studio.msyn.me/pricing/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 89155,
-        "sha256": "656a898f86da8ed12da231570fa3eb695615de3e85250278bfe0cc2b04800d22"
+        "bytes": 89152,
+        "sha256": "82626b8a0b261e09f4487da39d8bc263f1cda6ff76b441c75fc7bf0ca41b3f69"
       },
       "title": "PR制作のお見積もり | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/pricing/",
@@ -344,20 +344,20 @@
         "og:title": "PR制作のお見積もり | Miyabiya Studio",
         "og:description": "YouTube本編・ショート動画・X投稿の概算見積もりを作成できます。制作内容を選び、内訳の確認・PDF保存・URL共有ができます。未確定の料金は要相談です。",
         "og:url": "https://studio.msyn.me/pricing/",
-        "og:image": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+        "og:image": "https://studio.msyn.me/social/og-pricing.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — PR制作のお見積もり"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png": {
-          "url": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
-          "final_url": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+        "https://studio.msyn.me/social/og-pricing.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-pricing.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-pricing.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 62361,
-          "sha256": "7f03bbf79ed876136f746b79ef6f1da21e757115dc30a5adfa4fa74b802d6286",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -385,8 +385,8 @@
         "final_url": "https://studio.msyn.me/contact/",
         "status": 200,
         "content_type": "text/html; charset=utf-8",
-        "bytes": 71800,
-        "sha256": "0ac0091b9890767d8adc44a26c53a99ceb73138b5781b4b915e6a81c697eae5a"
+        "bytes": 71805,
+        "sha256": "e659e56c1c02347a767392bcebde5967ea3d02b98a7bdc97a9faa94490196a61"
       },
       "title": "お問い合わせ | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/contact/",
@@ -406,20 +406,20 @@
         "og:title": "お問い合わせ | Miyabiya Studio",
         "og:description": "製品PR・動画編集・登壇・AI活用支援のご依頼を受け付けています。フォームに内容・希望時期・ご予算をお知らせください。通常2営業日以内に返信します。",
         "og:url": "https://studio.msyn.me/contact/",
-        "og:image": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+        "og:image": "https://studio.msyn.me/social/og-contact.a181ee642448.png",
         "og:image:type": "image/png",
         "og:image:width": "1200",
         "og:image:height": "630",
-        "og:image:alt": "Miyabiya Studio — お問い合わせ"
+        "og:image:alt": "Masaya Nishigakiのモノクロドット絵"
       },
       "images": {
-        "https://studio.msyn.me/social/og-contact.d887d506bbc2.png": {
-          "url": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
-          "final_url": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+        "https://studio.msyn.me/social/og-contact.a181ee642448.png": {
+          "url": "https://studio.msyn.me/social/og-contact.a181ee642448.png",
+          "final_url": "https://studio.msyn.me/social/og-contact.a181ee642448.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 60291,
-          "sha256": "d887d506bbc2b6952b7d7d3ae38df07b221e79d028039210bdb1c23ba2b481d5",
+          "bytes": 152518,
+          "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
           "width": 1200,
           "height": 630,
           "format": "PNG"
