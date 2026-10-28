@@ -1,0 +1,378 @@
+{
+  "status": "awaiting_selection",
+  "identity": [
+    "Miyabiya Studio",
+    "Masaya Nishigaki"
+  ],
+  "font": "IBM Plex Sans JP",
+  "mark_sha256": "4b1062370c24768d7739cbdb01343f399ae3e3098bef3fa0039574d488bce942",
+  "font_files": [
+    "400-0a2b9cd71133437e.woff2",
+    "400-18fe04b667412f9a.woff2",
+    "400-222c101f16e0ac5f.woff2",
+    "400-44cee61bf9dc29c1.woff2",
+    "400-54d634634812a2b9.woff2",
+    "400-5bde1a2aa62397ca.woff2",
+    "400-92f0aec5075ae752.woff2",
+    "400-9d0a28c39f6b6133.woff2",
+    "400-bc71294da6b37eac.woff2",
+    "400-efa065ddb0c601c3.woff2",
+    "400-f9adfa377d6a7057.woff2",
+    "700-8b167f0e96bc6861.woff2",
+    "700-d17040f95e5404ec.woff2"
+  ],
+  "options": [
+    {
+      "key": "a",
+      "name": "横組みのロゴ",
+      "description": "ロゴと屋号を一列に。余白を広く取り、端正にまとめる。",
+      "file": "ogp-a.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "f508c2160734649e00ca009419b387fa78b3d45dbf03f6c588af29bbea5ad498",
+      "text": [
+        {
+          "text": "Miyabiya Studio",
+          "size": 64,
+          "weight": 700,
+          "bounds": [
+            264,
+            181,
+            764.0,
+            245
+          ]
+        },
+        {
+          "text": "Masaya Nishigaki",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            264,
+            264,
+            560.0,
+            300
+          ]
+        },
+        {
+          "text": "AIの発信・製品PR・個人開発",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            264,
+            373,
+            748.0,
+            408
+          ]
+        },
+        {
+          "text": "AI動画編集・技術登壇・AI活用支援",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            264,
+            421,
+            846.0,
+            455
+          ]
+        },
+        {
+          "text": "studio.msyn.me",
+          "size": 28,
+          "weight": 400,
+          "bounds": [
+            264,
+            530,
+            476,
+            558
+          ]
+        }
+      ]
+    },
+    {
+      "key": "b",
+      "name": "大きな2行タイトル",
+      "description": "屋号を大きく見せる。小さなプレビューでも名前が目に入る。",
+      "file": "ogp-b.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "ef84288a503918bd1a167621e9e9e70fb28494539801c8e77696bebee9eef03e",
+      "text": [
+        {
+          "text": "Miyabiya",
+          "size": 96,
+          "weight": 700,
+          "bounds": [
+            144,
+            161,
+            564,
+            256
+          ]
+        },
+        {
+          "text": "Studio",
+          "size": 96,
+          "weight": 700,
+          "bounds": [
+            144,
+            269,
+            452,
+            345
+          ]
+        },
+        {
+          "text": "Masaya Nishigaki",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            148,
+            380,
+            444.0,
+            416
+          ]
+        },
+        {
+          "text": "AIの発信・製品PR・個人開発",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            148,
+            459,
+            632.0,
+            494
+          ]
+        },
+        {
+          "text": "AI動画編集・技術登壇・AI活用支援",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            148,
+            503,
+            730.0,
+            537
+          ]
+        },
+        {
+          "text": "studio.msyn.me",
+          "size": 28,
+          "weight": 400,
+          "bounds": [
+            838,
+            530,
+            1050,
+            558
+          ]
+        }
+      ]
+    },
+    {
+      "key": "c",
+      "name": "ドット絵のプロフィール",
+      "description": "採用済みアバターを添え、運営する人の顔を伝える。",
+      "file": "ogp-c.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "44ea3ec97cca393917ecdb95c6cdf22ee930149a7f70e55a1abf4620f7e0c18d",
+      "text": [
+        {
+          "text": "Miyabiya Studio",
+          "size": 64,
+          "weight": 700,
+          "bounds": [
+            416,
+            213,
+            916.0,
+            277
+          ]
+        },
+        {
+          "text": "Masaya Nishigaki",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            416,
+            300,
+            712.0,
+            336
+          ]
+        },
+        {
+          "text": "AIの発信・製品PR・個人開発",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            416,
+            397,
+            900.0,
+            432
+          ]
+        },
+        {
+          "text": "AI動画編集・技術登壇・AI活用支援",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            416,
+            441,
+            998.0,
+            475
+          ]
+        },
+        {
+          "text": "studio.msyn.me",
+          "size": 28,
+          "weight": 400,
+          "bounds": [
+            416,
+            530,
+            628,
+            558
+          ]
+        }
+      ]
+    },
+    {
+      "key": "d",
+      "name": "大きなm",
+      "description": "マークを大きく配置。シンボルで屋号を覚えてもらう。",
+      "file": "ogp-d.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "8d4e1377399c48fe1604d297e3a30a06ccd54f11f7b9e68eb502e725fd6c06d4",
+      "text": [
+        {
+          "text": "Miyabiya",
+          "size": 64,
+          "weight": 700,
+          "bounds": [
+            536,
+            185,
+            815,
+            249
+          ]
+        },
+        {
+          "text": "Studio",
+          "size": 64,
+          "weight": 700,
+          "bounds": [
+            536,
+            261,
+            741,
+            313
+          ]
+        },
+        {
+          "text": "Masaya Nishigaki",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            536,
+            348,
+            832.0,
+            384
+          ]
+        },
+        {
+          "text": "AIの発信・製品PR・個人開発",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            536,
+            429,
+            1020.0,
+            464
+          ]
+        },
+        {
+          "text": "AI動画編集・技術登壇・AI活用支援",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            536,
+            473,
+            1118.0,
+            507
+          ]
+        },
+        {
+          "text": "studio.msyn.me",
+          "size": 28,
+          "weight": 400,
+          "bounds": [
+            536,
+            542,
+            748,
+            570
+          ]
+        }
+      ]
+    },
+    {
+      "key": "e",
+      "name": "黒地の反転",
+      "description": "黒地に白い文字とロゴ。サイトと同じ無彩色で印象を変える。",
+      "file": "ogp-e.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "2856a54490f8f264d494a12780d70f37c616377f81236a1a94f09eb1032bab25",
+      "text": [
+        {
+          "text": "Miyabiya Studio",
+          "size": 72,
+          "weight": 700,
+          "bounds": [
+            320.0,
+            228,
+            880.0,
+            301
+          ]
+        },
+        {
+          "text": "Masaya Nishigaki",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            452.0,
+            322,
+            748.0,
+            358
+          ]
+        },
+        {
+          "text": "AIの発信・製品PR・個人開発",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            358.0,
+            417,
+            842.0,
+            452
+          ]
+        },
+        {
+          "text": "AI動画編集・技術登壇・AI活用支援",
+          "size": 36,
+          "weight": 400,
+          "bounds": [
+            309.0,
+            461,
+            891.0,
+            495
+          ]
+        },
+        {
+          "text": "studio.msyn.me",
+          "size": 28,
+          "weight": 400,
+          "bounds": [
+            494.0,
+            542,
+            706.0,
+            570
+          ]
+        }
+      ]
+    }
+  ]
+}
