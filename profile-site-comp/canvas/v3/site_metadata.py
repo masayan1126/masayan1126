@@ -22,7 +22,7 @@ PAGES = {
     '': {
         'label': SITE_NAME,
         'title': SITE_NAME + ' | ' + OWNER,
-        'description': 'Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。',
+        'description': 'YouTubeでのAI発信・製品PR・個人開発・AI動画編集・技術登壇・AI活用支援。',
         'image_lines': ['AIの発信・製品PR・個人開発', 'AI動画編集・技術登壇・AI活用支援'],
     },
     'profile': {
@@ -73,7 +73,8 @@ def metadata(page):
     record = dict(PAGES[page])
     record.setdefault('title', record['label'] + ' | ' + SITE_NAME)
     record['url'] = BASE + '/' + (page + '/' if page else '')
-    record['image_alt'] = SITE_NAME + ' — ' + (record['label'] if page else OWNER + 'の活動紹介')
+    record['image_alt'] = OWNER + 'のモノクロドット絵'
+    record['twitter_image_alt'] = SITE_NAME + ' — ' + (record['label'] if page else OWNER + 'の活動紹介')
     return record
 
 
@@ -140,7 +141,7 @@ def apply_metadata(doc, page, images, *, production):
         'twitter:card': 'summary_large_image', 'twitter:site': '@masayan_ai_hack',
         'twitter:creator': '@masayan_ai_hack', 'twitter:title': info['title'],
         'twitter:description': info['description'], 'twitter:image': twitter_image,
-        'twitter:image:alt': info['image_alt'],
+        'twitter:image:alt': info['twitter_image_alt'],
     }.items():
         meta(key, value)
     for key, value in {

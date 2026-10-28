@@ -95,13 +95,13 @@ npm run preview
 
 公開する付帯情報は `canvas/v3/site_metadata.py` を正本とし、`prototypes/editorial/build.py` が最終出力へ適用します。トップは「Miyabiya Studio | Masaya Nishigaki」、ほかのページは「ページ名 | Miyabiya Studio」。本文の内容に合う説明文・OGP・Xカード・構造化データを同じ設定から生成します。
 
-`canvas/v3/build_og.py` は、採用C案のモノクロドット絵、曲線m、IBM Plex Sans JPを使い、通常OGP7枚・X用7枚と保存用アイコンを生成します。PillowとfontToolsを使うため、ブラウザや外部への画像送信は不要です。画像はいずれも1200×630pxです。通常の`og:image`は中央630px内に収め、正方形の切り抜きでも見切れない配置を保ちます。安全範囲はx=309〜891px、y=48〜582pxです。`twitter:image`には専用の横長画像を設定し、屋号とアバターを拡大して左右に広く配置します。横長用の安全範囲はx=128〜1072px、y=48〜582px、文字サイズは80・36・28pxです。画像の使い分けは各メタタグで指定し、画面幅や切り抜き形状による自動選択は行いません。
+`canvas/v3/build_og.py` は、採用C案のモノクロドット絵、曲線m、IBM Plex Sans JPを使い、通常OGP7枚・X用7枚と保存用アイコンを生成します。PillowとfontToolsを使うため、ブラウザや外部への画像送信は不要です。画像はいずれも1200×630pxです。通常の`og:image`は文字なしの大きなアバターを中央630px内に収めます。画像内とカード側の名前・説明文を重ねず、小さなサムネイルでも顔を判別できる配置です。正方形の切り抜きでも見切れない状態を保ちます。安全範囲はx=309〜891px、y=48〜582pxです。`twitter:image`には専用の横長画像を設定し、屋号とアバターを拡大して左右に広く配置します。横長用の安全範囲はx=128〜1072px、y=48〜582px、文字サイズは80・36・28pxです。画像の使い分けは各メタタグで指定し、画面幅や切り抜き形状による自動選択は行いません。
 
 画像の文言・アバター・マーク・フォント・描画コードを変えたら生成を実行し、生成元と資産のハッシュを持つmanifestも更新します。通常ビルドはmanifestと入力の一致を検査し、再生成漏れを止めます。OGPの公開URLは内容のハッシュ付きとし、faviconのURLは固定します。検索・SNS側のキャッシュによる実際の表示変更は、公開HTMLの更新と区別して確認します。
 
 旧い `site/og-profile.png`・`site/og-pricing.png` などは、過去URLの互換用です。現在のメタ情報からは参照しません。既存レビューの「OGP・メタ情報」で、変更前後・ページ別の検索とシェア表示・アイコンを確認できます。
 
-「SNSでの表示」には公開7ページから取得したデータを使い、横長・正方形・小さな共有カードを表示します。取得日時と取得値も確認できます。公開情報を取り直す場合は `python3 canvas/v3/prototypes/metadata/fetch_public_preview.py`、続けて `python3 canvas/v3/prototypes/metadata/build.py` を実行します。通常のレビュー生成では保存済みの `public-preview.json` を使います。各SNSの実カードやキャッシュを取得する機能ではありません。
+「SNSでの表示」には公開7ページから取得したデータを使い、横長・正方形・小さな共有カードを表示します。取得日時と取得値も確認できます。公開情報を取り直す場合は `python3 canvas/v3/prototypes/metadata/fetch_public_preview.py`、続けて `python3 canvas/v3/prototypes/metadata/build.py` を実行します。通常のレビュー生成では保存済みの `public-preview.json` を使います。各SNSの実カードやキャッシュを取得する機能ではありません。横並びカードの画像幅112pxはこのレビューの表示例で、実際のSNSの画像サイズや配置を指定するものではありません。
 
 ## 公開
 

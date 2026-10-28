@@ -169,68 +169,12 @@
     {
       "key": "c",
       "name": "ドット絵のプロフィール",
-      "description": "採用済みアバターを添え、運営する人の顔を伝える。",
+      "description": "小さな表示でも顔が伝わる、文字なしのプロフィール画像。",
       "file": "ogp-c.png",
       "width": 1200,
       "height": 630,
-      "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
-      "text": [
-        {
-          "text": "Miyabiya Studio",
-          "size": 48,
-          "weight": 700,
-          "bounds": [
-            493,
-            207,
-            870.0,
-            254
-          ]
-        },
-        {
-          "text": "Masaya Nishigaki",
-          "size": 28,
-          "weight": 400,
-          "bounds": [
-            493,
-            274,
-            720.0,
-            302
-          ]
-        },
-        {
-          "text": "AIの発信・製品PR・個人開発",
-          "size": 36,
-          "weight": 400,
-          "bounds": [
-            309,
-            369,
-            793.0,
-            404
-          ]
-        },
-        {
-          "text": "AI動画編集・技術登壇・AI活用支援",
-          "size": 36,
-          "weight": 400,
-          "bounds": [
-            309,
-            417,
-            891.0,
-            451
-          ]
-        },
-        {
-          "text": "studio.msyn.me",
-          "size": 28,
-          "weight": 400,
-          "bounds": [
-            309,
-            528,
-            521,
-            556
-          ]
-        }
-      ]
+      "sha256": "a181ee64244884e3d9c1e28a8473074c66206f39a9a23cb7ae66740081b65426",
+      "text": []
     },
     {
       "key": "d",

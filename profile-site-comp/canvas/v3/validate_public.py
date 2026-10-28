@@ -55,7 +55,7 @@ def validate(site=ROOT / 'site'):
         twitter = doc.select('meta[name="twitter:image"]')
         assert len(twitter) == 1 and twitter[0]['content'] == x_images[page], page
         assert twitter[0]['content'] != image[0]['content'], page
-        assert doc.select_one('meta[name="twitter:image:alt"]')['content'] == info['image_alt'], page
+        assert doc.select_one('meta[name="twitter:image:alt"]')['content'] == info['twitter_image_alt'], page
         x_path = site / urlsplit(twitter[0]['content']).path.lstrip('/')
         x_bytes = x_path.read_bytes()
         assert x_bytes[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', x_bytes[16:24]) == (1200, 630), page
