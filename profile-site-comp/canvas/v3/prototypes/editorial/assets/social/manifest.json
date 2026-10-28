@@ -1,9 +1,9 @@
 {
   "generator": "canvas/v3/build_og.py",
-  "input_sha256": "fcbe04c68dcbc8470b5e17c77a82dd62c8df99549dfaa69edee987e677f51c11",
+  "input_sha256": "4b65a61f1041336b042a575bff4821d1601fe0e95480b6f76c97bf81a42afa14",
   "mark_source": "prototypes/editorial/icons/miyabiya-mark.svg",
   "mark_sha256": "4b1062370c24768d7739cbdb01343f399ae3e3098bef3fa0039574d488bce942",
-  "design": "C: pixel avatar, central-square safe",
+  "design": "C: pixel avatar; square-safe OG and wide X composition",
   "avatar_source": "prototypes/editorial/assets/avatar-mono-pixel.png",
   "avatar_sha256": "ca937408765254bec038a3c3184f607b258cb1266330da399331f159969d16d4",
   "font_family": "IBM Plex Sans JP",
@@ -658,12 +658,635 @@
       }
     ]
   },
+  "landscape_safe_bounds": [
+    128,
+    48,
+    1072,
+    582
+  ],
+  "landscape_layouts": {
+    "": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "AIの発信・製品PR・個人開発",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          916.0,
+          484
+        ]
+      },
+      {
+        "text": "AI動画編集・技術登壇・AI活用支援",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          1014.0,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "profile": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "プロフィール・職務経歴",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          375,
+          828.0,
+          410
+        ]
+      },
+      {
+        "text": "Web系のシニアエンジニア",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          869.0,
+          483
+        ]
+      },
+      {
+        "text": "テックリード",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          498,
+          648,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "works": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "実績紹介",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          374,
+          576.0,
+          410
+        ]
+      },
+      {
+        "text": "AI活用支援・MCPサーバー開発",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          946.0,
+          483
+        ]
+      },
+      {
+        "text": "製品PR動画・Chrome拡張機能",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          938.0,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "talks": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "登壇・社内勉強会",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          374,
+          720.0,
+          410
+        ]
+      },
+      {
+        "text": "AI駆動開発・MCP・YouTube運営",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          989.0,
+          483
+        ]
+      },
+      {
+        "text": "動画制作の自動化",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          720.0,
+          532
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "membership": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "YouTubeメンバーシップ",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          375,
+          840.0,
+          409
+        ]
+      },
+      {
+        "text": "まさやん【AIギルドch】",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          448,
+          835.0,
+          483
+        ]
+      },
+      {
+        "text": "限定投稿・動画",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          684.0,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "pricing": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "PR制作のお見積もり",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          374,
+          769.0,
+          410
+        ]
+      },
+      {
+        "text": "YouTube本編・ショート・X投稿",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          966.0,
+          483
+        ]
+      },
+      {
+        "text": "概算料金・内訳・PDF",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          790.0,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "Miyabiya Studio",
+        "size": 80,
+        "weight": 700,
+        "bounds": [
+          432,
+          201,
+          1060.0,
+          281
+        ]
+      },
+      {
+        "text": "Masaya Nishigaki",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          300,
+          728.0,
+          336
+        ]
+      },
+      {
+        "text": "お問い合わせ",
+        "size": 36,
+        "weight": 700,
+        "bounds": [
+          432,
+          375,
+          648.0,
+          409
+        ]
+      },
+      {
+        "text": "製品PR・動画編集・登壇",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          449,
+          841.0,
+          483
+        ]
+      },
+      {
+        "text": "AI活用支援のご依頼",
+        "size": 36,
+        "weight": 400,
+        "bounds": [
+          432,
+          497,
+          759.0,
+          531
+        ]
+      },
+      {
+        "text": "studio.msyn.me",
+        "size": 28,
+        "weight": 400,
+        "bounds": [
+          144,
+          544,
+          356,
+          572
+        ]
+      }
+    ]
+  },
+  "landscape_visual_bounds": {
+    "": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "profile": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "works": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "talks": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "membership": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "pricing": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "role": "avatar",
+        "bounds": [
+          144,
+          172,
+          384,
+          412
+        ]
+      },
+      {
+        "role": "mark",
+        "bounds": [
+          432,
+          100,
+          488,
+          156
+        ]
+      }
+    ]
+  },
   "files": [
     {
       "file": "og-home.png",
       "public_path": "/social/og-home.a06fe4d52a1d.png",
       "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
       "page": "",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "x-home.png",
+      "public_path": "/social/x-home.a483d78573af.png",
+      "sha256": "a483d78573af27952f9c71a51d0c7327c6e2515050e91fc6489734cdf8d9939d",
+      "twitter_page": "",
       "width": 1200,
       "height": 630
     },
@@ -676,10 +1299,26 @@
       "height": 630
     },
     {
+      "file": "x-profile.png",
+      "public_path": "/social/x-profile.ecc56de7f9e9.png",
+      "sha256": "ecc56de7f9e9061d665279f8d6b9c831af8656ed78ba5e7018b335b5b83e3b10",
+      "twitter_page": "profile",
+      "width": 1200,
+      "height": 630
+    },
+    {
       "file": "og-works.png",
       "public_path": "/social/og-works.c3c32c3606f4.png",
       "sha256": "c3c32c3606f4215e115ba6c8c0268124f77abd4a8d808296d1b2b5846fa50f5a",
       "page": "works",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "x-works.png",
+      "public_path": "/social/x-works.ee999e444436.png",
+      "sha256": "ee999e444436263cdb09ac1dfa08128062b7501d81cabcd0ae3b4d97e9a7052c",
+      "twitter_page": "works",
       "width": 1200,
       "height": 630
     },
@@ -692,10 +1331,26 @@
       "height": 630
     },
     {
+      "file": "x-talks.png",
+      "public_path": "/social/x-talks.aa738a118885.png",
+      "sha256": "aa738a1188859e42797995aeb299f2f71c9ce297cba33ccb4ba4dbdc03a77c93",
+      "twitter_page": "talks",
+      "width": 1200,
+      "height": 630
+    },
+    {
       "file": "og-membership.png",
       "public_path": "/social/og-membership.bdb57731b464.png",
       "sha256": "bdb57731b4643601f6b1efba81bba1f069828445d0fa892656a77b46a36320b8",
       "page": "membership",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "x-membership.png",
+      "public_path": "/social/x-membership.009ab9dfb530.png",
+      "sha256": "009ab9dfb530dd6f9400768099faa7dc4582cb066babbdec8c013d85f4a13b5a",
+      "twitter_page": "membership",
       "width": 1200,
       "height": 630
     },
@@ -708,10 +1363,26 @@
       "height": 630
     },
     {
+      "file": "x-pricing.png",
+      "public_path": "/social/x-pricing.f6512a6b3a8e.png",
+      "sha256": "f6512a6b3a8ed48fdaa07e81992f5ceb3824ccad3e523ea778d8fafa701062d9",
+      "twitter_page": "pricing",
+      "width": 1200,
+      "height": 630
+    },
+    {
       "file": "og-contact.png",
       "public_path": "/social/og-contact.d887d506bbc2.png",
       "sha256": "d887d506bbc2b6952b7d7d3ae38df07b221e79d028039210bdb1c23ba2b481d5",
       "page": "contact",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "x-contact.png",
+      "public_path": "/social/x-contact.e491b7107f5e.png",
+      "sha256": "e491b7107f5e4c010e6b9138727f8cb162d777f03e596ca9850b9736b1154b4d",
+      "twitter_page": "contact",
       "width": 1200,
       "height": 630
     },

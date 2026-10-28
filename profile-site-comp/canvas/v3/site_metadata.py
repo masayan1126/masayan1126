@@ -81,7 +81,7 @@ def copy_assets(destination):
     destination = Path(destination)
     manifest = json.loads((ASSETS / 'manifest.json').read_text())
     assert manifest['input_sha256'] == asset_input_digest(), 'Sharing assets are stale; regenerate with canvas/v3/build_og.py'
-    refs = {}
+    refs = {'og': {}, 'twitter': {}}
     for record in manifest['files']:
         source = ASSETS / record['file']
         assert hashlib.sha256(source.read_bytes()).hexdigest() == record['sha256'], source
@@ -89,7 +89,10 @@ def copy_assets(destination):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
         if 'page' in record:
-            refs[record['page']] = BASE + record['public_path']
+            refs['og'][record['page']] = BASE + record['public_path']
+        if 'twitter_page' in record:
+            refs['twitter'][record['twitter_page']] = BASE + record['public_path']
+    assert set(refs['og']) == set(refs['twitter']) == set(PAGES), 'Sharing image variants are incomplete'
     # Legacy bookmark addresses remain usable as well.
     shutil.copyfile(ASSETS / 'apple-touch-icon.png', destination / 'apple-touch-icon.png')
     return refs
@@ -118,7 +121,8 @@ def structured_data(page, image_url):
 
 
 def apply_metadata(doc, page, images, *, production):
-    info, image = metadata(page), images[page]
+    info, image = metadata(page), images['og'][page]
+    twitter_image = images['twitter'][page]
     doc.title.string = info['title']
 
     def meta(key, value, attribute='name'):
@@ -135,7 +139,7 @@ def apply_metadata(doc, page, images, *, production):
         'robots': 'index,follow,max-image-preview:large' if production else 'noindex,nofollow',
         'twitter:card': 'summary_large_image', 'twitter:site': '@masayan_ai_hack',
         'twitter:creator': '@masayan_ai_hack', 'twitter:title': info['title'],
-        'twitter:description': info['description'], 'twitter:image': image,
+        'twitter:description': info['description'], 'twitter:image': twitter_image,
         'twitter:image:alt': info['image_alt'],
     }.items():
         meta(key, value)

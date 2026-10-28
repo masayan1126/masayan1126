@@ -95,7 +95,7 @@ npm run preview
 
 公開する付帯情報は `canvas/v3/site_metadata.py` を正本とし、`prototypes/editorial/build.py` が最終出力へ適用します。トップは「Miyabiya Studio | Masaya Nishigaki」、ほかのページは「ページ名 | Miyabiya Studio」。本文の内容に合う説明文・OGP・Xカード・構造化データを同じ設定から生成します。
 
-`canvas/v3/build_og.py` は、採用C案のモノクロドット絵、曲線m、IBM Plex Sans JPを使い、白基調のOGP画像7枚とSVG・PNG・ICO・Apple用アイコンを生成します。PillowとfontToolsを使うため、ブラウザや外部への画像送信は不要です。画像は1200×630pxで、アバター・マーク・文字を中央630pxの正方形内へ収めます。共通の安全範囲はx=309〜891px、y=48〜582px。画像内の文字サイズは48・36・28pxです。
+`canvas/v3/build_og.py` は、採用C案のモノクロドット絵、曲線m、IBM Plex Sans JPを使い、通常OGP7枚・X用7枚と保存用アイコンを生成します。PillowとfontToolsを使うため、ブラウザや外部への画像送信は不要です。画像はいずれも1200×630pxです。通常の`og:image`は中央630px内に収め、正方形の切り抜きでも見切れない配置を保ちます。安全範囲はx=309〜891px、y=48〜582pxです。`twitter:image`には専用の横長画像を設定し、屋号とアバターを拡大して左右に広く配置します。横長用の安全範囲はx=128〜1072px、y=48〜582px、文字サイズは80・36・28pxです。画像の使い分けは各メタタグで指定し、画面幅や切り抜き形状による自動選択は行いません。
 
 画像の文言・アバター・マーク・フォント・描画コードを変えたら生成を実行し、生成元と資産のハッシュを持つmanifestも更新します。通常ビルドはmanifestと入力の一致を検査し、再生成漏れを止めます。OGPの公開URLは内容のハッシュ付きとし、faviconのURLは固定します。検索・SNS側のキャッシュによる実際の表示変更は、公開HTMLの更新と区別して確認します。
 
