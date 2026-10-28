@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "fetched_at": "2026-10-28T10:16:00.773423+09:00",
+  "source": "https://studio.msyn.me",
+  "complete": true,
+  "pages": [
+    {
+      "key": "",
+      "label": "トップ",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/",
+        "final_url": "https://studio.msyn.me/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 100175,
+        "sha256": "5522eb516da542b6927edd75abe9248f1b7a2510a4ea9bf34f36b696f9930ab8"
+      },
+      "title": "Miyabiya Studio | Masaya Nishigaki",
+      "canonical": "https://studio.msyn.me/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "Miyabiya Studio | Masaya Nishigaki",
+        "twitter:description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "twitter:image": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+        "twitter:image:alt": "Miyabiya Studio — Masaya Nishigakiの活動紹介",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "Miyabiya Studio | Masaya Nishigaki",
+        "og:description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
+        "og:url": "https://studio.msyn.me/",
+        "og:image": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — Masaya Nishigakiの活動紹介"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png": {
+          "url": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+          "final_url": "https://studio.msyn.me/social/og-home.a06fe4d52a1d.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 62268,
+          "sha256": "a06fe4d52a1d43ca06913a056d4b32451f5ec91d17755eb5b3756b188edfa210",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "profile",
+      "label": "プロフィール・職務経歴",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/profile/",
+        "final_url": "https://studio.msyn.me/profile/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 63760,
+        "sha256": "c4165dd152d882fb5610ab44b39157d8c2bc107d5bb521ad1037fc419960e50b"
+      },
+      "title": "プロフィール・職務経歴 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/profile/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "Web系のシニアエンジニア・テックリード、Masaya Nishigakiのプロフィール。職務経歴、開発経験、技術・スキルを紹介します。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "プロフィール・職務経歴 | Miyabiya Studio",
+        "twitter:description": "Web系のシニアエンジニア・テックリード、Masaya Nishigakiのプロフィール。職務経歴、開発経験、技術・スキルを紹介します。",
+        "twitter:image": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+        "twitter:image:alt": "Miyabiya Studio — プロフィール・職務経歴",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "プロフィール・職務経歴 | Miyabiya Studio",
+        "og:description": "Web系のシニアエンジニア・テックリード、Masaya Nishigakiのプロフィール。職務経歴、開発経験、技術・スキルを紹介します。",
+        "og:url": "https://studio.msyn.me/profile/",
+        "og:image": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — プロフィール・職務経歴"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png": {
+          "url": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+          "final_url": "https://studio.msyn.me/social/og-profile.44a5e5b15c24.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 58810,
+          "sha256": "44a5e5b15c24ee4a5e8f62265c0735be2d5a87e17b3865bcc42d2cc34dcc1565",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "works",
+      "label": "実績紹介",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/works/",
+        "final_url": "https://studio.msyn.me/works/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 62785,
+        "sha256": "f08826328b764bb8550a9e086d211fa4bc648495d3c08ff40aa46ce10e90122a"
+      },
+      "title": "実績紹介 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/works/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "AI活用支援、MCPサーバー開発、製品PR動画、Chrome拡張機能の実績。担当工程と成果を掲載しています。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "実績紹介 | Miyabiya Studio",
+        "twitter:description": "AI活用支援、MCPサーバー開発、製品PR動画、Chrome拡張機能の実績。担当工程と成果を掲載しています。",
+        "twitter:image": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+        "twitter:image:alt": "Miyabiya Studio — 実績紹介",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "実績紹介 | Miyabiya Studio",
+        "og:description": "AI活用支援、MCPサーバー開発、製品PR動画、Chrome拡張機能の実績。担当工程と成果を掲載しています。",
+        "og:url": "https://studio.msyn.me/works/",
+        "og:image": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — 実績紹介"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-works.c3c32c3606f4.png": {
+          "url": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+          "final_url": "https://studio.msyn.me/social/og-works.c3c32c3606f4.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 63183,
+          "sha256": "c3c32c3606f4215e115ba6c8c0268124f77abd4a8d808296d1b2b5846fa50f5a",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "talks",
+      "label": "登壇・社内勉強会",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/talks/",
+        "final_url": "https://studio.msyn.me/talks/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 62488,
+        "sha256": "d6f00f4f593af749b7e00268b56015f8756d844eec3388d2b98319286beaba40"
+      },
+      "title": "登壇・社内勉強会 | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/talks/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "AI駆動開発、MCP、YouTube運営・動画制作の自動化に関する登壇実績。イベントや発表資料、対応テーマを掲載しています。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "登壇・社内勉強会 | Miyabiya Studio",
+        "twitter:description": "AI駆動開発、MCP、YouTube運営・動画制作の自動化に関する登壇実績。イベントや発表資料、対応テーマを掲載しています。",
+        "twitter:image": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+        "twitter:image:alt": "Miyabiya Studio — 登壇・社内勉強会",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "登壇・社内勉強会 | Miyabiya Studio",
+        "og:description": "AI駆動開発、MCP、YouTube運営・動画制作の自動化に関する登壇実績。イベントや発表資料、対応テーマを掲載しています。",
+        "og:url": "https://studio.msyn.me/talks/",
+        "og:image": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — 登壇・社内勉強会"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-talks.8e20937c8825.png": {
+          "url": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+          "final_url": "https://studio.msyn.me/social/og-talks.8e20937c8825.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 61254,
+          "sha256": "8e20937c8825e35313a1e3929400bc83e6de9eee79412db83dc34c5fc1661c3a",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "membership",
+      "label": "YouTubeメンバーシップ",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/membership/",
+        "final_url": "https://studio.msyn.me/membership/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 61507,
+        "sha256": "869218e0c4e935487b3823b0fc96827bafa51148223e136b8e9553f0273d5a3d"
+      },
+      "title": "YouTubeメンバーシップ | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/membership/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "YouTube「まさやん【AIギルドch】」のメンバーシップ。限定投稿・動画など、各プランの特典と料金を確認できます。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "YouTubeメンバーシップ | Miyabiya Studio",
+        "twitter:description": "YouTube「まさやん【AIギルドch】」のメンバーシップ。限定投稿・動画など、各プランの特典と料金を確認できます。",
+        "twitter:image": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+        "twitter:image:alt": "Miyabiya Studio — YouTubeメンバーシップ",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "YouTubeメンバーシップ | Miyabiya Studio",
+        "og:description": "YouTube「まさやん【AIギルドch】」のメンバーシップ。限定投稿・動画など、各プランの特典と料金を確認できます。",
+        "og:url": "https://studio.msyn.me/membership/",
+        "og:image": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — YouTubeメンバーシップ"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-membership.bdb57731b464.png": {
+          "url": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+          "final_url": "https://studio.msyn.me/social/og-membership.bdb57731b464.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 59962,
+          "sha256": "bdb57731b4643601f6b1efba81bba1f069828445d0fa892656a77b46a36320b8",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "pricing",
+      "label": "PR制作のお見積もり",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/pricing/",
+        "final_url": "https://studio.msyn.me/pricing/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 89156,
+        "sha256": "b5f1bbe1fec4542028bd9b20894da176aa3314b8edbab88facdbbf81c0e554d0"
+      },
+      "title": "PR制作のお見積もり | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/pricing/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "YouTube本編・ショート動画・X投稿の概算見積もりを作成できます。制作内容を選び、内訳の確認・PDF保存・URL共有ができます。未確定の料金は要相談です。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "PR制作のお見積もり | Miyabiya Studio",
+        "twitter:description": "YouTube本編・ショート動画・X投稿の概算見積もりを作成できます。制作内容を選び、内訳の確認・PDF保存・URL共有ができます。未確定の料金は要相談です。",
+        "twitter:image": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+        "twitter:image:alt": "Miyabiya Studio — PR制作のお見積もり",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "PR制作のお見積もり | Miyabiya Studio",
+        "og:description": "YouTube本編・ショート動画・X投稿の概算見積もりを作成できます。制作内容を選び、内訳の確認・PDF保存・URL共有ができます。未確定の料金は要相談です。",
+        "og:url": "https://studio.msyn.me/pricing/",
+        "og:image": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — PR制作のお見積もり"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png": {
+          "url": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+          "final_url": "https://studio.msyn.me/social/og-pricing.7f03bbf79ed8.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 62361,
+          "sha256": "7f03bbf79ed876136f746b79ef6f1da21e757115dc30a5adfa4fa74b802d6286",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    },
+    {
+      "key": "contact",
+      "label": "お問い合わせ",
+      "ok": true,
+      "response": {
+        "url": "https://studio.msyn.me/contact/",
+        "final_url": "https://studio.msyn.me/contact/",
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 71801,
+        "sha256": "bb0085a6b01a54815b05fd6a1a57c6253e1225ba9cf9d7249937337960b4661a"
+      },
+      "title": "お問い合わせ | Miyabiya Studio",
+      "canonical": "https://studio.msyn.me/contact/",
+      "favicon": "https://studio.msyn.me/favicon.svg",
+      "tags": {
+        "description": "製品PR・動画編集・登壇・AI活用支援のご依頼を受け付けています。フォームに内容・希望時期・ご予算をお知らせください。通常2営業日以内に返信します。",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@masayan_ai_hack",
+        "twitter:creator": "@masayan_ai_hack",
+        "twitter:title": "お問い合わせ | Miyabiya Studio",
+        "twitter:description": "製品PR・動画編集・登壇・AI活用支援のご依頼を受け付けています。フォームに内容・希望時期・ご予算をお知らせください。通常2営業日以内に返信します。",
+        "twitter:image": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+        "twitter:image:alt": "Miyabiya Studio — お問い合わせ",
+        "og:type": "website",
+        "og:site_name": "Miyabiya Studio",
+        "og:locale": "ja_JP",
+        "og:title": "お問い合わせ | Miyabiya Studio",
+        "og:description": "製品PR・動画編集・登壇・AI活用支援のご依頼を受け付けています。フォームに内容・希望時期・ご予算をお知らせください。通常2営業日以内に返信します。",
+        "og:url": "https://studio.msyn.me/contact/",
+        "og:image": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+        "og:image:type": "image/png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "Miyabiya Studio — お問い合わせ"
+      },
+      "images": {
+        "https://studio.msyn.me/social/og-contact.d887d506bbc2.png": {
+          "url": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+          "final_url": "https://studio.msyn.me/social/og-contact.d887d506bbc2.png",
+          "status": 200,
+          "content_type": "image/png",
+          "bytes": 60291,
+          "sha256": "d887d506bbc2b6952b7d7d3ae38df07b221e79d028039210bdb1c23ba2b481d5",
+          "width": 1200,
+          "height": 630,
+          "format": "PNG"
+        }
+      },
+      "missing": []
+    }
+  ]
+}
