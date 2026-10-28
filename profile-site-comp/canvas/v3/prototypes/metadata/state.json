@@ -2,8 +2,8 @@
   "status": "published",
   "identity": "Miyabiya Studioを主役に、Masaya Nishigakiを添える",
   "chosen_at": "2026-10-28",
-  "deployment": "https://a8ce950a.miyabiya-studio.pages.dev",
-  "pr": "https://github.com/masayan1126/masayan1126/pull/79",
+  "deployment": "https://94568810.miyabiya-studio.pages.dev",
+  "pr": "https://github.com/masayan1126/masayan1126/pull/80",
   "published_at": "2026-10-28",
   "selected_design": "c",
   "design_status": "published",
@@ -11,5 +11,6 @@
   "landscape_status": "published",
   "landscape_selected_at": "2026-10-28",
   "landscape_choice": "X用の横長画像を追加。通常OGPは正方形で見切れない配置を維持。",
-  "landscape_published_at": "2026-10-28"
+  "landscape_published_at": "2026-10-28",
+  "url_alignment_published_at": "2026-10-28"
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fetched_at": "2026-10-28T10:49:25.187559+09:00",
+  "fetched_at": "2026-10-28T10:57:47.601709+09:00",
   "source": "https://studio.msyn.me",
   "complete": true,
   "pages": [
@@ -14,7 +14,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 100174,
-        "sha256": "0dc8c2afddaea8b989de3866818aeb640e9166bff05d116d8b158f9927490cc1"
+        "sha256": "0c42246c956380d615011bf050953c46e3847eea6e442552676a31b02eeddeda"
       },
       "title": "Miyabiya Studio | Masaya Nishigaki",
       "canonical": "https://studio.msyn.me/",
@@ -26,7 +26,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "Miyabiya Studio | Masaya Nishigaki",
         "twitter:description": "Miyabiya Studioは、Masaya Nishigakiの活動紹介サイトです。YouTubeでのAI関連の発信、製品PR、個人開発、AI動画編集、技術登壇、AI活用支援に取り組んでいます。",
-        "twitter:image": "https://studio.msyn.me/social/x-home.a483d78573af.png",
+        "twitter:image": "https://studio.msyn.me/social/x-home.db4021a4ba78.png",
         "twitter:image:alt": "Miyabiya Studio — Masaya Nishigakiの活動紹介",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -52,13 +52,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-home.a483d78573af.png": {
-          "url": "https://studio.msyn.me/social/x-home.a483d78573af.png",
-          "final_url": "https://studio.msyn.me/social/x-home.a483d78573af.png",
+        "https://studio.msyn.me/social/x-home.db4021a4ba78.png": {
+          "url": "https://studio.msyn.me/social/x-home.db4021a4ba78.png",
+          "final_url": "https://studio.msyn.me/social/x-home.db4021a4ba78.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 89601,
-          "sha256": "a483d78573af27952f9c71a51d0c7327c6e2515050e91fc6489734cdf8d9939d",
+          "bytes": 89599,
+          "sha256": "db4021a4ba786eeb15406e9c6cc6ceac62196031d85209df4fc6606483735c5e",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -76,7 +76,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 63759,
-        "sha256": "219b3080d7f3f243d34b3081ca1d9677b01f35f3fd3020499164242f688a4831"
+        "sha256": "e7b5fc66db18c42f6f48ebd00ee1538d2abb1e9bc5c5e0bb8505ab9285dc8858"
       },
       "title": "プロフィール・職務経歴 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/profile/",
@@ -88,7 +88,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "プロフィール・職務経歴 | Miyabiya Studio",
         "twitter:description": "Web系のシニアエンジニア・テックリード、Masaya Nishigakiのプロフィール。職務経歴、開発経験、技術・スキルを紹介します。",
-        "twitter:image": "https://studio.msyn.me/social/x-profile.ecc56de7f9e9.png",
+        "twitter:image": "https://studio.msyn.me/social/x-profile.95a561567353.png",
         "twitter:image:alt": "Miyabiya Studio — プロフィール・職務経歴",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -114,13 +114,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-profile.ecc56de7f9e9.png": {
-          "url": "https://studio.msyn.me/social/x-profile.ecc56de7f9e9.png",
-          "final_url": "https://studio.msyn.me/social/x-profile.ecc56de7f9e9.png",
+        "https://studio.msyn.me/social/x-profile.95a561567353.png": {
+          "url": "https://studio.msyn.me/social/x-profile.95a561567353.png",
+          "final_url": "https://studio.msyn.me/social/x-profile.95a561567353.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 89446,
-          "sha256": "ecc56de7f9e9061d665279f8d6b9c831af8656ed78ba5e7018b335b5b83e3b10",
+          "bytes": 89444,
+          "sha256": "95a5615673535f0c389217ec07c9392716ebb8b4cafd17a3d7ffade7a1f4d063",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -138,7 +138,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 62784,
-        "sha256": "0157a92560a4cc208fb76d75464ca10363811927dba52b81102727f9185c3232"
+        "sha256": "cb1a8b820551d6b041fd76c93236fd9d14a3d830072a8c5a826878ac754da9b8"
       },
       "title": "実績紹介 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/works/",
@@ -150,7 +150,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "実績紹介 | Miyabiya Studio",
         "twitter:description": "AI活用支援、MCPサーバー開発、製品PR動画、Chrome拡張機能の実績。担当工程と成果を掲載しています。",
-        "twitter:image": "https://studio.msyn.me/social/x-works.ee999e444436.png",
+        "twitter:image": "https://studio.msyn.me/social/x-works.e79d78dbe2aa.png",
         "twitter:image:alt": "Miyabiya Studio — 実績紹介",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -176,13 +176,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-works.ee999e444436.png": {
-          "url": "https://studio.msyn.me/social/x-works.ee999e444436.png",
-          "final_url": "https://studio.msyn.me/social/x-works.ee999e444436.png",
+        "https://studio.msyn.me/social/x-works.e79d78dbe2aa.png": {
+          "url": "https://studio.msyn.me/social/x-works.e79d78dbe2aa.png",
+          "final_url": "https://studio.msyn.me/social/x-works.e79d78dbe2aa.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 95482,
-          "sha256": "ee999e444436263cdb09ac1dfa08128062b7501d81cabcd0ae3b4d97e9a7052c",
+          "bytes": 95480,
+          "sha256": "e79d78dbe2aae6d8b71a9550a9bb51a331efed90589e440d58cc8c6017793b45",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -200,7 +200,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 62487,
-        "sha256": "3860c9df8ad6330db4ef60d2260eb527906d589ec87716db6d0807b8279e4044"
+        "sha256": "3a3d4480828abf3a0ac7346b452cb7c09d792d48b4ebe3b0dea7575148eaafb0"
       },
       "title": "登壇・社内勉強会 | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/talks/",
@@ -212,7 +212,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "登壇・社内勉強会 | Miyabiya Studio",
         "twitter:description": "AI駆動開発、MCP、YouTube運営・動画制作の自動化に関する登壇実績。イベントや発表資料、対応テーマを掲載しています。",
-        "twitter:image": "https://studio.msyn.me/social/x-talks.aa738a118885.png",
+        "twitter:image": "https://studio.msyn.me/social/x-talks.0b7a31973591.png",
         "twitter:image:alt": "Miyabiya Studio — 登壇・社内勉強会",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -238,13 +238,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-talks.aa738a118885.png": {
-          "url": "https://studio.msyn.me/social/x-talks.aa738a118885.png",
-          "final_url": "https://studio.msyn.me/social/x-talks.aa738a118885.png",
+        "https://studio.msyn.me/social/x-talks.0b7a31973591.png": {
+          "url": "https://studio.msyn.me/social/x-talks.0b7a31973591.png",
+          "final_url": "https://studio.msyn.me/social/x-talks.0b7a31973591.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 92159,
-          "sha256": "aa738a1188859e42797995aeb299f2f71c9ce297cba33ccb4ba4dbdc03a77c93",
+          "bytes": 92157,
+          "sha256": "0b7a3197359166f364eafb9c69a2b879bdde0b1c52d1c1aefb119fe4b9afc97d",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -262,7 +262,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 61506,
-        "sha256": "2fee2178a6f5c3346231986ffb53ab2ff4773de21ee039edfc7af4f0f40f5c7d"
+        "sha256": "818706ad340f2304289ad492acfdad04438a77779b6f38c122133ed4abc33ae6"
       },
       "title": "YouTubeメンバーシップ | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/membership/",
@@ -274,7 +274,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "YouTubeメンバーシップ | Miyabiya Studio",
         "twitter:description": "YouTube「まさやん【AIギルドch】」のメンバーシップ。限定投稿・動画など、各プランの特典と料金を確認できます。",
-        "twitter:image": "https://studio.msyn.me/social/x-membership.009ab9dfb530.png",
+        "twitter:image": "https://studio.msyn.me/social/x-membership.a5ecbc03d1dc.png",
         "twitter:image:alt": "Miyabiya Studio — YouTubeメンバーシップ",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -300,13 +300,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-membership.009ab9dfb530.png": {
-          "url": "https://studio.msyn.me/social/x-membership.009ab9dfb530.png",
-          "final_url": "https://studio.msyn.me/social/x-membership.009ab9dfb530.png",
+        "https://studio.msyn.me/social/x-membership.a5ecbc03d1dc.png": {
+          "url": "https://studio.msyn.me/social/x-membership.a5ecbc03d1dc.png",
+          "final_url": "https://studio.msyn.me/social/x-membership.a5ecbc03d1dc.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 91109,
-          "sha256": "009ab9dfb530dd6f9400768099faa7dc4582cb066babbdec8c013d85f4a13b5a",
+          "bytes": 91107,
+          "sha256": "a5ecbc03d1dc906924b54ee705602095a148ead8b2c00134c64b06f019dbdb5d",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -324,7 +324,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 89155,
-        "sha256": "6c81e3ac6cf94c6aef8b65d3a66c366a4ca5327b83d5b6aa28dff58b8dbac209"
+        "sha256": "656a898f86da8ed12da231570fa3eb695615de3e85250278bfe0cc2b04800d22"
       },
       "title": "PR制作のお見積もり | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/pricing/",
@@ -336,7 +336,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "PR制作のお見積もり | Miyabiya Studio",
         "twitter:description": "YouTube本編・ショート動画・X投稿の概算見積もりを作成できます。制作内容を選び、内訳の確認・PDF保存・URL共有ができます。未確定の料金は要相談です。",
-        "twitter:image": "https://studio.msyn.me/social/x-pricing.f6512a6b3a8e.png",
+        "twitter:image": "https://studio.msyn.me/social/x-pricing.7251ce2e9918.png",
         "twitter:image:alt": "Miyabiya Studio — PR制作のお見積もり",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -362,13 +362,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-pricing.f6512a6b3a8e.png": {
-          "url": "https://studio.msyn.me/social/x-pricing.f6512a6b3a8e.png",
-          "final_url": "https://studio.msyn.me/social/x-pricing.f6512a6b3a8e.png",
+        "https://studio.msyn.me/social/x-pricing.7251ce2e9918.png": {
+          "url": "https://studio.msyn.me/social/x-pricing.7251ce2e9918.png",
+          "final_url": "https://studio.msyn.me/social/x-pricing.7251ce2e9918.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 93524,
-          "sha256": "f6512a6b3a8ed48fdaa07e81992f5ceb3824ccad3e523ea778d8fafa701062d9",
+          "bytes": 93522,
+          "sha256": "7251ce2e99189c00387de28f91520a303306ad7693e2e77a004a53fc0f0ce717",
           "width": 1200,
           "height": 630,
           "format": "PNG"
@@ -386,7 +386,7 @@
         "status": 200,
         "content_type": "text/html; charset=utf-8",
         "bytes": 71800,
-        "sha256": "11ae7f95abdc132286c540f2f1fc8694d2dade6a7660e1cc5737d0c9ef00eba1"
+        "sha256": "0ac0091b9890767d8adc44a26c53a99ceb73138b5781b4b915e6a81c697eae5a"
       },
       "title": "お問い合わせ | Miyabiya Studio",
       "canonical": "https://studio.msyn.me/contact/",
@@ -398,7 +398,7 @@
         "twitter:creator": "@masayan_ai_hack",
         "twitter:title": "お問い合わせ | Miyabiya Studio",
         "twitter:description": "製品PR・動画編集・登壇・AI活用支援のご依頼を受け付けています。フォームに内容・希望時期・ご予算をお知らせください。通常2営業日以内に返信します。",
-        "twitter:image": "https://studio.msyn.me/social/x-contact.e491b7107f5e.png",
+        "twitter:image": "https://studio.msyn.me/social/x-contact.4a8096e07ae3.png",
         "twitter:image:alt": "Miyabiya Studio — お問い合わせ",
         "og:type": "website",
         "og:site_name": "Miyabiya Studio",
@@ -424,13 +424,13 @@
           "height": 630,
           "format": "PNG"
         },
-        "https://studio.msyn.me/social/x-contact.e491b7107f5e.png": {
-          "url": "https://studio.msyn.me/social/x-contact.e491b7107f5e.png",
-          "final_url": "https://studio.msyn.me/social/x-contact.e491b7107f5e.png",
+        "https://studio.msyn.me/social/x-contact.4a8096e07ae3.png": {
+          "url": "https://studio.msyn.me/social/x-contact.4a8096e07ae3.png",
+          "final_url": "https://studio.msyn.me/social/x-contact.4a8096e07ae3.png",
           "status": 200,
           "content_type": "image/png",
-          "bytes": 91358,
-          "sha256": "e491b7107f5e4c010e6b9138727f8cb162d777f03e596ca9850b9736b1154b4d",
+          "bytes": 91357,
+          "sha256": "4a8096e07ae33d5cb8426b9e3cf8d645f3d41b99f6abb3f47534307a55127381",
           "width": 1200,
           "height": 630,
           "format": "PNG"
