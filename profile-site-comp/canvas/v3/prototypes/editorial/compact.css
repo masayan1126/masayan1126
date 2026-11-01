@@ -12,7 +12,7 @@ body.site-renewal.editorial.compact-local {
   --activity-content-inset:calc(var(--activity-icon-width) + var(--activity-column-gap));
   --youtube-icon-color:#ff0000;
   --field-badge-text:#fff;--required-surface:#b42318;--optional-surface:#606060;
-  --field-badge-radius:4px;--field-badge-line-height:20px;--field-badge-padding-block:2px;
+  --field-badge-width:44px;--field-badge-radius:4px;--field-badge-line-height:20px;--field-badge-padding-block:2px;
   --reading-progress-length:144px;--reading-progress-thickness:4px;--reading-progress-inline-thickness:2px;
   --reading-progress-height:28px;--reading-progress-percent-width:40px;
   --reading-progress-track:#e8e8e8;--reading-progress-ink:#202020;--reading-progress-muted:#606060;
@@ -267,7 +267,7 @@ body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .fi
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(.field-hint,.field-count) {font-weight:400;color:#606060;line-height:1.6}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .field-count {justify-self:end;font-variant-numeric:tabular-nums}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form ::placeholder {color:#666;opacity:1}
-body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(.req,.opt) {display:inline-flex;align-items:center;justify-content:center;flex:none;align-self:center;padding:var(--field-badge-padding-block) var(--space-tight);border:0;border-radius:var(--field-badge-radius);color:var(--field-badge-text);line-height:var(--field-badge-line-height);white-space:nowrap}
+body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(.req,.opt) {display:inline-flex;align-items:center;justify-content:center;flex:none;align-self:center;width:var(--field-badge-width);padding:var(--field-badge-padding-block) var(--space-tight);border:0;border-radius:var(--field-badge-radius);color:var(--field-badge-text);line-height:var(--field-badge-line-height);white-space:nowrap}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .req {background:var(--required-surface)}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form .opt {background:var(--optional-surface)}
 body.site-renewal.editorial.compact-local[data-page="contact"] #inquiry-form :is(input,select,textarea) {min-width:0;min-height:46px;padding:8px 12px;line-height:1.5;border:1px solid #8f8f8f;border-radius:4px;background:#fff;color:#202020;box-shadow:none;accent-color:#202020}
