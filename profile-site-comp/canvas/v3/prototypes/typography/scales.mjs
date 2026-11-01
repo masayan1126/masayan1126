@@ -1,4 +1,4 @@
-// Three sizes shared by desktop and mobile, including captions.
+// Shared type scale, with the explicitly adopted compact contact-form scale.
 export const adoptedPreset = 'a';
 export const roles = [
   {id:'large',label:'大',hint:'ページタイトル・成果や料金の数字',min:22,max:40,selector:'h1:not(#a-title),.focus-result,.focus-metrics dd,.price-examples dd,.grand-total strong,.chosen-estimate strong,.alternative-total,.launch-summary strong,.aside-price,.extras-current dd,.result-amount strong,#result-range'},
@@ -18,9 +18,9 @@ export function typographyCss({values}){
   const reset=`${scope}{font-family:var(--font-ui)!important;font-size:${size(2)}!important;font-weight:400!important;}\n${scope} :where(*),${scope} ::before,${scope} ::after,${scope} ::marker{font-family:inherit!important;font-size:inherit!important;font-weight:inherit!important;}`;
   const rules=[2,0,1].map(i=>`${scope} :where(${roles[i].selector}){font-size:${size(i)}!important;}`).join('\n');
   const emphasis=`${scope} :where(h1,h2,h3,h4,h5,h6,strong,b,button,summary,legend,.editorial-brand,.choice-title,.site-action,.pr-estimate-link,.detail-link,.req,.opt){font-weight:700!important;}`;
-  // Contact input text follows the body size on desktop; retain the larger
-  // input size on small screens while keeping the same three-size scale.
-  const contactControls=`${scope}[data-page="contact"] :where(#inquiry-form input:not([type="checkbox"]):not([type="radio"]),#inquiry-form select,#inquiry-form textarea)`;
-  const contact=`${contactControls}{font-size:${size(2)}!important;}\n@media(max-width:620px){${contactControls}{font-size:${size(1)}!important;}}`;
+  // The contact form uses a smaller scale after whole-form size feedback.
+  // Keep the shared header/footer and interactive target dimensions unchanged.
+  const contactScope=`${scope}[data-page="contact"] #main-content`;
+  const contact=`${contactScope}{font-size:0.75rem!important;}\n${contactScope} :where(*){font-size:inherit!important;}\n${contactScope} :where(h1,h2,h3,h4,h5,h6){font-size:${size(1)}!important;}`;
   return `@layer local-typography {\n${reset}\n${rules}\n${emphasis}\n${contact}\n}`;
 }
