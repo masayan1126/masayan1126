@@ -1,5 +1,5 @@
 {
-  "updated": "2026年10月25日",
+  "updated": "2026年11月25日",
   "taxRate": 0.1,
   "revisionFee": 5000,
   "plans": [
@@ -288,6 +288,15 @@
     "videoAnnouncement": {
       "min": 1500,
       "max": 1500,
+      "taxInclusive": true
+    },
+    "youtubeAdAccess": {
+      "id": "youtube-ad-access",
+      "label": "YouTube広告での利用（ブランド パートナー アクセス）",
+      "description": "公開したPR動画をそのまま、広告主のGoogle 広告アカウントからYouTube広告として配信できます。動画ごとに共有リンクを発行します。",
+      "helpText": "広告の設定は広告主が行い、配信費用もご負担いただきます。",
+      "min": 2000,
+      "max": 2000,
       "taxInclusive": true
     },
     "additionalShortCount": 1,

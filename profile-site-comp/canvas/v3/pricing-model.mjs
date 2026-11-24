@@ -2,6 +2,16 @@ export const yen = number => number.toLocaleString('ja-JP') + '円';
 export const taxIncluded = (amount, taxRate, alreadyIncluded = false) => amount == null ? null : alreadyIncluded ? amount : amount + Math.round(amount * taxRate);
 export const normalizeNotes = value => typeof value === 'string' ? value.replace(/\r\n?/g,'\n').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'').slice(0,1000).trim() : '';
 export const defaultItems = data => data.mediaSchema >= 2 ? ['research','materials','thumbnail'] : ['materials','thumbnail'];
+const youtubeAdAccessId = 'youtube-ad-access';
+export function youtubeAdAccessOption(data, state) {
+  return state.media?.some(id => id === 'main' || id === 'short')
+    ? data.mediaRates?.youtubeAdAccess
+    : undefined;
+}
+function selectableItems(data, state) {
+  const option = youtubeAdAccessOption(data,state);
+  return option ? [...data.checklistItems,option] : data.checklistItems;
+}
 export const shortMode = state => state.shortMode === 'dedicated' ? 'dedicated' : 'clip';
 export const revisionCount = (state,medium) => state.revisionCounts?.[medium] ?? state.revisions ?? 2;
 export const revisionLabel = medium => ({main:'YouTube横動画（本編動画）',short:'ショート動画',x:'X'})[medium];
@@ -32,15 +42,17 @@ export function prHistoryPresentation(data,state) {
 }
 
 export function selectedFromUrl(data, url) {
-  const requested = new Set(new URL(url).searchParams.getAll('items').flatMap(value => value.split(',')));
-  return data.checklistItems.filter(item => !item.fixed && requested.has(item.id)).map(item => item.id);
+  const params = new URL(url).searchParams;
+  const requested = new Set(params.getAll('items').flatMap(value => value.split(',')));
+  const media = params.getAll('media').flatMap(value => value.split(','));
+  return selectableItems(data,{media}).filter(item => !item.fixed && requested.has(item.id)).map(item => item.id);
 }
 
 export function estimateUrl(data, state = {}, base = 'https://studio.msyn.me/pricing/') {
   const modern = data.mediaSchema && Array.isArray(state.media);
   const url = new URL(base), selected = new Set(modern && data.mediaSchema < 2 && !state.media.includes('main') ? [] : state.items ?? []);
   url.search = '';
-  const items = data.checklistItems.filter(item => !item.fixed && selected.has(item.id) && (!modern || item.id !== 'shorts')).map(item => item.id);
+  const items = selectableItems(data,state).filter(item => !item.fixed && selected.has(item.id) && (!modern || item.id !== 'shorts')).map(item => item.id);
   url.searchParams.set('items', items.join(','));
   url.searchParams.set('v', data.rateVersion);
   if (modern) {
@@ -67,8 +79,8 @@ export function latestEstimateUrl(previous,current,state,base='https://studio.ms
   const selected=new Set(state.items??[]);
   // An old optional-work answer does not establish that this product was promoted before.
   if(current.researchPolicy==='prior-pr-request'&&previous.researchPolicy!==current.researchPolicy)selected.add('research');
-  const items=current.checklistItems.filter(item=>!item.fixed&&(selected.has(item.id)||previous.checklistItems.some(old=>old.id===item.id&&old.fixed))).map(item=>item.id);
   const media=Array.isArray(state.media)?state.media:['main',...(selected.has('shorts')?['short','x']:[])];
+  const items=selectableItems(current,{media}).filter(item=>!item.fixed&&(selected.has(item.id)||previous.checklistItems.some(old=>old.id===item.id&&old.fixed))).map(item=>item.id);
   return estimateUrl(current,{...state,media,items,shortMode:shortMode(state)},base);
 }
 export function stateFromUrl(data, url) {
@@ -193,6 +205,8 @@ function mediaQuote(data,state) {
   const lines = main ? [...base.lines] : [];
   const pending = [...base.custom];
   const addRate = (id,label,rate,description) => lines.push({id,label,description,min:rate?.min??null,max:rate?.max??null,taxInclusive:!!rate?.taxInclusive});
+  const adOption = youtubeAdAccessOption(data,state);
+  const advertising = adOption && state.items?.includes(adOption.id) ? adOption : null;
   if (short) {
     if (main) {
       if(productionOptions) {
@@ -213,6 +227,7 @@ function mediaQuote(data,state) {
     else if (productionOptions || !(main && short)) addRate('videoAnnouncement','Xでの公開動画の告知シェア（1回）',rates.videoAnnouncement,'公開動画を紹介します。製品PR投稿の料金は重ねて加算しません。');
     if (!separateRevisions&&(rates.xIncludedRevisions == null || revisions > rates.xIncludedRevisions)) pending.push({id:'xRevisions',label:'X投稿の修正回数・追加料金'});
   }
+  if (advertising) addRate(advertising.id,advertising.label,advertising,advertising.description);
   for(const row of revisionDetails??[])if(row.extraRounds) {
     addRate(row.id==='main'?'revisions':row.id+'Revisions',row.label+'の追加修正（'+row.extraRounds+'回）',
       {...row.fee,min:row.fee.min==null?null:row.fee.min*row.extraRounds,max:row.fee.max==null?null:row.fee.max*row.extraRounds},row.condition);
@@ -238,13 +253,14 @@ function mediaQuote(data,state) {
     ...(short ? [main ? productionOptions?(shortMode(state)==='dedicated'?'ショート1本（60秒程度）は、別撮影または本編から内容を大きく変えて制作します。':'本編の内容・撮影素材から、切り抜きショート1本（60秒程度）を追加の制作料金なしで作成します。'):'本編からショート1本（60秒程度）を制作するご希望です。本数・制作範囲は正式見積もりで確認します。' : 'ショート1本（60秒程度）を単独で制作するご希望です。', productionOptions?'ショートの公開先はYouTube Shortsを想定します。ファイル納品の方法は別途ご相談ください。':'ショートの公開先はYouTube Shortsを想定し、納品方法・レポートの有無は要相談です。'] : []),
     ...(x ? [main||short ? 'X投稿1回は、公開動画の告知シェアです。' : 'X投稿1回は、製品・サービスを紹介するPR投稿です。', 'Xの公開先：@masayan_ai_hack。掲載内容・画像・リンクは公開前に確認します。'] : []),
     ...(productionOptions && main ? [prHistoryPresentation(data,state)?.description??(items.includes('research')?'サービスの事前検証を行い、今回紹介する機能と操作手順を確認します。':'同じサービスへの再依頼など、今回は事前検証を省くご希望です。前回からの仕様変更を確認し、再検証が必要な場合は作業前にご相談します。'),...(!items.includes('research')?['事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。']:[])] : []),
+    ...(advertising ? [advertising.helpText] : []),
   ];
   const revisionNotes = revisionDetails?revisionDetails.map(row=>row.label+'の軽微修正：'+row.count+'回。'+row.condition):[
     ...(main ? ['本編の公開前の軽微修正：'+revisions+'回（2回まで料金内・3回目以降は1回'+yen(taxIncluded(data.revisionFee,data.taxRate))+'・税込）'] : []),
     ...(short ? ['ショートの軽微修正：'+revisions+'回を希望'+(rates.shortIncludedRevisions==null?'（無料回数・追加料金は要相談）':'（'+rates.shortIncludedRevisions+'回まで料金内・超過分は要相談）')] : []),
     ...(x ? ['X投稿の軽微修正：'+revisions+'回を希望'+(rates.xIncludedRevisions==null?'（無料回数・追加料金は要相談）':'（'+rates.xIncludedRevisions+'回まで料金内・超過分は要相談）')] : []),
   ];
-  return {status,media,lines:media.length?lines:[],pending:media.length?pending:[],custom:base.custom,selected:items,
+  return {status,media,lines:media.length?lines:[],pending:media.length?pending:[],custom:base.custom,selected:advertising?[...items,advertising.id]:items,
     revisions,extraRounds:separateRevisions?(revisionDetails.find(row=>row.id==='main')?.extraRounds??0):main?base.extraRounds:0,extra:separateRevisions?(lines.find(row=>row.id==='revisions')?.min??0):main?base.extra:0,min,max,
     ...(separateRevisions?{revisionDetails}:{}),
     taxMin:totalMin==null?null:totalMin-min,taxMax:totalMax==null?null:totalMax-max,totalMin,totalMax,
@@ -255,7 +271,8 @@ function mediaQuote(data,state) {
 export function extrasPresentation(data,state,result=quote(data,state)) {
   if (['invalid','empty'].includes(result.status)) return {status:result.status,error:result.error};
   const media=result.media??['main'];
-  const baseline=quote(data,{...state,custom:[],notes:'',revisions:2,...(data.mediaRevisionRates?{revisionCounts:{main:2,short:2,x:2}}:{})});
+  const baseline=quote(data,{...state,items:state.items?.filter(id=>id!==youtubeAdAccessId),custom:[],notes:'',revisions:2,...(data.mediaRevisionRates?{revisionCounts:{main:2,short:2,x:2}}:{})});
+  const advertising=result.lines.find(line=>line.id===youtubeAdAccessId);
   const revision=result.lines.find(line=>line.id==='revisions');
   const pending=new Set(result.pending.map(item=>item.id));
   const revisionEffects=result.revisionDetails?result.revisionDetails.map(row=>{
@@ -270,6 +287,7 @@ export function extrasPresentation(data,state,result=quote(data,state)) {
   return {status:result.status,baselineLabel:baseline.pending.length?'追加条件を含める前の小計（税込）':'追加条件を含める前（税込）',baselineText:amountText(baseline.totalMin,baseline.totalMax),
     totalLabel:result.pending.length?'現在の小計（税込）':'現在の概算合計（税込）',
     totalText:amountText(result.totalMin,result.totalMax),revisionEffects,
+    advertising:advertising?{label:advertising.label,effect:'＋'+amountText(taxIncluded(advertising.min,data.taxRate,advertising.taxInclusive),taxIncluded(advertising.max,data.taxRate,advertising.taxInclusive))+'（税込）'}:null,
     consultations:result.custom.map(item=>({id:item.id,label:item.label})),
     note:result.totalMin==null?'制作内容や修正条件を確認し、正式な料金をご案内します。':
       result.pending.length?'個別見積もり・要相談の項目の料金は、この小計に含みません。正式見積もりで総額をご案内します。':'選択した内容の概算金額です。',

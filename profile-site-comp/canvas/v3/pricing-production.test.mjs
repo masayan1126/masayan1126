@@ -3,9 +3,32 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {quote,quotePresentation,summary,estimateUrl,latestEstimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems,prHistoryPresentation} from './pricing-model.mjs';
+import {quote,quotePresentation,summary,estimateUrl,latestEstimateUrl,stateFromUrl,loadSharedRates,comparisonQuotes,alternativeQuotes,defaultItems,prHistoryPresentation,extrasPresentation,youtubeAdAccessOption} from './pricing-model.mjs';
 const data={...JSON.parse(readFileSync(new URL('./pricing-data.json',import.meta.url))),rateVersion:'123456abcdef'};
 const items=defaultItems(data);
+
+test('YouTube ad access adds one taxable included fee only for an estimate with a video',()=>{
+  for (const {state,result} of comparisonQuotes(data)) {
+    const selected={...state,items:[...state.items,'youtube-ad-access']};
+    const quoteWithAds=quote(data,selected);
+    const eligible=state.media.some(id=>id==='main'||id==='short');
+    const adOption=youtubeAdAccessOption(data,state);
+    const feeLines=quoteWithAds.lines.filter(line=>line.id==='youtube-ad-access');
+    assert.equal(Boolean(adOption),eligible);
+    assert.equal(feeLines.length,eligible?1:0);
+    assert.equal(quoteWithAds.totalMin,eligible?result.totalMin+2000:result.totalMin);
+    const restored=stateFromUrl(data,estimateUrl(data,selected));
+    assert.equal(restored.items.includes('youtube-ad-access'),eligible);
+    assert.deepEqual(quote(data,restored),quoteWithAds);
+    if (eligible) {
+      assert.ok(summary(data,selected).includes(adOption.label+'：2,000円'));
+      assert.ok(quotePresentation(data,selected).scope.includes(adOption.helpText));
+      const preview=extrasPresentation(data,selected);
+      assert.equal(preview.baselineText,quotePresentation(data,state).totalText);
+      assert.equal(preview.advertising.effect,'＋2,000円（税込）');
+    }
+  }
+});
 
 test('the public build retains the policy used to show PR-history answers',()=>{
   const built=spawnSync('python3',['-c','import json,runpy,sys; print(json.dumps(runpy.run_path(sys.argv[1])["public_rates"]()))',fileURLToPath(new URL('./build_pricing.py',import.meta.url))],{encoding:'utf8'});

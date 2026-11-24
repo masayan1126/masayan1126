@@ -49,6 +49,18 @@ test('an archived quote with a long recipient remains exportable',async()=>{
   assert.equal(archived.rateVersion,'5bf426700870');
 });
 
+test('a Short with the advertising option includes the one fee and restores the selection from its PDF',async()=>{
+  const bytes=await createEstimatePdf(data,{media:['short'],items:['youtube-ad-access']},options);
+  const extracted=spawnSync('pdftotext',['-layout','-','-'],{input:Buffer.from(bytes),encoding:'utf8'});
+  assert.equal(extracted.status,0,extracted.stderr);
+  assert.match(extracted.stdout.replace(/\s+/g,''),/ブランドパートナーアクセス/);
+  assert.match(extracted.stdout,/12,000円/);
+  const document=await PDFDocument.load(bytes);
+  const annotation=document.context.lookup(document.getPage(0).node.Annots().get(0));
+  const link=annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText();
+  assert.deepEqual(stateFromUrl(data,link).items,['youtube-ad-access']);
+});
+
 test('invalid quantities and unsupported recipient text do not produce misleading PDFs',async()=>{
   await assert.rejects(createEstimatePdf(data,{revisions:-1},options),/修正回数/);
   await assert.rejects(createEstimatePdf(data,{}, {...options,recipient:'あ'.repeat(81)}),/80文字/);

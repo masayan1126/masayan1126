@@ -96,7 +96,8 @@ export async function createEstimatePdf(data, state, options) {
   };
   tableHeader();
   for(const item of result.lines) {
-    const labels=wrap(item.label,cols[1]-left-20,10);
+    const label=item.id==='youtube-ad-access'?item.label.replace('（','\n（'):item.label;
+    const labels=wrap(label,cols[1]-left-20,10);
     const description=item.id==='materials'&&!productionOptions?'説明内容と順番をまとめた動画用資料':item.description;
     const details=description?wrap(description,cols[1]-left-20,10):[];
     const height=Math.max(31,(labels.length+details.length)*14+12);
@@ -204,7 +205,7 @@ export async function createEstimatePdf(data, state, options) {
     ['権利・掲載期間・その他',[
       'ご提供素材は、動画での使用・公開に必要な権利・許諾を確認済みのものをご用意ください。',
       '動画・資料の著作権は、個別のご契約で取り決めます。',
-      '自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含めて要相談とさせていただきます。',
+      included.has('youtube-ad-access')?'見積もりに含まれるYouTube広告利用の対象と期間は、正式見積もりで確認します。その他の二次利用は、顔・声の利用範囲も含めてご相談ください。':'自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含めて要相談とさせていただきます。',
 
       '公開後の動画は原則継続掲載します。ただし、サービス終了・大幅な仕様変更、YouTubeの規約への対応、当チャンネルの運営終了・方針変更により非公開・削除する場合がございます。',
       '公開後にお客様のご都合で非公開・削除をご希望の場合は、対応内容と費用の扱いをご相談ください。',
@@ -227,7 +228,7 @@ export async function createEstimatePdf(data, state, options) {
     const common = termSections.filter(([heading])=>['税務に関するご案内','権利・掲載期間・その他'].includes(heading));
     if (!main) common.find(([heading])=>heading==='権利・掲載期間・その他')[1] = [
       'ご提供素材は、使用・公開に必要な権利・許諾を確認済みのものをご用意ください。',
-      '制作物の著作権は個別契約で取り決めます。自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含め要相談です。',
+      included.has('youtube-ad-access')?'制作物の著作権は個別契約で取り決めます。見積もりに含まれるYouTube広告利用の対象と期間は、正式見積もりで確認します。その他の二次利用は、顔・声の利用範囲も含めてご相談ください。':'制作物の著作権は個別契約で取り決めます。自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含め要相談です。',
       '掲載期間・公開後の非公開や削除・複数本の制作・継続契約は、正式見積もりで確認します。',
     ];
     const mainSections = main ? termSections.filter(([heading])=>!['税務に関するご案内','権利・掲載期間・その他','修正・追加料金'].includes(heading)) : [
