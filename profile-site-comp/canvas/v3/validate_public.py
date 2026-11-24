@@ -105,7 +105,7 @@ def validate(site=ROOT / 'site'):
     for archive in (ROOT / 'pricing-rates').glob('*.json'):
         assert archive.read_bytes() == (site / 'pricing-rates' / archive.name).read_bytes(), archive.name
     raw_rates = json.loads(docs['pricing'].select_one('#pricing-data').string)
-    assert raw_rates['rateVersion'] == '4d2a90817527', 'Unapproved rate change'
+    assert raw_rates['rateVersion'] == '568ff8af156f', 'Unapproved rate change'
     # Every module import and every content-addressed dependency must resolve.
     for script in site.rglob('*.mjs'):
         source = script.read_text()

@@ -71,7 +71,7 @@ def content(public_data=None):
   </div></section>
   <section id="pricing-wizard" class="pricing-wizard v3-wrap" aria-label="PRのご依頼内容を選ぶ">
     <div class="simulator-launch">
-      <div><h2>ご希望のPRから、見積もりを作れます</h2><p>本編・ショート動画・X投稿を選び、事前検証や企画・台本作成、ショートの制作方法を指定できます。最後に概算見積書と、ほかの組み合わせの見積もりをご確認いただけます。</p><button type="button" id="wizard-open" class="button primary" aria-haspopup="dialog">料金シミュレーターを開く <span aria-hidden="true">↗</span></button><p class="sheet-note">回答はあとから変更できます。共有URL・PDF保存にも対応しています。</p></div>
+      <div><h2>ご希望のPRから、見積もりを作れます</h2><p>本編・ショート動画・X投稿を選び、制作内容やYouTube広告での利用を指定できます。最後に概算見積書と、ほかの組み合わせの見積もりをご確認いただけます。</p><button type="button" id="wizard-open" class="button primary" aria-haspopup="dialog">料金シミュレーターを開く <span aria-hidden="true">↗</span></button><p class="sheet-note">回答はあとから変更できます。共有URL・PDF保存にも対応しています。</p></div>
       <aside id="wizard-launch-summary" class="launch-summary" aria-label="見積もりの概要"></aside>
     </div>
     <dialog id="wizard-dialog" class="pricing-simulator" aria-labelledby="wizard-dialog-title">
@@ -187,7 +187,7 @@ def content(public_data=None):
           <ul>
             <li>ご提供素材は、動画での使用・公開に必要な権利・許諾を確認済みのものをご用意ください。</li>
             <li>動画・資料の著作権は、個別のご契約で取り決めます。</li>
-            <li>自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含めて要相談とさせていただきます。</li>
+            <li data-term-reuse>自社サイト・SNS・広告などでの二次利用は、顔・声の利用範囲も含めて要相談とさせていただきます。</li>
             <li>公開後の動画は原則継続掲載します。ただし、サービス終了・大幅な仕様変更、YouTubeの規約への対応、当チャンネルの運営終了・方針変更により非公開・削除する場合がございます。</li>
             <li>公開後にお客様のご都合で非公開・削除をご希望の場合は、対応内容と費用の扱いをご相談ください。</li>
             <li>掲載期間のご指定や、複数本の制作・継続契約は要相談とさせていただきます。</li>

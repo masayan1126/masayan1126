@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA,revisionCount,mediaRevisionDetails} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA,revisionCount,mediaRevisionDetails,youtubeAdAccessOption} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -38,7 +38,8 @@ function answerText(key) {
   if(key==='short')return shortMode(state)==='dedicated'?'別撮影・大幅な内容変更（＋'+priceText(data.mediaRates.additionalShortDedicated)+'）':'本編素材から切り抜く（追加0円）';
   if(key==='assets'&&productionOptions)return [...(historyQuestion?['同じサービス・製品のPR依頼歴：'+prHistoryPresentation(data,state).answer]:[]),...(historyQuestion?['materials','thumbnail']:['research','materials','thumbnail']).map(id=>({research:'事前検証',materials:'企画・台本',thumbnail:'サムネイル'})[id]+'：'+(state.items.includes(id)?'依頼する':'依頼しない'))].join('\n');
   if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');
-  return [...(data.mediaRevisionRates?mediaRevisionDetails(data,state).map(row=>row.label+'の軽微修正：'+revisionCount(state,row.id)+'回'):[`軽微修正${state.revisions}回をご希望`]),normalizeNotes(state.notes)].filter(Boolean).join('\n');
+  const adOption = youtubeAdAccessOption(data,state);
+  return [...(adOption && state.items.includes(adOption.id)?['YouTube広告での利用を追加']:[]),...(data.mediaRevisionRates?mediaRevisionDetails(data,state).map(row=>row.label+'の軽微修正：'+revisionCount(state,row.id)+'回'):[`軽微修正${state.revisions}回をご希望`]),normalizeNotes(state.notes)].filter(Boolean).join('\n');
 }
 function questionContent(key) {
   const idx=questions().indexOf(key);
@@ -84,7 +85,10 @@ function questionContent(key) {
     const revisionFields=data.mediaRevisionRates?`<fieldset class="media-revisions"><legend>公開前の軽微修正の希望回数</legend>${mediaRevisionDetails(data,state).map(row=>`<div class="media-revision-field"><div class="revisions"><label for="wizard-revisions-${row.id}">${row.label}</label><input id="wizard-revisions-${row.id}" data-key="revisions-${row.id}" data-revision-media="${row.id}" type="number" inputmode="numeric" min="0" step="1" value="${esc(revisionCount(state,row.id))}" aria-describedby="revision-note-${row.id}"><span>回</span></div><p class="rev-note" id="revision-note-${row.id}">${esc(row.condition)}</p></div>`).join('')}</fieldset>`:
         `<div class="revisions"><label for="wizard-revisions">公開前の軽微修正の希望回数</label><input id="wizard-revisions" data-key="revisions" type="number" inputmode="numeric" min="0" step="1" value="${esc(state.revisions)}" aria-describedby="revision-note"><span>回</span></div>`
         +`<p class="rev-note" id="revision-note">${hasMain()?'本編は2回まで料金内、3回目以降は1回'+amountText(taxIncluded(data.revisionFee,data.taxRate),taxIncluded(data.revisionFee,data.taxRate))+'（税込）です。':'希望回数をもとに正式見積もりで確認します。'}${state.media.some(id=>id==='short'||id==='x')?' ショート・Xの無料回数と追加料金は要相談です。':''}</p>`;
-    body=(data.mediaRevisionRates?revisionFields+requestField:requestField+revisionFields)+extrasImpact();
+    const adOption = youtubeAdAccessOption(data,state);
+    const adChoice = adOption ? '<div class="choices">'+selectChoice({group:'items',id:adOption.id,title:adOption.label,description:adOption.description,note:adOption.helpText,price:'＋'+priceText(adOption)})+'</div>' : '';
+    if (adOption) hint='YouTube広告での利用や、公開前の修正回数を指定できます。そのほかのご希望は自由入力欄へご記入ください。';
+    body=adChoice+(data.mediaRevisionRates?revisionFields+requestField:requestField+revisionFields)+extrasImpact();
   }
   return `<section class="question" aria-labelledby="question-${key}"><p class="question-kicker">質問 ${idx+1} / ${questions().length}${key==='extras'?' ・ 任意':''}</p><h2 id="question-${key}" tabindex="-1">${titles[key]}</h2><p class="question-hint">${hint}</p>${body}</section>`;
 }
@@ -94,8 +98,8 @@ function extrasImpact() {
   if(view.status==='empty')return '<div id="extras-impact"></div>';
   return `<section id="extras-impact" class="extras-impact" aria-labelledby="extras-impact-title"><h3 id="extras-impact-title">追加のご希望と金額</h3>
     <dl class="extras-amounts"><div><dt>${esc(view.baselineLabel)}</dt><dd id="extras-before">${esc(view.baselineText)}</dd></div></dl>
-    <ul class="extras-revision-effects">${view.revisionEffects.map(item=>`<li><span>${esc(item.label)}</span><strong>${esc(item.effect)}</strong></li>`).join('')}</ul>
-    ${view.consultations.length?`<div class="extras-consultations"><h4>個別見積もりのご希望</h4><ul>${view.consultations.map(item=>`<li>${esc(item.label)}<small>この料金は小計に含みません。</small></li>`).join('')}</ul></div>`:'<p class="extras-no-consultation">追加のご希望は未入力です。</p>'}
+    <ul class="extras-revision-effects">${[...(view.advertising?[view.advertising]:[]),...view.revisionEffects].map(item=>`<li><span>${esc(item.label)}</span><strong>${esc(item.effect)}</strong></li>`).join('')}</ul>
+    ${view.consultations.length?`<div class="extras-consultations"><h4>個別見積もりのご希望</h4><ul>${view.consultations.map(item=>`<li>${esc(item.label)}<small>この料金は小計に含みません。</small></li>`).join('')}</ul></div>`:'<p class="extras-no-consultation">自由入力のご希望は未入力です。</p>'}
     <dl class="extras-amounts extras-current"><div><dt id="extras-total-label">${esc(view.totalLabel)}</dt><dd id="extras-after">${esc(view.totalText)}</dd></div></dl><p class="extras-explanation">${esc(view.note)}</p>
   </section>`;
 }
@@ -210,6 +214,8 @@ function render(focusKey,motion) {
       }
       if(productionOptions) {
         host.querySelector('[data-term-report]')?.remove();
+        const reuseTerm=host.querySelector('[data-term-reuse]');
+        if(reuseTerm && result.selected.includes('youtube-ad-access')) reuseTerm.textContent='見積もりに含まれるYouTube広告利用の対象と期間は、正式見積もりで確認します。その他の二次利用は、顔・声の利用範囲も含めてご相談ください。';
         const reportHeading=host.querySelector('[data-report-heading]');
         if(reportHeading)reportHeading.textContent='PR表記・評価';
         if(!state.items.includes('research')) {
@@ -218,7 +224,7 @@ function render(focusKey,motion) {
           host.querySelector('[data-term-research]')?.remove();
         }
       }
-    } else host.textContent='制作範囲・修正回数・公開日・お支払い・キャンセル条件は、正式見積もりでご案内します。二次利用・掲載期間・ファイル納品は個別にご相談ください。';
+    } else host.textContent='制作範囲・修正回数・公開日・お支払い・キャンセル条件は、正式見積もりでご案内します。'+(result.selected.includes('youtube-ad-access')?'見積もりに含まれるYouTube広告利用の対象と期間は、正式見積もりで確認します。その他の':'')+'二次利用・掲載期間・ファイル納品は個別にご相談ください。';
   }
   copyVersion++;
   if(result.status!=='invalid')history.replaceState(null,'',estimateUrl(data,state,location.href));
@@ -253,7 +259,7 @@ workspace.addEventListener('change',event=>{
   if(target.id==='wizard-honorific'){honorific=target.value;return;}
   if(target.matches('[data-group]')) {
     const values=new Set(state[target.dataset.group]);target.checked?values.add(target.value):values.delete(target.value);
-    state[target.dataset.group]=[...values];answered.add(target.dataset.group==='media'?'media':target.dataset.group==='items'?'assets':'extras');
+    state[target.dataset.group]=[...values];answered.add(question);
     render(target.dataset.key);
     if(question==='extras')refreshExtras(true);
   } else if(target.id==='wizard-notes'||target.id==='wizard-revisions'||target.dataset.revisionMedia) {
