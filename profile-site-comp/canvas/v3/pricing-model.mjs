@@ -13,6 +13,20 @@ function selectableItems(data, state) {
   return option ? [...data.checklistItems,option] : data.checklistItems;
 }
 export const shortMode = state => state.shortMode === 'dedicated' ? 'dedicated' : 'clip';
+export const shortProductionMethods = {
+  clip: {
+    rateId: 'additionalShortClip',
+    title: '本編の見どころを切り抜く',
+    label: '本編の切り抜きショート（1本・60秒程度）',
+    description: '本編から見どころだけを抜き出し、つないで縦型のショート1本にまとめます。',
+  },
+  dedicated: {
+    rateId: 'additionalShortDedicated',
+    title: 'ショートを企画から作る',
+    label: 'ショート用の企画・制作（1本・60秒程度）',
+    description: 'ショート用に構成を考え、必要なカットを撮影したり、撮影済みの素材を組み直したりして仕上げます。',
+  },
+};
 export const revisionCount = (state,medium) => state.revisionCounts?.[medium] ?? state.revisions ?? 2;
 export const revisionLabel = medium => ({main:'YouTube横動画（本編動画）',short:'ショート動画',x:'X'})[medium];
 export function mediaRevisionDetails(data,state) {
@@ -190,6 +204,8 @@ function mediaQuote(data,state) {
   const media = MEDIA.filter(id => state.media.includes(id));
   const main = media.includes('main'), short = media.includes('short'), x = media.includes('x');
   const productionOptions=data.mediaSchema>=2;
+  const shortProductionMode = shortMode(state);
+  const shortMethod = shortProductionMethods[shortProductionMode];
   const items = main ? (state.items ?? []).filter(id => (productionOptions?['research','materials','thumbnail']:['materials','thumbnail']).includes(id)) : [];
   const rates = data.mediaRates;
   const separateRevisions=!!data.mediaRevisionRates;
@@ -210,9 +226,8 @@ function mediaQuote(data,state) {
   if (short) {
     if (main) {
       if(productionOptions) {
-        const dedicated=shortMode(state)==='dedicated';
-        addRate(dedicated?'additionalShortDedicated':'additionalShortClip',dedicated?'ショート用の別撮影・大幅な内容変更（1本・60秒程度）':'本編素材からの切り抜きショート（1本・60秒程度）',dedicated?rates.additionalShortDedicated:rates.additionalShortClip,
-          dedicated?'ショート向けに別途撮影する、または本編から内容を大きく変更して制作します。共通の検証・撮影は重ねて加算しません。':'本編の内容・撮影素材を利用します。追加の制作料金はかかりません。');
+        const feeNote = shortProductionMode==='dedicated'?'共通の検証・撮影は重ねて加算しません。':'追加の制作料金はかかりません。';
+        addRate(shortMethod.rateId,shortMethod.label,rates[shortMethod.rateId],shortMethod.description+feeNote);
       } else {
         const bundle = data.checklistItems.find(item => item.id === 'shorts');
         addRate('additionalShort',x?'本編からの追加ショート・X告知':'本編からの追加ショート',x?bundle:rates.additionalShortWithoutX,
@@ -250,7 +265,7 @@ function mediaQuote(data,state) {
   }
   const scope = [
     ...(main ? ['YouTube本編1本（10〜20分程度）を制作し、AIギルドchで公開します。', '本編はYouTube公開で納品完了です。動画ファイルの提供は別途ご相談ください。'] : []),
-    ...(short ? [main ? productionOptions?(shortMode(state)==='dedicated'?'ショート1本（60秒程度）は、別撮影または本編から内容を大きく変えて制作します。':'本編の内容・撮影素材から、切り抜きショート1本（60秒程度）を追加の制作料金なしで作成します。'):'本編からショート1本（60秒程度）を制作するご希望です。本数・制作範囲は正式見積もりで確認します。' : 'ショート1本（60秒程度）を単独で制作するご希望です。', productionOptions?'ショートの公開先はYouTube Shortsを想定します。ファイル納品の方法は別途ご相談ください。':'ショートの公開先はYouTube Shortsを想定し、納品方法・レポートの有無は要相談です。'] : []),
+    ...(short ? [main ? productionOptions?shortMethod.description+'長さの目安は60秒です。':'本編からショート1本（60秒程度）を制作するご希望です。本数・制作範囲は正式見積もりで確認します。' : 'ショート1本（60秒程度）を単独で制作するご希望です。', productionOptions?'ショートの公開先はYouTube Shortsを想定します。ファイル納品の方法は別途ご相談ください。':'ショートの公開先はYouTube Shortsを想定し、納品方法・レポートの有無は要相談です。'] : []),
     ...(x ? [main||short ? 'X投稿1回は、公開動画の告知シェアです。' : 'X投稿1回は、製品・サービスを紹介するPR投稿です。', 'Xの公開先：@masayan_ai_hack。掲載内容・画像・リンクは公開前に確認します。'] : []),
     ...(productionOptions && main ? [prHistoryPresentation(data,state)?.description??(items.includes('research')?'サービスの事前検証を行い、今回紹介する機能と操作手順を確認します。':'同じサービスへの再依頼など、今回は事前検証を省くご希望です。前回からの仕様変更を確認し、再検証が必要な場合は作業前にご相談します。'),...(!items.includes('research')?['事前検証を省く場合の着手日・キャンセル条件は、正式見積もりで確認します。']:[])] : []),
     ...(advertising ? [advertising.helpText] : []),
