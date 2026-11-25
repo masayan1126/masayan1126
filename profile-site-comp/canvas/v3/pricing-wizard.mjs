@@ -1,4 +1,4 @@
-import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,prHistoryPresentation,MEDIA,revisionCount,mediaRevisionDetails,youtubeAdAccessOption} from './pricing-model.mjs';
+import {quote,quotePresentation,extrasPresentation,alternativeQuotes,summary,mailto,estimateUrl,latestEstimateUrl,amountText,taxIncluded,normalizeNotes,defaultItems,shortMode,shortProductionMethods,prHistoryPresentation,MEDIA,revisionCount,mediaRevisionDetails,youtubeAdAccessOption} from './pricing-model.mjs';
 
 export function startWizard(data,restored,currentData) {
 const workspace = document.querySelector('#wizard-workspace');
@@ -35,7 +35,10 @@ const selectChoice = ({group,id,title,description='',note='',price='',icon=''}) 
 };
 function answerText(key) {
   if(key==='media') return state.media.map(id=>({main:'YouTube本編1本',short:'ショート1本',x:state.media.some(id=>id!=='x')?'Xで動画を告知':'Xで製品をPR'})[id]).join('・') || 'まだ選択していません';
-  if(key==='short')return shortMode(state)==='dedicated'?'別撮影・大幅な内容変更（＋'+priceText(data.mediaRates.additionalShortDedicated)+'）':'本編素材から切り抜く（追加0円）';
+  if(key==='short'){
+    const method=shortProductionMethods[shortMode(state)];
+    return method.title+'・追加'+priceText(data.mediaRates[method.rateId]);
+  }
   if(key==='assets'&&productionOptions)return [...(historyQuestion?['同じサービス・製品のPR依頼歴：'+prHistoryPresentation(data,state).answer]:[]),...(historyQuestion?['materials','thumbnail']:['research','materials','thumbnail']).map(id=>({research:'事前検証',materials:'企画・台本',thumbnail:'サムネイル'})[id]+'：'+(state.items.includes(id)?'依頼する':'依頼しない'))].join('\n');
   if(key==='assets') return ['materials','thumbnail'].map(id=>(id==='materials'?'動画用資料':'サムネイル')+'：'+(state.items.includes(id)?'制作を依頼':'お客様でご用意')).join('\n');
   const adOption = youtubeAdAccessOption(data,state);
@@ -48,15 +51,11 @@ function questionContent(key) {
     hint='ご希望の制作・掲載先をお選びください。複数選択できます。';
     body='<div class="choices">'+[
       {group:'media',id:'main',title:'YouTube本編で紹介',description:'10〜20分程度・1本を制作し、AIギルドchで公開',icon:'main'},
-      {group:'media',id:'short',title:'ショート動画で紹介',description:hasMain()?productionOptions?'60秒程度・1本。本編素材からの切り抜き型か、別撮影する型を次に選べます。':'本編の内容・撮影素材から60秒程度を1本（範囲は要相談）':'60秒程度・1本を制作し、YouTube Shortsで公開（詳細は要相談）',price:!hasMain()&&data.mediaRates.standaloneShort?.min!=null?'単独制作：'+priceText(data.mediaRates.standaloneShort):'',icon:'short'},
+      {group:'media',id:'short',title:'ショート動画で紹介',description:hasMain()?productionOptions?'60秒程度・1本。本編の切り抜きと、ショート用の企画・制作から選べます。':'本編の内容・撮影素材から60秒程度を1本（範囲は要相談）':'60秒程度・1本を制作し、YouTube Shortsで公開（詳細は要相談）',price:!hasMain()&&data.mediaRates.standaloneShort?.min!=null?'単独制作：'+priceText(data.mediaRates.standaloneShort):'',icon:'short'},
       {group:'media',id:'x',title:state.media.some(id=>id!=='x')?'Xで動画をシェア':'Xで製品をPR',description:state.media.some(id=>id!=='x')?'公開動画をXで紹介・1回。ショートの制作とは別に選べます。':'製品・サービスをXで紹介・1回。掲載内容は事前に確認します。',price:productionOptions?priceText(state.media.some(id=>id!=='x')?data.mediaRates.videoAnnouncement:data.mediaRates.xPr):'料金・条件は要相談',icon:'x'},
     ].map(selectChoice).join('')+'</div><p class="hint">Xのみの場合は製品PR、動画と組み合わせる場合は公開動画の告知です。</p>';
   } else if(key==='short') {
-    hint='本編の素材を使う範囲であれば、追加の制作料金はかかりません。Xでのシェアは、制作物の選択画面で別に選べます。';
-    body='<fieldset class="short-method"><legend class="sr-only">ショートの制作方法</legend><div class="choices">'+[
-      ['clip','本編素材から切り抜く','本編の内容・撮影素材を使い、縦型のショート1本にまとめます。','追加'+priceText(data.mediaRates.additionalShortClip)],
-      ['dedicated','別撮影・大幅な内容変更を依頼する','ショート用に別途撮影する、または紹介内容や構成を大きく変えて制作します。','＋'+priceText(data.mediaRates.additionalShortDedicated)],
-    ].map(([value,title,description,price])=>`<label class="choice compact"><input type="radio" name="short-mode" value="${value}" data-key="short-${value}" ${shortMode(state)===value?'checked':''}><span class="choice-title">${title}</span><span class="choice-description">${description}</span><span class="choice-price">${price}</span></label>`).join('')+'</div></fieldset>';
+    body='<fieldset class="short-method"><legend class="sr-only">ショートの制作方法</legend><div class="choices">'+Object.entries(shortProductionMethods).map(([value,{title,description,rateId}])=>`<label class="choice compact"><input type="radio" name="short-mode" value="${value}" data-key="short-${value}" ${shortMode(state)===value?'checked':''}><span class="choice-title">${esc(title)}</span><span class="choice-description">${esc(description)}</span><span class="choice-price">追加${esc(priceText(data.mediaRates[rateId]))}</span></label>`).join('')+'</div></fieldset>';
   } else if(key==='assets'&&productionOptions) {
     hint=historyQuestion?'同じサービス・製品のPR依頼歴をお答えいただき、企画・台本とサムネイルの制作をご選択ください。':'必要なものだけお選びください。事前検証は、同じサービスへの再依頼で不要な場合に外せます。';
     const prior=prHistoryPresentation(data,state);
