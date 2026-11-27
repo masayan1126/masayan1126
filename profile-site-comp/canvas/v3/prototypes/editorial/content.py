@@ -182,30 +182,35 @@ def home():
     # Keep A's adopted layout; the earlier three studies remain historical.
     activity_icons = {'ai': 'brain-circuit', 'pr': 'clapperboard', 'talk': 'presentation', 'activity': 'rss', 'development': 'code-xml', 'video': 'clapperboard'}
     entries = [
-        ('activity', '技術発信', ''),
-        ('pr', 'YouTube や SNS での製品PR・タイアップ', 'Notta 株式会社様の Notta Memo ProのPR動画'),
-        ('development', '個人開発', ''),
-        ('video', 'AI動画編集', ''),
-        ('talk', '登壇・社内勉強会', ''),
-        ('ai', 'AI活用支援', ''),
+        ('activity', '技術発信'),
+        ('pr', 'YouTube や SNS での製品PR・タイアップ'),
+        ('development', '個人開発'),
+        ('video', 'AI動画編集'),
+        ('talk', '登壇・社内勉強会'),
+        ('ai', 'AI活用支援'),
     ]
-    def video_card(title):
-        return f'''<a class="pr-video-card pr-video-plain" href="https://youtu.be/FsA8gaup0w4" target="_blank" rel="noopener noreferrer" aria-label="{escape(title, quote=True)}をYouTubeで見る（新しいタブ）">
-<img src="/thumb-FsA8gaup0w4.webp" width="640" height="360" alt="" loading="lazy">
-<span class="pr-video-copy"><strong class="pr-video-title">{title.replace('PR動画', '<span class="pr-video-kind">PR動画</span>')}</strong><span class="pr-video-action">YouTubeで見る <span aria-hidden="true">→</span></span></span></a>'''
+    pr_videos = [
+        ('BgmH8LxzHV0', 'Notta Memo Pro ブラックフライデーのPR動画'),
+        ('FsA8gaup0w4', 'Notta 株式会社様の Notta Memo ProのPR動画'),
+    ]
+    def video_card(video_id, title):
+        return f'''<a class="pr-video-card pr-video-plain" href="https://youtu.be/{video_id}" target="_blank" rel="noopener noreferrer" aria-label="{escape(title, quote=True)}をYouTubeで見る（新しいタブ）">
+<img src="/thumb-{video_id}.webp" width="640" height="360" alt="" loading="lazy">
+<span class="pr-video-copy"><strong class="pr-video-title">{escape(title).replace('PR動画', '<span class="pr-video-kind">PR動画</span>')}</strong><span class="pr-video-action">YouTubeで見る <span aria-hidden="true">→</span></span></span></a>'''
     anchors = {'ai': 'ai-adoption', 'pr': 'product-pr', 'talk': 'speaking', 'activity': 'activities', 'development': 'personal-development', 'video': 'video-editing'}
     renderers = {'ai': ai_support, 'talk': talk_previews, 'activity': technical_activities, 'development': personal_projects, 'video': ai_video_editing}
-    def entry_content(category, title, proof):
+    def entry_content(category, title):
         heading = f'<h2 class="activity-title-with-icon">{lucide_icon(activity_icons[category], "activity-title-icon")}<span>{title}</span></h2>'
         if category == 'pr':
             action = '<a class="pr-estimate-link" href="/pricing/" aria-label="PR動画の料金を見積もる">' + lucide_icon('calculator', 'pr-estimate-icon') + '<span>料金を見積もる</span><span class="arrow" aria-hidden="true">→</span></a>'
-            return '<div class="pr-section-header">' + heading + action + '</div>' + video_card(proof)
+            videos = ''.join(video_card(video_id, name) for video_id, name in pr_videos)
+            return '<div class="pr-section-header">' + heading + action + '</div><div class="pr-video-list">' + videos + '</div>'
         return heading + renderers[category]()
     rows = ''.join(
         f'<article class="a-entry" data-category="{category}"' + (f' id="{anchors[category]}"' if anchors[category] else '') + '><div class="activity-group">'
-        + entry_content(category, title, proof)
+        + entry_content(category, title)
         + '</div></article>'
-        for category, title, proof in entries
+        for category, title in entries
     )
     return '''<div class="a-shell compact-home-content"><section class="a-intro" aria-labelledby="a-title">
 <div class="a-person"><img src="/editorial-assets/avatar-mono-pixel.png" width="40" height="40" alt=""><div><h1 id="a-title">Masaya Nishigaki</h1><p class="eyebrow">Web系のシニアエンジニア・テックリード</p></div></div>
